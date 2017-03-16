@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "openlmis-ui": "file:///dev-ui"
+  },
+  "dependencies": {}
+}
