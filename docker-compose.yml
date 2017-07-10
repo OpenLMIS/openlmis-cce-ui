@@ -9,6 +9,7 @@ services:
     volumes:
       - '.:/app'
     env_file: .env
+
   image:
     build: .
     image: openlmis/cce-ui
