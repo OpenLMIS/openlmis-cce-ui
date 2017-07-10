@@ -1,7 +1,7 @@
 version: "2"
 services:
-  example-ui:
-    image: openlmis/dev-ui:1
+  cce-ui:
+    image: openlmis/dev-ui:5
     ports:
       - "9000:9000"
       - "9876:9876"
@@ -11,4 +11,4 @@ services:
     env_file: .env
   image:
     build: .
-    image: openlmis/example-ui
+    image: openlmis/cce-ui
