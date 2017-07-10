@@ -1,5 +1,5 @@
 # OpenLMIS Cold Chain Equipment Reference UI Module
-This repository is the UI for the [OpenLMIS Requisition Service.](https://github.com/OpenLMIS/openlmis-requisition)
+This repository is the UI for the [OpenLMIS Cold Chain Equipment Service.](https://github.com/OpenLMIS/openlmis-cce)
 
 ## Prerequisites
 * Docker 1.11+
@@ -9,14 +9,14 @@ This repository is the UI for the [OpenLMIS Requisition Service.](https://github
 1. Fork/clone this repository from GitHub.
 
  ```shell
-> git clone https://github.com/OpenLMIS/openlmis-requisition-ui.git
-> cd openlmis-requisition-ui/
+> git clone https://github.com/OpenLMIS/openlmis-cce-ui.git
+> cd openlmis-cce-ui/
  ```
 2. Create a .env file, which can be used to overwrite 'sensitive' settings from config.json
 ```shell
 > touch .env
 ```
-3. Develop w/ Docker by running `docker-compose run --service-ports requisition-ui`.
+3. Develop w/ Docker by running `docker-compose run --service-ports cce-ui`.
 4. You should now be in an interactive shell inside the newly created development environment, build the project with:
 ```shell
 $ npm install // installs the NodeJS tools
@@ -34,7 +34,7 @@ See the [OpenLMIS/dev-ui project](https://github.com/OpenLMIS/dev-ui) for more i
 
 ```shell
 // Open docker in an interactive shell
-> docker-compose run --service-ports requisition-ui
+> docker-compose run --service-ports cce-ui
 
 // Install dependencies
 $ npm install
@@ -67,7 +67,7 @@ the UI module.
 
 ```shell
 > docker-compose pull
-> docker-compose run --entrypoint ./build.sh requisition-ui
+> docker-compose run --entrypoint ./build.sh cce-ui
 > docker-compose build image
 ```
 
