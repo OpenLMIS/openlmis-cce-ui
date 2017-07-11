@@ -6,5 +6,6 @@
         "/openlmis-ui-components",
         "/openlmis-ui-layout",
         "/openlmis-cce-ui"
-    ]
+    ],
+    "cceServiceURL": "/"
 }

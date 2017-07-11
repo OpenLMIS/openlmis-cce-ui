@@ -18,14 +18,41 @@
     'use strict';
 
     /**
-     * @module
+     * @ngdoc service
+     * @name cce.cceUrlFactory
      *
      * @description
-     * Main cce module that provides basic logic.
+     * Supplies application with cce URL.
      */
-    angular.module('cce', [
-        'ui.router',
-        'openlmis-urls'
-    ]);
+    angular
+        .module('cce')
+        .factory('cceUrlFactory', factory);
+
+    factory.$inject = ['openlmisUrlFactory', 'pathFactory'];
+
+    function factory(openlmisUrlFactory, pathFactory) {
+
+        var cceUrl = '@@CCE_SERVICE_URL';
+
+        if (cceUrl.substr(0, 2) == '@@') {
+            cceUrl = '';
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce.cceUrlFactory
+         * @name cceUrlFactory
+         *
+         * @description
+         * It parses the given URL and appends cce service URL to it.
+         *
+         * @param  {String} url cce URL from grunt file
+         * @return {String}     cce URL
+         */
+        return function(url) {
+            url = pathFactory(cceUrl, url);
+            return openlmisUrlFactory(url);
+        }
+    }
 
 })();
