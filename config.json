@@ -3,6 +3,8 @@
         "src": "./src"
     },
     "orderedBuildDirectories": [
-
+        "/openlmis-ui-components",
+        "/openlmis-ui-layout",
+        "/openlmis-cce-ui"
     ]
 }

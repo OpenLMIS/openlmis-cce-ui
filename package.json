@@ -1,4 +1,11 @@
 {
+  "name": "openlmis-cce-ui",
+  "version": "1.0.0-SNAPSHOT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OpenLMIS/openlmis-cce-ui"
+  },
+  "license": "AGPL-3.0",
   "devDependencies": {
     "openlmis-ui": "file:///dev-ui"
   },
