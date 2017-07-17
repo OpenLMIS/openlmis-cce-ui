@@ -18,29 +18,11 @@
     'use strict';
 
     /**
-     * @ngdoc controller
-     * @name cce.controller:CceController
+     * @module openlmis-upload
      *
      * @description
-     * Basic controller for CCE service.
+     * R.
      */
-    angular
-        .module('cce')
-        .controller('CceController', CceController);
+    angular.module('openlmis-upload', []);
 
-    function CceController() {
-
-        var vm = this;
-
-        /**
-         * @ngdoc property
-         * @propertyOf cce.controller:CceController
-         * @name cce
-         * @type {String}
-         *
-         * @description
-         * Holds service name.
-         */
-        vm.cce = 'cce';
-    }
 })();

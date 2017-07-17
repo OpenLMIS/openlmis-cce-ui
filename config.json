@@ -5,6 +5,8 @@
     "orderedBuildDirectories": [
         "/openlmis-ui-components",
         "/openlmis-ui-layout",
+        "/openlmis-auth-ui",
+        "/openlmis-referencedata-ui",
         "/openlmis-cce-ui"
     ],
     "cceServiceURL": "/"

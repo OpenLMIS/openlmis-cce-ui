@@ -13,11 +13,19 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('CceController', function() {
+(function() {
 
-    it('should pass build with fake test', function() {
-        var build = 'success';
-        expect(build).toEqual('success');
-    });
+    'use strict';
 
-});
+    /**
+     * @module cce-catalog-item
+     *
+     * @description
+     * Responsible for providing cce catalog items service.
+     */
+    angular.module('cce-catalog-item', [
+        'ngResource',
+        'cce'
+    ]);
+
+})();
