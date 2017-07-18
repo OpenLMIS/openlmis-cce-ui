@@ -9,5 +9,7 @@
         "/openlmis-referencedata-ui",
         "/openlmis-cce-ui"
     ],
-    "cceServiceURL": "/"
+    "cceServiceURL": "/",
+    "transifexProjectName": "openlmis-requisition-ui",
+    "defaultLanguage": "en"
 }

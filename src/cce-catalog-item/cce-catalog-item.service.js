@@ -45,6 +45,7 @@
                         'Content-Type': undefined
                     },
                     transformRequest: angular.identity
+                }
             });
 
         return {

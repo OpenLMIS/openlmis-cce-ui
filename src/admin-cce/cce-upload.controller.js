@@ -56,7 +56,6 @@
          * Uploads csv file with catalog item to the server.
          */
 		function upload() {
-            console.log(vm.file);
             catalogItemService.upload(vm.file);
 		}
 	}
