@@ -98,9 +98,7 @@
          */
         function upload(file) {
             var fd = new FormData();
-            var fileObject = new File([file], 'catalog-item.csv');
-
-            fd.append('file', fileObject);
+            fd.append('file', file);
 
             return resource.upload(fd).$promise;
         }

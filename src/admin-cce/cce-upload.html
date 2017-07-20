@@ -1,5 +1,5 @@
 <h2>{{'adminCce.uploadCatalogItem' | message}}</h2>
 <form id="catalogItemUpload" ng-submit="vm.upload()">
-    <input type="file" name="file" file-upload ng-model="vm.file"/>
+    <file-upload ng-model="vm.file" accept="text/csv" input-id="csvFile"></file-upload>
     <button type="submit" class="primary">{{'adminCce.upload'}}</button>
 </form>
