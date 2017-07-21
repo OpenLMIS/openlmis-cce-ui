@@ -1,0 +1,33 @@
+<h2>{{'cceInventoryList.cceInventory' | message}}</h2>
+<section class="openlmis-table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>{{'cceInventoryList.district' | message}}</th>
+                <th>{{'cceInventoryList.facility' | message}}</th>
+                <th>{{'cceInventoryList.serialNo' | message}}</th>
+                <th>{{'cceInventoryList.makeModel' | message}}</th>
+                <th>{{'cceInventoryList.type' | message}}</th>
+                <th>{{'cceInventoryList.functionalStatus' | message}}</th>
+                <th>{{'cceInventoryList.lastUpdated' | message}}</th>
+                <th>{{'cceInventoryList.yearInstalled' | message}}</th>
+                <th>{{'cceInventoryList.replacementYear' | message}}</th>
+                <th>{{'cceInventoryList.actions' | message}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in vm.inventoryItems">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="status"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><input class="primary" type="button" value="{{'cceInventoryList.view' | message}}"/></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
