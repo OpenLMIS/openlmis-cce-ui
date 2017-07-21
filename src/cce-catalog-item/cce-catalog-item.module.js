@@ -25,6 +25,7 @@
      */
     angular.module('cce-catalog-item', [
         'ngResource',
+        'openlmis-config',
         'cce'
     ]);
 

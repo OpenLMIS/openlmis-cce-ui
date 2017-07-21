@@ -1,0 +1,9 @@
+{
+    "adminCceUpload.coldChainEquipment": "Cold Chain Equipment",
+    "adminCceUpload.uploadCCECatalogItem": "Upload CCE Catalog Item",
+    "adminCceUpload.upload": "Upload",
+    "adminCceUpload.uploadSuccess": "Successfully uploaded CCE catalog items!",
+    "adminCceUpload.uploadFailed": "Upload failed!",
+    "adminCceUpload.fileIsNotSelected": "File is not selected",
+    "adminCceUpload.csvFile": "CSV File"
+}

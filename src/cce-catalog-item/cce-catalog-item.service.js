@@ -28,9 +28,9 @@
         .module('cce-catalog-item')
         .factory('catalogItemService', service);
 
-    service.$inject = ['cceUrlFactory', '$resource'];
+    service.$inject = ['cceUrlFactory', '$resource', 'FormData'];
 
-    function service(cceUrlFactory, $resource) {
+    function service(cceUrlFactory, $resource, FormData) {
 
         var resource = $resource(cceUrlFactory('/api/catalogItems/:id'), {}, {
                 'getAll': {
@@ -43,8 +43,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': undefined
-                    },
-                    transformRequest: angular.identity
+                    }
                 }
             });
 
@@ -97,10 +96,10 @@
          * @return {Promise}      the uploaded CCE catalog item
          */
         function upload(file) {
-            var fd = new FormData();
-            fd.append('file', file);
+            var formData = new FormData();
+            formData.append('file', file);
 
-            return resource.upload(fd).$promise;
+            return resource.upload(formData).$promise;
         }
     }
 })();

@@ -17,16 +17,20 @@
 
     'use strict';
 
-    /**
-     * @module admin-cce
-     *
-     * @description
-     * Provides cce catalog item upload screen for administrator.
-     */
-    angular.module('admin-cce', [
-        'openlmis-upload',
-        'openlmis-rights',
-        'cce-catalog-item',
-        'ui.router'
-    ]);
+    angular.module('admin-cce-upload').config(routes);
+
+    routes.$inject = ['$stateProvider', 'CCE_RIGHTS'];
+
+    function routes($stateProvider, CCE_RIGHTS) {
+
+        $stateProvider.state('openlmis.administration.cce', {
+            showInNavigation: true,
+            label: 'adminCceUpload.coldChainEquipment',
+            url: '/catalogItems/upload',
+            controller: 'CceUploadController',
+            templateUrl: 'admin-cce-upload/cce-upload.html',
+            controllerAs: 'vm',
+            accessRights: [CCE_RIGHTS.CCE_MANAGE]
+        });
+    }
 })();

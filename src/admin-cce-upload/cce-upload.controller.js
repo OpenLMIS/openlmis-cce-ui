@@ -15,49 +15,58 @@
 
 (function() {
 
-	'use strict';
+    'use strict';
 
     /**
      * @ngdoc controller
-     * @name admin-cce.controller:CceUploadController
+     * @name admin-cce-upload.controller:CceUploadController
      *
      * @description
      * Controller for uploading CCE catalog item.
      */
-	angular
-		.module('admin-cce')
-		.controller('CceUploadController', controller);
+    angular
+        .module('admin-cce-upload')
+        .controller('CceUploadController', controller);
 
-	controller.$inject = ['catalogItemService'];
+    controller.$inject = ['catalogItemService', 'notificationService', 'loadingModalService'];
 
-	function controller(catalogItemService) {
+    function controller(catalogItemService, notificationService, loadingModalService) {
 
-		var vm = this;
+        var vm = this;
 
         vm.upload = upload;
 
         /**
          * @ngdoc property
-         * @propertyOf admin-cce.controller:CceUploadController
+         * @propertyOf admin-cce-upload.controller:CceUploadController
          * @name file
          * @type {Object}
          *
-         * @description
          * Holds csv file.
+         * @description
          */
         vm.file = undefined;
 
         /**
          * @ngdoc method
-         * @methodOf admin-cce.controller:CceUploadController
+         * @methodOf admin-cce-upload.controller:CceUploadController
          * @name upload
          *
          * @description
          * Uploads csv file with catalog item to the server.
          */
-		function upload() {
-            catalogItemService.upload(vm.file);
-		}
-	}
+        function upload() {
+            if (!vm.file) {
+                notificationService.error('adminCceUpload.fileIsNotSelected');
+            } else {
+                loadingModalService.open();
+                catalogItemService.upload(vm.file).then(function() {
+                    notificationService.success('adminCceUpload.uploadSuccess');
+                }, function() {
+                    notificationService.error('adminCceUploadUpload.uploadFailed');
+                }).finally(loadingModalService.close);
+            }
+        }
+    }
 
 })();
