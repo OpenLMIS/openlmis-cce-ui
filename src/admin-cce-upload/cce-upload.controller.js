@@ -63,7 +63,7 @@
                 catalogItemService.upload(vm.file).then(function() {
                     notificationService.success('adminCceUpload.uploadSuccess');
                 }, function() {
-                    notificationService.error('adminCceUploadUpload.uploadFailed');
+                    notificationService.error('adminCceUpload.uploadFailed');
                 }).finally(loadingModalService.close);
             }
         }

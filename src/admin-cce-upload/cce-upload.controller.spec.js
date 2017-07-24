@@ -77,7 +77,7 @@ describe('CceUploadController', function () {
             $rootScope.$apply();
 
             expect(catalogItemService.upload).toHaveBeenCalledWith(file);
-            expect(notificationService.error).toHaveBeenCalledWith('adminCceUploadUpload.uploadFailed');
+            expect(notificationService.error).toHaveBeenCalledWith('adminCceUpload.uploadFailed');
         });
 
         it('should show error notification if file is not selected', function() {
