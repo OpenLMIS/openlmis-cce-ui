@@ -1,0 +1,19 @@
+.status {
+    @include icon('circle');
+}
+
+.status::before {
+    margin-right: 0.5em;
+}
+
+.status.is-functioning::before {
+    color: $green;
+}
+
+.status.is-non-functioning::before {
+    color: $red;
+}
+
+.status.is-obsolete::before {
+    color: $gray;
+}

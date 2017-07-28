@@ -1,0 +1,15 @@
+{
+    "cceInventoryList.cceInventory": "CCE Inventory",
+    "cceInventoryList.district": "District",
+    "cceInventoryList.facility": "Facility",
+    "cceInventoryList.serialNo": "Serial No.",
+    "cceInventoryList.makeModel": "Make/Model",
+    "cceInventoryList.type": "Type",
+    "cceInventoryList.functionalStatus": "Functional Status",
+    "cceInventoryList.lastUpdated": "Last Updated",
+    "cceInventoryList.yearInstalled": "Year Installed",
+    "cceInventoryList.replacementYear": "Replacement Year",
+    "cceInventoryList.actions": "Actions",
+    "cceInventoryList.view": "View",
+    "cceInventoryList.noInventoryItems": "No inventory items found."
+}
