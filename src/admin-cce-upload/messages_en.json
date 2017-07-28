@@ -1,9 +1,10 @@
 {
-    "adminCceUpload.coldChainEquipment": "Cold Chain Equipment",
-    "adminCceUpload.uploadCCECatalogItem": "Upload CCE Catalog Item",
+    "adminCceUpload.equipment": "Equipment",
+    "adminCceUpload.uploadCCECatalogItems": "Upload Cold Chain Equipment Catalog Items",
     "adminCceUpload.upload": "Upload",
     "adminCceUpload.uploadSuccess": "Successfully uploaded CCE catalog items!",
     "adminCceUpload.uploadFailed": "Upload failed!",
     "adminCceUpload.fileIsNotSelected": "File is not selected",
-    "adminCceUpload.csvFile": "CSV File"
+    "adminCceUpload.csvFile": "CSV File",
+    "adminCceUpload.cceUploadDescription": "To update the CCE catalog, download the current version and make edits within the .csv file. Then upload the new version to reflect the changes in the system. File must be in .csv format and have the correct column headings."
 }

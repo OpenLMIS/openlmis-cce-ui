@@ -25,7 +25,7 @@
 
         $stateProvider.state('openlmis.administration.cce', {
             showInNavigation: true,
-            label: 'adminCceUpload.coldChainEquipment',
+            label: 'adminCceUpload.equipment',
             url: '/catalogItems/upload',
             controller: 'CceUploadController',
             templateUrl: 'admin-cce-upload/cce-upload.html',
