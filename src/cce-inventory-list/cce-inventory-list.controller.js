@@ -34,6 +34,7 @@
         var vm = this;
 
         vm.$onInit = onInit;
+        vm.getFunctionalStatusClass = getFunctionalStatusClass;
 
         /**
          * @ngdoc method
