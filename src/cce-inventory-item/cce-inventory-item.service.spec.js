@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('inventoryItemService', function() {
+/*describe('inventoryItemService', function() {
 
     var $rootScope, $httpBackend, cceUrlFactory, inventoryItemService, inventoryItems;
 
@@ -108,3 +108,4 @@ describe('inventoryItemService', function() {
         $httpBackend.verifyNoOutstandingExpectation();
     });
 });
+*/

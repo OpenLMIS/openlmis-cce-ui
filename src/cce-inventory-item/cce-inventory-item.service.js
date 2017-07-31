@@ -28,9 +28,9 @@
         .module('cce-inventory-item')
         .factory('inventoryItemService', service);
 
-    service.$inject = ['cceUrlFactory', '$resource', 'FormData'];
+    service.$inject = ['cceUrlFactory', '$resource'];
 
-    function service(cceUrlFactory, $resource, FormData) {
+    function service(cceUrlFactory, $resource) {
 
         var resource = $resource(cceUrlFactory('/api/inventoryItems/:id'), {}, {
                 'getAll': {

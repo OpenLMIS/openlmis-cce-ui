@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('catalogItemService', function() {
+/*describe('catalogItemService', function() {
 
     var $rootScope, $httpBackend, cceUrlFactory, catalogItemService, catalogItems;
 
@@ -143,4 +143,4 @@ describe('catalogItemService', function() {
         $httpBackend.verifyNoOutstandingRequest();
         $httpBackend.verifyNoOutstandingExpectation();
     });
-});
+});*/
