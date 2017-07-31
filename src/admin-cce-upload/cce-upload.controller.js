@@ -42,8 +42,8 @@
          * @name file
          * @type {Object}
          *
-         * Holds csv file.
          * @description
+         * Holds csv file.
          */
         vm.file = undefined;
 
@@ -53,8 +53,8 @@
          * @name invalidMessage
          * @type {String}
          *
-         * Holds form error message.
          * @description
+         * Holds form error message.
          */
         vm.invalidMessage = undefined;
 
