@@ -28,9 +28,9 @@
         .module('admin-cce-upload')
         .controller('CceUploadController', controller);
 
-    controller.$inject = ['catalogItemService', 'notificationService', 'loadingModalService'];
+    controller.$inject = ['catalogItemService', 'notificationService', 'messageService', 'loadingModalService'];
 
-    function controller(catalogItemService, notificationService, loadingModalService) {
+    function controller(catalogItemService, notificationService, messageService, loadingModalService) {
 
         var vm = this;
 
@@ -48,6 +48,17 @@
         vm.file = undefined;
 
         /**
+         * @ngdoc property
+         * @propertyOf admin-cce-upload.controller:CceUploadController
+         * @name invalidMessage
+         * @type {String}
+         *
+         * Holds form error message.
+         * @description
+         */
+        vm.invalidMessage = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf admin-cce-upload.controller:CceUploadController
          * @name upload
@@ -56,14 +67,23 @@
          * Uploads csv file with catalog item to the server.
          */
         function upload() {
+            vm.invalidMessage = undefined;
+
             if (!vm.file) {
                 notificationService.error('adminCceUpload.fileIsNotSelected');
             } else {
                 loadingModalService.open();
-                catalogItemService.upload(vm.file).then(function() {
-                    notificationService.success('adminCceUpload.uploadSuccess');
-                }, function() {
+                catalogItemService.upload(vm.file).then(function(data) {
+                    var message = messageService.get(
+                        'adminCceUpload.uploadSuccess',
+                        {amount: data.amount}
+                    );
+
+                    notificationService.success(message);
+                }, function(error) {
                     notificationService.error('adminCceUpload.uploadFailed');
+                    vm.invalidMessage = error ? error.data.message : undefined;
+                    vm.file = undefined;
                 }).finally(loadingModalService.close);
             }
         }

@@ -1,7 +1,7 @@
 <h2>{{'adminCceUpload.uploadCCECatalogItems' | message}}</h2>
 <form id="catalogItemUpload" ng-submit="vm.upload()">
     <p>{{'adminCceUpload.cceUploadDescription' | message}}</p>
-    <fieldset class="form-group">
+    <fieldset openlmis-invalid="{{ vm.invalidMessage }}" class="form-group">
         <label for="file">{{'adminCceUpload.csvFile' | message}}</label>
         <input id="file" type="file" ng-model="vm.file" accept=".csv" required/>
     </fieldset>

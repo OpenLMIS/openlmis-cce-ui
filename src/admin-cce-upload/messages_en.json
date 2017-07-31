@@ -2,7 +2,7 @@
     "adminCceUpload.equipment": "Equipment",
     "adminCceUpload.uploadCCECatalogItems": "Upload Cold Chain Equipment Catalog Items",
     "adminCceUpload.upload": "Upload",
-    "adminCceUpload.uploadSuccess": "Successfully uploaded CCE catalog items!",
+    "adminCceUpload.uploadSuccess": "File uploaded successfully. Number of records processed: ${amount}",
     "adminCceUpload.uploadFailed": "Upload failed!",
     "adminCceUpload.fileIsNotSelected": "File is not selected",
     "adminCceUpload.csvFile": "CSV File",

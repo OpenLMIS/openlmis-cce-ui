@@ -15,7 +15,7 @@
 
 describe('CceUploadController', function () {
 
-    var $q, $controller, $rootScope, catalogItemService, notificationService,
+    var $q, $controller, $rootScope, catalogItemService, messageService, notificationService,
         vm, file;
 
     beforeEach(function() {
@@ -23,6 +23,7 @@ describe('CceUploadController', function () {
 
         inject(function($injector) {
             $controller = $injector.get('$controller');
+            messageService = $injector.get('messageService');
             catalogItemService = $injector.get('catalogItemService');
             notificationService = $injector.get('notificationService');
             $rootScope = $injector.get('$rootScope');
@@ -46,11 +47,11 @@ describe('CceUploadController', function () {
 
     describe('upload', function() {
 
-        var itemsCount,
+        var response,
             deferred;
 
         beforeEach(function() {
-            itemsCount = 2;
+            response = {amount: 2};
             deferred = $q.defer();
 
             spyOn(catalogItemService, 'upload').andReturn(deferred.promise);
@@ -59,14 +60,19 @@ describe('CceUploadController', function () {
         });
 
         it('should call catalogItemService and show success notification', function() {
+            var message = 'message';
+            spyOn(messageService, 'get').andReturn(message);
+
             vm.file = file;
-            deferred.resolve(itemsCount);
+            deferred.resolve(response);
 
             vm.upload();
             $rootScope.$apply();
 
+            expect(messageService.get).toHaveBeenCalledWith(
+                'adminCceUpload.uploadSuccess', {amount: response.amount});
             expect(catalogItemService.upload).toHaveBeenCalledWith(file);
-            expect(notificationService.success).toHaveBeenCalledWith('adminCceUpload.uploadSuccess');
+            expect(notificationService.success).toHaveBeenCalledWith(message);
         });
 
         it('should show error notification if upload failed', function() {
