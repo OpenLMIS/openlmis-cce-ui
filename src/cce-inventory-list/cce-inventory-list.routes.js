@@ -15,31 +15,31 @@
 
 (function() {
 
-	'use strict';
+    'use strict';
 
-	angular
-		.module('cce-inventory-list')
-		.config(routes);
+    angular
+        .module('cce-inventory-list')
+        .config(routes);
 
-	routes.$inject = ['$stateProvider', 'CCE_RIGHTS'];
+    routes.$inject = ['$stateProvider', 'CCE_RIGHTS'];
 
-	function routes($stateProvider, CCE_RIGHTS) {
+    function routes($stateProvider, CCE_RIGHTS) {
 
-		$stateProvider.state('openlmis.cce.inventory', {
-			showInNavigation: true,
-			label: 'cceInventoryList.cceInventory',
-			url: '/inventory?page&size',
-			controller: 'CCEInventoryListController',
-			templateUrl: 'cce-inventory-list/cce-inventory-list.html',
-			controllerAs: 'vm',
-			accessRights: [CCE_RIGHTS.CCE_MANAGE],
-			resolve: {
-				inventoryItems: function(inventoryItemService, paginationService, $stateParams) {
+        $stateProvider.state('openlmis.cce.inventory', {
+            showInNavigation: true,
+            label: 'cceInventoryList.cceInventory',
+            url: '/inventory?page&size',
+            controller: 'CCEInventoryListController',
+            templateUrl: 'cce-inventory-list/cce-inventory-list.html',
+            controllerAs: 'vm',
+            accessRights: [CCE_RIGHTS.CCE_MANAGE],
+            resolve: {
+                inventoryItems: function(inventoryItemService, paginationService, $stateParams) {
                     return paginationService.registerUrl($stateParams, function(stateParams) {
                         return inventoryItemService.getAll(stateParams);
                     });
-				}
-			}
-		});
-	}
+                }
+            }
+        });
+    }
 })();

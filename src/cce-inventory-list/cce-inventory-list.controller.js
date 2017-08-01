@@ -37,6 +37,17 @@
         vm.getFunctionalStatusClass = getFunctionalStatusClass;
 
         /**
+         * @ngdoc property
+         * @propertyOf cce-inventory-list.controller:CCEInventoryListController
+         * @name inventoryItems
+         * @type {Array}
+         *
+         * @description
+         * Init method for CCEInventoryListController.
+         */
+        vm.inventoryItems = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf cce-inventory-list.controller:CCEInventoryListController
          * @name onInit
