@@ -19,18 +19,18 @@
 
     /**
      * @ngdoc controller
-     * @name cce-inventory-list.controller:CCEInventoryListController
+     * @name cce-inventory-list.controller:CceInventoryListController
      *
      * @description
      * Controller for CCE inventory item list screen.
      */
     angular
         .module('cce-inventory-list')
-        .controller('CCEInventoryListController', CCEInventoryListController);
+        .controller('CceInventoryListController', CceInventoryListController);
 
-    CCEInventoryListController.$inject = ['inventoryItems', 'FUNCTIONAL_STATUS'];
+    CceInventoryListController.$inject = ['inventoryItems', 'FUNCTIONAL_STATUS'];
 
-    function CCEInventoryListController(inventoryItems, FUNCTIONAL_STATUS) {
+    function CceInventoryListController(inventoryItems, FUNCTIONAL_STATUS) {
         var vm = this;
 
         vm.$onInit = onInit;
@@ -38,22 +38,22 @@
 
         /**
          * @ngdoc property
-         * @propertyOf cce-inventory-list.controller:CCEInventoryListController
+         * @propertyOf cce-inventory-list.controller:CceInventoryListController
          * @name inventoryItems
          * @type {Array}
          *
          * @description
-         * Init method for CCEInventoryListController.
+         * Init method for CceInventoryListController.
          */
         vm.inventoryItems = undefined;
 
         /**
          * @ngdoc method
-         * @methodOf cce-inventory-list.controller:CCEInventoryListController
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
          * @name onInit
          *
          * @description
-         * Init method for CCEInventoryListController.
+         * Init method for CceInventoryListController.
          */
         function onInit() {
             vm.inventoryItems = inventoryItems;
@@ -61,11 +61,11 @@
 
         /**
          * @ngdoc method
-         * @methodOf cce-inventory-list.controller:CCEInventoryListController
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
          * @name onInit
          *
          * @description
-         * Init method for CCEInventoryListController.
+         * Init method for CceInventoryListController.
          *
          * @param  {String} status functional status name
          * @return {String}        functional status class for circle

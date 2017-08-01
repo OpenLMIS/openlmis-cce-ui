@@ -29,7 +29,7 @@
             showInNavigation: true,
             label: 'cceInventoryList.cceInventory',
             url: '/inventory?page&size',
-            controller: 'CCEInventoryListController',
+            controller: 'CceInventoryListController',
             templateUrl: 'cce-inventory-list/cce-inventory-list.html',
             controllerAs: 'vm',
             accessRights: [CCE_RIGHTS.CCE_MANAGE],

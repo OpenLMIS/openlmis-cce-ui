@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc object
-     * @name cce-inventory-list.ORDER_STATUS
+     * @name cce-inventory-list.FUNCTIONAL_STATUS
      *
      * @description
      * Contains all possible functional statuses.

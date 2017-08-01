@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-/*describe('CCEInventoryListController', function () {
+/*describe('CceInventoryListController', function () {
 
     var $controller, FUNCTIONAL_STATUS,
         vm, inventoryItems;
@@ -37,7 +37,7 @@
             }
         ];
 
-        vm = $controller('CCEInventoryListController', {
+        vm = $controller('CceInventoryListController', {
             inventoryItems: inventoryItems
         });
         vm.$onInit();
