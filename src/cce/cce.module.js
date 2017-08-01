@@ -25,7 +25,8 @@
      */
     angular.module('cce', [
         'ui.router',
-        'openlmis-urls'
+        'openlmis-urls',
+        'openlmis-rights'
     ]);
 
 })();
