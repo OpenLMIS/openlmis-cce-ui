@@ -74,7 +74,7 @@
             var statusClass;
 
             switch (status) {
-                case FUNCTIONAL_STATUS.FUNCTIONAL_STATUS:
+                case FUNCTIONAL_STATUS.FUNCTIONING:
                     statusClass = 'is-functioning';
                     break;
                 case FUNCTIONAL_STATUS.NON_FUNCTIONING:

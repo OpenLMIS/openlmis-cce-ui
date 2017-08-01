@@ -56,9 +56,9 @@ describe('CceInventoryListController', function () {
 
     describe('getFunctionalStatusClass', function() {
 
-        // it('should return is-functioning class', function() {
-        //     expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.FUNCTIONING)).toEqual('is-functioning');
-        // });
+        it('should return is-functioning class', function() {
+            expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.FUNCTIONING)).toEqual('is-functioning');
+        });
 
         it('should return is-non-functioning class', function() {
             expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.NON_FUNCTIONING)).toEqual('is-non-functioning');

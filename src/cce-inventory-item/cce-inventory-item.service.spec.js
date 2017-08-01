@@ -72,33 +72,40 @@ describe('inventoryItemService', function() {
 
     describe('getAll', function() {
 
+        var parameters = {
+                page: 0,
+                size: 10
+            };
+
         beforeEach(function() {
-            $httpBackend.when('GET', cceUrlFactory('/api/inventoryItems')).respond(200, inventoryItems);
+            $httpBackend.when('GET', cceUrlFactory('/api/inventoryItems?page=' + parameters.page +
+                '&size=' + parameters.size)).respond(200, {content: inventoryItems});
         });
 
         it('should return promise', function() {
-            var result = inventoryItemService.getAll(inventoryItems[0].id);
+            var result = inventoryItemService.getAll(parameters);
             $httpBackend.flush();
 
             expect(result.then).not.toBeUndefined();
         });
 
-        // it('should resolve to inventory items', function() {
-        //     var result;
+        it('should resolve to inventory items', function() {
+            var result;
 
-        //     inventoryItemService.getAll().then(function(data) {
-        //         result = data;
-        //     });
-        //     $httpBackend.flush();
-        //     $rootScope.$apply();
+            inventoryItemService.getAll(parameters).then(function(data) {
+                result = data;
+            });
+            $httpBackend.flush();
+            $rootScope.$apply();
 
-        //     expect(angular.toJson(result)).toEqual(angular.toJson(inventoryItems));
-        // });
+            expect(angular.toJson(result)).toEqual(angular.toJson({content: inventoryItems}));
+        });
 
         it('should make a proper request', function() {
-            $httpBackend.expect('GET', cceUrlFactory('/api/inventoryItems'));
+            $httpBackend.expect('GET', cceUrlFactory('/api/inventoryItems?page=' + parameters.page +
+                '&size=' + parameters.size));
 
-            inventoryItemService.getAll(inventoryItems[0].id);
+            inventoryItemService.getAll(parameters);
             $httpBackend.flush();
         });
     });
