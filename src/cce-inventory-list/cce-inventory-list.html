@@ -20,7 +20,7 @@
         </thead>
         <tbody>
             <tr ng-repeat="item in vm.inventoryItems">
-                <td>item</td>
+                <td>{{item.facility.geographicZone.name}}</td>
                 <td>{{item.facility.name}}</td>
                 <td>{{item.catalogItem.barCode}}</td>
                 <td>{{item.catalogItem.manufacturer}} {{item.catalogItem.model}}</td>
