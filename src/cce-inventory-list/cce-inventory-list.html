@@ -22,7 +22,7 @@
             <tr ng-repeat="item in vm.inventoryItems">
                 <td>item</td>
                 <td>{{item.facility.name}}</td>
-                <td>{{item.catalogItem.equipmentTrackingId}}</td>
+                <td>{{item.catalogItem.barCode}}</td>
                 <td>{{item.catalogItem.manufacturer}} {{item.catalogItem.model}}</td>
                 <td>{{item.catalogItem.type}}</td>
                 <td class="status {{vm.getFunctionalStatusClass(item.functionalStatus)}}">{{item.functionalStatus}}</td>
