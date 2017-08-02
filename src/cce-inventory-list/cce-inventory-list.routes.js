@@ -32,7 +32,7 @@
             controller: 'CceInventoryListController',
             templateUrl: 'cce-inventory-list/cce-inventory-list.html',
             controllerAs: 'vm',
-            accessRights: [CCE_RIGHTS.CCE_MANAGE],
+            accessRights: [CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT],
             resolve: {
                 inventoryItems: function(inventoryItemService, paginationService, $stateParams) {
                     return paginationService.registerUrl($stateParams, function(stateParams) {
