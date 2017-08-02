@@ -15,8 +15,8 @@
 
 describe('CceUploadController', function () {
 
-    var $q, $controller, $rootScope, catalogItemService, messageService, notificationService,
-        vm, file;
+    var $state , $q, $controller, $rootScope, catalogItemService, messageService, notificationService, loadingModalService,
+        vm, file, loadingModalPromise;
 
     beforeEach(function() {
         module('admin-cce-upload');
@@ -28,6 +28,8 @@ describe('CceUploadController', function () {
             notificationService = $injector.get('notificationService');
             $rootScope = $injector.get('$rootScope');
             $q = $injector.get('$q');
+            $state = $injector.get('$state');
+            loadingModalService = $injector.get('loadingModalService');
         });
 
         file = {
@@ -36,6 +38,9 @@ describe('CceUploadController', function () {
         };
 
         vm = $controller('CceUploadController', {});
+
+        spyOn($state, 'reload').andReturn(true);
+        spyOn(loadingModalService, 'open').andReturn($q.when());
     });
 
     describe('init', function() {
@@ -73,6 +78,7 @@ describe('CceUploadController', function () {
                 'adminCceUpload.uploadSuccess', {amount: response.amount});
             expect(catalogItemService.upload).toHaveBeenCalledWith(file);
             expect(notificationService.success).toHaveBeenCalledWith(message);
+            expect($state.reload).toHaveBeenCalled();
         });
 
         it('should show error notification if upload failed', function() {

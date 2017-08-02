@@ -28,9 +28,9 @@
         .module('admin-cce-upload')
         .controller('CceUploadController', controller);
 
-    controller.$inject = ['catalogItemService', 'notificationService', 'messageService', 'loadingModalService'];
+    controller.$inject = ['$state', 'catalogItemService', 'notificationService', 'messageService', 'loadingModalService'];
 
-    function controller(catalogItemService, notificationService, messageService, loadingModalService) {
+    function controller($state, catalogItemService, notificationService, messageService, loadingModalService) {
 
         var vm = this;
 
@@ -72,19 +72,23 @@
             if (!vm.file) {
                 notificationService.error('adminCceUpload.fileIsNotSelected');
             } else {
-                loadingModalService.open();
+                var loadingPromise = loadingModalService.open();
                 catalogItemService.upload(vm.file).then(function(data) {
                     var message = messageService.get(
                         'adminCceUpload.uploadSuccess',
                         {amount: data.amount}
                     );
+                    loadingPromise.then(function () {
+                        notificationService.success(message);
+                    });
 
-                    notificationService.success(message);
+                    $state.reload();
                 }, function(error) {
                     notificationService.error('adminCceUpload.uploadFailed');
                     vm.invalidMessage = error ? error.data.message : undefined;
                     vm.file = undefined;
-                }).finally(loadingModalService.close);
+                    loadingModalService.close();
+                });
             }
         }
     }
