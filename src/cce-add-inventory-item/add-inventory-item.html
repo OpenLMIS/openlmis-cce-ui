@@ -1,0 +1,37 @@
+<div class="adjustments-modal modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>{{'cceAddInventoryItem.addNewColdChainEquipment' | message}}</h4>
+            </div>
+            <div class="modal-body">
+                <form id="add-inventory-item-form" name="addInventoryItemForm" ng-submit="vm.addInventoryItem()">
+                    <openlmis-facility-program-select
+                        is-supervised="vm.isSupervised"
+                        facility="vm.facility"
+                        program="vm.program">
+                    </openlmis-facility-program-select>
+                    <label for="type">{{'cceAddInventoryItem.equipmentType' | message}}</label>
+                    <select id="type"
+                        ng-model="vm.type" ng-options="type for type in vm.types"
+                        ng-change="vm.clearMakeModelSelection()"
+                        required>
+                    </select>
+                    <label for="make-model">{{'cceAddInventoryItem.makeModel' | message}}</label>
+                    <select id="make-model" ng-model="vm.catalogItem" ng-disabled="!vm.type"
+                        ng-options="(catalogItem.manufacturer + ' ' + catalogItem.model) for catalogItem in vm.catalogItems | filter:{type: vm.type}"
+                        required>
+                    </select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" class="btn btn-default" ng-click="vm.goBack()">
+                    {{'cceAddInventoryItem.cancel' | message}}
+                </button>
+                <button id="add" class="btn btn-primary" form="add-inventory-item-form" type="submit">
+                    {{'cceAddInventoryItem.save' | message}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

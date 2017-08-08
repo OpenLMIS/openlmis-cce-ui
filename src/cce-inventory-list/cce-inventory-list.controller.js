@@ -28,9 +28,12 @@
         .module('cce-inventory-list')
         .controller('CceInventoryListController', CceInventoryListController);
 
-    CceInventoryListController.$inject = ['inventoryItems', 'FUNCTIONAL_STATUS'];
+    CceInventoryListController.$inject = [
+        'inventoryItems', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'authorizationService'
+    ];
 
-    function CceInventoryListController(inventoryItems, FUNCTIONAL_STATUS) {
+    function CceInventoryListController(inventoryItems, FUNCTIONAL_STATUS, CCE_RIGHTS,
+                                        authorizationService) {
         var vm = this;
 
         vm.$onInit = onInit;
@@ -48,6 +51,17 @@
         vm.inventoryItems = undefined;
 
         /**
+         * @ngdoc property
+         * @propertyOf cce-inventory-list.controller:CceInventoryListController
+         * @name userHasRightToEdit
+         * @type {Boolean}
+         *
+         * @description
+         * Flag defining whether user has right for editing the list of inventory items.
+         */
+        vm.userHasRightToEdit = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf cce-inventory-list.controller:CceInventoryListController
          * @name onInit
@@ -57,6 +71,7 @@
          */
         function onInit() {
             vm.inventoryItems = inventoryItems;
+            vm.userHasRightToEdit = authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT);
         }
 
         /**

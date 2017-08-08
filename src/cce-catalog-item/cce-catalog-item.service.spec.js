@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
- describe('catalogItemService', function() {
+describe('catalogItemService', function() {
 
     var $rootScope, $httpBackend, cceUrlFactory, catalogItemService, catalogItems;
 
@@ -27,14 +27,11 @@
             catalogItemService = $injector.get('catalogItemService');
         });
 
-        catalogItems = [
-            {
-                id: '1'
-            },
-            {
-                id: '2'
-            }
-        ];
+        catalogItems = [{
+            id: '1'
+        }, {
+            id: '2'
+        }];
     });
 
     describe('get', function() {
@@ -109,7 +106,9 @@
 
         beforeEach(function() {
             file = 'file-content';
-            $httpBackend.when('POST', cceUrlFactory('/api/catalogItems/upload')).respond(200, {content: file});
+            $httpBackend.when('POST', cceUrlFactory('/api/catalogItems/upload')).respond(200, {
+                content: file
+            });
         });
 
         it('should return promise', function() {
@@ -139,10 +138,63 @@
         });
     });
 
+    describe('search', function() {
+
+        var response;
+
+        beforeEach(function() {
+            response = {
+                content: catalogItems,
+                last: true,
+                totalElements: 0,
+                totalPages: 0,
+                sort: null,
+                first: true,
+                numberOfElements: 0,
+                size: 2000,
+                number: 0
+            };
+        });
+
+        it('should include archived in the body', function() {
+            $httpBackend.expect('POST', cceUrlFactory('/api/catalogItems/search', {
+                archived: true
+            })).respond(200, response);
+
+            catalogItemService.search(true);
+            $httpBackend.flush();
+        });
+
+        it('should include visibleInCatalog in the body', function() {
+            $httpBackend.expect('POST', cceUrlFactory('/api/catalogItems/search', {
+                visibleInCatalog: true
+            })).respond(200, response);
+
+            catalogItemService.search(undefined, true);
+            $httpBackend.flush();
+        });
+
+        it('should return promise resolving to a list of catalog items', function() {
+            var result;
+
+            $httpBackend.when('POST', cceUrlFactory('/api/catalogItems/search', {
+                archived: true,
+                visibleInCatalog: true
+            })).respond(200, response);
+
+            catalogItemService.search(true, true).then(function(response) {
+                result = response;
+            });
+            $httpBackend.flush();
+            $rootScope.$apply();
+
+            expect(angular.toJson(result)).toEqual(angular.toJson(response));
+        });
+
+    });
+
     afterEach(function() {
         $httpBackend.verifyNoOutstandingRequest();
         $httpBackend.verifyNoOutstandingExpectation();
     });
 });
-
-

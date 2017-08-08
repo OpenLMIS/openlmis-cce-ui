@@ -44,13 +44,18 @@
                     headers: {
                         'Content-Type': undefined
                     }
+                },
+                'search': {
+                    url: cceUrlFactory('/api/catalogItems/search'),
+                    method: 'POST'
                 }
             });
 
         return {
             get: get,
             getAll: getAll,
-            upload: upload
+            upload: upload,
+            search: search
         };
 
         /**
@@ -100,6 +105,13 @@
             formData.append('file', file);
 
             return resource.upload(formData).$promise;
+        }
+
+        function search(archived, visibleInCatalog) {
+            return resource.search({
+                archived: archived,
+                visibleInCatalog: visibleInCatalog
+            }).$promise;
         }
     }
 })();
