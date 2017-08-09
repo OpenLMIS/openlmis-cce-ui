@@ -1,0 +1,126 @@
+<div class="adjustments-modal modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>{{'cceEditInventoryItem.addNewColdChainEquipment' | message}}</h4>
+            </div>
+            <div class="modal-body">
+                <form id="edit-inventory-item-form" name="editInventoryItemForm"
+                    ng-submit="vm.goToStatusUpdate()">
+
+                    <label>{{'cceEditInventoryItem.district' | message}}</label>
+                    {{vm.inventoryItem.facility.geographicZone.name}}
+                    <label>{{'cceEditInventoryItem.facility' | message}}</label>
+                    {{vm.inventoryItem.facility.name}}
+                    <label>{{'cceEditInventoryItem.program' | message}}</label>
+                    {{vm.inventoryItem.program.name}}
+                    <label>{{'cceEditInventoryItem.equipmentType' | message}}</label>
+                    {{vm.inventoryItem.catalogItem.type}}
+                    <label>{{'cceEditInventoryItem.makeModel' | message}}</label>
+                    {{vm.inventoryItem.catalogItem.manufacturer}}
+                    {{vm.inventoryItem.catalogItem.model}}
+
+                    <div class="sub-heading">
+                        <h3 class="title">
+                            {{'cceEditInventoryItem.equipmentIdentification' | message}}
+                        </h3>
+                    </div>
+                    <label for="serial-number">
+                        {{'cceEditInventoryItem.serialNumber' | message}}
+                    </label>
+                    <input id="serial-number" ng-model="vm.inventoryItem.serialNumber" type="text"
+                        required/>
+                    <label for="reference-name">
+                        {{'cceEditInventoryItem.referenceName' | message}}
+                    </label>
+                    <input id="reference-name" ng-model="vm.inventoryItem.referenceName" type="text"
+                        required/>
+                    <p class="note">
+                        {{'cceEditInventoryItem.referenceName.description' | message}}
+                    </p>
+                    <label>{{'cceEditInventoryItem.barCode' | message}}</label>
+                    <input ng-model="vm.inventoryItem.barCode" type="number"/>
+                    <p class="note">
+                        {{'cceEditInventoryItem.barCode.description' | message}}
+                    </p>
+
+                    <div class="sub-heading">
+                        <h3 class="title">
+                            {{'cceEditInventoryItem.equipmentHistory' | message}}
+                        </h3>
+                    </div>
+                    <label for="year-of-installation">
+                        {{'cceEditInventoryItem.yearOfInstallation' | message}}
+                    </label>
+                    <input id="year-of-installation" name="yearOfInstallation" type="number"
+                        ng-model="vm.inventoryItem.yearOfInstallation" max="9999" required/>
+                    <label for="source">{{'cceEditInventoryItem.source' | message}}</label>
+                    <input id="source" type="text" ng-model="vm.inventoryItem.source"/>
+                    <p class="note">
+                        {{'cceEditInventoryItem.source.description' | message}}
+                    </p>
+                    <label for="year-fo-warranty-expiry">
+                        {{'cceEditInventoryItem.yearOfWarrantyExpiry' | message}}
+                    </label>
+                    <input id="year-of-warranty-expiry" name="yearOfWarrantyExpiry"
+                        ng-model="vm.inventoryItem.yearOfWarrantyExpiry" type="number" max="9999"/>
+
+                    <div class="sub-heading">
+                        <h3 class="title">
+                            {{'cceEditInventoryItem.equipmentInstallation' | message}}
+                        </h3>
+                    </div>
+                    <fieldset id="voltage-stabilizer" class="form-group">
+    		            <legend>{{'cceEditInventoryItem.voltageStabilizer' | message}}</legend>
+                        <label class="radio" ng-repeat="option in vm.cceStatuses">
+                            <input type="radio" ng-model="vm.inventoryItem.voltageStabilizer"
+                                ng-required="!vm.powerFieldsDisabled" ng-value="option"
+                                ng-disabled="vm.powerFieldsDisabled"/>
+                                {{vm.getStatusLabel(option) | message}}
+                        </label>
+                    </fieldset>
+                    <fieldset id="voltage-regulator" class="form-group">
+    		            <legend>{{'cceEditInventoryItem.voltageRegulator' | message}}</legend>
+                        <label class="radio" ng-repeat="option in vm.cceStatuses">
+                            <input type="radio" ng-model="vm.inventoryItem.voltageRegulator"
+                                ng-required="!vm.powerFieldsDisabled" ng-value="option"
+                                ng-disabled="vm.powerFieldsDisabled"/>
+                                {{vm.getStatusLabel(option) | message}}
+                        </label>
+                    </fieldset>
+                    <fieldset id="backup-generator" class="form-group">
+    		            <legend>{{'cceEditInventoryItem.backupGenerator' | message}}</legend>
+                        <label class="radio" ng-repeat="option in vm.cceStatuses">
+                            <input type="radio" ng-model="vm.inventoryItem.backupGenerator"
+                                ng-required="!vm.powerFieldsDisabled" ng-value="option"
+                                ng-disabled="vm.powerFieldsDisabled"/>
+                                {{vm.getStatusLabel(option) | message}}
+                        </label>
+                    </fieldset>
+                    <fieldset id="manual-temperature-gauge" class="form-group">
+    		            <legend>{{'cceEditInventoryItem.manualTemperatureGauge' | message}}</legend>
+                        <label class="radio" ng-repeat="option in vm.manualTemperatureGaugeTypes">
+                            <input type="radio" ng-model="vm.inventoryItem.manualTemperatureGauge"
+                                ng-value="option" required/>
+                                {{vm.getManualTemperatureGaugeTypeLabel(option) | message}}
+                        </label>
+                    </fieldset>
+                    <label for="additional-notes">
+                        {{'cceEditInventoryItem.additionalNotes' | message}}
+                    </label>
+                    <textarea id="additional-notes" ng-model="vm.inventoryItem.additionalNotes">
+                    </textarea>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel" class="btn btn-default" ng-click="vm.goToInventoryList()">
+                    {{'cceEditInventoryItem.cancel' | message}}
+                </button>
+                <button id="add" class="btn btn-primary" form="edit-inventory-item-form"
+                    type="submit">
+                    {{'cceEditInventoryItem.save' | message}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

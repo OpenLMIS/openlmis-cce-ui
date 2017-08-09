@@ -18,16 +18,18 @@
     'use strict';
 
     /**
-     * @module cce-add-inventory-item
+     * @module cce-edit-inventory-item
      *
      * @description
-     * Provides Add Inventory Item modal.
+     * Provides Edit Inventory Item modal.
      */
-    angular.module('cce-add-inventory-item', [
+    angular.module('cce-edit-inventory-item', [
+        'cce-inventory-item',
         'cce-catalog-item',
-        'openlmis-modal',
+        'ui.router',
         'openlmis-rights',
-        'ui.router'
+        'openlmis-i18n',
+        'openlmis-modal'
     ]);
 
 })();

@@ -1,0 +1,9 @@
+{
+    "cceInventoryItem.yes": "Yes",
+    "cceInventoryItem.no": "No",
+    "cceInventoryItem.unknown": "Unknown",
+    "cceInventoryItem.notApplicable": "Not Applicable",
+    "cceInventoryItem.builtIn": "Built in",
+    "cceInventoryItem.paired": "Paired",
+    "cceInventoryItem.noGauge": "No Gauge"
+}

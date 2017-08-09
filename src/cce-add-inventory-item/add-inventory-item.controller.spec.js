@@ -91,7 +91,7 @@ describe('AddInventoryItemController', function() {
 
     });
 
-    describe('goBack', function() {
+    describe('goToInventoryList', function() {
 
         var $q, confirmService, confirmDeferred;
 
@@ -110,7 +110,7 @@ describe('AddInventoryItemController', function() {
         });
 
         it('should take use back if form is not dirty', function() {
-            vm.goBack();
+            vm.goToInventoryList();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
         });
@@ -118,7 +118,7 @@ describe('AddInventoryItemController', function() {
         it('should take user back if form is dirty and confirmation succeeded', function() {
             $scope.addInventoryItemForm.$dirty = true;
 
-            vm.goBack();
+            vm.goToInventoryList();
 
             expect(confirmService.confirm).toHaveBeenCalled();
             expect($state.go).not.toHaveBeenCalled();
@@ -132,7 +132,7 @@ describe('AddInventoryItemController', function() {
         it('should not take use back if form is dirty and confirmation failed', function() {
             $scope.addInventoryItemForm.$dirty = true;
 
-            vm.goBack();
+            vm.goToInventoryList();
 
             expect(confirmService.confirm).toHaveBeenCalled();
             expect($state.go).not.toHaveBeenCalled();

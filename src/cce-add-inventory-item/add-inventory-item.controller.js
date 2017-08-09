@@ -36,7 +36,7 @@
         vm.$onInit = onInit;
         vm.addInventoryItem = addInventoryItem;
         vm.clearMakeModelSelection = clearMakeModelSelection;
-        vm.goBack = goBack;
+        vm.goToInventoryList = goToInventoryList;
 
         /**
          * @ngdoc property
@@ -91,11 +91,28 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf cce-add-inventory-item.controller:AddInventoryItemController
+         * @name clearMakeModelSelection
+         *
+         * @description
+         * Clears the selected catalog item.
+         */
         function clearMakeModelSelection() {
             vm.catalogItem = undefined;
         }
 
-        function goBack() {
+        /**
+         * @ngdoc method
+         * @methodOf cce-add-inventory-item.controller:AddInventoryItemController
+         * @name goToInventoryList
+         *
+         * @description
+         * Takes the user to the inventory item list screen. Will open a confirmation modal if user
+         * interacted with the form.
+         */
+        function goToInventoryList() {
             if ($scope.addInventoryItemForm.$dirty) {
                 confirmService.confirm(
                     'cceAddInventoryItem.closeAddInventoryItemModal',
