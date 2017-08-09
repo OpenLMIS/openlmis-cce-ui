@@ -36,12 +36,16 @@
                 'getAll': {
                     url: cceUrlFactory('/api/inventoryItems'),
                     method: 'GET'
+                },
+                save: {
+                    method: 'POST'
                 }
             });
 
         return {
             get: get,
-            getAll: getAll
+            getAll: getAll,
+            save: save
         };
 
         /**
@@ -74,6 +78,23 @@
          */
         function getAll(params) {
             return resource.getAll(params).$promise;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item.inventoryItemService
+         * @name update
+         *
+         * @description
+         * Updates the given inventory item on the OpenLMIS server.
+         *
+         * @param  {Object}     inventoryItem   the updated inventory item
+         * @return {Promise}                    the promise resolving to the updated item
+         */
+        function save(inventoryItem) {
+            return resource.save({
+                id: inventoryItem.id
+            }, inventoryItem).$promise;
         }
     }
 })();

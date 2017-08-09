@@ -1,0 +1,55 @@
+<div class="adjustments-modal modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" ng-click="$hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                  {{'cceInventoryItemStatus.equipmentFunctionalStatus' | message}}
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form id="statusChangeForm" ng-submit="vm.save()">
+                    <h1>{{vm.inventoryItem.referenceName}}</h1>
+
+                    <label>{{'cceInventoryItemStatus.facility' | message}}</label>
+                    {{vm.inventoryItem.facility.name}}
+
+                    <label>{{'cceInventoryItemStatus.equipmentType' | message}}</label>
+                    {{vm.inventoryItem.catalogItem.type}}
+
+                    <fieldset ng-if="vm.inventoryItem.functionalStatus">
+                        <label>{{'cceInventoryItemStatus.currentStatus' | message}}</label>
+                        <div class="status {{vm.getFunctionalStatusClass(vm.inventoryItem.functionalStatus)}}">
+                            {{vm.getStatusLabel(vm.inventoryItem.functionalStatus) | message}}
+                        </div>
+                    </fieldset>
+
+                    <div class="sub-heading">
+                        <h3 class="title">{{'cceInventoryItemStatus.updateFunctionalStatus' | message}}</h3>
+                    </div>
+                    <label for="newStatus">
+                        {{'cceInventoryItemStatus.functionalityStatus' | message}}
+                    </label>
+                    <select id="newStatus" ng-model="vm.newStatus"
+                        ng-options="vm.getStatusLabel(status) for status in vm.statuses" required>
+                    </select>
+
+                    <fieldset ng-if="!vm.isFunctioning(vm.newStatus)">
+                        <label for="reason">
+                            {{'cceInventoryItemStatus.reasonNotWorkingOrNotInUse' | message}}
+                        </label>
+                        <select id="reason" ng-model="vm.reason"
+                            ng-options="vm.getReasonLabel(reason) for reason in vm.reasons" required>
+                        </select>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="$hide()">{{'cceInventoryItemStatus.cancel' | message}}</button>
+                <button class="primary" type="submit" form="statusChangeForm">{{'cceInventoryItemStatus.update' | message}}</button>
+            </div>
+        </div>
+    </div>
+</div>

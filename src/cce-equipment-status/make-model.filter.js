@@ -18,23 +18,29 @@
     'use strict';
 
     /**
-     * @ngdoc object
-     * @name cce-inventory-list.FUNCTIONAL_STATUS
+     * @ngdoc filter
+     * @name cce-equipment-status.filter:makeModel
      *
      * @description
-     * Contains all possible functional statuses.
+     * Parses the given catalog item to be displayed in the following format
+     * {{catalogItem.manufacturer catalogItem.model}.
+     *
+     * @param   {Object}  catalogItem   the catalog item to be formated
+     * @return  {String}                the formated catalog item
+     *
+     * @example
+     * The following example shows how to format the catalog item.
+     * ```
+     * <td>{{catalogItem | makeModel}}</td>
+     * ```
      */
     angular
-        .module('cce-inventory-list')
-        .constant('FUNCTIONAL_STATUS', statuses());
+        .module('cce-equipment-status')
+        .filter('makeModel', filter);
 
-    function statuses() {
-        return {
-            FUNCTIONING: 'FUNCTIONING',
-            NON_FUNCTIONING: 'NON_FUNCTIONING',
-            AWAITING_REPAIR: 'AWAITING_REPAIR',
-            UNSERVICABLE: 'UNSERVICABLE',
-            OBSOLETE: 'OBSOLETE'
+    function filter() {
+        return function(catalogItem) {
+            return catalogItem.manufacturer + ' ' + catalogItem.model;
         };
     }
 

@@ -15,14 +15,14 @@
 
 describe('CceInventoryListController', function () {
 
-    var $controller, FUNCTIONAL_STATUS,
-        vm, inventoryItems;
+    var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems;
 
     beforeEach(function() {
         module('cce-inventory-list');
 
         inject(function($injector) {
             $controller = $injector.get('$controller');
+            $state = $injector.get('$state');
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
         });
 
@@ -41,6 +41,8 @@ describe('CceInventoryListController', function () {
             inventoryItems: inventoryItems
         });
         vm.$onInit();
+
+        spyOn($state, 'go').andReturn();
     });
 
     describe('init', function() {
@@ -69,5 +71,17 @@ describe('CceInventoryListController', function () {
         it('should return is-obsolete class', function() {
             expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.OBSOLETE)).toEqual('is-obsolete');
         });
+    });
+
+    describe('goToStatusUpdate', function() {
+
+        it('should pass the inventory item', function() {
+            vm.goToStatusUpdate(inventoryItems[0]);
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
+                inventoryItem: angular.toJson(inventoryItems[0])
+            });
+        });
+
     });
 });

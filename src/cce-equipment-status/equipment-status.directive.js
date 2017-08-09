@@ -18,19 +18,29 @@
     'use strict';
 
     /**
-     * @module cce-inventory-item
+     * @ngdoc directive
+     * @name cce-equipment-status.equipmentStatus
      *
      * @description
-     * Responsible for providing cce inventory items list screen.
+     * Renders an equipment status element displaying current item status and allowing user to
+     * update it through a modal.
      */
-    angular.module('cce-inventory-list', [
-        'openlmis-pagination',
-        'cce-inventory-item',
-        'openlmis-auth',
-        'openlmis-rights',
-        'openlmis-date',
-        'cce-equipment-status',
-        'cce-inventory-item-status'
-    ]);
+    angular
+        .module('cce-equipment-status')
+        .directive('equipmentStatus', equipmentStatus);
+
+    equipmentStatus.$inject = [];
+
+    function equipmentStatus() {
+        var directive = {
+            controller: 'EquipmentStatusController',
+            controllerAs: 'vm',
+            replace: 'true',
+            restrict: 'E',
+            require: 'ngModel',
+            templateUrl: 'cce-equipment-status/equipment-status.html'
+        };
+        return directive;
+    }
 
 })();

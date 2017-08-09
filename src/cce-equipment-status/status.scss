@@ -1,0 +1,27 @@
+.status {
+    @include icon('circle');
+    display: flex;
+
+    &::before {
+        margin-right: 0.5em;
+    }
+
+    &.is-functioning::before {
+        color: $green;
+    }
+
+    &.is-non-functioning::before {
+        color: $red;
+    }
+
+    &.is-obsolete::before {
+        color: $gray;
+    }
+
+    & > a.update-status {
+        @include icon('edit');
+        color: $dark-gray;
+        margin-left: auto;
+        padding-left: 0.5em;
+    }
+}

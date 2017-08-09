@@ -17,20 +17,8 @@
 
     'use strict';
 
-    /**
-     * @module cce-inventory-item
-     *
-     * @description
-     * Responsible for providing cce inventory items list screen.
-     */
-    angular.module('cce-inventory-list', [
-        'openlmis-pagination',
-        'cce-inventory-item',
-        'openlmis-auth',
-        'openlmis-rights',
-        'openlmis-date',
-        'cce-equipment-status',
-        'cce-inventory-item-status'
+    angular.module('cce-equipment-status', [
+        'openlmis-modal'
     ]);
 
 })();

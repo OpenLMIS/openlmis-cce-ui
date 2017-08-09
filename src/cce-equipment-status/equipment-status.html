@@ -1,0 +1,4 @@
+<div class="status {{vm.getFunctionalStatusClass(vm.item.functionalStatus)}}">
+    {{vm.getStatusLabel(vm.item.functionalStatus)}}
+    <a class="update-status" ng-click="vm.changeStatus()"></a>
+</div>

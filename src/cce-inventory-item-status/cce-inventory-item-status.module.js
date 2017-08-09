@@ -18,19 +18,16 @@
     'use strict';
 
     /**
-     * @module cce-inventory-item
+     * @module cce-inventory-item-status
      *
      * @description
-     * Responsible for providing cce inventory items list screen.
+     * Provides status update state and directive
      */
-    angular.module('cce-inventory-list', [
-        'openlmis-pagination',
+    angular.module('cce-inventory-item-status', [
+        'ui.router',
+        'openlmis-i18n',
         'cce-inventory-item',
-        'openlmis-auth',
-        'openlmis-rights',
-        'openlmis-date',
-        'cce-equipment-status',
-        'cce-inventory-item-status'
+        'openlmis-modal'
     ]);
 
 })();

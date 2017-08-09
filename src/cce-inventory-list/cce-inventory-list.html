@@ -27,9 +27,14 @@
                 <td>{{item.facility.geographicZone.name}}</td>
                 <td>{{item.facility.name}}</td>
                 <td>{{item.barCode}}</td>
-                <td>{{item.catalogItem.manufacturer}} {{item.catalogItem.model}}</td>
+                <td>{{item | makeModel}}</td>
                 <td>{{item.catalogItem.type}}</td>
-                <td class="status {{vm.getFunctionalStatusClass(item.functionalStatus)}}">{{item.functionalStatus}}</td>
+                <td>
+                    <div class="status {{vm.getFunctionalStatusClass(item.functionalStatus)}}">
+                        {{vm.getStatusLabel(item.functionalStatus)}}
+                        <a class="update-status" ng-click="vm.goToStatusUpdate(item)"></a>
+                    </div>
+                </td>
                 <td>{{item.lastModifier.name}} {{item.modifiedDate | openlmisDate}}</td>
                 <td>{{item.yearOfInstallation}}</td>
                 <td>{{item.yearOfWarrantyExpiry}}</td>
