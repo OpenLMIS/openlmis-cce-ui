@@ -29,15 +29,18 @@
         .controller('CceInventoryListController', CceInventoryListController);
 
     CceInventoryListController.$inject = [
-        'inventoryItems', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'authorizationService'
+        'inventoryItems', '$state', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'authorizationService',
+        'messageService'
     ];
 
-    function CceInventoryListController(inventoryItems, FUNCTIONAL_STATUS, CCE_RIGHTS,
-                                        authorizationService) {
+    function CceInventoryListController(inventoryItems, $state, FUNCTIONAL_STATUS, CCE_RIGHTS,
+                                        authorizationService, messageService) {
         var vm = this;
 
         vm.$onInit = onInit;
         vm.getFunctionalStatusClass = getFunctionalStatusClass;
+        vm.getStatusLabel = getStatusLabel;
+        vm.goToStatusUpdate = goToStatusUpdate;
 
         /**
          * @ngdoc property
@@ -103,6 +106,27 @@
             }
 
             return statusClass;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
+         * @name getStatusLabel
+         *
+         * @description
+         * Return localized label for the functional status.
+         *
+         * @param   {String}    status  the status to get the label for
+         * @return  {String}            the localized status label
+         */
+        function getStatusLabel(status) {
+            return messageService.get(FUNCTIONAL_STATUS.getLabel(status));
+        }
+
+        function goToStatusUpdate(inventoryItem) {
+            $state.go('openlmis.cce.inventory.statusUpdate', {
+                inventoryItem: angular.toJson(inventoryItem)
+            });
         }
     }
 

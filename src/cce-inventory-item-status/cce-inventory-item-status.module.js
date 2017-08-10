@@ -18,24 +18,16 @@
     'use strict';
 
     /**
-     * @ngdoc object
-     * @name cce-inventory-list.FUNCTIONAL_STATUS
+     * @module cce-inventory-item-status
      *
      * @description
-     * Contains all possible functional statuses.
+     * Provides status update state and directive
      */
-    angular
-        .module('cce-inventory-list')
-        .constant('FUNCTIONAL_STATUS', statuses());
-
-    function statuses() {
-        return {
-            FUNCTIONING: 'FUNCTIONING',
-            NON_FUNCTIONING: 'NON_FUNCTIONING',
-            AWAITING_REPAIR: 'AWAITING_REPAIR',
-            UNSERVICABLE: 'UNSERVICABLE',
-            OBSOLETE: 'OBSOLETE'
-        };
-    }
+    angular.module('cce-inventory-item-status', [
+        'ui.router',
+        'openlmis-i18n',
+        'cce-inventory-item',
+        'openlmis-modal'
+    ]);
 
 })();

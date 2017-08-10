@@ -85,7 +85,7 @@
             $state.go('openlmis.cce.inventory.edit', {
                 inventoryItem: angular.toJson({
                     facility: vm.facility,
-                    program: vm.program,
+                    programId: vm.program.id,
                     catalogItem: vm.catalogItem
                 })
             });

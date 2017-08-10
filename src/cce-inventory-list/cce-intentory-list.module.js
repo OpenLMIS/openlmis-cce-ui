@@ -28,7 +28,8 @@
         'cce-inventory-item',
         'openlmis-auth',
         'openlmis-rights',
-        'openlmis-date'
+        'openlmis-date',
+        'cce-inventory-item-status'
     ]);
 
 })();

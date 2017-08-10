@@ -33,15 +33,15 @@
     function service(cceUrlFactory, $resource) {
 
         var resource = $resource(cceUrlFactory('/api/inventoryItems/:id'), {}, {
-                'getAll': {
-                    url: cceUrlFactory('/api/inventoryItems'),
-                    method: 'GET'
+                update: {
+                    method: 'PUT'
                 }
             });
 
         return {
             get: get,
-            getAll: getAll
+            getAll: getAll,
+            save: save
         };
 
         /**
@@ -73,7 +73,28 @@
          * @return {Promise}       Page of all CCE inventory items
          */
         function getAll(params) {
-            return resource.getAll(params).$promise;
+            return resource.get(params).$promise;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item.inventoryItemService
+         * @name update
+         *
+         * @description
+         * Saves the given inventory item. It will create a new one if the ID is not defined and
+         * update the existing one otherwise.
+         *
+         * @param  {Object}     inventoryItem   the updated inventory item
+         * @return {Promise}                    the promise resolving to the updated item
+         */
+        function save(inventoryItem) {
+            if (inventoryItem.id) {
+                return resource.update({
+                    id: inventoryItem.id
+                }, inventoryItem).$promise;
+            }
+            return resource.save({}, inventoryItem).$promise;
         }
     }
 })();
