@@ -17,7 +17,7 @@ describe('StatusUpdateModalController', function() {
 
     var vm, messageService, modalDeferred, $q, $state, $rootScope, inventoryItem, $controller,
         messages, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred,
-        $scope;
+        $scope, date;
 
     beforeEach(function() {
         module('cce-inventory-item-status');
@@ -33,10 +33,12 @@ describe('StatusUpdateModalController', function() {
             inventoryItemService = $injector.get('inventoryItemService');
         });
 
+        date = new Date();
+
         inventoryItem = {
             reasonNotWorkingOrNotInUse: undefined,
             functionalStatus: FUNCTIONAL_STATUS.FUNCTIONING,
-            decommissionDate: undefined
+            decommissionDate: date
         };
 
         modalDeferred = $q.defer();
@@ -85,6 +87,10 @@ describe('StatusUpdateModalController', function() {
 
         it('should expose reasons', function() {
             expect(vm.reasons).toEqual(REASON_FOR_NOT_WORKING.getReasons());
+        });
+
+        it('should expose decommissionDate', function() {
+            expect(vm.decommissionDate).toEqual(date);
         });
 
     });
@@ -188,7 +194,7 @@ describe('StatusUpdateModalController', function() {
 
             expect(inventoryItem.functionalStatus).toEqual(FUNCTIONAL_STATUS.FUNCTIONING);
             expect(inventoryItem.reasonNotWorkingOrNotInUse).toBeUndefined();
-            expect(inventoryItem.decommissionDate).toBeUndefined();
+            expect(inventoryItem.decommissionDate).toEqual(date);
         });
 
         it('should ignore reason and date for FUNCTIONING status', function() {
@@ -271,7 +277,9 @@ describe('StatusUpdateModalController', function() {
             saveDeferred.resolve();
             $rootScope.$apply();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory', {}, {
+                reload: true
+            });
         });
 
     });

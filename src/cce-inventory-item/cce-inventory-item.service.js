@@ -28,11 +28,19 @@
         .module('cce-inventory-item')
         .factory('inventoryItemService', service);
 
-    service.$inject = ['cceUrlFactory', '$resource'];
+    service.$inject = ['cceUrlFactory', '$resource', 'dateUtils'];
 
-    function service(cceUrlFactory, $resource) {
+    function service(cceUrlFactory, $resource, dateUtils) {
 
         var resource = $resource(cceUrlFactory('/api/inventoryItems/:id'), {}, {
+                get: {
+                    transformResponse: transformGetResponse
+                },
+                getAll: {
+                    method: 'GET',
+                    url: cceUrlFactory('/api/inventoryItems'),
+                    transformResponse: transformGetAllResponse
+                },
                 update: {
                     method: 'PUT'
                 }
@@ -73,7 +81,7 @@
          * @return {Promise}       Page of all CCE inventory items
          */
         function getAll(params) {
-            return resource.get(params).$promise;
+            return resource.getAll(params).$promise;
         }
 
         /**
@@ -95,6 +103,31 @@
                 }, inventoryItem).$promise;
             }
             return resource.save({}, inventoryItem).$promise;
+        }
+
+        function transformGetResponse(data, headers, status) {
+            return transformResponse(data, status, transformInventoryItem);
+        }
+
+        function transformGetAllResponse(data, headers, status) {
+            return transformResponse(data, status, function(response) {
+                angular.forEach(response.content, function(inventoryItem) {
+                    transformInventoryItem(inventoryItem);
+                });
+                return response;
+            });
+        }
+
+        function transformInventoryItem(inventoryItem) {
+            inventoryItem.decommissionDate = new Date(inventoryItem.decommissionDate);
+            return inventoryItem;
+        }
+
+        function transformResponse(data, status, transformer) {
+            if (status === 200) {
+                return transformer(angular.fromJson(data));
+            }
+            return data;
         }
     }
 })();

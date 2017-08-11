@@ -26,5 +26,7 @@
     "cceEditInventoryItem.additionalNotes": "Additional Notes",
     "cceEditInventoryItem.closeAddInventoryItemModal": "Are you sure you want to close the modal? All progress will be lost.",
     "cceEditInventoryItem.yes": "Yes",
-    "cceEditInventoryItem.no": "No"
+    "cceEditInventoryItem.no": "No",
+    "cceEditInventoryItem.utilization": "Utilization",
+    "cceEditInventoryItem.remoteTemperatureMonitor": "Remote Temperature Monitor"
 }

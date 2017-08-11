@@ -18,16 +18,30 @@
     'use strict';
 
     /**
-     * @module cce-inventory-item
+     * @ngdoc filter
+     * @name cce-inventory-item.filter:makeModel
      *
      * @description
-     * Responsible for providing cce inventory items service.
+     * Parses the given catalog item to be displayed in the following format
+     * {{catalogItem.manufacturer catalogItem.model}.
+     *
+     * @param   {Object}  catalogItem   the catalog item to be formated
+     * @return  {String}                the formated catalog item
+     *
+     * @example
+     * The following example shows how to format the catalog item.
+     * ```
+     * <td>{{catalogItem | makeModel}}</td>
+     * ```
      */
-    angular.module('cce-inventory-item', [
-        'ngResource',
-        'openlmis-config',
-        'openlmis-date',
-        'cce'
-    ]);
+    angular
+        .module('cce-inventory-item')
+        .filter('makeModel', filter);
+
+    function filter() {
+        return function(catalogItem) {
+            return catalogItem.manufacturer + ' ' + catalogItem.model;
+        };
+    }
 
 })();

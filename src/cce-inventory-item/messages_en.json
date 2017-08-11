@@ -5,5 +5,9 @@
     "cceInventoryItem.notApplicable": "Not Applicable",
     "cceInventoryItem.builtIn": "Built in",
     "cceInventoryItem.paired": "Paired",
-    "cceInventoryItem.noGauge": "No Gauge"
+    "cceInventoryItem.noGauge": "No Gauge",
+    "cceInventoryItem.noRtm": "No RTM",
+    "cceInventoryItem.active": "Active",
+    "cceInventoryItem.notInUse": "Not in Use",
+    "cceInventoryItem.inStoreForAllocation": "In Store for Allocation"
 }

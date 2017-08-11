@@ -30,16 +30,20 @@
 
     controller.$inject = [
         'inventoryItem', '$scope', '$state', 'confirmService', 'CCE_STATUS',
-        'MANUAL_TEMPERATURE_GAUGE_TYPE', 'ENERGY_SOURCE',
+        'MANUAL_TEMPERATURE_GAUGE_TYPE', 'ENERGY_SOURCE', 'UTILIZATION_STATUS',
+        'REMOTE_TEMPERATURE_MONITOR_TYPE'
     ];
 
     function controller(inventoryItem, $scope, $state, confirmService, CCE_STATUS,
-                        MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE) {
+                        MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, UTILIZATION_STATUS,
+                        REMOTE_TEMPERATURE_MONITOR_TYPE) {
         var vm = this;
 
         vm.$onInit = onInit;
         vm.getStatusLabel = CCE_STATUS.getLabel;
         vm.getManualTemperatureGaugeTypeLabel = MANUAL_TEMPERATURE_GAUGE_TYPE.getLabel;
+        vm.getRemoteTemperatureMonitorTypeLabel = REMOTE_TEMPERATURE_MONITOR_TYPE.getLabel;
+        vm.getUtilizationStatusLabel = UTILIZATION_STATUS.getLabel;
         vm.goToStatusUpdate = goToStatusUpdate;
         vm.goToInventoryList = goToInventoryList;
 
@@ -100,6 +104,8 @@
             vm.inventoryItem = inventoryItem;
             vm.cceStatuses = CCE_STATUS.getStatuses();
             vm.manualTemperatureGaugeTypes = MANUAL_TEMPERATURE_GAUGE_TYPE.getTypes();
+            vm.remoteTemperatureMonitorTypes = REMOTE_TEMPERATURE_MONITOR_TYPE.getTypes();
+            vm.utilizationStatuses = UTILIZATION_STATUS.getStatuses();
             vm.powerFieldsDisabled = shouldDisablePowerFields(inventoryItem.catalogItem.energySource);
         }
 

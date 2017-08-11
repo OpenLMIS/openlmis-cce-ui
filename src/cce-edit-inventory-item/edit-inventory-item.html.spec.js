@@ -436,6 +436,60 @@ describe('edit-inventory-item.html template', function() {
 
     });
 
+    describe('Utilization radio buttons', function() {
+
+        var buttons, buttonsTested;
+
+        beforeEach(function() {
+            prepareView();
+            buttons = getButtons();
+        });
+
+        it('should be required', function() {
+            angular.forEach(buttons, function(button) {
+                expect(angular.element(button).prop('required')).toBe(true);
+
+                buttonsTested = true;
+            });
+        });
+
+        afterEach(function () {
+            expect(buttonsTested).toBe(true);
+        });
+
+        function getButtons() {
+            return getElement('fieldset', 'utilization').find('input');
+        }
+
+    });
+
+    describe('Remote Temperature Monitor radio buttons', function() {
+
+        var buttons, buttonsTested;
+
+        beforeEach(function() {
+            prepareView();
+            buttons = getButtons();
+        });
+
+        it('should be required', function() {
+            angular.forEach(buttons, function(button) {
+                expect(angular.element(button).prop('required')).toBe(true);
+
+                buttonsTested = true;
+            });
+        });
+
+        afterEach(function () {
+            expect(buttonsTested).toBe(true);
+        });
+
+        function getButtons() {
+            return getElement('fieldset', 'remote-temperature-monitor').find('input');
+        }
+
+    });
+
     describe('edit-inventory-item-form', function() {
 
         var form;
@@ -446,13 +500,15 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should take user to the status update modal after submit', function() {
-            vm.inventoryItem.serialNumber = 'some-serial-number';
+            vm.inventoryItem.equipmentTrackingId = 'some-serial-number';
             vm.inventoryItem.referenceName = 'Reference Name';
             vm.inventoryItem.yearOfInstallation = 1998;
             vm.inventoryItem.voltageStabilizer = 'YES';
             vm.inventoryItem.voltageRegulator = 'NO';
             vm.inventoryItem.backupGenerator = 'UNKNOWN';
             vm.inventoryItem.manualTemperatureGauge = 'BUILD_IN';
+            vm.inventoryItem.remoteTemperatureMonitor = 'BUILD_IN';
+            vm.inventoryItem.utilization = 'ACTIVE';
 
             $rootScope.$apply();
             form.triggerHandler('submit');
@@ -463,7 +519,7 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should not take user anywhere if form is invalid', function() {
-            vm.inventoryItem.serialNumber = 'some-serial-number';
+            vm.inventoryItem.equipmentTrackingId = 'some-serial-number';
             vm.inventoryItem.referenceName = 'Reference Name';
             vm.inventoryItem.yearOfInstallation = 1998;
             vm.inventoryItem.voltageStabilizer = undefined;

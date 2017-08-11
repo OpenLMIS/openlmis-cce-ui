@@ -27,7 +27,7 @@
                 <td>{{item.facility.geographicZone.name}}</td>
                 <td>{{item.facility.name}}</td>
                 <td>{{item.barCode}}</td>
-                <td>{{item | makeModel}}</td>
+                <td>{{item.catalogItem | makeModel}}</td>
                 <td>{{item.catalogItem.type}}</td>
                 <td>
                     <div class="status {{vm.getFunctionalStatusClass(item.functionalStatus)}}">

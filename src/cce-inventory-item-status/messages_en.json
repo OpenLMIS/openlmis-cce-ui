@@ -20,5 +20,7 @@
     "cceInventoryItemStatus.reasonNotWorkingOrNotInUse": "Reason not working or not in use",
     "cceInventoryItemStatus.updateFunctionalStatus": "Update Functional Status",
     "cceInventoryItemStatus.facility": "Facility",
-    "cceInventoryItemStatus.decommissionDate": "Decommission Date"
+    "cceInventoryItemStatus.decommissionDate": "Decommission Date",
+    "cceInventoryItemStatus.yes": "Yes",
+    "cceInventoryItemStatus.no": "No"
 }

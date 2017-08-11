@@ -15,8 +15,8 @@
 
 describe('EditInventoryItemController', function() {
 
-    var vm, $controller, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, $rootScope,
-        $scope, $state, inventoryItem;
+    var vm, $controller, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, inventoryItem,
+        UTILIZATION_STATUS, REMOTE_TEMPERATURE_MONITOR_TYPE, $rootScope, $scope, $state;
 
     beforeEach(function() {
         module('cce-edit-inventory-item');
@@ -25,6 +25,8 @@ describe('EditInventoryItemController', function() {
             $controller = $injector.get('$controller');
             CCE_STATUS = $injector.get('CCE_STATUS');
             MANUAL_TEMPERATURE_GAUGE_TYPE = $injector.get('MANUAL_TEMPERATURE_GAUGE_TYPE');
+            REMOTE_TEMPERATURE_MONITOR_TYPE = $injector.get('REMOTE_TEMPERATURE_MONITOR_TYPE');
+            UTILIZATION_STATUS = $injector.get('UTILIZATION_STATUS');
             ENERGY_SOURCE = $injector.get('ENERGY_SOURCE');
             $rootScope = $injector.get('$rootScope');
             $state = $injector.get('$state');
@@ -86,6 +88,38 @@ describe('EditInventoryItemController', function() {
             vm.$onInit();
 
             expect(vm.manualTemperatureGaugeTypes).toEqual(MANUAL_TEMPERATURE_GAUGE_TYPE.getTypes());
+        });
+
+        it('should expose getUtilizationStatusLabel', function() {
+            vm.$onInit();
+
+            expect(vm.getUtilizationStatusLabel).toBe(UTILIZATION_STATUS.getLabel);
+        });
+
+        it('should expose the list available utilization statuses', function() {
+            vm.$onInit();
+
+            expect(vm.utilizationStatuses).toEqual(UTILIZATION_STATUS.getStatuses());
+        });
+
+        it('should expose getRemoteTemperatureMonitorTypeLabel', function() {
+            vm.$onInit();
+
+            expect(
+                vm.getRemoteTemperatureMonitorTypeLabel
+            ).toBe(
+                REMOTE_TEMPERATURE_MONITOR_TYPE.getLabel
+            );
+        });
+
+        it('should expose the list available remote temperature monitor types', function() {
+            vm.$onInit();
+
+            expect(
+                vm.remoteTemperatureMonitorTypes
+            ).toEqual(
+                REMOTE_TEMPERATURE_MONITOR_TYPE.getTypes()
+            );
         });
 
         it('should set powerFieldsDisabled to false if ENERGY_SOURCE is ELECTRIC', function() {

@@ -62,6 +62,8 @@
             vm.reason = inventoryItem.reasonNotWorkingOrNotInUse;
             vm.statuses = FUNCTIONAL_STATUS.getStatuses();
             vm.reasons = REASON_FOR_NOT_WORKING.getReasons();
+            vm.requiresAttention = inventoryItem.requiresAttention;
+            vm.decommissionDate = inventoryItem.decommissionDate;
         }
 
         /**
@@ -139,9 +141,12 @@
             item.functionalStatus = vm.newStatus;
             item.reasonNotWorkingOrNotInUse = isFunctioning(vm.newStatus) ? undefined : vm.reason;
             item.decommissionDate = isObsolete(vm.newStatus) ? vm.decommissionDate : undefined;
+            item.requiresAttention = vm.requiresAttention;
 
             inventoryItemService.save(item).then(function() {
-                $state.go('openlmis.cce.inventory');
+                $state.go('openlmis.cce.inventory', {}, {
+                    reload: true
+                });
             }).finally(loadingModalService.close);
         }
 

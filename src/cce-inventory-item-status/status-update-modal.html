@@ -5,59 +5,91 @@
                 <button type="button" class="close" aria-label="Close" ng-click="$hide()">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title">
+                <h1 class="modal-title">
                   {{'cceInventoryItemStatus.equipmentFunctionalStatus' | message}}
-                </h4>
+              </h1>
             </div>
             <div class="modal-body">
-                <form id="status-update-form" name="statusUpdateForm" ng-submit="vm.save()">
-                    <h1>{{vm.inventoryItem.referenceName}}</h1>
+                <form id="status-update-form"
+                    name="statusUpdateForm"
+                    ng-submit="vm.save()">
 
-                    <label>{{'cceInventoryItemStatus.facility' | message}}</label>
-                    {{vm.inventoryItem.facility.name}}
+                    <h2>{{vm.inventoryItem.referenceName}}</h2>
 
-                    <label>{{'cceInventoryItemStatus.equipmentType' | message}}</label>
-                    {{vm.inventoryItem.catalogItem.type}}
+                    <dl>
+                        <dt>{{'cceInventoryItemStatus.facility' | message}}</dt>
+                        <dd>{{vm.inventoryItem.facility.name}}</dd>
+                        <dt>{{'cceInventoryItemStatus.equipmentType' | message}}</dt>
+                        <dd>{{vm.inventoryItem.catalogItem.type}}</dd>
+                    </dl>
 
-                    <fieldset id="current-status" ng-if="vm.inventoryItem.functionalStatus">
-                        <label>{{'cceInventoryItemStatus.currentStatus' | message}}</label>
-                        <div class="status {{vm.getFunctionalStatusClass(vm.inventoryItem.functionalStatus)}}">
+                    <dl id="current-status" ng-if="vm.inventoryItem.functionalStatus">
+                        <dt>{{'cceInventoryItemStatus.currentStatus' | message}}</dt>
+                        <dd class="status {{vm.getFunctionalStatusClass(vm.inventoryItem.functionalStatus)}}">
                             {{vm.getStatusLabel(vm.inventoryItem.functionalStatus) | message}}
-                        </div>
-                    </fieldset>
+                        </dd>
+                    </dl>
 
-                    <div class="sub-heading">
-                        <h3 class="title">{{'cceInventoryItemStatus.updateFunctionalStatus' | message}}</h3>
-                    </div>
-                    <label for="newStatus">
-                        {{'cceInventoryItemStatus.functionalityStatus' | message}}
-                    </label>
-                    <select id="functional-status" ng-model="vm.newStatus" required
-                        ng-options="vm.getStatusLabel(status) for status in vm.statuses"
-                        ng-change="vm.clearReasonAndDecommissionDate()">
-                    </select>
+                    <fieldset>
+                        <legend>
+                            {{'cceInventoryItemStatus.updateFunctionalStatus' | message}}
+                        </legend>
 
-                    <fieldset ng-if="!vm.isFunctioning(vm.newStatus)">
-                        <label for="reason">
-                            {{'cceInventoryItemStatus.reasonNotWorkingOrNotInUse' | message}}
+                        <fieldset id="requires-attention" class="form-group">
+                            <legend>
+                                {{'cceInventoryItemStatus.requiresAttention' | message}}
+                            </legend>
+                            <label class="radio" ng-repeat="option in [true, false]">
+                                <input type="radio" ng-model="vm.requiresAttention"
+                                    required ng-value="option"/>
+                                    {{('cceInventoryItemStatus.' + (option ? 'yes' : 'no'))| message}}
+                            </label>
+                        </fieldset>
+
+                        <label for="newStatus" required>
+                            {{'cceInventoryItemStatus.functionalityStatus' | message}}
                         </label>
-                        <select id="reason" ng-model="vm.reason" required
-                            ng-options="vm.getReasonLabel(reason) for reason in vm.reasons">
+                        <select id="functional-status"
+                            ng-model="vm.newStatus"
+                            ng-options="vm.getStatusLabel(status) for status in vm.statuses"
+                            ng-change="vm.clearReasonAndDecommissionDate()"
+                            required>
                         </select>
-                    </fieldset>
 
-                    <fieldset ng-if="vm.isObsolete(vm.newStatus)">
-                        <label for="decommission-date">
-                            {{'cceInventoryItemStatus.decommissionDate' | message}}
-                        </label>
-                        <input id="decommission-date" name="decommissionDate" required type="number"
-                            max="9999" ng-model="vm.decommissionDate"/>
+                        <fieldset ng-if="!vm.isFunctioning(vm.newStatus)">
+                            <label for="reason">
+                                {{'cceInventoryItemStatus.reasonNotWorkingOrNotInUse' | message}}
+                            </label>
+                            <select id="reason"
+                                ng-model="vm.reason"
+                                ng-options="vm.getReasonLabel(reason) for reason in vm.reasons"
+                                required>
+                            </select>
+                        </fieldset>
+
+                        <fieldset ng-if="vm.isObsolete(vm.newStatus)">
+                            <label for="decommission-date">
+                                {{'cceInventoryItemStatus.decommissionDate' | message}}
+                            </label>
+                            <openlmis-datepicker input-id="decommission-date"
+                                value="vm.decommissionDate"
+                                required="true">
+                            </openlmis-datepicker>
+                        </fieldset>
                     </fieldset>
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="cancel" ng-click="vm.goToInventoryList()">{{'cceInventoryItemStatus.cancel' | message}}</button>
-                <button id="update" class="primary" type="submit" form="status-update-form">{{'cceInventoryItemStatus.update' | message}}</button>
+                <button id="cancel"
+                    ng-click="vm.goToInventoryList()">{{'cceInventoryItemStatus.cancel' | message}}
+                </button>
+
+                <button id="update"
+                    class="primary"
+                    type="submit"
+                    form="status-update-form">
+                    {{'cceInventoryItemStatus.update' | message}}
+                </button>
             </div>
         </div>
     </div>
