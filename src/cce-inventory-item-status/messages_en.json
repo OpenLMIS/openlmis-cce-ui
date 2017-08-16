@@ -22,5 +22,6 @@
     "cceInventoryItemStatus.facility": "Facility",
     "cceInventoryItemStatus.decommissionDate": "Decommission Date",
     "cceInventoryItemStatus.yes": "Yes",
-    "cceInventoryItemStatus.no": "No"
+    "cceInventoryItemStatus.no": "No",
+    "cceInventoryItemStatus.requiresAttention": "Requires Attention"
 }
