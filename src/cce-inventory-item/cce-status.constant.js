@@ -28,8 +28,6 @@
         .module('cce-inventory-item')
         .constant('CCE_STATUS', CCE_STATUS());
 
-    CCE_STATUS.$inject = [];
-
     function CCE_STATUS() {
         var CCE_STATUS = {
                 YES: 'YES',
