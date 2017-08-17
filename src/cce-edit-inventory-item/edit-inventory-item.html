@@ -1,4 +1,4 @@
-<div class="adjustments-modal modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inventory-item-edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,23 +12,21 @@
                     <dl>
                         <dt>{{'cceEditInventoryItem.district' | message}}</dt>
                         <dd>{{vm.inventoryItem.facility.geographicZone.name}}</dd>
-
                         <dt>{{'cceEditInventoryItem.facility' | message}}</dt>
                         <dd>{{vm.inventoryItem.facility.name}}</dd>
-
                         <dt>{{'cceEditInventoryItem.program' | message}}</dt>
                         <dd>{{vm.inventoryItem.program.name}}</dd>
-
                         <dt>{{'cceEditInventoryItem.equipmentType' | message}}</dt>
                         <dd>{{vm.inventoryItem.catalogItem.type}}</dd>
-
                         <dt>{{'cceEditInventoryItem.makeModel' | message}}</dt>
                         <dd>{{vm.inventoryItem.catalogItem | makeModel}}</dd>
                     </dl>
 
                     <fieldset>
 
-                        <legend>{{'cceEditInventoryItem.equipmentIdentification' | message}}</legend>
+                        <div class="sub-heading">
+                            <div class="title">{{'cceEditInventoryItem.equipmentIdentification' | message}}</div>
+                        </div>
 
                         <label for="serial-number">
                             {{'cceEditInventoryItem.serialNumber' | message}}
@@ -52,19 +50,13 @@
                             {{'cceEditInventoryItem.referenceName.description' | message}}
                         </p>
 
-                        <label>{{'cceEditInventoryItem.barCode' | message}}</label>
-
-                        <input
-                            ng-model="vm.inventoryItem.barCode"
-                            type="number"/>
-
-                        <p class="note">
-                            {{'cceEditInventoryItem.barCode.description' | message}}
-                        </p>
                     </fieldset>
 
                     <fieldset>
-                        <legend>{{'cceEditInventoryItem.equipmentHistory' | message}}</legend>
+
+                        <div class="sub-heading">
+                            <div class="title">{{'cceEditInventoryItem.equipmentHistory' | message}}</div>
+                        </div>
 
                         <fieldset id="utilization" class="form-group">
 
@@ -114,7 +106,10 @@
                     </fieldset>
 
                     <fieldset>
-                        <legend>{{'cceEditInventoryItem.equipmentInstallation' | message}}</legend>
+
+                        <div class="sub-heading">
+                            <div class="title">{{'cceEditInventoryItem.equipmentInstallation' | message}}</div>
+                        </div>
 
                         <fieldset id="voltage-stabilizer" class="form-group">
 

@@ -27,6 +27,7 @@
         'ngResource',
         'openlmis-config',
         'openlmis-date',
+        'referencedata-program',
         'cce'
     ]);
 

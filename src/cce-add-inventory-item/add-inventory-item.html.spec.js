@@ -256,6 +256,7 @@ describe('add-inventory-item.html template', function() {
                 inventoryItem: angular.toJson({
                     facility: facility,
                     programId: 'program-id',
+                    program: program,
                     catalogItem: catalogItem
                 })
             });

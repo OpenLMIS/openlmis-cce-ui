@@ -84,6 +84,7 @@ describe('AddInventoryItemController', function() {
                 inventoryItem: angular.toJson({
                     facility: facility,
                     programId: 'program-id',
+                    program: program,
                     catalogItem: catalogItems[0]
                 })
             });

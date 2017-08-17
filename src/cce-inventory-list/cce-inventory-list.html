@@ -30,7 +30,7 @@
                 <td>{{item.catalogItem | makeModel}}</td>
                 <td>{{item.catalogItem.type}}</td>
                 <td>
-                    <div class="status {{vm.getFunctionalStatusClass(item.functionalStatus)}}">
+                    <div class="cce-inventory-item-status {{vm.getFunctionalStatusClass(item.functionalStatus)}}">
                         {{vm.getStatusLabel(item.functionalStatus)}}
                         <a class="update-status" ng-click="vm.goToStatusUpdate(item)"></a>
                     </div>

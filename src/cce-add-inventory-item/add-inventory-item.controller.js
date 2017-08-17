@@ -86,6 +86,7 @@
                 inventoryItem: angular.toJson({
                     facility: vm.facility,
                     programId: vm.program.id,
+                    program: vm.program,
                     catalogItem: vm.catalogItem
                 })
             });

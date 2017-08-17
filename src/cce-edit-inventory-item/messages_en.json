@@ -9,8 +9,6 @@
     "cceEditInventoryItem.serialNumber": "Serial Number",
     "cceEditInventoryItem.referenceName": "Reference Name",
     "cceEditInventoryItem.referenceName.description": "Enter the name that is used to refer to this device(e.g. \"Refrigerator 2\").",
-    "cceEditInventoryItem.barCode": "Bar Code",
-    "cceEditInventoryItem.barCode.description": "If there is a bar code on the refrigerator, please enter the numerical value of the bar code.",
     "cceEditInventoryItem.equipmentHistory": "Equipment History",
     "cceEditInventoryItem.yearOfInstallation": "Year of Installation/Commission",
     "cceEditInventoryItem.source": "Source",

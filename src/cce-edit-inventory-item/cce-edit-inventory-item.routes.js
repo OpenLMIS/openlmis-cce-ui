@@ -37,8 +37,8 @@
             }
         });
 
-        onEnter.$inject = ['openlmisModalService', '$stateParams', 'inventoryItemService'];
-        function onEnter(openlmisModalService, $stateParams, inventoryItemService) {
+        onEnter.$inject = ['openlmisModalService', '$stateParams', 'inventoryItemFactory'];
+        function onEnter(openlmisModalService, $stateParams, inventoryItemFactory) {
             dialog = openlmisModalService.createDialog({
                 backdrop: 'static',
                 controller: 'EditInventoryItemController',
@@ -49,7 +49,7 @@
                         if ($stateParams.inventoryItem) {
                             return angular.fromJson($stateParams.inventoryItem);
                         }
-                        return inventoryItemService.get($stateParams.inventoryItemId);
+                        return inventoryItemFactory.get($stateParams.inventoryItemId);
                     }
                 }
             });
