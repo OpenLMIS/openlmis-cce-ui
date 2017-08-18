@@ -81,6 +81,7 @@
                             type="number"
                             ng-model="vm.inventoryItem.yearOfInstallation"
                             max="9999"
+                            min="1000"
                             required/>
 
                         <label for="source">{{'cceEditInventoryItem.source' | message}}</label>
@@ -101,7 +102,8 @@
                             name="yearOfWarrantyExpiry"
                             ng-model="vm.inventoryItem.yearOfWarrantyExpiry"
                             type="number"
-                            max="9999"/>
+                            max="9999"
+                            min="1000"/>
 
                     </fieldset>
 
