@@ -1,15 +1,15 @@
-<div class="modal inventory-item-edit-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>{{'cceEditInventoryItem.addNewColdChainEquipment' | message}}</h4>
+                <h2>{{'cceEditInventoryItem.addNewColdChainEquipment' | message}}</h2>
             </div>
             <div class="modal-body">
                 <form id="edit-inventory-item-form"
                     name="editInventoryItemForm"
                     ng-submit="vm.goToStatusUpdate()">
 
-                    <dl>
+                    <dl class="horizontal-list">
                         <dt>{{'cceEditInventoryItem.district' | message}}</dt>
                         <dd>{{vm.inventoryItem.facility.geographicZone.name}}</dd>
                         <dt>{{'cceEditInventoryItem.facility' | message}}</dt>
@@ -25,7 +25,7 @@
                     <fieldset>
 
                         <div class="sub-heading">
-                            <div class="title">{{'cceEditInventoryItem.equipmentIdentification' | message}}</div>
+                            <h3 class="title">{{'cceEditInventoryItem.equipmentIdentification' | message}}</h3>
                         </div>
 
                         <label for="serial-number">
@@ -55,7 +55,7 @@
                     <fieldset>
 
                         <div class="sub-heading">
-                            <div class="title">{{'cceEditInventoryItem.equipmentHistory' | message}}</div>
+                            <h3 class="title">{{'cceEditInventoryItem.equipmentHistory' | message}}</h3>
                         </div>
 
                         <fieldset id="utilization" class="form-group">
@@ -108,7 +108,7 @@
                     <fieldset>
 
                         <div class="sub-heading">
-                            <div class="title">{{'cceEditInventoryItem.equipmentInstallation' | message}}</div>
+                            <h3 class="title">{{'cceEditInventoryItem.equipmentInstallation' | message}}</h3>
                         </div>
 
                         <fieldset id="voltage-stabilizer" class="form-group">

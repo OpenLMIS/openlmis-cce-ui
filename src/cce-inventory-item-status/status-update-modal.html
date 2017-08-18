@@ -1,4 +1,4 @@
-<div class="inventory-item-status-modal modal" role="dialog" aria-hidden="true">
+<div class="modal" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,14 +16,14 @@
 
                     <h2>{{vm.inventoryItem.referenceName}}</h2>
 
-                    <dl>
+                    <dl class="horizontal-list">
                         <dt>{{'cceInventoryItemStatus.facility' | message}}</dt>
                         <dd>{{vm.inventoryItem.facility.name}}</dd>
                         <dt>{{'cceInventoryItemStatus.equipmentType' | message}}</dt>
                         <dd>{{vm.inventoryItem.catalogItem.type}}</dd>
                     </dl>
 
-                    <dl id="current-status" ng-if="vm.inventoryItem.functionalStatus">
+                    <dl class="horizontal-list" id="current-status" ng-if="vm.inventoryItem.functionalStatus">
                         <dt>{{'cceInventoryItemStatus.currentStatus' | message}}</dt>
                         <dd class="cce-inventory-item-status {{vm.getFunctionalStatusClass(vm.inventoryItem.functionalStatus)}}">
                             {{vm.getStatusLabel(vm.inventoryItem.functionalStatus) | message}}
@@ -33,7 +33,7 @@
                     <fieldset>
 
                         <div class="sub-heading">
-                            <div class="title">{{'cceInventoryItemStatus.updateFunctionalStatus' | message}}</div>
+                            <h3 class="title">{{'cceInventoryItemStatus.updateFunctionalStatus' | message}}</h3>
                         </div>
 
                         <fieldset id="requires-attention" class="form-group">
