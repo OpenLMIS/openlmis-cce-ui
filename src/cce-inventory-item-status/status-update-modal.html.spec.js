@@ -130,8 +130,8 @@ describe('status-update-modal.html template', function() {
             expect(getSelect()).toBeRequired();
         });
 
-        it('should be required for UNSERVICABLE', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.UNSERVICABLE;
+        it('should be required for UNSERVICEABLE', function() {
+            vm.newStatus = FUNCTIONAL_STATUS.UNSERVICEABLE;
             $rootScope.$apply();
 
             expect(getSelect()).toBeRequired();
@@ -168,16 +168,16 @@ describe('status-update-modal.html template', function() {
             var statusSelect = getElement('select', 'functional-status');
 
             vm.newStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
-            vm.decommissionDate = 2017;
+            vm.decommissionYear = 2017;
             $rootScope.$apply();
 
-            expect(vm.decommissionDate).not.toBeUndefined();
+            expect(vm.decommissionYear).not.toBeUndefined();
 
             statusSelect.val('string:AWAITING_REPAIR');
             statusSelect.triggerHandler('change');
             $scope.$apply();
 
-            expect(vm.decommissionDate).toBeUndefined();
+            expect(vm.decommissionYear).toBeUndefined();
         });
 
         it('should be hidden for FUNCTIONING', function() {
@@ -313,13 +313,13 @@ describe('status-update-modal.html template', function() {
 
         beforeEach(function() {
             form = getElement('form', 'status-update-form');
-            date = new Date('Fri Aug 11 2017 00:00:00 GMT+0000 (UTC)');
+            date = 2017;
         });
 
         it('should take user to the inventory list after saving', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             vm.reason = REASON_FOR_NOT_WORKING.NOT_APPLICABLE;
-            vm.decommissionDate = date;
+            vm.decommissionYear = date;
             vm.requiresAttention = false;
 
             $rootScope.$apply();
@@ -328,7 +328,7 @@ describe('status-update-modal.html template', function() {
             expect(inventoryItemService.save).toHaveBeenCalledWith({
                 functionalStatus: FUNCTIONAL_STATUS.OBSOLETE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NOT_APPLICABLE,
-                decommissionDate: date,
+                decommissionYear: date,
                 requiresAttention: false
             });
             expect($state.go).not.toHaveBeenCalled();
@@ -344,7 +344,7 @@ describe('status-update-modal.html template', function() {
         it('should not take any action if form is invalid', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             vm.reason = REASON_FOR_NOT_WORKING.NOT_APPLICABLE;
-            vm.decommissionDate = undefined;
+            vm.decommissionYear = undefined;
 
             $rootScope.$apply();
             form.triggerHandler('submit');
@@ -356,7 +356,7 @@ describe('status-update-modal.html template', function() {
         it('should not take user anywhere if saving failed', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             vm.reason = REASON_FOR_NOT_WORKING.NOT_APPLICABLE;
-            vm.decommissionDate = date;
+            vm.decommissionYear = date;
             vm.requiresAttention = true;
 
             $rootScope.$apply();
@@ -365,7 +365,7 @@ describe('status-update-modal.html template', function() {
             expect(inventoryItemService.save).toHaveBeenCalledWith({
                 functionalStatus: FUNCTIONAL_STATUS.OBSOLETE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NOT_APPLICABLE,
-                decommissionDate: date,
+                decommissionYear: date,
                 requiresAttention: true
             });
             expect($state.go).not.toHaveBeenCalled();

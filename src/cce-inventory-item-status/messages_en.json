@@ -7,7 +7,7 @@
     "cceInventoryItemStatus.functionalityStatus": "Functionality Status",
     "cceInventoryItemStatus.nonFunctioning": "Non-functioning",
     "cceInventoryItemStatus.awaitingRepair": "Awaiting Repair",
-    "cceInventoryItemStatus.unservicable": "Unservicable",
+    "cceInventoryItemStatus.unserviceable": "Unserviceable",
     "cceInventoryItemStatus.obsolete": "Obsolete",
     "cceInventoryItemStatus.cancel": "Cancel",
     "cceInventoryItemStatus.update": "Update",
@@ -23,5 +23,6 @@
     "cceInventoryItemStatus.decommissionDate": "Decommission Date",
     "cceInventoryItemStatus.yes": "Yes",
     "cceInventoryItemStatus.no": "No",
-    "cceInventoryItemStatus.requiresAttention": "Requires Attention"
+    "cceInventoryItemStatus.requiresAttention": "Requires Attention",
+    "cceInventoryItemStatus.pickNewFunctionalStatus": "Pick a new functional status"
 }

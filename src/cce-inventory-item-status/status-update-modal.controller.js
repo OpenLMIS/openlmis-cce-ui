@@ -46,7 +46,7 @@
         vm.getReasonLabel = getReasonLabel;
         vm.goToInventoryList = goToInventoryList;
         vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
-        vm.clearReasonAndDecommissionDate = clearReasonAndDecommissionDate;
+        vm.clearReasonAndDecommissionYear = clearReasonAndDecommissionYear;
 
         /**
          * @ngdoc method
@@ -63,7 +63,7 @@
             vm.statuses = FUNCTIONAL_STATUS.getStatuses();
             vm.reasons = REASON_FOR_NOT_WORKING.getReasons();
             vm.requiresAttention = inventoryItem.requiresAttention;
-            vm.decommissionDate = inventoryItem.decommissionDate;
+            vm.decommissionYear = inventoryItem.decommissionYear;
         }
 
         /**
@@ -140,27 +140,27 @@
 
             item.functionalStatus = vm.newStatus;
             item.reasonNotWorkingOrNotInUse = isFunctioning(vm.newStatus) ? undefined : vm.reason;
-            item.decommissionDate = isObsolete(vm.newStatus) ? vm.decommissionDate : undefined;
+            item.decommissionYear = isObsolete(vm.newStatus) ? vm.decommissionYear : undefined;
             item.requiresAttention = vm.requiresAttention;
 
             inventoryItemService.save(item).then(function() {
                 $state.go('openlmis.cce.inventory', {}, {
                     reload: true
                 });
-            }).finally(loadingModalService.close);
+            }, loadingModalService.close);
         }
 
         /**
          * @ngdoc method
          * @methodOf cce-inventory-item-status.controller:StatusUpdateModalController
-         * @name clearReasonAndDecommissionDate
+         * @name clearReasonAndDecommissionYear
          *
          * @description
          * Clears the selected reason.
          */
-        function clearReasonAndDecommissionDate() {
+        function clearReasonAndDecommissionYear() {
             vm.reason = undefined;
-            vm.decommissionDate = undefined;
+            vm.decommissionYear = undefined;
         }
 
         /**

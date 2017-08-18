@@ -53,11 +53,12 @@
                         <select id="functional-status"
                             ng-model="vm.newStatus"
                             ng-options="vm.getStatusLabel(status) for status in vm.statuses"
-                            ng-change="vm.clearReasonAndDecommissionDate()"
+                            ng-change="vm.clearReasonAndDecommissionYear()"
+                            placeholder="{{'cceInventoryItemStatus.pickNewFunctionalStatus' | message}}"
                             required>
                         </select>
 
-                        <fieldset ng-if="!vm.isFunctioning(vm.newStatus)">
+                        <fieldset ng-if="vm.newStatus && !vm.isFunctioning(vm.newStatus)">
                             <label for="reason">
                                 {{'cceInventoryItemStatus.reasonNotWorkingOrNotInUse' | message}}
                             </label>
@@ -72,10 +73,12 @@
                             <label for="decommission-date">
                                 {{'cceInventoryItemStatus.decommissionDate' | message}}
                             </label>
-                            <openlmis-datepicker input-id="decommission-date"
-                                value="vm.decommissionDate"
-                                required="true">
-                            </openlmis-datepicker>
+                            <input id="decommission-date"
+                                ng-model="vm.decommissionYear"
+                                required="true"
+                                type="number"
+                                max="9999">
+                            </input>
                         </fieldset>
                     </fieldset>
                 </form>

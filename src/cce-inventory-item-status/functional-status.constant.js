@@ -33,7 +33,7 @@
                 FUNCTIONING: 'FUNCTIONING',
                 NON_FUNCTIONING: 'NON_FUNCTIONING',
                 AWAITING_REPAIR: 'AWAITING_REPAIR',
-                UNSERVICABLE: 'UNSERVICABLE',
+                UNSERVICEABLE: 'UNSERVICEABLE',
                 OBSOLETE: 'OBSOLETE',
                 getLabel: getLabel,
                 getStatuses: getStatuses,
@@ -43,7 +43,7 @@
                 FUNCTIONING: 'cceInventoryItemStatus.functioning',
                 NON_FUNCTIONING: 'cceInventoryItemStatus.nonFunctioning',
                 AWAITING_REPAIR: 'cceInventoryItemStatus.awaitingRepair',
-                UNSERVICABLE: 'cceInventoryItemStatus.unservicable',
+                UNSERVICEABLE: 'cceInventoryItemStatus.unserviceable',
                 OBSOLETE: 'cceInventoryItemStatus.obsolete'
             };
 
@@ -83,7 +83,7 @@
         function getStatuses() {
             return [
                 FUNCTIONAL_STATUS.FUNCTIONING, FUNCTIONAL_STATUS.NON_FUNCTIONING,
-                FUNCTIONAL_STATUS.AWAITING_REPAIR, FUNCTIONAL_STATUS.UNSERVICABLE,
+                FUNCTIONAL_STATUS.AWAITING_REPAIR, FUNCTIONAL_STATUS.UNSERVICEABLE,
                 FUNCTIONAL_STATUS.OBSOLETE
             ];
         }
@@ -108,7 +108,7 @@
                     break;
                 case FUNCTIONAL_STATUS.NON_FUNCTIONING:
                 case FUNCTIONAL_STATUS.AWAITING_REPAIR:
-                case FUNCTIONAL_STATUS.UNSERVICABLE:
+                case FUNCTIONAL_STATUS.UNSERVICEABLE:
                     statusClass = 'is-non-functioning';
                     break;
                 case FUNCTIONAL_STATUS.OBSOLETE:
