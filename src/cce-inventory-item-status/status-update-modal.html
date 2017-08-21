@@ -36,17 +36,6 @@
                             <h3 class="title">{{'cceInventoryItemStatus.updateFunctionalStatus' | message}}</h3>
                         </div>
 
-                        <fieldset id="requires-attention" class="form-group">
-                            <legend>
-                                {{'cceInventoryItemStatus.requiresAttention' | message}}
-                            </legend>
-                            <label class="radio" ng-repeat="option in [true, false]">
-                                <input type="radio" ng-model="vm.requiresAttention"
-                                    required ng-value="option"/>
-                                    {{('cceInventoryItemStatus.' + (option ? 'yes' : 'no'))| message}}
-                            </label>
-                        </fieldset>
-
                         <label for="newStatus" required>
                             {{'cceInventoryItemStatus.functionalityStatus' | message}}
                         </label>

@@ -56,33 +56,6 @@ describe('status-update-modal.html template', function() {
 
     });
 
-    describe('Requires Attention radio buttons', function() {
-
-        var buttons, buttonsTested;
-
-        beforeEach(function() {
-            prepareView();
-            buttons = getButtons();
-        });
-
-        it('should be required', function() {
-            angular.forEach(buttons, function(button) {
-                expect(angular.element(button).prop('required')).toBe(true);
-
-                buttonsTested = true;
-            });
-        });
-
-        afterEach(function () {
-            expect(buttonsTested).toBe(true);
-        });
-
-        function getButtons() {
-            return getElement('fieldset', 'requires-attention').find('input');
-        }
-
-    });
-
     describe('Functional Status select', function() {
 
         it('should be required', function() {
@@ -292,7 +265,6 @@ describe('status-update-modal.html template', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             vm.reason = REASON_FOR_NOT_WORKING.NOT_APPLICABLE;
             vm.decommissionDate = date;
-            vm.requiresAttention = false;
 
             $rootScope.$apply();
             form.triggerHandler('submit');
@@ -300,8 +272,7 @@ describe('status-update-modal.html template', function() {
             expect(inventoryItemService.save).toHaveBeenCalledWith({
                 functionalStatus: FUNCTIONAL_STATUS.OBSOLETE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NOT_APPLICABLE,
-                decommissionDate: date,
-                requiresAttention: false
+                decommissionDate: date
             });
             expect($state.go).not.toHaveBeenCalled();
 
@@ -329,7 +300,6 @@ describe('status-update-modal.html template', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             vm.reason = REASON_FOR_NOT_WORKING.NOT_APPLICABLE;
             vm.decommissionDate = date;
-            vm.requiresAttention = true;
 
             $rootScope.$apply();
             form.triggerHandler('submit');
@@ -337,8 +307,7 @@ describe('status-update-modal.html template', function() {
             expect(inventoryItemService.save).toHaveBeenCalledWith({
                 functionalStatus: FUNCTIONAL_STATUS.OBSOLETE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NOT_APPLICABLE,
-                decommissionDate: date,
-                requiresAttention: true
+                decommissionDate: date
             });
             expect($state.go).not.toHaveBeenCalled();
 
