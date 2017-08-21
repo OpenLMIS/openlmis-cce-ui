@@ -30,7 +30,9 @@
 
     function reasons() {
         var REASON_FOR_NOT_WORKING = {
+                AWAITING_REPAIR: 'AWAITING_REPAIR',
                 NEEDS_SPARE_PARTS: 'NEEDS_SPARE_PARTS',
+                UNSERVICEABLE: 'UNSERVICEABLE',
                 NO_FINANCE: 'NO_FINANCE',
                 NO_FUEL: 'NO_FUEL',
                 SURPLUS: 'SURPLUS',
@@ -40,7 +42,9 @@
                 getReasons: getReasons
             },
             labels = {
+                AWAITING_REPAIR: 'cceInventoryItemStatus.awaitingRepair',
                 NEEDS_SPARE_PARTS: 'cceInventoryItemStatus.needsSpareParts',
+                UNSERVICEABLE: 'cceInventoryItemStatus.unserviceable',
                 NO_FINANCE: 'cceInventoryItemStatus.noFinance',
                 NO_FUEL: 'cceInventoryItemStatus.noFuel',
                 SURPLUS: 'cceInventoryItemStatus.surplus',
@@ -83,9 +87,14 @@
          */
         function getReasons() {
             return [
-                REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS, REASON_FOR_NOT_WORKING.NO_FINANCE,
-                REASON_FOR_NOT_WORKING.NO_FUEL, REASON_FOR_NOT_WORKING.SURPLUS,
-                REASON_FOR_NOT_WORKING.DEAD, REASON_FOR_NOT_WORKING.NOT_APPLICABLE
+                REASON_FOR_NOT_WORKING.AWAITING_REPAIR,
+                REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
+                REASON_FOR_NOT_WORKING.UNSERVICEABLE,
+                REASON_FOR_NOT_WORKING.NO_FINANCE,
+                REASON_FOR_NOT_WORKING.NO_FUEL,
+                REASON_FOR_NOT_WORKING.SURPLUS,
+                REASON_FOR_NOT_WORKING.DEAD,
+                REASON_FOR_NOT_WORKING.NOT_APPLICABLE
             ];
         }
     }

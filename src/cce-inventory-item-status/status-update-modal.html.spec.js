@@ -97,12 +97,12 @@ describe('status-update-modal.html template', function() {
             var statusSelect = getElement('select', 'functional-status');
 
             vm.newStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
-            vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
+            vm.reason = REASON_FOR_NOT_WORKING.UNSERVICEABLE;
             $rootScope.$apply();
 
             expect(getSelectedOption().indexOf('openlmisForm.selectAnOption') > -1).toBe(false);
 
-            statusSelect.val('string:AWAITING_REPAIR');
+            statusSelect.val('string:OBSOLETE');
             statusSelect.triggerHandler('change');
             $scope.$apply();
 
@@ -118,20 +118,6 @@ describe('status-update-modal.html template', function() {
 
         it('should be required for NON_FUNCTIONING', function() {
             vm.newStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
-            $rootScope.$apply();
-
-            expect(getSelect()).toBeRequired();
-        });
-
-        it('should be required for AWAITING_REPAIR', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.AWAITING_REPAIR;
-            $rootScope.$apply();
-
-            expect(getSelect()).toBeRequired();
-        });
-
-        it('should be required for UNSERVICEABLE', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.UNSERVICEABLE;
             $rootScope.$apply();
 
             expect(getSelect()).toBeRequired();
@@ -173,7 +159,7 @@ describe('status-update-modal.html template', function() {
 
             expect(vm.decommissionYear).not.toBeUndefined();
 
-            statusSelect.val('string:AWAITING_REPAIR');
+            statusSelect.val('string:OBSOLETE');
             statusSelect.triggerHandler('change');
             $scope.$apply();
 
@@ -189,20 +175,6 @@ describe('status-update-modal.html template', function() {
 
         it('should be hidden for NON_FUNCTIONING', function() {
             vm.newStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
-            $rootScope.$apply();
-
-            expect(getInput()).toBeUndefined();
-        });
-
-        it('should be hidden for AWAITING_REPAIR', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.AWAITING_REPAIR;
-            $rootScope.$apply();
-
-            expect(getInput()).toBeUndefined();
-        });
-
-        it('should be hidden for UNSERVICABLE', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.UNSERVICABLE;
             $rootScope.$apply();
 
             expect(getInput()).toBeUndefined();
