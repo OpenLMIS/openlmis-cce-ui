@@ -24,5 +24,6 @@
     "cceInventoryItemStatus.yes": "Yes",
     "cceInventoryItemStatus.no": "No",
     "cceInventoryItemStatus.requiresAttention": "Requires Attention",
-    "cceInventoryItemStatus.pickNewFunctionalStatus": "Pick a new functional status"
+    "cceInventoryItemStatus.pickNewFunctionalStatus": "Pick a new functional status",
+    "cceInventoryItemStatus.inventoryItemSaved": "Inventory Item saved successfully!"
 }

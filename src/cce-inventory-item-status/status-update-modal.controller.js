@@ -30,12 +30,12 @@
 
     StatusUpdateModalController.$inject = [
         '$scope', 'inventoryItem', 'FUNCTIONAL_STATUS', 'messageService', 'REASON_FOR_NOT_WORKING',
-        'inventoryItemService', '$state', 'loadingModalService', 'confirmService'
+        'inventoryItemService', '$state', 'loadingModalService', 'confirmService', 'notificationService'
     ];
 
     function StatusUpdateModalController($scope, inventoryItem, FUNCTIONAL_STATUS, messageService,
                                          REASON_FOR_NOT_WORKING, inventoryItemService, $state,
-                                         loadingModalService, confirmService) {
+                                         loadingModalService, confirmService, notificationService) {
         var vm = this;
 
         vm.save = save;
@@ -133,7 +133,7 @@
          * Updates the status of the given inventory item and saves it on the server.
          */
         function save() {
-            loadingModalService.open();
+            var loadingPromise = loadingModalService.open();
 
             var item = angular.copy(vm.inventoryItem);
 
@@ -142,6 +142,12 @@
             item.decommissionDate = isObsolete(vm.newStatus) ? vm.decommissionDate : undefined;
 
             inventoryItemService.save(item).then(function() {
+                console.log('1');
+                loadingPromise.then(function() {
+                    console.log('3');
+                    notificationService.success('cceInventoryItemStatus.inventoryItemSaved');
+                });
+                console.log('2');
                 $state.go('openlmis.cce.inventory', {}, {
                     reload: true
                 });

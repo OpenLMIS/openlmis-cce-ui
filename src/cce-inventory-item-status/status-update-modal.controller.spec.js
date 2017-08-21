@@ -15,7 +15,7 @@
 
 describe('StatusUpdateModalController', function() {
 
-    var vm, messageService, modalDeferred, $q, $state, $rootScope, inventoryItem, $controller,
+    var vm, messageService, modalDeferred, $q, $state, $rootScope, inventoryItem, $controller, loadingModalService, notificationService,
         messages, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred,
         $scope, date;
 
@@ -31,6 +31,8 @@ describe('StatusUpdateModalController', function() {
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
             REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
             inventoryItemService = $injector.get('inventoryItemService');
+            loadingModalService = $injector.get('loadingModalService');
+            notificationService = $injector.get('notificationService');
         });
 
         date = new Date();
@@ -272,6 +274,9 @@ describe('StatusUpdateModalController', function() {
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
             vm.decommissionDate = date;
 
+            spyOn(loadingModalService, 'open').andReturn($q.when(true));
+            spyOn(notificationService, 'success');
+
             vm.save();
             expect($state.go).not.toHaveBeenCalled();
             saveDeferred.resolve();
@@ -280,6 +285,7 @@ describe('StatusUpdateModalController', function() {
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory', {}, {
                 reload: true
             });
+            expect(notificationService.success).toHaveBeenCalledWith('cceInventoryItemStatus.inventoryItemSaved');
         });
 
     });
