@@ -142,12 +142,9 @@
             item.decommissionDate = isObsolete(vm.newStatus) ? vm.decommissionDate : undefined;
 
             inventoryItemService.save(item).then(function() {
-                console.log('1');
                 loadingPromise.then(function() {
-                    console.log('3');
                     notificationService.success('cceInventoryItemStatus.inventoryItemSaved');
                 });
-                console.log('2');
                 $state.go('openlmis.cce.inventory', {}, {
                     reload: true
                 });
