@@ -33,12 +33,12 @@ describe('StatusUpdateModalController', function() {
             inventoryItemService = $injector.get('inventoryItemService');
         });
 
-        date = 2015;
+        date = new Date();
 
         inventoryItem = {
             reasonNotWorkingOrNotInUse: undefined,
             functionalStatus: FUNCTIONAL_STATUS.FUNCTIONING,
-            decommissionYear: date
+            decommissionDate: date
         };
 
         modalDeferred = $q.defer();
@@ -89,8 +89,8 @@ describe('StatusUpdateModalController', function() {
             expect(vm.reasons).toEqual(REASON_FOR_NOT_WORKING.getReasons());
         });
 
-        it('should expose decommissionYear', function() {
-            expect(vm.decommissionYear).toEqual(date);
+        it('should expose decommissionDate', function() {
+            expect(vm.decommissionDate).toEqual(date);
         });
 
     });
@@ -188,89 +188,89 @@ describe('StatusUpdateModalController', function() {
         it('should not modify the original inventory item', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
-            vm.decommissionYear = 2017;
+            vm.decommissionDate = date;
 
             vm.save();
 
             expect(inventoryItem.functionalStatus).toEqual(FUNCTIONAL_STATUS.FUNCTIONING);
             expect(inventoryItem.reasonNotWorkingOrNotInUse).toBeUndefined();
-            expect(inventoryItem.decommissionYear).toEqual(date);
+            expect(inventoryItem.decommissionDate).toEqual(date);
         });
 
         it('should ignore reason and date for FUNCTIONING status', function() {
             vm.newStatus = FUNCTIONAL_STATUS.FUNCTIONING;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
-            vm.decommissionYear = 2017;
+            vm.decommissionDate = date;
 
             vm.save();
 
             expect(inventoryItemService.save).toHaveBeenCalledWith({
                 functionalStatus: FUNCTIONAL_STATUS.FUNCTIONING,
                 reasonNotWorkingOrNotInUse: undefined,
-                decommissionYear: undefined
+                decommissionDate: undefined
             });
         });
 
         it('should ignore date for NON_FUNCTIONING status', function() {
             vm.newStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
-            vm.decommissionYear = 2017;
+            vm.decommissionDate = date;
 
             vm.save();
 
             expect(inventoryItemService.save).toHaveBeenCalledWith({
                 functionalStatus: FUNCTIONAL_STATUS.NON_FUNCTIONING,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
-                decommissionYear: undefined
+                decommissionDate: undefined
             });
         });
 
         it('should ignore date for AWAITING_REPAIR status', function() {
             vm.newStatus = FUNCTIONAL_STATUS.AWAITING_REPAIR;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
-            vm.decommissionYear = 2017;
+            vm.decommissionDate = date;
 
             vm.save();
 
             expect(inventoryItemService.save).toHaveBeenCalledWith({
                 functionalStatus: FUNCTIONAL_STATUS.AWAITING_REPAIR,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
-                decommissionYear: undefined
+                decommissionDate: undefined
             });
         });
 
         it('should ignore date for UNSERVICABLE status', function() {
             vm.newStatus = FUNCTIONAL_STATUS.UNSERVICABLE;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
-            vm.decommissionYear = 2017;
+            vm.decommissionDate = date;
 
             vm.save();
 
             expect(inventoryItemService.save).toHaveBeenCalledWith({
                 functionalStatus: FUNCTIONAL_STATUS.UNSERVICABLE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
-                decommissionYear: undefined
+                decommissionDate: undefined
             });
         });
 
         it('should pass date and reason for OBSOLETE status', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
-            vm.decommissionYear = 2017;
+            vm.decommissionDate = date;
 
             vm.save();
 
             expect(inventoryItemService.save).toHaveBeenCalledWith({
                 functionalStatus: FUNCTIONAL_STATUS.OBSOLETE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
-                decommissionYear: 2017
+                decommissionDate: date
             });
         });
 
         it('should redirect to inventory list after successful save', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
-            vm.decommissionYear = 2017;
+            vm.decommissionDate = date;
 
             vm.save();
             expect($state.go).not.toHaveBeenCalled();
@@ -284,22 +284,22 @@ describe('StatusUpdateModalController', function() {
 
     });
 
-    describe('clearReasonAndDecommissionYear', function() {
+    describe('clearReasonAndDecommissionDate', function() {
 
         it('should clear reason', function() {
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
 
-            vm.clearReasonAndDecommissionYear();
+            vm.clearReasonAndDecommissionDate();
 
             expect(vm.reason).toBeUndefined();
         });
 
         it('should clear reason', function() {
-            vm.decommissionYear = 2017;
+            vm.decommissionDate = date;
 
-            vm.clearReasonAndDecommissionYear();
+            vm.clearReasonAndDecommissionDate();
 
-            expect(vm.decommissionYear).toBeUndefined();
+            expect(vm.decommissionDate).toBeUndefined();
         });
 
     });

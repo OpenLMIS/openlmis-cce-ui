@@ -46,7 +46,7 @@
         vm.getReasonLabel = getReasonLabel;
         vm.goToInventoryList = goToInventoryList;
         vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
-        vm.clearReasonAndDecommissionYear = clearReasonAndDecommissionYear;
+        vm.clearReasonAndDecommissionDate = clearReasonAndDecommissionDated;
 
         /**
          * @ngdoc method
@@ -63,7 +63,7 @@
             vm.statuses = FUNCTIONAL_STATUS.getStatuses();
             vm.reasons = REASON_FOR_NOT_WORKING.getReasons();
             vm.requiresAttention = inventoryItem.requiresAttention;
-            vm.decommissionYear = inventoryItem.decommissionYear;
+            vm.decommissionDate = inventoryItem.decommissionDate;
         }
 
         /**
@@ -140,7 +140,7 @@
 
             item.functionalStatus = vm.newStatus;
             item.reasonNotWorkingOrNotInUse = isFunctioning(vm.newStatus) ? undefined : vm.reason;
-            item.decommissionYear = isObsolete(vm.newStatus) ? vm.decommissionYear : undefined;
+            item.decommissionDate = isObsolete(vm.newStatus) ? vm.decommissionDate : undefined;
             item.requiresAttention = vm.requiresAttention;
 
             inventoryItemService.save(item).then(function() {
@@ -153,14 +153,14 @@
         /**
          * @ngdoc method
          * @methodOf cce-inventory-item-status.controller:StatusUpdateModalController
-         * @name clearReasonAndDecommissionYear
+         * @name clearReasonAndDecommissionDated
          *
          * @description
          * Clears the selected reason.
          */
-        function clearReasonAndDecommissionYear() {
+        function clearReasonAndDecommissionDated() {
             vm.reason = undefined;
-            vm.decommissionYear = undefined;
+            vm.decommissionDate = undefined;
         }
 
         /**
