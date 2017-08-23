@@ -17,18 +17,14 @@
 
     'use strict';
 
-    /**
-     * @module cce-add-inventory-item
-     *
-     * @description
-     * Provides Add Inventory Item modal.
-     */
-    angular.module('cce-add-inventory-item', [
-        'cce-catalog-item',
-        'openlmis-modal',
-        'openlmis-rights',
-        'ui.router',
-        'openlmis-facility-program-select'
-    ]);
+    angular
+        .module('cce-add-inventory-item')
+        .run(declareRight);
+
+    declareRight.$inject = ['facilityProgramCacheService', 'CCE_RIGHTS'];
+
+    function declareRight(facilityProgramCacheService, CCE_RIGHTS) {
+        facilityProgramCacheService.pushRightsForModule('cce-add-inventory-item', [CCE_RIGHTS.CCE_INVENTORY_EDIT]);
+    }
 
 })();
