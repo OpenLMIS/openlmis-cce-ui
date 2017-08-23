@@ -1,7 +1,7 @@
 {
     "cceAddInventoryItem.addNewColdChainEquipment": "Add New Cold Chain Equipment",
     "cceAddInventoryItem.equipmentType": "Equipment Type",
-    "cceAddInventoryItem.makeModel": "Make/Mode",
+    "cceAddInventoryItem.makeModel": "Make/Model",
     "cceAddInventoryItem.cancel": "Cancel",
     "cceAddInventoryItem.save": "Save",
     "cceAddInventoryItem.closeAddInventoryItemModal": "Are you sure you want to close the modal? All progress will be lost.",
