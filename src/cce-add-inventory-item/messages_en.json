@@ -3,7 +3,7 @@
     "cceAddInventoryItem.equipmentType": "Equipment Type",
     "cceAddInventoryItem.makeModel": "Make/Model",
     "cceAddInventoryItem.cancel": "Cancel",
-    "cceAddInventoryItem.save": "Save",
+    "cceAddInventoryItem.next": "Next",
     "cceAddInventoryItem.closeAddInventoryItemModal": "Are you sure you want to close the modal? All progress will be lost.",
     "cceAddInventoryItem.yes": "Yes",
     "cceAddInventoryItem.no": "No"
