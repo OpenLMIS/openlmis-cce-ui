@@ -38,7 +38,11 @@
                 <td>{{item.lastModifier.name}} {{item.modifiedDate | openlmisDate}}</td>
                 <td>{{item.yearOfInstallation}}</td>
                 <td>{{item.yearOfWarrantyExpiry}}</td>
-                <td><input type="button" value="{{'cceInventoryList.view' | message}}"/></td>
+                <td>
+                    <input type="button" class="inventory-item-details"
+                        value="{{'cceInventoryList.view' | message}}"
+                        ui-sref=".details({inventoryItemId: item.id, inventoryItem: item})"/>
+                </td>
             </tr>
         </tbody>
     </table>

@@ -1,0 +1,56 @@
+<div class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" ng-click="$hide()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h1 class="modal-title">
+                  {{'cceInventoryItemStatus.equipmentFunctionalStatus' | message}}
+              </h1>
+            </div>
+            <div class="modal-body">
+                <dl class="horizontal-list">
+                    <dt>{{'cceInventoryItemDetails.district' | message}}</dt>
+                    <dd>{{vm.inventoryItem.facility.geographicZone.name}}</dd>
+                    <dt>{{'cceInventoryItemDetails.facility' | message}}</dt>
+                    <dd>{{vm.inventoryItem.facility.name}}</dd>
+                    <dt>{{'cceInventoryItemDetails.equipmentType' | message}}</dt>
+                    <dd>{{vm.inventoryItem.catalogItem.type}}</dd>
+                    <dt>{{'cceInventoryItemDetails.makeModel' | message}}</dt>
+                    <dd>{{vm.inventoryItem.catalogItem | makeModel}}</dd>
+                    <dt>{{'cceInventoryItemDetails' | message}}</dt>
+                </dl>
+                <div class="sub-heading">
+                    <h3 class="title">
+                        {{'cceInventoryItemDetails.equipmentIdentification' | message}}
+                    </h3>
+                </div>
+                <dl id="source" ng-if="vm.inventoryItem.source">
+                    <dt>{{'cceInventoryItemDetails.source' | message}}</dt>
+                    <dd>{{vm.inventoryItem.source}}</dd>
+                </dl>
+                <dl id="year-of-warranty-expiry" ng-if="vm.inventoryItem.yearOfWarrantyExpiry">
+                    <dt>{{'cceInventoryItemDetails.yearOfWarrantyExpiry' | message}}</dt>
+                    <dd>{{vm.inventoryItem.yearOfWarrantyExpiry}}</dd>
+                </dl>
+                <dl id="additional-notes" ng-if="vm.inventoryItem.additionalNotes">
+                    <dt>{{'cceInventoryItemDetails.additionalNotes' | message}}</dt>
+                    <dd>{{vm.inventoryItem.additionalNotes}}</dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel"
+                    ng-click="vm.goToInventoryList()">{{'cceInventoryItemStatus.cancel' | message}}
+                </button>
+
+                <button id="update"
+                    class="primary"
+                    type="submit"
+                    form="status-update-form">
+                    {{'cceInventoryItemStatus.update' | message}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
