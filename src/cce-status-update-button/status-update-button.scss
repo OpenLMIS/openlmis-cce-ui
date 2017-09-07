@@ -1,10 +1,7 @@
-button.status-update {
-    @include icon('circle');
-    display: flex;
+button.cce-inventory-item-status {
     margin-bottom: 1em;
 
     &::before {
-        margin-right: 0.5em;
         font-size: 2em;
     }
 
@@ -13,18 +10,6 @@ button.status-update {
         content: '\f044';
         margin-left: 0.5em;
         font-size: 2em;
-    }
-
-    &.is-functioning::before {
-        color: $green;
-    }
-
-    &.is-non-functioning::before {
-        color: $red;
-    }
-
-    &.is-obsolete::before {
-        color: $gray;
     }
 }
 

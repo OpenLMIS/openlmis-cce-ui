@@ -19,10 +19,17 @@
 
     /**
      * @ngdoc directive
+     * @restrict E
      * @name cce-status-update-button.statusUpdateButton
      *
      * @description
+     * Adds a button for opening status update page.
      *
+     * @example
+     * Here's an example of code usage:
+     * ```
+     * <status-update-button inventory-item="inventoryItemObject"></status-update-button>
+     * ```
      */
     angular
         .module('cce-status-update-button')

@@ -1,4 +1,4 @@
-<button ng-click="vm.goToStatusUpdate(vm.inventoryItem)" class="status-update {{vm.getStatusClass(vm.inventoryItem.functionalStatus)}}">
+<button ng-click="vm.goToStatusUpdate(vm.inventoryItem)" class="cce-inventory-item-status {{vm.getStatusClass(vm.inventoryItem.functionalStatus)}}">
     <div class="inventory-item-status">
         <div>
             {{vm.getStatusLabel(vm.inventoryItem.functionalStatus) | message}}
