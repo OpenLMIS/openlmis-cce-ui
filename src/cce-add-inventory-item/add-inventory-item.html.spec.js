@@ -253,12 +253,12 @@ describe('add-inventory-item.html template', function() {
             form.triggerHandler('submit');
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.edit', {
-                inventoryItem: angular.toJson({
+                inventoryItem: {
                     facility: facility,
                     programId: 'program-id',
                     program: program,
                     catalogItem: catalogItem
-                })
+                }
             });
         });
 

@@ -27,7 +27,7 @@
         var dialog;
 
         $stateProvider.state('openlmis.cce.inventory.statusUpdate', {
-            url: '/:inventoryItemId/statusUpdate?inventoryItem',
+            url: '/:inventoryItemId/statusUpdate',
             params: {
                 inventoryItemId: undefined,
                 inventoryItem: undefined
@@ -36,9 +36,11 @@
             onExit: onExit
         });
 
-        onEnter.$inject = ['openlmisModalService', 'inventoryItemService', '$stateParams'];
+        onEnter.$inject = [
+            'openlmisModalService', 'inventoryItemService', '$stateParams', '$state'
+        ];
 
-        function onEnter(openlmisModalService, inventoryItemService, $stateParams) {
+        function onEnter(openlmisModalService, inventoryItemService, $stateParams, $state) {
             dialog = openlmisModalService.createDialog({
                 backdrop: 'static',
                 controller: 'StatusUpdateModalController',
@@ -47,9 +49,11 @@
                 resolve: {
                     inventoryItem: function() {
                         if ($stateParams.inventoryItem) {
-                            return angular.fromJson($stateParams.inventoryItem);
+                            return $stateParams.inventoryItem;
+                        } else if ($stateParams.inventoryItemId) {
+                            return inventoryItemService.get($stateParams.inventoryItemId);
                         }
-                        return inventoryItemService.get($stateParams.inventoryItemId);
+                        $state.go('openlmis.cce.inventory.add');
                     }
                 }
             });

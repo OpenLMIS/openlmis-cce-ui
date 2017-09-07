@@ -81,12 +81,12 @@ describe('AddInventoryItemController', function() {
             vm.addInventoryItem();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.edit', {
-                inventoryItem: angular.toJson({
+                inventoryItem: {
                     facility: facility,
                     programId: 'program-id',
                     program: program,
                     catalogItem: catalogItems[0]
-                })
+                }
             });
         });
 

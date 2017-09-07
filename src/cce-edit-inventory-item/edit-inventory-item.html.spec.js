@@ -514,7 +514,7 @@ describe('edit-inventory-item.html template', function() {
             form.triggerHandler('submit');
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
-                inventoryItem: angular.toJson(vm.inventoryItem)
+                inventoryItem: vm.inventoryItem
             });
         });
 

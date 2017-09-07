@@ -70,6 +70,7 @@ describe('openlmis.cce.inventory.edit state', function() {
 
         $stateParams = {};
 
+        spyOn($state, 'go');
         spyOn(openlmisModalService, 'createDialog').andReturn(dialogSpy);
         spyOn(inventoryItemService, 'get').andReturn($q.when(inventoryItemTwo));
 
@@ -134,8 +135,14 @@ describe('openlmis.cce.inventory.edit state', function() {
             expect(result).toBe(inventoryItem);
         });
 
-        it('should not close on backdrop click', function() {
-            expect(modal.backdrop).toEqual('static');
+        it('should redirect user to the add page if no ID or item is given', function() {
+            state.onEnter(openlmisModalService, $stateParams, inventoryItemService, $state);
+            modal = openlmisModalService.createDialog.calls[0].args[0];
+
+            modal.resolve.inventoryItem();
+            $rootScope.$apply();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.add');
         });
 
     });

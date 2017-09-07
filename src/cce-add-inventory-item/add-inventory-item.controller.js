@@ -83,12 +83,12 @@
          */
         function addInventoryItem() {
             $state.go('openlmis.cce.inventory.edit', {
-                inventoryItem: angular.toJson({
+                inventoryItem: {
                     facility: vm.facility,
                     programId: vm.program.id,
                     program: vm.program,
                     catalogItem: vm.catalogItem
-                })
+                }
             });
         }
 

@@ -30,19 +30,14 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
         expect(state.params.hasOwnProperty('inventoryItemId')).toBe(true);
     });
 
-    it('should accept inventoryItem object through query params', function() {
-        expect(state.url.split('?')[1].indexOf('inventoryItem') > -1).toBe(true);
-        expect(state.params.hasOwnProperty('inventoryItem')).toBe(true);
-    });
-
     describe('modal', function() {
 
         it('should not close backdrop click', function() {
             expect(getModal().backdrop).toEqual('static');
         });
 
-        it('should pass deserialized inventory item if if was given through query params', function() {
-            $stateParams.inventoryItem = angular.toJson(inventoryItem);
+        it('should use inventory item from state params if it was given', function() {
+            $stateParams.inventoryItem = inventoryItem;
 
             expect(getModal().resolve.inventoryItem()).toEqual(inventoryItem);
         });
@@ -58,6 +53,16 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
             $rootScope.$apply();
 
             expect(result).toEqual(inventoryItem);
+        });
+
+        it('should redirect user to the add page if no ID or item is given', function() {
+            state.onEnter(openlmisModalService, $stateParams, inventoryItemService, $state);
+            modal = openlmisModalService.createDialog.calls[0].args[0];
+
+            getModal().resolve.inventoryItem();
+            $rootScope.$apply();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.add');
         });
 
         function getModal() {
@@ -136,6 +141,7 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
     }
 
     function prepareSpies() {
+        spyOn($state, 'go');
         spyOn(openlmisModalService, 'createDialog').andReturn(dialogSpy);
         spyOn(inventoryItemService, 'get').andReturn($q.when(inventoryItem));
     }

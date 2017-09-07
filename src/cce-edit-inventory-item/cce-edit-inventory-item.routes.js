@@ -28,7 +28,7 @@
 
         $stateProvider.state('openlmis.cce.inventory.edit', {
             accessRights: [CCE_RIGHTS.CCE_INVENTORY_EDIT],
-            url: '/:inventoryItemId/edit?inventoryItem',
+            url: '/:inventoryItemId/edit',
             onEnter: onEnter,
             onExit: onExit,
             params: {
@@ -37,8 +37,10 @@
             }
         });
 
-        onEnter.$inject = ['openlmisModalService', '$stateParams', 'inventoryItemFactory'];
-        function onEnter(openlmisModalService, $stateParams, inventoryItemFactory) {
+        onEnter.$inject = [
+            'openlmisModalService', '$stateParams', 'inventoryItemFactory', '$state'
+        ];
+        function onEnter(openlmisModalService, $stateParams, inventoryItemFactory, $state) {
             dialog = openlmisModalService.createDialog({
                 backdrop: 'static',
                 controller: 'EditInventoryItemController',
@@ -47,9 +49,11 @@
                 resolve: {
                     inventoryItem: function() {
                         if ($stateParams.inventoryItem) {
-                            return angular.fromJson($stateParams.inventoryItem);
+                            return $stateParams.inventoryItem;
+                        } else if ($stateParams.inventoryItemId) {
+                            return inventoryItemFactory.get($stateParams.inventoryItemId);
                         }
-                        return inventoryItemFactory.get($stateParams.inventoryItemId);
+                        $state.go('openlmis.cce.inventory.add');
                     }
                 }
             });

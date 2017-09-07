@@ -162,7 +162,7 @@ describe('EditInventoryItemController', function() {
             vm.goToStatusUpdate();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
-                inventoryItem: angular.toJson(vm.inventoryItem)
+                inventoryItem: vm.inventoryItem
             });
         });
 
