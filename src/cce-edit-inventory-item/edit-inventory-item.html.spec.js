@@ -13,10 +13,10 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('edit-inventory-item.html template', function() {
+ddescribe('edit-inventory-item.html template', function() {
 
     var vm, $controller, $compile, $rootScope, $templateRequest, $timeout, $state, template,
-        ENERGY_SOURCE;
+        ENERGY_SOURCE, messages, messageService;
 
     beforeEach(function() {
         module('openlmis-templates');
@@ -31,6 +31,7 @@ describe('edit-inventory-item.html template', function() {
             $timeout = $injector.get('$timeout');
             $state = $injector.get('$state');
             ENERGY_SOURCE = $injector.get('ENERGY_SOURCE');
+            messageService = $injector.get('messageService');
         });
 
         inventoryItem = {
@@ -49,7 +50,35 @@ describe('edit-inventory-item.html template', function() {
             }
         };
 
+        messages = {
+            'cceEditInventoryItem.addNewColdChainEquipment': 'Add New Cold Chain Equipment',
+            'cceEditInventoryItem.editEquipmentDetails': 'Edit equipment details'
+        };
+
         spyOn($state, 'go').andReturn();
+        spyOn(messageService, 'get').andCallFake(function(key) {
+            return messages[key];
+        });
+    });
+
+    describe('modal title', function() {
+
+        it('should be "Edit equipment details" if inventory item has ID', function() {
+            inventoryItem.id = '40921ba0-1645-4399-90f8-fb1530b55523';
+
+            prepareView();
+            dump();
+
+            expect(getElement('h2').html().indexOf('Edit equipment details') > -1).toEqual(true);
+        });
+
+        it('should be "Add New Cold Chain Equipment" if inventory item has no ID', function() {
+            prepareView();
+
+            expect(getElement('h2').html().indexOf('Add New Cold Chain Equipment') > -1)
+                .toEqual(true);
+        });
+
     });
 
     describe('Serial number input', function() {

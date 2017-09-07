@@ -121,11 +121,25 @@ describe('inventory-item-details.html', function() {
 
     describe('Close button', function() {
 
-        it('should user to the inventory item list', function() {
+        it('should take user to the inventory item list', function() {
             templateTestingUtils.getButton('close').click();
             $timeout.flush();
 
             expect($state.go.calls[0].args[0]).toEqual('openlmis.cce.inventory');
+        });
+
+    });
+
+    describe('Edit button', function() {
+
+        it('should take user to the inventory item edit page', function() {
+            templateTestingUtils.getButton('edit').click();
+            $timeout.flush();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.edit', {
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
+            });
         });
 
     });

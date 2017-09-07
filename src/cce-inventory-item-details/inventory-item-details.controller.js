@@ -30,15 +30,16 @@
 
     InventoryItemDetailsController.$inject = [
         'inventoryItem', 'CCE_STATUS', 'UTILIZATION_STATUS', 'MANUAL_TEMPERATURE_GAUGE_TYPE',
-        'REMOTE_TEMPERATURE_MONITOR_TYPE',
+        'REMOTE_TEMPERATURE_MONITOR_TYPE', '$state'
     ];
 
     function InventoryItemDetailsController(inventoryItem, CCE_STATUS, UTILIZATION_STATUS,
                                             MANUAL_TEMPERATURE_GAUGE_TYPE,
-                                            REMOTE_TEMPERATURE_MONITOR_TYPE) {
+                                            REMOTE_TEMPERATURE_MONITOR_TYPE, $state) {
         var vm = this;
 
         vm.$onInit = onInit;
+        vm.goToEditPage = goToEditPage;
 
         /**
          * @ngdoc method
@@ -54,6 +55,20 @@
             vm.getUtilizationStatusLabel = UTILIZATION_STATUS.getLabel;
             vm.getManualTemperatureGaugeTypeLabel = MANUAL_TEMPERATURE_GAUGE_TYPE.getLabel;
             vm.getRemoteTemperatureMonitorTypeLabel = REMOTE_TEMPERATURE_MONITOR_TYPE.getLabel;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item-details.controller:InventoryItemDetailsController
+         * @name goToEditPage
+         *
+         * @param   {Object}    inventoryItem   the inventory item to open the edit page for
+         */
+        function goToEditPage(inventoryItem) {
+            $state.go('openlmis.cce.inventory.edit', {
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
+            });
         }
     }
 

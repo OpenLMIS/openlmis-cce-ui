@@ -16,15 +16,11 @@
 describe('InventoryItemDetailsController', function() {
 
     var vm, inventoryItem, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, UTILIZATION_STATUS,
-        REMOTE_TEMPERATURE_MONITOR_TYPE, $controller;
+        REMOTE_TEMPERATURE_MONITOR_TYPE, $controller, $state;
 
     beforeEach(prepareSuite);
 
     describe('$onInit', function() {
-
-        beforeEach(function() {
-            vm.$onInit();
-        });
 
         it('should expose inventoryItem', function() {
             expect(vm.inventoryItem).toEqual(inventoryItem);
@@ -50,10 +46,24 @@ describe('InventoryItemDetailsController', function() {
 
     });
 
+    describe('goToEditPage', function() {
+
+        it('should take user to the inventory item edit page', function() {
+            vm.goToEditPage(inventoryItem);
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.edit', {
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
+            });
+        });
+
+    });
+
     function prepareSuite() {
         module('cce-inventory-item-details');
         inject(services);
         prepareTestData();
+        prepareSpies();
         prepareController();
     }
 
@@ -63,6 +73,7 @@ describe('InventoryItemDetailsController', function() {
         MANUAL_TEMPERATURE_GAUGE_TYPE = $injector.get('MANUAL_TEMPERATURE_GAUGE_TYPE');
         REMOTE_TEMPERATURE_MONITOR_TYPE = $injector.get('REMOTE_TEMPERATURE_MONITOR_TYPE');
         UTILIZATION_STATUS = $injector.get('UTILIZATION_STATUS');
+        $state = $injector.get('$state');
     }
 
     function prepareTestData() {
@@ -71,10 +82,15 @@ describe('InventoryItemDetailsController', function() {
         };
     }
 
+    function prepareSpies() {
+        spyOn($state, 'go');
+    }
+
     function prepareController() {
         vm = $controller('InventoryItemDetailsController', {
             inventoryItem: inventoryItem
         });
+        vm.$onInit();
     }
 
 });

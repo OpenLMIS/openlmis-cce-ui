@@ -26,5 +26,6 @@
     "cceEditInventoryItem.yes": "Yes",
     "cceEditInventoryItem.no": "No",
     "cceEditInventoryItem.utilization": "Utilization",
-    "cceEditInventoryItem.remoteTemperatureMonitor": "Remote Temperature Monitor"
+    "cceEditInventoryItem.remoteTemperatureMonitor": "Remote Temperature Monitor",
+    "cceEditInventoryItem.editEquipmentDetails": "Edit Equipment Details"
 }

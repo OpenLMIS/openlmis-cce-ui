@@ -17,5 +17,6 @@
     "cceInventoryItemDetails.close": "Close",
     "cceInventoryItemDetails.additionalNotes": "Additional Notes",
     "cceInventoryItemDetails.remoteTemperatureMonitor": "Remote Temperature Monitor",
-    "cceInventoryItemDetails.utilization": "Utilization"
+    "cceInventoryItemDetails.utilization": "Utilization",
+    "cceInventoryItemDetails.edit": "Edit"
 }
