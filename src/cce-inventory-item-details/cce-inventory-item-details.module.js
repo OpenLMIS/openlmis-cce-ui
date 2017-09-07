@@ -21,7 +21,7 @@
      * @module cce-inventory-item-details
      *
      * @description
-     *
+     * Provides Inventory Item Details page.
      */
     angular.module('cce-inventory-item-details', [
         'ui.router',
