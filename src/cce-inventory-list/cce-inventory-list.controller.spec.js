@@ -79,7 +79,8 @@ describe('CceInventoryListController', function () {
             vm.goToStatusUpdate(inventoryItems[0]);
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
-                inventoryItem: angular.toJson(inventoryItems[0])
+                inventoryItem: inventoryItems[0],
+                inventoryItemId: inventoryItems[0].id
             });
         });
 

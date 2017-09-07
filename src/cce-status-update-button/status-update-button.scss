@@ -1,0 +1,47 @@
+button.status-update {
+    @include icon('circle');
+    display: flex;
+    margin-bottom: 1em;
+
+    &::before {
+        margin-right: 0.5em;
+        font-size: 2em;
+    }
+
+    &::after {
+        font: 'FontAwesome';
+        content: '\f044';
+        margin-left: 0.5em;
+        font-size: 2em;
+    }
+
+    &.is-functioning::before {
+        color: $green;
+    }
+
+    &.is-non-functioning::before {
+        color: $red;
+    }
+
+    &.is-obsolete::before {
+        color: $gray;
+    }
+}
+
+.inventory-item-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    & > div:first-of-type {
+        font-weight: bold;
+    }
+
+    & > div:last-of-type {
+        display: flex;
+        & > div:first-of-type {
+            font-style: italic;
+            margin-right: 0.5em;
+        }
+    }
+}

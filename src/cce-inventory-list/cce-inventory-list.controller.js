@@ -125,7 +125,8 @@
 
         function goToStatusUpdate(inventoryItem) {
             $state.go('openlmis.cce.inventory.statusUpdate', {
-                inventoryItem: angular.toJson(inventoryItem)
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
             });
         }
     }
