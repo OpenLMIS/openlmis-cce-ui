@@ -30,8 +30,7 @@
             onEnter: onEnter,
             onExit: onExit,
             params: {
-                inventoryItem: undefined,
-                inventoryItemId: undefined
+                inventoryItem: undefined
             },
             resolve: {
                 inventoryItem: function($stateParams, inventoryItemFactory) {
