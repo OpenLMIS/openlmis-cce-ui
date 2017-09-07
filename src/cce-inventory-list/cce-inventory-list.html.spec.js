@@ -15,25 +15,14 @@
 
 describe('cce-inventory-list template', function () {
 
-    var template, $compile, $rootScope, $scope, $templateRequest, $controller, vm,
-        authorizationService, $timeout, $state;
+    var template, $rootScope, $scope, vm, authorizationService, $timeout, $state,
+        templateTestingUtils, inventoryItem, inventoryItemId;
 
     beforeEach(function() {
-        module('cce-inventory-list', function($provide) {
-            $provide.factory('openlmisPaginationDirective', function() {
-                return {};
-            });
-        });
-
-        inject(function($injector) {
-            $controller = $injector.get('$controller');
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
-            $templateRequest = $injector.get('$templateRequest');
-            $timeout = $injector.get('$timeout');
-            $state = $injector.get('$state');
-            authorizationService = $injector.get('authorizationService');
-        });
+        loadModules();
+        injectServices();
+        prepareTestData();
+        initTestingUtils(this);
 
         spyOn(authorizationService, 'hasRight');
         spyOn($state, 'go');
@@ -46,7 +35,7 @@ describe('cce-inventory-list template', function () {
 
             prepareView();
 
-            expect(getAddInventoryButton().hasClass('ng-hide')).toBe(true);
+            expect(templateTestingUtils.getButton('add-inventory-item')).toBeHidden();
         });
 
         it('should be visible if user has rights to edit', function() {
@@ -54,7 +43,7 @@ describe('cce-inventory-list template', function () {
 
             prepareView();
 
-            expect(getAddInventoryButton().hasClass('ng-hide')).toBe(false);
+            expect(templateTestingUtils.getButton('add-inventory-item')).not.toBeHidden();
         });
 
         it('should take user to the add inventory item modal', function() {
@@ -62,7 +51,7 @@ describe('cce-inventory-list template', function () {
 
             prepareView();
 
-            getAddInventoryButton().click();
+            templateTestingUtils.getButton('add-inventory-item').click();
             $timeout.flush();
 
             expect($state.go.calls[0].args[0]).toEqual('openlmis.cce.inventory.add');
@@ -70,31 +59,64 @@ describe('cce-inventory-list template', function () {
 
     });
 
-    function prepareView() {
-        vm = $controller('CceInventoryListController', {
-            inventoryItems: undefined
-        });
-        vm.$onInit();
+    describe('View button', function() {
 
-        $scope = $rootScope.$new();
-        $scope.vm = vm;
+        it('should take user to the Inventory Item Details page', function() {
+            prepareView();
 
-        $templateRequest("cce-inventory-list/cce-inventory-list.html").then(function(requested) {
-            template = $compile(requested)($scope);
+            templateTestingUtils.getInputs('inventory-item-details')[0].click();
+            $timeout.flush();
+
+            expect($state.go.calls[0].args[0]).toEqual('.details');
         });
-        $rootScope.$apply();
+
+    });
+
+    function loadModules() {
+        module('openlmis-testing-utils');
+        module('cce-inventory-list', function($provide) {
+            $provide.factory('openlmisPaginationDirective', function() {
+                return {};
+            });
+        });
     }
 
-    function getAddInventoryButton() {
-        var result;
-
-        angular.forEach(template.find('button'), function(button) {
-            var element = angular.element(button);
-            if (element.attr('id') === 'add-inventory-item') {
-                result = element;
-            }
+    function injectServices() {
+        inject(function($injector) {
+            $rootScope = $injector.get('$rootScope');
+            $timeout = $injector.get('$timeout');
+            $state = $injector.get('$state');
+            authorizationService = $injector.get('authorizationService');
+            templateTestingUtils = $injector.get('templateTestingUtils');
         });
+    }
 
-        return result;
+    function prepareTestData() {
+        inventoryItemId = 'b545e2dd-b38e-4c06-aa1b-4e1f2f12da6e';
+        inventoryItem = {
+            id: inventoryItemId,
+            catalogItem: {
+                manufacturer: 'Haeier',
+                model: 'LPL-1000'
+            },
+            functionalStatus: 'FUNCTIONING'
+        };
+    }
+
+    function initTestingUtils(suite) {
+        templateTestingUtils.init(suite);
+    }
+
+    function prepareView() {
+        var testContext = templateTestingUtils.prepareView(
+            'cce-inventory-list/cce-inventory-list.html',
+            'CceInventoryListController', {
+                inventoryItems: [
+                    inventoryItem
+                ]
+            });
+
+        vm = testContext.$scope.vm;
+        template = testContext.template;
     }
 });

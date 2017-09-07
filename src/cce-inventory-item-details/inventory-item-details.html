@@ -1,0 +1,72 @@
+<div class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">
+                  {{vm.inventoryItem.referenceName}}
+              </h1>
+            </div>
+            <div class="modal-body">
+                <dl class="horizontal-list">
+                    <dt>{{'cceInventoryItemDetails.district' | message}}</dt>
+                    <dd>{{vm.inventoryItem.facility.geographicZone.name}}</dd>
+                    <dt>{{'cceInventoryItemDetails.facility' | message}}</dt>
+                    <dd>{{vm.inventoryItem.facility.name}}</dd>
+                    <dt>{{'cceInventoryItemDetails.equipmentType' | message}}</dt>
+                    <dd>{{vm.inventoryItem.catalogItem.type}}</dd>
+                    <dt>{{'cceInventoryItemDetails.makeModel' | message}}</dt>
+                    <dd>{{vm.inventoryItem.catalogItem | makeModel}}</dd>
+                    <dt>{{'cceInventoryItemDetails.serialNumber' | message}}</dt>
+                    <dd>{{vm.inventoryItem.equipmentTrackingId}}</dd>
+                </dl>
+
+                <div class="sub-heading">
+                    <h3 class="title">
+                        {{'cceInventoryItemDetails.equipmentIdentification' | message}}
+                    </h3>
+                </div>
+                <dl class="horizontal-list">
+                    <dt>{{'cceInventoryItemDetails.utilization' | message}}</dt>
+                    <dd id="utilization">{{vm.getUtilizationStatusLabel(vm.inventoryItem.utilization) | message}}</dd>
+                    <dt>{{'cceInventoryItemDetails.yearOfInstallation' | message}}</dt>
+                    <dd>{{vm.inventoryItem.yearOfInstallation}}</dd>
+                </dl>
+                <dl class="horizontal-list" id="source" ng-if="vm.inventoryItem.source">
+                    <dt>{{'cceInventoryItemDetails.source' | message}}</dt>
+                    <dd>{{vm.inventoryItem.source}}</dd>
+                </dl>
+                <dl id="year-of-warranty-expiry" ng-if="vm.inventoryItem.yearOfWarrantyExpiry">
+                    <dt>{{'cceInventoryItemDetails.yearOfWarrantyExpiry' | message}}</dt>
+                    <dd>{{vm.inventoryItem.yearOfWarrantyExpiry}}</dd>
+                </dl>
+
+                <div class="sub-heading">
+                    <h3 class="title">
+                        {{'cceInventoryItemDetails.equipmentInstallation' | message}}
+                    </h3>
+                </div>
+                <dl class="horizontal-list">
+                    <dt>{{'cceInventoryItemDetails.voltageStabilizer' | message}}</dt>
+                    <dd id="voltage-stabilizer">{{vm.getStatusLabel(vm.inventoryItem.voltageStabilizer) | message}}</dd>
+                    <dt>{{'cceInventoryItemDetails.backupGenerator' | message}}</dt>
+                    <dd id="backup-generator">{{vm.getStatusLabel(vm.inventoryItem.backupGenerator) | message}}</dd>
+                    <dt>{{'cceInventoryItemDetails.voltageRegulator' | message}}</dt>
+                    <dd id="voltage-regulator">{{vm.getStatusLabel(vm.inventoryItem.voltageRegulator) | message}}</dd>
+                    <dt>{{'cceInventoryItemDetails.manualTemperatureGauge' | message}}</dt>
+                    <dd id="manual-temperature-gauge">{{vm.getManualTemperatureGaugeTypeLabel(vm.inventoryItem.manualTemperatureGauge) | message}}</dd>
+                    <dt>{{'cceInventoryItemDetails.remoteTemperatureMonitor' | message}}</dt>
+                    <dd id="remote-temperature-monitor">{{vm.getRemoteTemperatureMonitorTypeLabel(vm.inventoryItem.remoteTemperatureMonitor) | message}}</dd>
+                </dl>
+                <dl id="additional-notes" ng-if="vm.inventoryItem.additionalNotes">
+                    <dt>{{'cceInventoryItemDetails.additionalNotes' | message}}</dt>
+                    <dd>{{vm.inventoryItem.additionalNotes}}</dd>
+                </dl>
+            </div>
+            <div class="modal-footer">
+                <button id="close" ui-sref="openlmis.cce.inventory">
+                    {{'cceInventoryItemDetails.close' | message}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

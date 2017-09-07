@@ -1,0 +1,21 @@
+{
+    "cceInventoryItemDetails.district": "District",
+    "cceInventoryItemDetails.facility": "Facility",
+    "cceInventoryItemDetails.equipmentType": "Equipment Type",
+    "cceInventoryItemDetails.makeModel": "Make/Model",
+    "cceInventoryItemDetails.serialNumber": "Serial Number",
+    "cceInventoryItemDetails.equipmentHistory": "Equipment History",
+    "cceInventoryItemDetails.yearOfInstallation": "Year of Installation/Commission",
+    "cceInventoryItemDetails.source": "Source",
+    "cceInventoryItemDetails.yearOfWarrantyExpiry": "Year of Warranty Expiry",
+    "cceInventoryItemDetails.equipmentIdentification": "Equipment Identification",
+    "cceInventoryItemDetails.equipmentInstallation": "Equipment Installation",
+    "cceInventoryItemDetails.voltageStabilizer": "Voltage Stabilizer",
+    "cceInventoryItemDetails.backupGenerator": "Backup Generator",
+    "cceInventoryItemDetails.voltageRegulator": "Voltage Regulator",
+    "cceInventoryItemDetails.manualTemperatureGauge": "Manual Temperature Gauge",
+    "cceInventoryItemDetails.close": "Close",
+    "cceInventoryItemDetails.additionalNotes": "Additional Notes",
+    "cceInventoryItemDetails.remoteTemperatureMonitor": "Remote Temperature Monitor",
+    "cceInventoryItemDetails.utilization": "Utilization"
+}
