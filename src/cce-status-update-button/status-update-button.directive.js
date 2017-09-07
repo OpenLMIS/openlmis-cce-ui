@@ -35,8 +35,6 @@
         .module('cce-status-update-button')
         .directive('statusUpdateButton', statusUpdateButtonDirective);
 
-    statusUpdateButtonDirective.$inject = [];
-
     function statusUpdateButtonDirective() {
         var directive = {
             controller: 'StatusUpdateButtonController',
