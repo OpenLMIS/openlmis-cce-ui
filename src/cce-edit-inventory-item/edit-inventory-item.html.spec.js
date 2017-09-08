@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-ddescribe('edit-inventory-item.html template', function() {
+describe('edit-inventory-item.html template', function() {
 
     var vm, $controller, $compile, $rootScope, $templateRequest, $timeout, $state, template,
         ENERGY_SOURCE, messages, messageService;

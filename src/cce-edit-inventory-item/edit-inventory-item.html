@@ -2,11 +2,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 ng-if="!vm.inventoryItem.id">
-                    {{'cceEditInventoryItem.addNewColdChainEquipment' | message}}
-                </h2>
-                <h2 ng-if="vm.inventoryItem.id">
-                    {{'cceEditInventoryItem.editEquipmentDetails' | message}}
+                <h2>
+                    {{'cceEditInventoryItem.' + (vm.inventoryItem.id ? 'editEquipmentDetails' : 'addNewColdChainEquipment') | message}}
                 </h2>
             </div>
             <div class="modal-body">
