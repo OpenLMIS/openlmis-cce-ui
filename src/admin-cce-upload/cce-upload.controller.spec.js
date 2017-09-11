@@ -48,6 +48,10 @@ describe('CceUploadController', function () {
         it('should expose upload method', function() {
             expect(angular.isFunction(vm.upload)).toBe(true);
         });
+
+        it('should expose getExportUrl method', function() {
+            expect(angular.isFunction(vm.getExportUrl)).toBe(true);
+        });
     });
 
     describe('upload', function() {
@@ -97,6 +101,19 @@ describe('CceUploadController', function () {
 
             expect(notificationService.error).toHaveBeenCalledWith('adminCceUpload.fileIsNotSelected');
             expect(catalogItemService.upload).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('getExportUrl', function() {
+
+        it('should call catalogItemService and return download url', function() {
+            var downloadUrl = "some-domain/download";
+            spyOn(catalogItemService, 'getDownloadUrl').andReturn(downloadUrl);
+
+            var result = vm.getExportUrl();
+
+            expect(result).toEqual(downloadUrl);
+            expect(catalogItemService.getDownloadUrl).toHaveBeenCalled();
         });
     });
 });

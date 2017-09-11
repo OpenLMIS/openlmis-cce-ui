@@ -67,7 +67,6 @@ describe('edit-inventory-item.html template', function() {
             inventoryItem.id = '40921ba0-1645-4399-90f8-fb1530b55523';
 
             prepareView();
-            dump();
 
             expect(getElement('h2').html().indexOf('Edit equipment details') > -1).toEqual(true);
         });

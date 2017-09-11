@@ -34,6 +34,7 @@
 
         var vm = this;
 
+        vm.getExportUrl = getExportUrl;
         vm.upload = upload;
 
         /**
@@ -90,6 +91,18 @@
                     loadingModalService.close();
                 });
             }
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf admin-cce-upload.controller:CceUploadController
+         * @name getExportUrl
+         *
+         * @description
+         * Returns url for downloading csv file with all catalog items.
+         */
+        function getExportUrl() {
+            return catalogItemService.getDownloadUrl();
         }
     }
 

@@ -18,7 +18,14 @@ describe('catalogItemService', function() {
     var $rootScope, $httpBackend, cceUrlFactory, catalogItemService, catalogItems;
 
     beforeEach(function() {
-        module('cce-catalog-item');
+        module('cce-catalog-item', function($provide) {
+            cceUrlFactory = jasmine.createSpy().andCallFake(function(value) {
+                return value;
+            });
+            $provide.factory('cceUrlFactory', function() {
+                return cceUrlFactory;
+            });
+        });
 
         inject(function($injector) {
             $httpBackend = $injector.get('$httpBackend');
@@ -191,6 +198,20 @@ describe('catalogItemService', function() {
             expect(angular.toJson(result)).toEqual(angular.toJson(response));
         });
 
+    });
+
+    describe('getDownloadUrl', function() {
+
+        it('should expose getDownloadUrl method', function() {
+            expect(angular.isFunction(catalogItemService.getDownloadUrl)).toBe(true);
+        });
+
+        it('should call cceUrlFactory', function(){
+            var result = catalogItemService.getDownloadUrl();
+
+            expect(result).toEqual('/api/catalogItems/download');
+            expect(cceUrlFactory).toHaveBeenCalledWith('/api/catalogItems/download');
+        });
     });
 
     afterEach(function() {

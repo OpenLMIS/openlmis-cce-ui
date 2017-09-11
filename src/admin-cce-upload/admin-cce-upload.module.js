@@ -24,6 +24,7 @@
      * Provides cce catalog item upload screen for administrator.
      */
     angular.module('admin-cce-upload', [
+        'openlmis-auth',
         'openlmis-i18n',
         'openlmis-modal',
         'openlmis-rights',

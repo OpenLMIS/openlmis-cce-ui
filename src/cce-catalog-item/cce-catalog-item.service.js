@@ -55,7 +55,8 @@
             get: get,
             getAll: getAll,
             upload: upload,
-            search: search
+            search: search,
+            getDownloadUrl: getDownloadUrl
         };
 
         /**
@@ -105,6 +106,20 @@
             formData.append('file', file);
 
             return resource.upload(formData).$promise;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-catalog-item.catalogItemService
+         * @name getDownloadUrl
+         *
+         * @description
+         * Returns URL for downloading catalog items in csv format file.
+         *
+         * @return {String} the URL for downloading catalog items
+         */
+        function getDownloadUrl() {
+            return cceUrlFactory('/api/catalogItems/download');
         }
 
         function search(archived, visibleInCatalog) {

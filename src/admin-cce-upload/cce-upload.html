@@ -1,5 +1,9 @@
-<h2>{{'adminCceUpload.uploadCCECatalogItems' | message}}</h2>
+<h2>{{'adminCceUpload.manageCCECatalog' | message}}</h2>
 <form id="catalogItemUpload" ng-submit="vm.upload()">
+    <aside class="export">
+        {{'adminCceUpload.viewCurrentCCECatalogAsCsv' | message}}
+        <input openlmis-download="{{vm.getExportUrl()}}" type="button" value="{{'adminCceUpload.export' | message}}"/>
+    </aside>
     <p>{{'adminCceUpload.cceUploadDescription' | message}}</p>
     <fieldset openlmis-invalid="{{ vm.invalidMessage }}" class="form-group">
         <label for="file">{{'adminCceUpload.csvFile' | message}}</label>
