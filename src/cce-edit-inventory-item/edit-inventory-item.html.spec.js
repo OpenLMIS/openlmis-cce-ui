@@ -15,8 +15,8 @@
 
 describe('edit-inventory-item.html template', function() {
 
-    var vm, $controller, $compile, $rootScope, $templateRequest, $timeout, $state, template,
-        ENERGY_SOURCE, messages, messageService;
+    var vm, $controller, $compile, $rootScope, $templateRequest, $timeout, $state, template, $q,
+        ENERGY_SOURCE, messages, messageService, inventoryItemService, saveDeferred, inventoryItem;
 
     beforeEach(function() {
         module('openlmis-templates');
@@ -32,6 +32,8 @@ describe('edit-inventory-item.html template', function() {
             $state = $injector.get('$state');
             ENERGY_SOURCE = $injector.get('ENERGY_SOURCE');
             messageService = $injector.get('messageService');
+            inventoryItemService = $injector.get('inventoryItemService');
+            $q = $injector.get('$q');
         });
 
         inventoryItem = {
@@ -55,7 +57,10 @@ describe('edit-inventory-item.html template', function() {
             'cceEditInventoryItem.editEquipmentDetails': 'Edit equipment details'
         };
 
+        saveDeferred = $q.defer();
+
         spyOn($state, 'go').andReturn();
+        spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
         spyOn(messageService, 'get').andCallFake(function(key) {
             return messages[key];
         });
@@ -518,16 +523,15 @@ describe('edit-inventory-item.html template', function() {
 
     });
 
-    describe('edit-inventory-item-form', function() {
+    describe('edit-inventory-item-form submit', function() {
 
         var form;
 
         beforeEach(function() {
             prepareView();
             form = getElement('form', 'edit-inventory-item-form');
-        });
 
-        it('should take user to the status update modal after submit', function() {
+            vm.inventoryItem.id = '9c704186-6191-4434-b39f-71be7ca87304';
             vm.inventoryItem.equipmentTrackingId = 'some-serial-number';
             vm.inventoryItem.referenceName = 'Reference Name';
             vm.inventoryItem.yearOfInstallation = 1998;
@@ -537,6 +541,10 @@ describe('edit-inventory-item.html template', function() {
             vm.inventoryItem.manualTemperatureGauge = 'BUILD_IN';
             vm.inventoryItem.remoteTemperatureMonitor = 'BUILD_IN';
             vm.inventoryItem.utilization = 'ACTIVE';
+        });
+
+        it('should take user to the status update page if inventory item has no ID', function() {
+            vm.inventoryItem.id = undefined;
 
             $rootScope.$apply();
             form.triggerHandler('submit');
@@ -547,18 +555,43 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should not take user anywhere if form is invalid', function() {
-            vm.inventoryItem.equipmentTrackingId = 'some-serial-number';
-            vm.inventoryItem.referenceName = 'Reference Name';
-            vm.inventoryItem.yearOfInstallation = 1998;
-            vm.inventoryItem.voltageStabilizer = undefined;
-            vm.inventoryItem.voltageRegulator = 'NO';
-            vm.inventoryItem.backupGenerator = 'UNKNOWN';
-            vm.inventoryItem.manualTemperatureGauge = 'BUILD_IN';
+            vm.inventoryItem.remoteTemperatureMonitor = undefined;
+            vm.inventoryItem.utilization = undefined;
 
             $rootScope.$apply();
             form.triggerHandler('submit');
 
             expect($state.go).not.toHaveBeenCalled();
+        });
+
+        it('should not save inventory item if form is invalid', function() {
+            vm.inventoryItem.remoteTemperatureMonitor = undefined;
+            vm.inventoryItem.utilization = undefined;
+
+            $rootScope.$apply();
+            form.triggerHandler('submit');
+
+            expect(inventoryItemService.save).not.toHaveBeenCalled();
+        });
+
+        it('should save inventory item if it it has ID', function() {
+            $rootScope.$apply();
+            form.triggerHandler('submit');
+
+            expect(inventoryItemService.save).toHaveBeenCalledWith(inventoryItem);
+        });
+
+        it('should take user to the to the details page if inventory item has ID', function() {
+            $rootScope.$apply();
+            form.triggerHandler('submit');
+
+            saveDeferred.resolve(inventoryItem);
+            $rootScope.$apply();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
+                inventoryItem: vm.inventoryItem,
+                inventoryItemId: vm.inventoryItem.id
+            });
         });
 
     });
@@ -600,11 +633,23 @@ describe('edit-inventory-item.html template', function() {
             formCtrl = getElement('form', 'edit-inventory-item-form').controller('form');
         });
 
-        it('should take user back to the inventory item list if the form was not dirty', function() {
+        it('should take user back to the inventory item list if the form was not dirty and inventory item has no ID', function() {
             button.click();
             $timeout.flush();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
+        });
+
+        it('should take user back to the details page if the form was not dirty and inventory item has ID', function() {
+            vm.inventoryItem.id = '9c704186-6191-4434-b39f-71be7ca87304';
+
+            button.click();
+            $timeout.flush();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
+                inventoryItem: vm.inventoryItem,
+                inventoryItemId: vm.inventoryItem.id
+            });
         });
 
         it('should open confirmation modal if form was touched', function() {

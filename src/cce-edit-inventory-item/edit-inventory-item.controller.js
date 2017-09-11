@@ -31,12 +31,13 @@
     controller.$inject = [
         'inventoryItem', '$scope', '$state', 'confirmService', 'CCE_STATUS',
         'MANUAL_TEMPERATURE_GAUGE_TYPE', 'ENERGY_SOURCE', 'UTILIZATION_STATUS',
-        'REMOTE_TEMPERATURE_MONITOR_TYPE'
+        'REMOTE_TEMPERATURE_MONITOR_TYPE', 'inventoryItemService', 'loadingModalService'
     ];
 
     function controller(inventoryItem, $scope, $state, confirmService, CCE_STATUS,
                         MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, UTILIZATION_STATUS,
-                        REMOTE_TEMPERATURE_MONITOR_TYPE) {
+                        REMOTE_TEMPERATURE_MONITOR_TYPE, inventoryItemService,
+                        loadingModalService) {
         var vm = this;
 
         vm.$onInit = onInit;
@@ -44,8 +45,8 @@
         vm.getManualTemperatureGaugeTypeLabel = MANUAL_TEMPERATURE_GAUGE_TYPE.getLabel;
         vm.getRemoteTemperatureMonitorTypeLabel = REMOTE_TEMPERATURE_MONITOR_TYPE.getLabel;
         vm.getUtilizationStatusLabel = UTILIZATION_STATUS.getLabel;
-        vm.goToStatusUpdate = goToStatusUpdate;
-        vm.goToInventoryList = goToInventoryList;
+        vm.add = add;
+        vm.cancel = cancel;
 
         /**
          * @ngdoc property
@@ -112,34 +113,53 @@
         /**
          * @ngdoc method
          * @methodOf cce-edit-inventory-item.controller:EditInventoryItemController
-         * @name goToStatusUpdate
+         * @name add
          *
          * @description
          * Takes the user to the status update screen.
          */
-        function goToStatusUpdate() {
-            $state.go('openlmis.cce.inventory.statusUpdate', {
-                inventoryItem: vm.inventoryItem
-            });
+        function add() {
+            if (vm.inventoryItem.id) {
+                loadingModalService.open();
+                inventoryItemService.save(inventoryItem).then(function(inventoryItem) {
+                    $state.go('openlmis.cce.inventory.details', {
+                        inventoryItem: inventoryItem,
+                        inventoryItemId: inventoryItem.id
+                    });
+                }).finally(loadingModalService.close)
+            } else {
+                $state.go('openlmis.cce.inventory.statusUpdate', {
+                    inventoryItem: vm.inventoryItem
+                });
+            }
         }
 
         /**
          * @ngdoc method
          * @methodOf cce-edit-inventory-item.controller:EditInventoryItemController
-         * @name goToInventoryList
+         * @name cancel
          *
          * @description
          * Takes the user to the inventory item list screen. Will open a confirmation modal if user
          * interacted with the form.
          */
-        function goToInventoryList() {
+        function cancel() {
             if ($scope.editInventoryItemForm.$dirty) {
                 confirmService.confirm(
                     'cceEditInventoryItem.closeAddInventoryItemModal',
                     'cceEditInventoryItem.yes',
                     'cceEditInventoryItem.no'
-                ).then(function() {
-                    $state.go('openlmis.cce.inventory');
+                ).then(doCancel);
+            } else {
+                doCancel();
+            }
+        }
+
+        function doCancel() {
+            if (vm.inventoryItem.id) {
+                $state.go('openlmis.cce.inventory.details', {
+                    inventoryItem: vm.inventoryItem,
+                    inventoryItemId: vm.inventoryItem.id
                 });
             } else {
                 $state.go('openlmis.cce.inventory');

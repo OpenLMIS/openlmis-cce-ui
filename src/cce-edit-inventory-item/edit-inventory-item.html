@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <form id="edit-inventory-item-form"
                     name="editInventoryItemForm"
-                    ng-submit="vm.goToStatusUpdate()">
+                    ng-submit="vm.add()">
 
                     <dl class="horizontal-list">
                         <dt>{{'cceEditInventoryItem.district' | message}}</dt>
@@ -215,7 +215,7 @@
 
                 <button id="cancel"
                     class="btn btn-default"
-                    ng-click="vm.goToInventoryList()">
+                    ng-click="vm.cancel()">
                     {{'cceEditInventoryItem.cancel' | message}}
                 </button>
 

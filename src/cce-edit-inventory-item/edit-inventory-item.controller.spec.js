@@ -16,7 +16,8 @@
 describe('EditInventoryItemController', function() {
 
     var vm, $controller, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, inventoryItem,
-        UTILIZATION_STATUS, REMOTE_TEMPERATURE_MONITOR_TYPE, $rootScope, $scope, $state;
+        UTILIZATION_STATUS, REMOTE_TEMPERATURE_MONITOR_TYPE, $rootScope, $scope, $state, $q,
+        saveDeferred, inventoryItemService, loadingModalService;
 
     beforeEach(function() {
         module('cce-edit-inventory-item');
@@ -30,9 +31,13 @@ describe('EditInventoryItemController', function() {
             ENERGY_SOURCE = $injector.get('ENERGY_SOURCE');
             $rootScope = $injector.get('$rootScope');
             $state = $injector.get('$state');
+            inventoryItemService = $injector.get('inventoryItemService');
+            $q = $injector.get('$q');
+            loadingModalService = $injector.get('loadingModalService');
         });
 
         inventoryItem = {
+            id: '9c704186-6191-4434-b39f-71be7ca87304',
             catalogItem: {
                 manufacturer: 'Cooltec',
                 model: 'X-GGTA 1',
@@ -49,8 +54,12 @@ describe('EditInventoryItemController', function() {
         };
 
         $scope = $rootScope.$new();
+        saveDeferred = $q.defer();
 
         spyOn($state, 'go').andReturn();
+        spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
+        spyOn(loadingModalService, 'open');
+        spyOn(loadingModalService, 'close');
 
         vm = $controller('EditInventoryItemController', {
             $scope: $scope,
@@ -156,19 +165,58 @@ describe('EditInventoryItemController', function() {
 
     });
 
-    describe('goToStatusUpdate', function() {
+    describe('add', function() {
 
-        it('should pass the new inventory item', function() {
-            vm.goToStatusUpdate();
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should redirect to status update page if inventory item has no ID', function() {
+            vm.inventoryItem.id = undefined;
+
+            vm.add();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
                 inventoryItem: vm.inventoryItem
             });
         });
 
+        it('should save inventory item if it has ID', function() {
+            vm.add();
+
+            expect(inventoryItemService.save).toHaveBeenCalledWith(inventoryItem);
+        });
+
+        it('should open loading modal if inventory item has ID', function() {
+            vm.add();
+
+            expect(loadingModalService.open).toHaveBeenCalled();
+        });
+
+        it('should redirect to details page if inventory item has ID', function() {
+            vm.add();
+
+            saveDeferred.resolve(inventoryItem);
+            $rootScope.$apply();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
+                inventoryItem: vm.inventoryItem,
+                inventoryItemId: vm.inventoryItem.id
+            });
+        });
+
+        it('should close loading modal after redirect was called', function() {
+            vm.add();
+
+            saveDeferred.resolve(inventoryItem);
+            $rootScope.$apply();
+
+            expect(loadingModalService.close).toHaveBeenCalled();
+        });
+
     });
 
-    describe('goToInventoryList', function() {
+    describe('cancel', function() {
 
         var $q, confirmService, confirmDeferred;
 
@@ -184,18 +232,32 @@ describe('EditInventoryItemController', function() {
 
             confirmDeferred = $q.defer();
             spyOn(confirmService, 'confirm').andReturn(confirmDeferred.promise);
+
+            vm.$onInit();
         });
 
-        it('should take use back if form is not dirty', function() {
-            vm.goToInventoryList();
+        it('should take user to the inventory item list page if form is not dirty and inventory item has no ID', function() {
+            vm.inventoryItem.id = undefined;
+
+            vm.cancel();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
         });
 
+        it('should take user to the details page if form is not dirty and inventory item has ID', function() {
+            vm.cancel();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
+            });
+        });
+
         it('should take user back if form is dirty and confirmation succeeded', function() {
             $scope.editInventoryItemForm.$dirty = true;
+            vm.inventoryItem.id = undefined;
 
-            vm.goToInventoryList();
+            vm.cancel();
 
             expect(confirmService.confirm).toHaveBeenCalled();
             expect($state.go).not.toHaveBeenCalled();
@@ -209,7 +271,7 @@ describe('EditInventoryItemController', function() {
         it('should not take use back if form is dirty and confirmation failed', function() {
             $scope.editInventoryItemForm.$dirty = true;
 
-            vm.goToInventoryList();
+            vm.cancel();
 
             expect(confirmService.confirm).toHaveBeenCalled();
             expect($state.go).not.toHaveBeenCalled();
