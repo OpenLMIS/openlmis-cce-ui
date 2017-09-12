@@ -119,7 +119,7 @@
          * @return {String} the URL for downloading catalog items
          */
         function getDownloadUrl() {
-            return cceUrlFactory('/api/catalogItems/download');
+            return cceUrlFactory('/api/catalogItems?type=csv');
         }
 
         function search(archived, visibleInCatalog) {

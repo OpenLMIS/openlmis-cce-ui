@@ -209,8 +209,8 @@ describe('catalogItemService', function() {
         it('should call cceUrlFactory', function(){
             var result = catalogItemService.getDownloadUrl();
 
-            expect(result).toEqual('/api/catalogItems/download');
-            expect(cceUrlFactory).toHaveBeenCalledWith('/api/catalogItems/download');
+            expect(result).toEqual('/api/catalogItems?type=csv');
+            expect(cceUrlFactory).toHaveBeenCalledWith('/api/catalogItems?type=csv');
         });
     });
 
