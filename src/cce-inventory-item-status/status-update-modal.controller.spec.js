@@ -288,6 +288,28 @@ describe('StatusUpdateModalController', function() {
             expect(notificationService.success).toHaveBeenCalledWith('cceInventoryItemStatus.inventoryItemSaved');
         });
 
+        it('should redirect to the inventory item details page if inventory item has ID', function() {
+            vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
+            vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
+            vm.decommissionDate = date;
+            vm.inventoryItem.id = 'some-inventory-item-id';
+
+            spyOn(loadingModalService, 'open').andReturn($q.when(true));
+            spyOn(notificationService, 'success');
+
+            vm.save();
+            expect($state.go).not.toHaveBeenCalled();
+            saveDeferred.resolve(inventoryItem);
+            $rootScope.$apply();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
+            }, {
+                reload: true
+            });
+        });
+
     });
 
     describe('clearReasonAndDecommissionDate', function() {
@@ -310,7 +332,7 @@ describe('StatusUpdateModalController', function() {
 
     });
 
-    describe('goToInventoryList', function() {
+    describe('cancel', function() {
 
         var $q, confirmService, confirmDeferred;
 
@@ -326,10 +348,20 @@ describe('StatusUpdateModalController', function() {
 
             confirmDeferred = $q.defer();
             spyOn(confirmService, 'confirm').andReturn(confirmDeferred.promise);
+
+            vm.$onInit();
         });
 
         it('should take use back if form is not dirty', function() {
-            vm.goToInventoryList();
+            vm.inventoryItem.id = undefined;
+
+            vm.cancel();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
+        });
+
+        it('should take user back to details page if inventory item has ID', function() {
+            vm.cancel();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
         });
@@ -337,7 +369,7 @@ describe('StatusUpdateModalController', function() {
         it('should take user back if form is dirty and confirmation succeeded', function() {
             $scope.statusUpdateForm.$dirty = true;
 
-            vm.goToInventoryList();
+            vm.cancel();
 
             expect(confirmService.confirm).toHaveBeenCalled();
             expect($state.go).not.toHaveBeenCalled();
@@ -351,7 +383,7 @@ describe('StatusUpdateModalController', function() {
         it('should not take use back if form is dirty and confirmation failed', function() {
             $scope.statusUpdateForm.$dirty = true;
 
-            vm.goToInventoryList();
+            vm.cancel();
 
             expect(confirmService.confirm).toHaveBeenCalled();
             expect($state.go).not.toHaveBeenCalled();

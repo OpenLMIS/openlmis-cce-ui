@@ -202,10 +202,22 @@ describe('status-update-modal.html template', function() {
         });
 
         it('should take user back to the inventory item list if the form was not dirty', function() {
+            vm.inventoryItem.id = undefined;
+
             button.click();
             $timeout.flush();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
+        });
+
+        it('should take user back to the inventory item details if the inventory item has ID', function() {
+            button.click();
+            $timeout.flush();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
+            });
         });
 
         it('should open confirmation modal if form was touched', function() {
@@ -219,6 +231,8 @@ describe('status-update-modal.html template', function() {
         });
 
         it('should take user back if form was dirty and confirmation was successful', function() {
+            vm.inventoryItem.id = undefined;
+
             formCtrl.$setDirty();
             $rootScope.$apply();
 
@@ -265,6 +279,7 @@ describe('status-update-modal.html template', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             vm.reason = REASON_FOR_NOT_WORKING.NOT_APPLICABLE;
             vm.decommissionDate = date;
+            vm.inventoryItem.id = undefined;
 
             $rootScope.$apply();
             form.triggerHandler('submit');
@@ -280,6 +295,26 @@ describe('status-update-modal.html template', function() {
             $rootScope.$apply();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory', {}, {
+                reload: true
+            });
+        });
+
+        it('should take user to the details page after saving if inventory items has ID', function() {
+            vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
+            vm.reason = REASON_FOR_NOT_WORKING.NOT_APPLICABLE;
+            vm.decommissionDate = date;
+            vm.inventoryItem.id = 'some-inventory-item-id';
+
+            $rootScope.$apply();
+            form.triggerHandler('submit');
+
+            saveDeferred.resolve(vm.inventoryItem);
+            $rootScope.$apply();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
+                inventoryItem: vm.inventoryItem,
+                inventoryItemId: vm.inventoryItem.id
+            }, {
                 reload: true
             });
         });
@@ -307,7 +342,8 @@ describe('status-update-modal.html template', function() {
             expect(inventoryItemService.save).toHaveBeenCalledWith({
                 functionalStatus: FUNCTIONAL_STATUS.OBSOLETE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NOT_APPLICABLE,
-                decommissionDate: date
+                decommissionDate: date,
+                id: 'some-inventory-item-id'
             });
             expect($state.go).not.toHaveBeenCalled();
 
@@ -336,11 +372,14 @@ describe('status-update-modal.html template', function() {
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
             inventoryItemService = $injector.get('inventoryItemService');
             REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
+            $timeout = $injector.get('$timeout');
         });
     }
 
     function prepareTestData() {
-        inventoryItem = {};
+        inventoryItem = {
+            id: 'some-inventory-item-id'
+        };
         saveDeferred = $q.defer();
     }
 

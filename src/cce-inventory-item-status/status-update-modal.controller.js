@@ -44,7 +44,7 @@
         vm.isFunctioning = isFunctioning;
         vm.getStatusLabel = getStatusLabel;
         vm.getReasonLabel = getReasonLabel;
-        vm.goToInventoryList = goToInventoryList;
+        vm.cancel = cancel;
         vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
         vm.clearReasonAndDecommissionDate = clearReasonAndDecommissionDated;
 
@@ -141,13 +141,22 @@
             item.reasonNotWorkingOrNotInUse = isFunctioning(vm.newStatus) ? undefined : vm.reason;
             item.decommissionDate = isObsolete(vm.newStatus) ? vm.decommissionDate : undefined;
 
-            inventoryItemService.save(item).then(function() {
+            inventoryItemService.save(item).then(function(inventoryItem) {
                 loadingPromise.then(function() {
                     notificationService.success('cceInventoryItemStatus.inventoryItemSaved');
                 });
-                $state.go('openlmis.cce.inventory', {}, {
-                    reload: true
-                });
+                if(vm.inventoryItem.id) {
+                    $state.go('openlmis.cce.inventory.details', {
+                        inventoryItem: inventoryItem,
+                        inventoryItemId: inventoryItem.id
+                    }, {
+                        reload: true
+                    });
+                } else {
+                    $state.go('openlmis.cce.inventory', {}, {
+                        reload: true
+                    });
+                }
             }, loadingModalService.close);
         }
 
@@ -167,20 +176,29 @@
         /**
          * @ngdoc method
          * @methodOf cce-inventory-item-status.controller:StatusUpdateModalController
-         * @name goToInventoryList
+         * @name cancel
          *
          * @description
          * Takes the user to the inventory item list screen. Will open a confirmation modal if user
          * interacted with the form.
          */
-        function goToInventoryList() {
+        function cancel() {
             if ($scope.statusUpdateForm.$dirty) {
                 confirmService.confirm(
                     'cceEditInventoryItem.closeAddInventoryItemModal',
                     'cceEditInventoryItem.yes',
                     'cceEditInventoryItem.no'
-                ).then(function() {
-                    $state.go('openlmis.cce.inventory');
+                ).then(doCancel);
+            } else {
+                doCancel();
+            }
+        }
+
+        function doCancel() {
+            if (vm.inventoryItem.id) {
+                $state.go('openlmis.cce.inventory.details', {
+                    inventoryItem: vm.inventoryItem,
+                    inventoryItemId: vm.inventoryItem.id
                 });
             } else {
                 $state.go('openlmis.cce.inventory');

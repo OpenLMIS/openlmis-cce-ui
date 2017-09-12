@@ -6,7 +6,7 @@
                   {{vm.inventoryItem.referenceName}}
               </h1>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" ng-if="vm.inventoryItem">
                 <aside class="cce-inventory-item-status {{vm.getFunctionalStatusClass()}}">
                     <p>{{vm.getFunctionalStatusLabel() | message}}</p>
                     <p>
