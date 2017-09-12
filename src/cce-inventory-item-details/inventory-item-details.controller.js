@@ -30,15 +30,17 @@
 
     InventoryItemDetailsController.$inject = [
         'inventoryItem', 'CCE_STATUS', 'UTILIZATION_STATUS', 'MANUAL_TEMPERATURE_GAUGE_TYPE',
-        'REMOTE_TEMPERATURE_MONITOR_TYPE', '$state'
+        'REMOTE_TEMPERATURE_MONITOR_TYPE', 'FUNCTIONAL_STATUS', '$state'
     ];
 
     function InventoryItemDetailsController(inventoryItem, CCE_STATUS, UTILIZATION_STATUS,
                                             MANUAL_TEMPERATURE_GAUGE_TYPE,
-                                            REMOTE_TEMPERATURE_MONITOR_TYPE, $state) {
+                                            REMOTE_TEMPERATURE_MONITOR_TYPE,
+                                            FUNCTIONAL_STATUS, $state) {
         var vm = this;
 
         vm.$onInit = onInit;
+        vm.goToStatusUpdate = goToStatusUpdate;
         vm.goToEditPage = goToEditPage;
 
         /**
@@ -55,6 +57,25 @@
             vm.getUtilizationStatusLabel = UTILIZATION_STATUS.getLabel;
             vm.getManualTemperatureGaugeTypeLabel = MANUAL_TEMPERATURE_GAUGE_TYPE.getLabel;
             vm.getRemoteTemperatureMonitorTypeLabel = REMOTE_TEMPERATURE_MONITOR_TYPE.getLabel;
+            vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
+            vm.getFunctionalStatusLabel = FUNCTIONAL_STATUS.getLabel;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item-details.controller:InventoryItemDetailsController
+         * @name goToStatusUpdate
+         *
+         * @description
+         * Takes the user to the status update page for the given inventory item.
+         *
+         * @param   {Object}    inventoryItem   the inventory item to edit status for
+         */
+        function goToStatusUpdate(inventoryItem) {
+            $state.go('openlmis.cce.inventory.statusUpdate', {
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
+            });
         }
 
         /**

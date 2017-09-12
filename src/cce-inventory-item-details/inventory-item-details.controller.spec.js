@@ -16,7 +16,7 @@
 describe('InventoryItemDetailsController', function() {
 
     var vm, inventoryItem, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, UTILIZATION_STATUS,
-        REMOTE_TEMPERATURE_MONITOR_TYPE, $controller, $state;
+        REMOTE_TEMPERATURE_MONITOR_TYPE, FUNCTIONAL_STATUS, $controller, $state;
 
     beforeEach(prepareSuite);
 
@@ -42,6 +42,27 @@ describe('InventoryItemDetailsController', function() {
 
         it('should expose getUtilizationStatusLabel', function() {
             expect(vm.getUtilizationStatusLabel).toBe(UTILIZATION_STATUS.getLabel);
+        });
+
+        it('should expose getFunctionalStatusLabel', function() {
+            expect(vm.getFunctionalStatusLabel).toBe(FUNCTIONAL_STATUS.getLabel);
+        });
+
+        it('should expose getFunctionalStatusClass', function() {
+            expect(vm.getFunctionalStatusClass).toBe(FUNCTIONAL_STATUS.getClass);
+        });
+
+    });
+
+    describe('goToStatusUpdate', function() {
+
+        it('should take user to the status update page', function() {
+            vm.goToStatusUpdate(inventoryItem);
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
+            });
         });
 
     });
@@ -73,6 +94,7 @@ describe('InventoryItemDetailsController', function() {
         MANUAL_TEMPERATURE_GAUGE_TYPE = $injector.get('MANUAL_TEMPERATURE_GAUGE_TYPE');
         REMOTE_TEMPERATURE_MONITOR_TYPE = $injector.get('REMOTE_TEMPERATURE_MONITOR_TYPE');
         UTILIZATION_STATUS = $injector.get('UTILIZATION_STATUS');
+        FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
         $state = $injector.get('$state');
     }
 

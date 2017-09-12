@@ -1,0 +1,25 @@
+.inventory-item-details {
+    aside.cce-inventory-item-status {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1em;
+
+        &::before {
+            font-size: 2em;
+            position: absolute;
+        }
+
+        & > p {
+            margin: 0 0 0 2.5em;
+
+            &:first-of-type {
+                font-weight: bold;
+            }
+        }
+
+        & > button {
+            position: absolute;
+            right: 1.5em;
+        }
+    }
+}

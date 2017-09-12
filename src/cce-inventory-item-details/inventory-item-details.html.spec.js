@@ -144,6 +144,20 @@ describe('inventory-item-details.html', function() {
 
     });
 
+    describe('Update Status button', function() {
+
+        it('should take user to the inventory item status update page', function() {
+            templateTestingUtils.getButton('status-update').click();
+            $timeout.flush();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
+            });
+        });
+
+    });
+
     function prepareSuite() {
         module('openlmis-testing-utils');
         module('cce-inventory-item-details');
@@ -169,7 +183,8 @@ describe('inventory-item-details.html', function() {
             voltageRegulator: 'UNKNOWN',
             manualTemperatureGauge: 'BUILD_IN',
             remoteTemperatureMonitor: 'PAIRED',
-            utilization: 'ACTIVE'
+            utilization: 'ACTIVE',
+            functionalStatus: 'FUNCTIONING'
         };
 
         messages = {

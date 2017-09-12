@@ -1,4 +1,4 @@
-<div class="modal" role="dialog" aria-hidden="true">
+<div class="modal inventory-item-details" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -7,7 +7,16 @@
               </h1>
             </div>
             <div class="modal-body">
-                <status-update-button ng-if="vm.inventoryItem" inventory-item="vm.inventoryItem"></status-update-button>
+                <aside class="cce-inventory-item-status {{vm.getFunctionalStatusClass(vm.inventoryItem.functionalStatus)}}">
+                    <p>{{vm.getFunctionalStatusLabel(vm.inventoryItem.functionalStatus) | message}}</p>
+                    <p>
+                        <em>{{vm.inventoryItem.lastModifier.firstName}} {{vm.inventoryItem.lastModifier.lastName}}</em>
+                        {{vm.inventoryItem.modifiedDate | date:'yy/MM/dd HH:mm:ss'}}
+                    </p>
+                    <button id="status-update" ng-click="vm.goToStatusUpdate(vm.inventoryItem)">
+                        {{'cceInventoryItemDetails.updateStatus' | message}}
+                    </button>
+                </aside>
                 <dl class="horizontal-list">
                     <dt>{{'cceInventoryItemDetails.district' | message}}</dt>
                     <dd>{{vm.inventoryItem.facility.geographicZone.name}}</dd>
@@ -36,7 +45,8 @@
                     <dt>{{'cceInventoryItemDetails.source' | message}}</dt>
                     <dd>{{vm.inventoryItem.source}}</dd>
                 </dl>
-                <dl id="year-of-warranty-expiry" ng-if="vm.inventoryItem.yearOfWarrantyExpiry">
+                <dl class="horizontal-list" id="year-of-warranty-expiry"
+                    ng-if="vm.inventoryItem.yearOfWarrantyExpiry">
                     <dt>{{'cceInventoryItemDetails.yearOfWarrantyExpiry' | message}}</dt>
                     <dd>{{vm.inventoryItem.yearOfWarrantyExpiry}}</dd>
                 </dl>
