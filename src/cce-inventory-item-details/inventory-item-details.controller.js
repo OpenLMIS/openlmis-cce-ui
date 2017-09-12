@@ -42,6 +42,8 @@
         vm.$onInit = onInit;
         vm.goToStatusUpdate = goToStatusUpdate;
         vm.goToEditPage = goToEditPage;
+        vm.getFunctionalStatusLabel = getFunctionalStatusLabel;
+        vm.getFunctionalStatusClass = getFunctionalStatusClass;
 
         /**
          * @ngdoc method
@@ -57,8 +59,6 @@
             vm.getUtilizationStatusLabel = UTILIZATION_STATUS.getLabel;
             vm.getManualTemperatureGaugeTypeLabel = MANUAL_TEMPERATURE_GAUGE_TYPE.getLabel;
             vm.getRemoteTemperatureMonitorTypeLabel = REMOTE_TEMPERATURE_MONITOR_TYPE.getLabel;
-            vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
-            vm.getFunctionalStatusLabel = FUNCTIONAL_STATUS.getLabel;
         }
 
         /**
@@ -90,6 +90,34 @@
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item-details.controller:InventoryItemDetailsController
+         * @name getFunctionalStatusLabel
+         *
+         * @description
+         * Returns a functional status label for the inventory item.
+         *
+         * @return  {String}    the label for the inventory item
+         */
+        function getFunctionalStatusLabel() {
+            return FUNCTIONAL_STATUS.getLabel(vm.inventoryItem.functionalStatus);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item-details.controller:InventoryItemDetailsController
+         * @name getFunctionalStatusClass
+         *
+         * @description
+         * Returns a functional status class for the inventory item.
+         *
+         * @return  {String}    the class for the inventory item
+         */
+        function getFunctionalStatusClass() {
+            return FUNCTIONAL_STATUS.getClass(vm.inventoryItem.functionalStatus);
         }
     }
 

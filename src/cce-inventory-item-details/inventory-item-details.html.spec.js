@@ -29,6 +29,15 @@ describe('inventory-item-details.html', function() {
 
     });
 
+    describe('Program dd', function() {
+
+        it('should show program name', function() {
+            expect(templateTestingUtils.getElementById('dd', 'program').html())
+                .toEqual('Some Program');
+        });
+
+    });
+
     describe('Source dl', function() {
 
         it('should be visible if source is not empty', function() {
@@ -184,7 +193,14 @@ describe('inventory-item-details.html', function() {
             manualTemperatureGauge: 'BUILD_IN',
             remoteTemperatureMonitor: 'PAIRED',
             utilization: 'ACTIVE',
-            functionalStatus: 'FUNCTIONING'
+            functionalStatus: 'FUNCTIONING',
+            programId: 'some-program-id',
+            facility: {
+                supportedPrograms: [{
+                    id: 'some-program-id',
+                    name: 'Some Program'
+                }]
+            }
         };
 
         messages = {

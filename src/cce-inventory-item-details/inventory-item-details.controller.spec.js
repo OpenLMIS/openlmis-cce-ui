@@ -44,14 +44,6 @@ describe('InventoryItemDetailsController', function() {
             expect(vm.getUtilizationStatusLabel).toBe(UTILIZATION_STATUS.getLabel);
         });
 
-        it('should expose getFunctionalStatusLabel', function() {
-            expect(vm.getFunctionalStatusLabel).toBe(FUNCTIONAL_STATUS.getLabel);
-        });
-
-        it('should expose getFunctionalStatusClass', function() {
-            expect(vm.getFunctionalStatusClass).toBe(FUNCTIONAL_STATUS.getClass);
-        });
-
     });
 
     describe('goToStatusUpdate', function() {
@@ -76,6 +68,50 @@ describe('InventoryItemDetailsController', function() {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });
+        });
+
+    });
+
+    describe('getFunctionalStatusClass', function() {
+
+        it('should return is-functioning for FUNCTIONING', function() {
+            vm.inventoryItem.functionalStatus = 'FUNCTIONING';
+
+            expect(vm.getFunctionalStatusClass()).toEqual('is-functioning');
+        });
+
+        it('should return is-obsolete for OBSOLETE', function() {
+            vm.inventoryItem.functionalStatus = 'OBSOLETE';
+
+            expect(vm.getFunctionalStatusClass()).toEqual('is-obsolete');
+        });
+
+        it('should return is-non-functioning for NON_FUNCTIONING', function() {
+            vm.inventoryItem.functionalStatus = 'NON_FUNCTIONING';
+
+            expect(vm.getFunctionalStatusClass()).toEqual('is-non-functioning');
+        });
+
+    });
+
+    describe('getFunctionalStatusLabel', function() {
+
+        it('should return Functioning for FUNCTIONING', function() {
+            vm.inventoryItem.functionalStatus = 'FUNCTIONING';
+
+            expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.functioning');
+        });
+
+        it('should return Obsolete for OBSOLETE', function() {
+            vm.inventoryItem.functionalStatus = 'OBSOLETE';
+
+            expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.obsolete');
+        });
+
+        it('should return Non-functioning for NON_FUNCTIONING', function() {
+            vm.inventoryItem.functionalStatus = 'NON_FUNCTIONING';
+
+            expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.nonFunctioning');
         });
 
     });

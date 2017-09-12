@@ -19,7 +19,12 @@
 
         & > button {
             position: absolute;
-            right: 1.5em;
+            right: 0;
+            margin-right: 1.5em;
         }
+    }
+
+    .horizontal-list dd {
+        margin: 0 0 0 50%;
     }
 }

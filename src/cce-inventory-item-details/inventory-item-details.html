@@ -7,8 +7,8 @@
               </h1>
             </div>
             <div class="modal-body">
-                <aside class="cce-inventory-item-status {{vm.getFunctionalStatusClass(vm.inventoryItem.functionalStatus)}}">
-                    <p>{{vm.getFunctionalStatusLabel(vm.inventoryItem.functionalStatus) | message}}</p>
+                <aside class="cce-inventory-item-status {{vm.getFunctionalStatusClass()}}">
+                    <p>{{vm.getFunctionalStatusLabel() | message}}</p>
                     <p>
                         <em>{{vm.inventoryItem.lastModifier.firstName}} {{vm.inventoryItem.lastModifier.lastName}}</em>
                         {{vm.inventoryItem.modifiedDate | date:'yy/MM/dd HH:mm:ss'}}
@@ -22,8 +22,18 @@
                     <dd>{{vm.inventoryItem.facility.geographicZone.name}}</dd>
                     <dt>{{'cceInventoryItemDetails.facility' | message}}</dt>
                     <dd>{{vm.inventoryItem.facility.name}}</dd>
+                    <dt>{{'cceInventoryItemDetails.program' | message}}</dt>
+                    <dd id="program">{{vm.inventoryItem | inventoryItemProgram}}</dd>
                     <dt>{{'cceInventoryItemDetails.equipmentType' | message}}</dt>
                     <dd>{{vm.inventoryItem.catalogItem.type}}</dd>
+                </dl>
+
+                <div class="sub-heading">
+                    <h3 class="title">
+                        {{'cceInventoryItemDetails.equipmentIdentification' | message}}
+                    </h3>
+                </div>
+                <dl class="horizontal-list">
                     <dt>{{'cceInventoryItemDetails.makeModel' | message}}</dt>
                     <dd>{{vm.inventoryItem.catalogItem | makeModel}}</dd>
                     <dt>{{'cceInventoryItemDetails.serialNumber' | message}}</dt>
@@ -32,7 +42,7 @@
 
                 <div class="sub-heading">
                     <h3 class="title">
-                        {{'cceInventoryItemDetails.equipmentIdentification' | message}}
+                        {{'cceInventoryItemDetails.equipmentHistory' | message}}
                     </h3>
                 </div>
                 <dl class="horizontal-list">

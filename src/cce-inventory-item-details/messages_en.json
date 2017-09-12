@@ -19,5 +19,6 @@
     "cceInventoryItemDetails.remoteTemperatureMonitor": "Remote Temperature Monitor",
     "cceInventoryItemDetails.utilization": "Utilization",
     "cceInventoryItemDetails.edit": "Edit",
-    "cceInventoryItemDetails.updateStatus": "Update Status"
+    "cceInventoryItemDetails.updateStatus": "Update Status",
+    "cceInventoryItemDetails.program": "Program"
 }
