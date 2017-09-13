@@ -239,7 +239,7 @@ describe('EditInventoryItemController', function() {
         });
 
         it('should take user to the inventory item list page if form is not dirty and inventory item has no ID', function() {
-            vm.inventoryItem.id = undefined;
+            inventoryItem.id = undefined;
 
             vm.cancel();
 
@@ -257,7 +257,7 @@ describe('EditInventoryItemController', function() {
 
         it('should take user back if form is dirty and confirmation succeeded', function() {
             $scope.editInventoryItemForm.$dirty = true;
-            vm.inventoryItem.id = undefined;
+            inventoryItem.id = undefined;
 
             vm.cancel();
 

@@ -37,18 +37,20 @@ describe('edit-inventory-item.html template', function() {
         });
 
         inventoryItem = {
+            id: 'some-inventory-item-id',
             catalogItem: {
                 manufacturer: 'Cooltec',
                 model: 'X-GGTA 1',
                 type: 'Refrigerator'
             },
-            program: {
-                id: 'program-id',
-                name: 'Program One'
-            },
+            programId: 'program-id',
             facility: {
                 id: 'facility-id',
-                name: 'Facility One'
+                name: 'Facility One',
+                supportedPrograms: [{
+                    id: 'program-id',
+                    name: 'Program One'
+                }]
             }
         };
 
@@ -69,14 +71,14 @@ describe('edit-inventory-item.html template', function() {
     describe('modal title', function() {
 
         it('should be "Edit equipment details" if inventory item has ID', function() {
-            inventoryItem.id = '40921ba0-1645-4399-90f8-fb1530b55523';
-
             prepareView();
 
             expect(getElement('h2').html().indexOf('Edit equipment details') > -1).toEqual(true);
         });
 
         it('should be "Add New Cold Chain Equipment" if inventory item has no ID', function() {
+            inventoryItem.id = undefined;
+
             prepareView();
 
             expect(getElement('h2').html().indexOf('Add New Cold Chain Equipment') > -1)
@@ -578,7 +580,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
             form.triggerHandler('submit');
 
-            expect(inventoryItemService.save).toHaveBeenCalledWith(inventoryItem);
+            expect(inventoryItemService.save).toHaveBeenCalledWith(vm.inventoryItem);
         });
 
         it('should take user to the to the details page if inventory item has ID', function() {
@@ -589,8 +591,8 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
-                inventoryItem: vm.inventoryItem,
-                inventoryItemId: vm.inventoryItem.id
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
             }, {
                 reload: true
             });
@@ -636,6 +638,8 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should take user back to the inventory item list if the form was not dirty and inventory item has no ID', function() {
+            inventoryItem.id = undefined;
+
             button.click();
             $timeout.flush();
 
@@ -643,8 +647,6 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should take user back to the details page if the form was not dirty and inventory item has ID', function() {
-            vm.inventoryItem.id = '9c704186-6191-4434-b39f-71be7ca87304';
-
             button.click();
             $timeout.flush();
 
@@ -665,6 +667,8 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should take user back if form was dirty and confirmation was successful', function() {
+            inventoryItem.id = undefined;
+
             formCtrl.$setDirty();
             $rootScope.$apply();
 

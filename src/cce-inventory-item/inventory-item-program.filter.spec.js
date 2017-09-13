@@ -32,7 +32,7 @@ describe('inventoryItemProgram', function() {
     });
 
     function prepareSuite() {
-        module('cce-inventory-item-details');
+        module('cce-inventory-item');
 
         inject(function($injector) {
             $filter = $injector.get('$filter');

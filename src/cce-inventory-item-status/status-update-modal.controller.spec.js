@@ -15,9 +15,10 @@
 
 describe('StatusUpdateModalController', function() {
 
-    var vm, messageService, modalDeferred, $q, $state, $rootScope, inventoryItem, $controller, loadingModalService, notificationService,
-        messages, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred,
-        $scope, date;
+    var vm, messageService, modalDeferred, $q, $state, $rootScope, inventoryItem, $controller,
+        loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
+        REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
+        stateTrackerService;
 
     beforeEach(function() {
         module('cce-inventory-item-status');
@@ -33,6 +34,7 @@ describe('StatusUpdateModalController', function() {
             inventoryItemService = $injector.get('inventoryItemService');
             loadingModalService = $injector.get('loadingModalService');
             notificationService = $injector.get('notificationService');
+            stateTrackerService = $injector.get('stateTrackerService');
         });
 
         date = new Date();
@@ -57,6 +59,7 @@ describe('StatusUpdateModalController', function() {
             'cceInventoryItemStatus.needsSpareParts': 'Needs Spare Parts'
         };
 
+        spyOn(stateTrackerService, 'getPreviousState').andReturn('openlmis.cce.inventory.details');
         spyOn(messageService, 'get').andCallFake(function(key) {
             return messages[key];
         });

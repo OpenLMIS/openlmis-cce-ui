@@ -27,7 +27,8 @@
         'ui.router',
         'openlmis-i18n',
         'cce-inventory-item',
-        'openlmis-modal'
+        'openlmis-modal',
+        'openlmis-state-tracker'
     ]);
 
 })();

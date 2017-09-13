@@ -19,7 +19,7 @@
 
     /**
      * @ngdoc filter
-     * @name cce-inventory-item-details.filter:inventoryItemProgram
+     * @name cce-inventory-item.filter:inventoryItemProgram
      *
      * @description
      * Returns a program name for the given inventory item
@@ -34,7 +34,7 @@
      * ```
      */
     angular
-        .module('cce-inventory-item-details')
+        .module('cce-inventory-item')
         .filter('inventoryItemProgram', inventoryItemProgramFilter);
 
     inventoryItemProgramFilter.$inject = ['$filter'];

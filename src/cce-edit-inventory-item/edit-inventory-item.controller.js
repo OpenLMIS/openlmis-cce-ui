@@ -102,7 +102,7 @@
          * Initialization method of the EditInventoryItemController.
          */
         function onInit() {
-            vm.inventoryItem = inventoryItem;
+            vm.inventoryItem = angular.copy(inventoryItem);
             vm.cceStatuses = CCE_STATUS.getStatuses();
             vm.manualTemperatureGaugeTypes = MANUAL_TEMPERATURE_GAUGE_TYPE.getTypes();
             vm.remoteTemperatureMonitorTypes = REMOTE_TEMPERATURE_MONITOR_TYPE.getTypes();
@@ -121,7 +121,7 @@
         function add() {
             if (vm.inventoryItem.id) {
                 loadingModalService.open();
-                inventoryItemService.save(inventoryItem).then(function(inventoryItem) {
+                inventoryItemService.save(vm.inventoryItem).then(function(inventoryItem) {
                     $state.go('openlmis.cce.inventory.details', {
                         inventoryItem: inventoryItem,
                         inventoryItemId: inventoryItem.id
@@ -158,10 +158,10 @@
         }
 
         function doCancel() {
-            if (vm.inventoryItem.id) {
+            if (inventoryItem.id) {
                 $state.go('openlmis.cce.inventory.details', {
-                    inventoryItem: vm.inventoryItem,
-                    inventoryItemId: vm.inventoryItem.id
+                    inventoryItem: inventoryItem,
+                    inventoryItemId: inventoryItem.id
                 });
             } else {
                 $state.go('openlmis.cce.inventory');

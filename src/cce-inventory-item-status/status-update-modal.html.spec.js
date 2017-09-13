@@ -17,7 +17,7 @@ describe('status-update-modal.html template', function() {
 
     var $controller, $compile, $rootScope, $templateRequest, $state, $q;
 
-    var inventoryItemService, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING;
+    var inventoryItemService, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, stateTrackerService;
 
     var vm, template, inventoryItem, saveDeferred;
 
@@ -217,6 +217,8 @@ describe('status-update-modal.html template', function() {
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
+            }, {
+                reload: true
             });
         });
 
@@ -373,6 +375,7 @@ describe('status-update-modal.html template', function() {
             inventoryItemService = $injector.get('inventoryItemService');
             REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
             $timeout = $injector.get('$timeout');
+            stateTrackerService = $injector.get('stateTrackerService');
         });
     }
 
@@ -386,6 +389,7 @@ describe('status-update-modal.html template', function() {
     function prepareSpies() {
         spyOn($state, 'go').andReturn();
         spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
+        spyOn(stateTrackerService, 'getPreviousState').andReturn('openlmis.cce.inventory.details');
     }
 
     function prepareView() {

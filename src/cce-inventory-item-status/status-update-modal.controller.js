@@ -30,12 +30,14 @@
 
     StatusUpdateModalController.$inject = [
         '$scope', 'inventoryItem', 'FUNCTIONAL_STATUS', 'messageService', 'REASON_FOR_NOT_WORKING',
-        'inventoryItemService', '$state', 'loadingModalService', 'confirmService', 'notificationService'
+        'inventoryItemService', '$state', 'loadingModalService', 'confirmService',
+        'notificationService', 'stateTrackerService'
     ];
 
     function StatusUpdateModalController($scope, inventoryItem, FUNCTIONAL_STATUS, messageService,
                                          REASON_FOR_NOT_WORKING, inventoryItemService, $state,
-                                         loadingModalService, confirmService, notificationService) {
+                                         loadingModalService, confirmService, notificationService,
+                                         stateTrackerService) {
         var vm = this;
 
         vm.save = save;
@@ -146,7 +148,7 @@
                     notificationService.success('cceInventoryItemStatus.inventoryItemSaved');
                 });
                 if(vm.inventoryItem.id) {
-                    $state.go('openlmis.cce.inventory.details', {
+                    $state.go(stateTrackerService.getPreviousState(), {
                         inventoryItem: inventoryItem,
                         inventoryItemId: inventoryItem.id
                     }, {
@@ -196,9 +198,11 @@
 
         function doCancel() {
             if (vm.inventoryItem.id) {
-                $state.go('openlmis.cce.inventory.details', {
+                $state.go(stateTrackerService.getPreviousState(), {
                     inventoryItem: vm.inventoryItem,
                     inventoryItemId: vm.inventoryItem.id
+                }, {
+                    reload: true
                 });
             } else {
                 $state.go('openlmis.cce.inventory');
