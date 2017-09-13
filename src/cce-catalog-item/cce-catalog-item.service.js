@@ -39,7 +39,7 @@
                     isArray: true
                 },
                 'upload': {
-                    url: cceUrlFactory('/api/catalogItems/upload'),
+                    url: cceUrlFactory('/api/catalogItems?type=csv'),
                     method: 'POST',
                     headers: {
                         'Content-Type': undefined

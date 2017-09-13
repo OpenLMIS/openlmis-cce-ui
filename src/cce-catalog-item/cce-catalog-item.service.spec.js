@@ -113,7 +113,7 @@ describe('catalogItemService', function() {
 
         beforeEach(function() {
             file = 'file-content';
-            $httpBackend.when('POST', cceUrlFactory('/api/catalogItems/upload')).respond(200, {
+            $httpBackend.when('POST', cceUrlFactory('/api/catalogItems?type=csv')).respond(200, {
                 content: file
             });
         });
@@ -138,7 +138,7 @@ describe('catalogItemService', function() {
         });
 
         it('should make a proper request', function() {
-            $httpBackend.expect('POST', cceUrlFactory('/api/catalogItems/upload'));
+            $httpBackend.expect('POST', cceUrlFactory('/api/catalogItems?type=csv'));
 
             catalogItemService.upload(file);
             $httpBackend.flush();
