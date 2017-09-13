@@ -125,8 +125,10 @@
                     $state.go('openlmis.cce.inventory.details', {
                         inventoryItem: inventoryItem,
                         inventoryItemId: inventoryItem.id
+                    }, {
+                        reload: true
                     });
-                }).finally(loadingModalService.close)
+                }).finally(loadingModalService.close);
             } else {
                 $state.go('openlmis.cce.inventory.statusUpdate', {
                     inventoryItem: vm.inventoryItem

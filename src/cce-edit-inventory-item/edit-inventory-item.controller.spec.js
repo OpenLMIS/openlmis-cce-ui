@@ -202,6 +202,8 @@ describe('EditInventoryItemController', function() {
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
                 inventoryItem: vm.inventoryItem,
                 inventoryItemId: vm.inventoryItem.id
+            }, {
+                reload: true
             });
         });
 
