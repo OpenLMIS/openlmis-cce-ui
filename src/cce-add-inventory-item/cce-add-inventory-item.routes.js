@@ -40,7 +40,8 @@
                 types: function(catalogItems, catalogItemTypeFactory) {
                     return catalogItemTypeFactory.getTypes(catalogItems);
                 }
-            }
+            },
+            nonTrackable: true
         });
 
         onEnter.$inject = ['openlmisModalService', 'catalogItems', 'types'];

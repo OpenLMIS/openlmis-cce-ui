@@ -34,7 +34,8 @@
             params: {
                 inventoryItem: undefined,
                 inventoryItemId: undefined
-            }
+            },
+            nonTrackable: true
         });
 
         onEnter.$inject = [

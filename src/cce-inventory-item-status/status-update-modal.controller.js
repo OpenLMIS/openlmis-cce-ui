@@ -147,18 +147,10 @@
                 loadingPromise.then(function() {
                     notificationService.success('cceInventoryItemStatus.inventoryItemSaved');
                 });
-                if(vm.inventoryItem.id) {
-                    $state.go(stateTrackerService.getPreviousState(), {
-                        inventoryItem: inventoryItem,
-                        inventoryItemId: inventoryItem.id
-                    }, {
-                        reload: true
-                    });
-                } else {
-                    $state.go('openlmis.cce.inventory', {}, {
-                        reload: true
-                    });
-                }
+                stateTrackerService.goToPreviousState('openlmis.cce.inventory', {
+                    inventoryItem: inventoryItem,
+                    inventoryItemId: inventoryItem.id
+                });
             }, loadingModalService.close);
         }
 
@@ -197,16 +189,10 @@
         }
 
         function doCancel() {
-            if (vm.inventoryItem.id) {
-                $state.go(stateTrackerService.getPreviousState(), {
-                    inventoryItem: vm.inventoryItem,
-                    inventoryItemId: vm.inventoryItem.id
-                }, {
-                    reload: true
-                });
-            } else {
-                $state.go('openlmis.cce.inventory');
-            }
+            stateTrackerService.goToPreviousState('openlmis.cce.inventory', {
+                inventoryItem: vm.inventoryItem,
+                inventoryItemId: vm.inventoryItem.id
+            });
         }
     }
 

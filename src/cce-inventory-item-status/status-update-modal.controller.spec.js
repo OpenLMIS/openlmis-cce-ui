@@ -20,52 +20,7 @@ describe('StatusUpdateModalController', function() {
         REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
         stateTrackerService;
 
-    beforeEach(function() {
-        module('cce-inventory-item-status');
-
-        inject(function($injector) {
-            $q = $injector.get('$q');
-            $state = $injector.get('$state');
-            $rootScope = $injector.get('$rootScope');
-            $controller = $injector.get('$controller');
-            messageService = $injector.get('messageService');
-            FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
-            REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
-            inventoryItemService = $injector.get('inventoryItemService');
-            loadingModalService = $injector.get('loadingModalService');
-            notificationService = $injector.get('notificationService');
-            stateTrackerService = $injector.get('stateTrackerService');
-        });
-
-        date = new Date();
-
-        inventoryItem = {
-            reasonNotWorkingOrNotInUse: undefined,
-            functionalStatus: FUNCTIONAL_STATUS.FUNCTIONING,
-            decommissionDate: date
-        };
-
-        modalDeferred = $q.defer();
-        saveDeferred = $q.defer();
-        $scope = {};
-
-        vm = $controller('StatusUpdateModalController', {
-            inventoryItem: inventoryItem,
-            $scope: $scope
-        });
-
-        messages = {
-            'cceInventoryItemStatus.obsolete': 'Obsolete',
-            'cceInventoryItemStatus.needsSpareParts': 'Needs Spare Parts'
-        };
-
-        spyOn(stateTrackerService, 'getPreviousState').andReturn('openlmis.cce.inventory.details');
-        spyOn(messageService, 'get').andCallFake(function(key) {
-            return messages[key];
-        });
-        spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
-        spyOn($state, 'go').andReturn();
-    });
+    beforeEach(prepareSuite);
 
     describe('$onInit', function() {
 
@@ -209,11 +164,11 @@ describe('StatusUpdateModalController', function() {
 
             vm.save();
 
-            expect(inventoryItemService.save).toHaveBeenCalledWith({
+            expect(inventoryItemService.save).toHaveBeenCalledWith(angular.merge(inventoryItem, {
                 functionalStatus: FUNCTIONAL_STATUS.FUNCTIONING,
                 reasonNotWorkingOrNotInUse: undefined,
                 decommissionDate: undefined
-            });
+            }));
         });
 
         it('should ignore date for NON_FUNCTIONING status', function() {
@@ -223,11 +178,11 @@ describe('StatusUpdateModalController', function() {
 
             vm.save();
 
-            expect(inventoryItemService.save).toHaveBeenCalledWith({
+            expect(inventoryItemService.save).toHaveBeenCalledWith(angular.merge(inventoryItem, {
                 functionalStatus: FUNCTIONAL_STATUS.NON_FUNCTIONING,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
                 decommissionDate: undefined
-            });
+            }));
         });
 
         it('should ignore date for AWAITING_REPAIR status', function() {
@@ -237,11 +192,11 @@ describe('StatusUpdateModalController', function() {
 
             vm.save();
 
-            expect(inventoryItemService.save).toHaveBeenCalledWith({
+            expect(inventoryItemService.save).toHaveBeenCalledWith(angular.merge(inventoryItem, {
                 functionalStatus: FUNCTIONAL_STATUS.AWAITING_REPAIR,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
                 decommissionDate: undefined
-            });
+            }));
         });
 
         it('should ignore date for UNSERVICABLE status', function() {
@@ -251,11 +206,11 @@ describe('StatusUpdateModalController', function() {
 
             vm.save();
 
-            expect(inventoryItemService.save).toHaveBeenCalledWith({
+            expect(inventoryItemService.save).toHaveBeenCalledWith(angular.merge(inventoryItem, {
                 functionalStatus: FUNCTIONAL_STATUS.UNSERVICABLE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
                 decommissionDate: undefined
-            });
+            }));
         });
 
         it('should pass date and reason for OBSOLETE status', function() {
@@ -265,37 +220,17 @@ describe('StatusUpdateModalController', function() {
 
             vm.save();
 
-            expect(inventoryItemService.save).toHaveBeenCalledWith({
+            expect(inventoryItemService.save).toHaveBeenCalledWith(angular.merge(inventoryItem, {
                 functionalStatus: FUNCTIONAL_STATUS.OBSOLETE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
                 decommissionDate: date
-            });
+            }));
         });
 
-        it('should redirect to inventory list after successful save', function() {
+        it('should redirect to the previous page after successful save', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
             vm.decommissionDate = date;
-
-            spyOn(loadingModalService, 'open').andReturn($q.when(true));
-            spyOn(notificationService, 'success');
-
-            vm.save();
-            expect($state.go).not.toHaveBeenCalled();
-            saveDeferred.resolve();
-            $rootScope.$apply();
-
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory', {}, {
-                reload: true
-            });
-            expect(notificationService.success).toHaveBeenCalledWith('cceInventoryItemStatus.inventoryItemSaved');
-        });
-
-        it('should redirect to the inventory item details page if inventory item has ID', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
-            vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
-            vm.decommissionDate = date;
-            vm.inventoryItem.id = 'some-inventory-item-id';
 
             spyOn(loadingModalService, 'open').andReturn($q.when(true));
             spyOn(notificationService, 'success');
@@ -305,12 +240,14 @@ describe('StatusUpdateModalController', function() {
             saveDeferred.resolve(inventoryItem);
             $rootScope.$apply();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
-                inventoryItem: inventoryItem,
-                inventoryItemId: inventoryItem.id
-            }, {
-                reload: true
-            });
+            expect(stateTrackerService.goToPreviousState).toHaveBeenCalledWith(
+                'openlmis.cce.inventory', {
+                    inventoryItem: inventoryItem,
+                    inventoryItemId: inventoryItem.id
+                }
+            );
+            expect(notificationService.success)
+                .toHaveBeenCalledWith('cceInventoryItemStatus.inventoryItemSaved');
         });
 
     });
@@ -355,18 +292,15 @@ describe('StatusUpdateModalController', function() {
             vm.$onInit();
         });
 
-        it('should take use back if form is not dirty', function() {
-            vm.inventoryItem.id = undefined;
-
+        it('should take user to the previous state if form is not dirty', function() {
             vm.cancel();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
-        });
-
-        it('should take user back to details page if inventory item has ID', function() {
-            vm.cancel();
-
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
+            expect(stateTrackerService.goToPreviousState).toHaveBeenCalledWith(
+                'openlmis.cce.inventory', {
+                    inventoryItem: inventoryItem,
+                    inventoryItemId: inventoryItem.id
+                }
+            );
         });
 
         it('should take user back if form is dirty and confirmation succeeded', function() {
@@ -375,12 +309,17 @@ describe('StatusUpdateModalController', function() {
             vm.cancel();
 
             expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
+            expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
 
             confirmDeferred.resolve();
             $rootScope.$apply();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
+            expect(stateTrackerService.goToPreviousState).toHaveBeenCalledWith(
+                'openlmis.cce.inventory', {
+                    inventoryItem: inventoryItem,
+                    inventoryItemId: inventoryItem.id
+                }
+            );
         });
 
         it('should not take use back if form is dirty and confirmation failed', function() {
@@ -389,14 +328,61 @@ describe('StatusUpdateModalController', function() {
             vm.cancel();
 
             expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
 
             confirmDeferred.reject();
             $rootScope.$apply();
 
-            expect($state.go).not.toHaveBeenCalled();
+            expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
         });
 
     });
+
+    function prepareSuite() {
+        module('cce-inventory-item-status');
+
+        inject(function($injector) {
+            $q = $injector.get('$q');
+            $state = $injector.get('$state');
+            $rootScope = $injector.get('$rootScope');
+            $controller = $injector.get('$controller');
+            messageService = $injector.get('messageService');
+            FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
+            REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
+            inventoryItemService = $injector.get('inventoryItemService');
+            loadingModalService = $injector.get('loadingModalService');
+            notificationService = $injector.get('notificationService');
+            stateTrackerService = $injector.get('stateTrackerService');
+        });
+
+        date = new Date();
+
+        inventoryItem = {
+            id: 'da86007b-bfdc-4ebd-b38c-746380cd98df',
+            reasonNotWorkingOrNotInUse: undefined,
+            functionalStatus: FUNCTIONAL_STATUS.FUNCTIONING,
+            decommissionDate: date
+        };
+
+        modalDeferred = $q.defer();
+        saveDeferred = $q.defer();
+        $scope = {};
+
+        vm = $controller('StatusUpdateModalController', {
+            inventoryItem: inventoryItem,
+            $scope: $scope
+        });
+
+        messages = {
+            'cceInventoryItemStatus.obsolete': 'Obsolete',
+            'cceInventoryItemStatus.needsSpareParts': 'Needs Spare Parts'
+        };
+
+        spyOn(stateTrackerService, 'goToPreviousState');
+        spyOn(messageService, 'get').andCallFake(function(key) {
+            return messages[key];
+        });
+        spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
+        spyOn($state, 'go').andReturn();
+    }
 
 });

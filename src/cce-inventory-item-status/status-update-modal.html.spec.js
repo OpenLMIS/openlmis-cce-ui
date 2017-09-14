@@ -201,25 +201,16 @@ describe('status-update-modal.html template', function() {
             formCtrl = getElement('form', 'status-update-form').controller('form');
         });
 
-        it('should take user back to the inventory item list if the form was not dirty', function() {
-            vm.inventoryItem.id = undefined;
-
+        it('should take user back to the previous page if the form was not dirty', function() {
             button.click();
             $timeout.flush();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
-        });
-
-        it('should take user back to the inventory item details if the inventory item has ID', function() {
-            button.click();
-            $timeout.flush();
-
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
-                inventoryItem: inventoryItem,
-                inventoryItemId: inventoryItem.id
-            }, {
-                reload: true
-            });
+            expect(stateTrackerService.goToPreviousState).toHaveBeenCalledWith(
+                'openlmis.cce.inventory', {
+                    inventoryItem: inventoryItem,
+                    inventoryItemId: inventoryItem.id
+                }
+            );
         });
 
         it('should open confirmation modal if form was touched', function() {
@@ -229,12 +220,10 @@ describe('status-update-modal.html template', function() {
             button.click();
 
             expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
+            expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
         });
 
         it('should take user back if form was dirty and confirmation was successful', function() {
-            vm.inventoryItem.id = undefined;
-
             formCtrl.$setDirty();
             $rootScope.$apply();
 
@@ -242,12 +231,17 @@ describe('status-update-modal.html template', function() {
             $rootScope.$apply();
 
             expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
+            expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
 
             confirmDeferred.resolve();
             $rootScope.$apply();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
+            expect(stateTrackerService.goToPreviousState).toHaveBeenCalledWith(
+                'openlmis.cce.inventory', {
+                    inventoryItem: inventoryItem,
+                    inventoryItemId: inventoryItem.id
+                }
+            );
         });
 
         it('should not take user back if form was dirty and confirmation was unsuccessful', function() {
@@ -258,12 +252,11 @@ describe('status-update-modal.html template', function() {
             $rootScope.$apply();
 
             expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
 
             confirmDeferred.reject();
             $rootScope.$apply();
 
-            expect($state.go).not.toHaveBeenCalled();
+            expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
         });
 
     });
@@ -277,48 +270,32 @@ describe('status-update-modal.html template', function() {
             date = new Date('Fri Aug 11 2017 00:00:00 GMT+0000 (UTC)');
         });
 
-        it('should take user to the inventory list after saving', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
-            vm.reason = REASON_FOR_NOT_WORKING.NOT_APPLICABLE;
-            vm.decommissionDate = date;
-            vm.inventoryItem.id = undefined;
-
-            $rootScope.$apply();
-            form.triggerHandler('submit');
-
-            expect(inventoryItemService.save).toHaveBeenCalledWith({
+        it('should take user back to the previous state after saving', function() {
+            var expected = angular.merge({}, inventoryItem, {
                 functionalStatus: FUNCTIONAL_STATUS.OBSOLETE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NOT_APPLICABLE,
                 decommissionDate: date
             });
-            expect($state.go).not.toHaveBeenCalled();
 
-            saveDeferred.resolve();
-            $rootScope.$apply();
-
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory', {}, {
-                reload: true
-            });
-        });
-
-        it('should take user to the details page after saving if inventory items has ID', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
-            vm.reason = REASON_FOR_NOT_WORKING.NOT_APPLICABLE;
-            vm.decommissionDate = date;
-            vm.inventoryItem.id = 'some-inventory-item-id';
+            vm.newStatus = expected.functionalStatus
+            vm.reason = expected.reasonNotWorkingOrNotInUse;
+            vm.decommissionDate = expected.decommissionDate;
 
             $rootScope.$apply();
             form.triggerHandler('submit');
 
-            saveDeferred.resolve(vm.inventoryItem);
+            expect(inventoryItemService.save).toHaveBeenCalledWith(expected);
+            expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
+
+            saveDeferred.resolve(expected);
             $rootScope.$apply();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
-                inventoryItem: vm.inventoryItem,
-                inventoryItemId: vm.inventoryItem.id
-            }, {
-                reload: true
-            });
+            expect(stateTrackerService.goToPreviousState).toHaveBeenCalledWith(
+                'openlmis.cce.inventory', {
+                    inventoryItem: expected,
+                    inventoryItemId: expected.id
+                }
+            );
         });
 
         it('should not take any action if form is invalid', function() {
@@ -330,7 +307,7 @@ describe('status-update-modal.html template', function() {
             form.triggerHandler('submit');
 
             expect(inventoryItemService.save).not.toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
+            expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
         });
 
         it('should not take user anywhere if saving failed', function() {
@@ -347,12 +324,12 @@ describe('status-update-modal.html template', function() {
                 decommissionDate: date,
                 id: 'some-inventory-item-id'
             });
-            expect($state.go).not.toHaveBeenCalled();
+            expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
 
             saveDeferred.reject();
             $rootScope.$apply();
 
-            expect($state.go).not.toHaveBeenCalled();
+            expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
         });
 
     });
@@ -389,7 +366,7 @@ describe('status-update-modal.html template', function() {
     function prepareSpies() {
         spyOn($state, 'go').andReturn();
         spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
-        spyOn(stateTrackerService, 'getPreviousState').andReturn('openlmis.cce.inventory.details');
+        spyOn(stateTrackerService, 'goToPreviousState');
     }
 
     function prepareView() {
