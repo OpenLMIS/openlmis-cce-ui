@@ -74,46 +74,13 @@ describe('catalogItemService', function() {
         });
     });
 
-    describe('getAll', function() {
-
-        beforeEach(function() {
-            $httpBackend.when('GET', cceUrlFactory('/api/catalogItems')).respond(200, catalogItems);
-        });
-
-        it('should return promise', function() {
-            var result = catalogItemService.getAll(catalogItems[0].id);
-            $httpBackend.flush();
-
-            expect(result.then).not.toBeUndefined();
-        });
-
-        it('should resolve to catalog items', function() {
-            var result;
-
-            catalogItemService.getAll().then(function(data) {
-                result = data;
-            });
-            $httpBackend.flush();
-            $rootScope.$apply();
-
-            expect(angular.toJson(result)).toEqual(angular.toJson(catalogItems));
-        });
-
-        it('should make a proper request', function() {
-            $httpBackend.expect('GET', cceUrlFactory('/api/catalogItems'));
-
-            catalogItemService.getAll(catalogItems[0].id);
-            $httpBackend.flush();
-        });
-    });
-
     describe('upload', function() {
 
         var file;
 
         beforeEach(function() {
             file = 'file-content';
-            $httpBackend.when('POST', cceUrlFactory('/api/catalogItems?type=csv')).respond(200, {
+            $httpBackend.when('POST', cceUrlFactory('/api/catalogItems?format=csv')).respond(200, {
                 content: file
             });
         });
@@ -138,7 +105,7 @@ describe('catalogItemService', function() {
         });
 
         it('should make a proper request', function() {
-            $httpBackend.expect('POST', cceUrlFactory('/api/catalogItems?type=csv'));
+            $httpBackend.expect('POST', cceUrlFactory('/api/catalogItems?format=csv'));
 
             catalogItemService.upload(file);
             $httpBackend.flush();
@@ -164,18 +131,14 @@ describe('catalogItemService', function() {
         });
 
         it('should include archived in the body', function() {
-            $httpBackend.expect('POST', cceUrlFactory('/api/catalogItems/search', {
-                archived: true
-            })).respond(200, response);
+            $httpBackend.expect('GET', cceUrlFactory('/api/catalogItems?archived=true')).respond(200, response);
 
             catalogItemService.search(true);
             $httpBackend.flush();
         });
 
         it('should include visibleInCatalog in the body', function() {
-            $httpBackend.expect('POST', cceUrlFactory('/api/catalogItems/search', {
-                visibleInCatalog: true
-            })).respond(200, response);
+            $httpBackend.expect('GET', cceUrlFactory('/api/catalogItems?visibleInCatalog=true')).respond(200, response);
 
             catalogItemService.search(undefined, true);
             $httpBackend.flush();
@@ -184,10 +147,7 @@ describe('catalogItemService', function() {
         it('should return promise resolving to a list of catalog items', function() {
             var result;
 
-            $httpBackend.when('POST', cceUrlFactory('/api/catalogItems/search', {
-                archived: true,
-                visibleInCatalog: true
-            })).respond(200, response);
+            $httpBackend.when('GET', cceUrlFactory('/api/catalogItems?archived=true&visibleInCatalog=true')).respond(200, response);
 
             catalogItemService.search(true, true).then(function(response) {
                 result = response;
@@ -209,8 +169,8 @@ describe('catalogItemService', function() {
         it('should call cceUrlFactory', function(){
             var result = catalogItemService.getDownloadUrl();
 
-            expect(result).toEqual('/api/catalogItems?type=csv');
-            expect(cceUrlFactory).toHaveBeenCalledWith('/api/catalogItems?type=csv');
+            expect(result).toEqual('/api/catalogItems?format=csv');
+            expect(cceUrlFactory).toHaveBeenCalledWith('/api/catalogItems?format=csv');
         });
     });
 

@@ -33,27 +33,21 @@
     function service(cceUrlFactory, $resource, FormData) {
 
         var resource = $resource(cceUrlFactory('/api/catalogItems/:id'), {}, {
-                'getAll': {
-                    url: cceUrlFactory('/api/catalogItems'),
-                    method: 'GET',
-                    isArray: true
-                },
                 'upload': {
-                    url: cceUrlFactory('/api/catalogItems?type=csv'),
+                    url: cceUrlFactory('/api/catalogItems?format=csv'),
                     method: 'POST',
                     headers: {
                         'Content-Type': undefined
                     }
                 },
                 'search': {
-                    url: cceUrlFactory('/api/catalogItems/search'),
-                    method: 'POST'
+                    url: cceUrlFactory('/api/catalogItems'),
+                    method: 'GET'
                 }
             });
 
         return {
             get: get,
-            getAll: getAll,
             upload: upload,
             search: search,
             getDownloadUrl: getDownloadUrl
@@ -119,7 +113,7 @@
          * @return {String} the URL for downloading catalog items
          */
         function getDownloadUrl() {
-            return cceUrlFactory('/api/catalogItems?type=csv');
+            return cceUrlFactory('/api/catalogItems?format=csv');
         }
 
         function search(archived, visibleInCatalog) {
