@@ -27,4 +27,8 @@
     .horizontal-list dd {
         margin: 0 0 0 50%;
     }
+
+    #additional-notes > dd {
+        white-space: pre;
+    }
 }
