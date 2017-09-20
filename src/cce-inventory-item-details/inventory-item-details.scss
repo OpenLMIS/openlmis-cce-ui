@@ -29,6 +29,7 @@
     }
 
     #additional-notes > dd {
-        white-space: pre;
+        white-space: pre-line;
+        word-break: break-word;
     }
 }

@@ -15,8 +15,9 @@
 
 describe('add-inventory-item.html template', function() {
 
-    var template, $compile, $rootScope, $scope, $templateRequest, $controller, vm,
-        authorizationService, $timeout, $state, program, facility, types, type, catalogItem, catalogItems;
+    var template, $compile, $rootScope, $scope, $templateRequest, $controller,
+        authorizationService, $timeout, $state, program, facility, types, type, catalogItem,
+        catalogItems;
 
     beforeEach(function() {
         module('openlmis-form');
@@ -79,11 +80,21 @@ describe('add-inventory-item.html template', function() {
         var select;
 
         beforeEach(function() {
-            select = getElement('select', 'type');
+            select = template.find('#type')
         });
 
         it('should be required', function() {
-            expect(select.prop('required')).toBe(true);
+            expect(
+                select.prop('required')
+            ).toBe(true);
+        });
+
+        it('should clear make/model selection on change', function() {
+            select.find('option:contains("' + types[1] + '")')
+                .prop('selected', 'selected')
+                .trigger('change');
+
+            expect($scope.vm.clearMakeModelSelection).toHaveBeenCalled();
         });
 
     });
@@ -93,18 +104,18 @@ describe('add-inventory-item.html template', function() {
         var select;
 
         beforeEach(function() {
-            select = getElement('select', 'make-model');
+            select = template.find('#make-model');
         });
 
         it('should be disabled until equipment type is selected', function() {
-            vm.type = undefined;
+            $scope.vm.type = undefined;
             $rootScope.$apply();
 
             expect(select.prop('disabled')).toBe(true);
         });
 
         it('should be enabled if equipment type is selected', function() {
-            vm.type = 'Refrigerator';
+            $scope.vm.type = 'Refrigerator';
             $rootScope.$apply();
 
             expect(select.prop('disabled')).toBe(false);
@@ -115,7 +126,7 @@ describe('add-inventory-item.html template', function() {
         });
 
         it('should only show options for selected type', function() {
-            vm.type = types[1];
+            $scope.vm.type = types[1];
 
             $rootScope.$apply();
 
@@ -123,85 +134,15 @@ describe('add-inventory-item.html template', function() {
             expect(select.html().indexOf('LOL-1337') === -1).toBe(true);
         });
 
-        it('should clear selection if type changed', function() {
-            vm.type = types[0];
-            vm.catalogItem = vm.catalogItems[0];
-            $rootScope.$apply();
-            expect(getSelectedOption(select).indexOf('openlmisForm.selectAnOption') > -1)
-                .toBe(false);
-
-            vm.type = types[1];
-            $rootScope.$apply();
-            expect(getSelectedOption(select).indexOf('openlmisForm.selectAnOption') > -1)
-                .toBe(true);
-        });
-
     });
 
     describe('Cancel button', function() {
 
-        var button, formCtrl, confirmService, confirmDeferred, $q;
-
-        beforeEach(function() {
-            inject(function($injector) {
-                confirmService = $injector.get('confirmService');
-                $q = $injector.get('$q');
-            });
-
-            confirmDeferred = $q.defer();
-            spyOn(confirmService, 'confirm').andReturn(confirmDeferred.promise);
-
-            button = getElement('button', 'cancel');
-            formCtrl = getElement('form', 'add-inventory-item-form').controller('form');
-        });
-
-        it('should take user back to the inventory item list if the form was not dirty', function() {
-            button.click();
+        it('should call vm.goToInventoryList method', function() {
+            template.find('#cancel').click();
             $timeout.flush();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
-        });
-
-        it('should open confirmation modal if form was touched', function() {
-            formCtrl.$setDirty();
-            $rootScope.$apply();
-
-            button.click();
-
-            expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
-        });
-
-        it('should take user back if form was dirty and confirmation was successful', function() {
-            formCtrl.$setDirty();
-            $rootScope.$apply();
-
-            button.click();
-            $rootScope.$apply();
-
-            expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
-
-            confirmDeferred.resolve();
-            $rootScope.$apply();
-
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
-        });
-
-        it('should not take user back if form was dirty and confirmation was unsuccessful', function() {
-            formCtrl.$setDirty();
-            $rootScope.$apply();
-
-            button.click();
-            $rootScope.$apply();
-
-            expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
-
-            confirmDeferred.reject();
-            $rootScope.$apply();
-
-            expect($state.go).not.toHaveBeenCalled();
+            expect($scope.vm.goToInventoryList).toHaveBeenCalled();
         });
 
     });
@@ -213,7 +154,7 @@ describe('add-inventory-item.html template', function() {
         var button;
 
         beforeEach(function() {
-            button = getElement('button', 'add');
+            button = template.find('#add');
         });
 
         it('should point to the add-inventory-item-form', function() {
@@ -231,79 +172,39 @@ describe('add-inventory-item.html template', function() {
         var form;
 
         beforeEach(function() {
-            form = getElement('form', 'add-inventory-item-form');
+            form = template.find('#add-inventory-item-form');
+            spyOn($scope.vm, 'addInventoryItem');
         });
 
-        it('should do nothing if form is invalid', function() {
-            vm.type = undefined;
+        it('should call $scope.vm.addInventoryItem method', function() {
+            $scope.vm.program = program;
+            $scope.vm.facility = facility;
+            $scope.vm.type = type;
+            $scope.vm.catalogItem = catalogItem;
 
             $rootScope.$apply();
             form.triggerHandler('submit');
-
-            expect($state.go).not.toHaveBeenCalled();
-        });
-
-        it('should take the use to the edit details modal if form is valid', function() {
-            vm.program = program;
-            vm.facility = facility;
-            vm.type = type;
-            vm.catalogItem = catalogItem;
-
             $rootScope.$apply();
-            form.triggerHandler('submit');
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.edit', {
-                inventoryItem: {
-                    facility: facility,
-                    programId: 'program-id',
-                    program: program,
-                    catalogItem: catalogItem
-                }
-            });
+            expect($scope.vm.addInventoryItem).toHaveBeenCalled();
         });
 
     });
 
     function prepareView() {
         $scope = $rootScope.$new();
-
-        vm = $controller('AddInventoryItemController', {
-            $scope: $scope,
+        $scope.vm = {
+            catalogItems: catalogItems,
             types: types,
-            catalogItems: catalogItems
-        });
-        vm.$onInit();
-
-        $scope.vm = vm;
+            addInventoryItem: jasmine.createSpy('addInventoryItem'),
+            goToInventoryList: jasmine.createSpy('goToInventoryList'),
+            clearMakeModelSelection: jasmine.createSpy('clearMakeModelSelection')
+        };
 
         $templateRequest('cce-add-inventory-item/add-inventory-item.html').then(function(requested) {
             template = $compile(requested)($scope);
         });
         $rootScope.$apply();
-    }
-
-    function getElement(type, id) {
-        var result;
-
-        angular.forEach(template.find(type), function(element) {
-            if (angular.element(element).attr('id') === id) {
-                result = angular.element(element);
-            }
-        });
-
-        return result;
-    }
-
-    function getSelectedOption(select) {
-        var selected;
-
-        angular.forEach(select.find('option'), function(option) {
-            if (angular.element(option).attr('selected')) {
-                selected = angular.element(option);
-            }
-        });
-
-        return selected.html();
     }
 
 });

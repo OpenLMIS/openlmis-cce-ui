@@ -15,104 +15,49 @@
 
 describe('edit-inventory-item.html template', function() {
 
-    var vm, $controller, $compile, $rootScope, $templateRequest, $timeout, $state, template, $q,
-        ENERGY_SOURCE, messages, messageService, inventoryItemService, saveDeferred, inventoryItem;
+    var vm, $controller, $compile, $rootScope, $templateRequest, $timeout, $state, template,
+        messages, messageService, inventoryItem, $q;
 
-    beforeEach(function() {
-        module('openlmis-templates');
-        module('openlmis-form');
-        module('cce-edit-inventory-item');
-
-        inject(function($injector) {
-            $controller = $injector.get('$controller');
-            $compile = $injector.get('$compile');
-            $rootScope = $injector.get('$rootScope');
-            $templateRequest = $injector.get('$templateRequest');
-            $timeout = $injector.get('$timeout');
-            $state = $injector.get('$state');
-            ENERGY_SOURCE = $injector.get('ENERGY_SOURCE');
-            messageService = $injector.get('messageService');
-            inventoryItemService = $injector.get('inventoryItemService');
-            $q = $injector.get('$q');
-        });
-
-        inventoryItem = {
-            id: 'some-inventory-item-id',
-            catalogItem: {
-                manufacturer: 'Cooltec',
-                model: 'X-GGTA 1',
-                type: 'Refrigerator'
-            },
-            programId: 'program-id',
-            facility: {
-                id: 'facility-id',
-                name: 'Facility One',
-                supportedPrograms: [{
-                    id: 'program-id',
-                    name: 'Program One'
-                }]
-            }
-        };
-
-        messages = {
-            'cceEditInventoryItem.addNewColdChainEquipment': 'Add New Cold Chain Equipment',
-            'cceEditInventoryItem.editEquipmentDetails': 'Edit equipment details'
-        };
-
-        saveDeferred = $q.defer();
-
-        spyOn($state, 'go').andReturn();
-        spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
-        spyOn(messageService, 'get').andCallFake(function(key) {
-            return messages[key];
-        });
-    });
+    beforeEach(prepareSuite);
 
     describe('modal title', function() {
 
         it('should be "Edit equipment details" if inventory item has ID', function() {
-            prepareView();
+            vm.inventoryItem.id = 'some-inventory-item-id';
+            $rootScope.$apply();
 
-            expect(getElement('h2').html().indexOf('Edit equipment details') > -1).toEqual(true);
+            expect(
+                template.find('.modal-title').html().indexOf('Edit equipment details') > -1
+            ).toEqual(true);
         });
 
         it('should be "Add New Cold Chain Equipment" if inventory item has no ID', function() {
-            inventoryItem.id = undefined;
+            vm.inventoryItem.id = undefined;
+            $rootScope.$apply();
 
-            prepareView();
-
-            expect(getElement('h2').html().indexOf('Add New Cold Chain Equipment') > -1)
-                .toEqual(true);
+            expect(
+                template.find('.modal-title').html().indexOf('Add New Cold Chain Equipment') > -1
+            ).toEqual(true);
         });
 
     });
 
     describe('Serial number input', function() {
 
-        var input;
-
-        beforeEach(function() {
-            prepareView();
-            input = getElement('input', 'serial-number');
-        });
-
         it('should be required', function() {
-            expect(input.prop('required')).toBe(true);
+            expect(
+                template.find('#serial-number').prop('required')
+            ).toBe(true);
         });
 
     });
 
     describe('Reference Name input', function() {
 
-        var input;
-
-        beforeEach(function() {
-            prepareView();
-            input = getElement('input', 'reference-name');
-        });
-
         it('should be required', function() {
-            expect(input.prop('required')).toBe(true);
+            expect(
+                template.find('#reference-name').prop('required')
+            ).toBe(true);
         });
 
     });
@@ -122,8 +67,7 @@ describe('edit-inventory-item.html template', function() {
         var input;
 
         beforeEach(function() {
-            prepareView();
-            input = getElement('input', 'year-of-installation');
+            input = template.find('#year-of-installation');
         });
 
         it('should be required', function() {
@@ -153,8 +97,7 @@ describe('edit-inventory-item.html template', function() {
         var input;
 
         beforeEach(function() {
-            prepareView();
-            input = getElement('input', 'year-of-warranty-expiry');
+            input = template.find('#year-of-warranty-expiry');
         });
 
         it('should allow only year to be entered', function() {
@@ -178,350 +121,211 @@ describe('edit-inventory-item.html template', function() {
 
     describe('Voltage Stabilizer radio buttons', function() {
 
-        var buttons, buttonsTested;
+        beforeEach(function() {
+            vm.cceStatuses = [
+                'status one',
+                'status two'
+            ];
 
-
-        it('should be required', function() {
-            prepareView();
-            buttons = getButtons();
-
-            angular.forEach(buttons, function(button) {
-                expect(angular.element(button).prop('required')).toBe(true);
-
-                buttonsTested = true;
-            });
+            $rootScope.$apply();
         });
 
-        it('should be disabled if Energy Source is Solar', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.SOLAR;
+        it('should be enabled and required if powerFieldsDisabled is unset', function() {
+            vm.powerFieldsDisabled = false;
 
-            prepareView();
-            buttons = getButtons();
+            $rootScope.$apply();
 
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(true);
-                expect(element.prop('required')).toBe(false);
-
-                buttonsTested = true;
-            });
+            var buttons = getButtons();
+            expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[0]).prop('required')).toBe(true);
+            expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
 
-        it('should be disabled if Energy Source is Not Applicable', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.NOT_APPLICABLE;
+        it('should be enabled and required if powerFieldsDisabled is undefined', function() {
+            vm.powerFieldsDisabled = undefined;
 
-            prepareView();
-            buttons = getButtons();
+            $rootScope.$apply();
 
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(true);
-                expect(element.prop('required')).toBe(false);
-
-                buttonsTested = true;
-            });
+            var buttons = getButtons();
+            expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[0]).prop('required')).toBe(true);
+            expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
 
-        it('should be enabled if Energy Source is Gasoline', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.GASOLINE;
+        it('should be disabled not required if powerFieldsDisabled flag is set', function() {
+            vm.powerFieldsDisabled = true;
 
-            prepareView();
-            buttons = getButtons();
+            $rootScope.$apply();
 
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(false);
-                expect(element.prop('required')).toBe(true);
-
-                buttonsTested = true;
-            });
-        });
-
-        it('should be enabled if Energy Source is Electric', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.ELECTRIC;
-
-            prepareView();
-            buttons = getButtons();
-
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(false);
-                expect(element.prop('required')).toBe(true);
-
-                buttonsTested = true;
-            });
-        });
-
-        afterEach(function () {
-            expect(buttonsTested).toBe(true);
+            var buttons = getButtons();
+            expect(angular.element(buttons[0]).prop('disabled')).toBe(true);
+            expect(angular.element(buttons[1]).prop('disabled')).toBe(true);
+            expect(angular.element(buttons[0]).prop('required')).toBe(false);
+            expect(angular.element(buttons[1]).prop('required')).toBe(false);
         });
 
         function getButtons() {
-            return getElement('fieldset', 'voltage-stabilizer').find('input');
+            return template.find('#voltage-stabilizer').find('input');
         }
 
     });
 
     describe('Voltage regulator radio buttons', function() {
 
-        var buttons, buttonsTested;
+        beforeEach(function() {
+            vm.cceStatuses = [
+                'status one',
+                'status two'
+            ];
 
-        it('should be required', function() {
-            prepareView();
-            buttons = getButtons();
-
-            angular.forEach(buttons, function(button) {
-                expect(angular.element(button).prop('required')).toBe(true);
-
-                buttonsTested = true;
-            });
+            $rootScope.$apply();
         });
 
-        it('should be disabled if Energy Source is Solar', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.SOLAR;
+        it('should be enabled and required if powerFieldsDisabled is unset', function() {
+            vm.powerFieldsDisabled = false;
 
-            prepareView();
-            buttons = getButtons();
+            $rootScope.$apply();
 
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(true);
-                expect(element.prop('required')).toBe(false);
-
-                buttonsTested = true;
-            });
+            var buttons = getButtons();
+            expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[0]).prop('required')).toBe(true);
+            expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
 
-        it('should be disabled if Energy Source is Not Applicable', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.NOT_APPLICABLE;
+        it('should be enabled and required if powerFieldsDisabled is undefined', function() {
+            vm.powerFieldsDisabled = undefined;
 
-            prepareView();
-            buttons = getButtons();
+            $rootScope.$apply();
 
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(true);
-                expect(element.prop('required')).toBe(false);
-
-                buttonsTested = true;
-            });
+            var buttons = getButtons();
+            expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[0]).prop('required')).toBe(true);
+            expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
 
-        it('should be enabled if Energy Source is Gasoline', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.GASOLINE;
+        it('should be disabled not required if powerFieldsDisabled flag is set', function() {
+            vm.powerFieldsDisabled = true;
 
-            prepareView();
-            buttons = getButtons();
+            $rootScope.$apply();
 
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(false);
-                expect(element.prop('required')).toBe(true);
-
-                buttonsTested = true;
-            });
-        });
-
-        it('should be enabled if Energy Source is Electric', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.ELECTRIC;
-
-            prepareView();
-            buttons = getButtons();
-
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(false);
-                expect(element.prop('required')).toBe(true);
-
-                buttonsTested = true;
-            });
-        });
-
-        afterEach(function () {
-            expect(buttonsTested).toBe(true);
+            var buttons = getButtons();
+            expect(angular.element(buttons[0]).prop('disabled')).toBe(true);
+            expect(angular.element(buttons[1]).prop('disabled')).toBe(true);
+            expect(angular.element(buttons[0]).prop('required')).toBe(false);
+            expect(angular.element(buttons[1]).prop('required')).toBe(false);
         });
 
         function getButtons() {
-            return getElement('fieldset', 'voltage-regulator').find('input');
+            return template.find('#voltage-regulator').find('input');
         }
 
     });
 
     describe('Backup Generator radio buttons', function() {
 
-        var buttons, buttonsTested;
+        beforeEach(function() {
+            vm.cceStatuses = [
+                'status one',
+                'status two'
+            ];
 
-        it('should be required', function() {
-            prepareView();
-            buttons = getButtons();
-
-            angular.forEach(buttons, function(button) {
-                expect(angular.element(button).prop('required')).toBe(true);
-
-                buttonsTested = true;
-            });
+            $rootScope.$apply();
         });
 
-        it('should be disabled if Energy Source is Solar', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.SOLAR;
+        it('should be enabled and required if powerFieldsDisabled is unset', function() {
+            vm.powerFieldsDisabled = false;
 
-            prepareView();
-            buttons = getButtons();
+            $rootScope.$apply();
 
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(true);
-                expect(element.prop('required')).toBe(false);
-
-                buttonsTested = true;
-            });
+            var buttons = getButtons();
+            expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[0]).prop('required')).toBe(true);
+            expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
 
-        it('should be disabled if Energy Source is Not Applicable', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.NOT_APPLICABLE;
+        it('should be enabled and required if powerFieldsDisabled is undefined', function() {
+            vm.powerFieldsDisabled = undefined;
 
-            prepareView();
-            buttons = getButtons();
+            $rootScope.$apply();
 
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(true);
-                expect(element.prop('required')).toBe(false);
-
-                buttonsTested = true;
-            });
+            var buttons = getButtons();
+            expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
+            expect(angular.element(buttons[0]).prop('required')).toBe(true);
+            expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
 
-        it('should be enabled if Energy Source is Gasoline', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.GASOLINE;
+        it('should be disabled not required if powerFieldsDisabled flag is set', function() {
+            vm.powerFieldsDisabled = true;
 
-            prepareView();
-            buttons = getButtons();
+            $rootScope.$apply();
 
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(false);
-                expect(element.prop('required')).toBe(true);
-
-                buttonsTested = true;
-            });
-        });
-
-        it('should be enabled if Energy Source is Electric', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.ELECTRIC;
-
-            prepareView();
-            buttons = getButtons();
-
-            angular.forEach(buttons, function(button) {
-                var element = angular.element(button);
-
-                expect(element.prop('disabled')).toBe(false);
-                expect(element.prop('required')).toBe(true);
-
-                buttonsTested = true;
-            });
-        });
-
-        afterEach(function () {
-            expect(buttonsTested).toBe(true);
+            var buttons = getButtons();
+            expect(angular.element(buttons[0]).prop('disabled')).toBe(true);
+            expect(angular.element(buttons[1]).prop('disabled')).toBe(true);
+            expect(angular.element(buttons[0]).prop('required')).toBe(false);
+            expect(angular.element(buttons[1]).prop('required')).toBe(false);
         });
 
         function getButtons() {
-            return getElement('fieldset', 'backup-generator').find('input');
+            return template.find('#backup-generator').find('input');
         }
 
     });
 
     describe('Manual temperature gauge radio buttons', function() {
 
-        var buttons, buttonsTested;
-
-        beforeEach(function() {
-            prepareView();
-            buttons = getButtons();
-        });
-
         it('should be required', function() {
-            angular.forEach(buttons, function(button) {
-                expect(angular.element(button).prop('required')).toBe(true);
+            vm.manualTemperatureGaugeTypes = [
+                'type one',
+                'type two'
+            ];
 
-                buttonsTested = true;
-            });
+            $rootScope.$apply();
+
+            var buttons = template.find('#manual-temperature-gauge').find('input');
+            expect(angular.element(buttons[0]).prop('required')).toBe(true);
+            expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
-
-        afterEach(function () {
-            expect(buttonsTested).toBe(true);
-        });
-
-        function getButtons() {
-            return getElement('fieldset', 'manual-temperature-gauge').find('input');
-        }
 
     });
 
     describe('Utilization radio buttons', function() {
 
-        var buttons, buttonsTested;
-
-        beforeEach(function() {
-            prepareView();
-            buttons = getButtons();
-        });
-
         it('should be required', function() {
-            angular.forEach(buttons, function(button) {
-                expect(angular.element(button).prop('required')).toBe(true);
+            vm.utilizationStatuses = [
+                'status one',
+                'status two'
+            ];
 
-                buttonsTested = true;
-            });
+            $rootScope.$apply();
+
+            var buttons = template.find('#utilization').find('input');
+            expect(angular.element(buttons[0]).prop('required')).toBe(true);
+            expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
-
-        afterEach(function () {
-            expect(buttonsTested).toBe(true);
-        });
-
-        function getButtons() {
-            return getElement('fieldset', 'utilization').find('input');
-        }
 
     });
 
     describe('Remote Temperature Monitor radio buttons', function() {
 
-        var buttons, buttonsTested;
-
-        beforeEach(function() {
-            prepareView();
-            buttons = getButtons();
-        });
-
         it('should be required', function() {
-            angular.forEach(buttons, function(button) {
-                expect(angular.element(button).prop('required')).toBe(true);
+            vm.remoteTemperatureMonitorTypes = [
+                'type one',
+                'type two'
+            ];
 
-                buttonsTested = true;
-            });
+            $rootScope.$apply();
+
+            var buttons = template.find('#remote-temperature-monitor').find('input');
+            expect(angular.element(buttons[0]).prop('required')).toBe(true);
+            expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
-
-        afterEach(function () {
-            expect(buttonsTested).toBe(true);
-        });
-
-        function getButtons() {
-            return getElement('fieldset', 'remote-temperature-monitor').find('input');
-        }
 
     });
 
@@ -530,9 +334,10 @@ describe('edit-inventory-item.html template', function() {
         var form;
 
         beforeEach(function() {
-            prepareView();
-            form = getElement('form', 'edit-inventory-item-form');
+            form = template.find('#edit-inventory-item-form');
+        });
 
+        it('should call vm.add', function() {
             vm.inventoryItem.id = '9c704186-6191-4434-b39f-71be7ca87304';
             vm.inventoryItem.equipmentTrackingId = 'some-serial-number';
             vm.inventoryItem.referenceName = 'Reference Name';
@@ -543,59 +348,12 @@ describe('edit-inventory-item.html template', function() {
             vm.inventoryItem.manualTemperatureGauge = 'BUILD_IN';
             vm.inventoryItem.remoteTemperatureMonitor = 'BUILD_IN';
             vm.inventoryItem.utilization = 'ACTIVE';
-        });
-
-        it('should take user to the status update page if inventory item has no ID', function() {
-            vm.inventoryItem.id = undefined;
 
             $rootScope.$apply();
             form.triggerHandler('submit');
-
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
-                inventoryItem: vm.inventoryItem
-            });
-        });
-
-        it('should not take user anywhere if form is invalid', function() {
-            vm.inventoryItem.remoteTemperatureMonitor = undefined;
-            vm.inventoryItem.utilization = undefined;
-
-            $rootScope.$apply();
-            form.triggerHandler('submit');
-
-            expect($state.go).not.toHaveBeenCalled();
-        });
-
-        it('should not save inventory item if form is invalid', function() {
-            vm.inventoryItem.remoteTemperatureMonitor = undefined;
-            vm.inventoryItem.utilization = undefined;
-
-            $rootScope.$apply();
-            form.triggerHandler('submit');
-
-            expect(inventoryItemService.save).not.toHaveBeenCalled();
-        });
-
-        it('should save inventory item if it it has ID', function() {
-            $rootScope.$apply();
-            form.triggerHandler('submit');
-
-            expect(inventoryItemService.save).toHaveBeenCalledWith(vm.inventoryItem);
-        });
-
-        it('should take user to the to the details page if inventory item has ID', function() {
-            $rootScope.$apply();
-            form.triggerHandler('submit');
-
-            saveDeferred.resolve(inventoryItem);
             $rootScope.$apply();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
-                inventoryItem: inventoryItem,
-                inventoryItemId: inventoryItem.id
-            }, {
-                reload: true
-            });
+            expect(vm.add).toHaveBeenCalled();
         });
 
     });
@@ -605,7 +363,7 @@ describe('edit-inventory-item.html template', function() {
         var button;
 
         beforeEach(function() {
-            button = getElement('button', 'add');
+            button = template.find('#add');
         });
 
         it('should point to the edit-inventory-item-form', function() {
@@ -620,97 +378,65 @@ describe('edit-inventory-item.html template', function() {
 
     describe('Cancel button', function() {
 
-        var button, formCtrl, confirmService, confirmDeferred, $q;
-
-        beforeEach(function() {
-            inject(function($injector) {
-                confirmService = $injector.get('confirmService');
-                $q = $injector.get('$q');
-            });
-
-            confirmDeferred = $q.defer();
-            spyOn(confirmService, 'confirm').andReturn(confirmDeferred.promise);
-
-            prepareView();
-
-            button = getElement('button', 'cancel');
-            formCtrl = getElement('form', 'edit-inventory-item-form').controller('form');
-        });
-
-        it('should take user back to the inventory item list if the form was not dirty and inventory item has no ID', function() {
-            inventoryItem.id = undefined;
-
-            button.click();
+        it('should call vm.cancel method', function() {
+            template.find('#cancel').click();
             $timeout.flush();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
-        });
-
-        it('should take user back to the details page if the form was not dirty and inventory item has ID', function() {
-            button.click();
-            $timeout.flush();
-
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
-                inventoryItem: vm.inventoryItem,
-                inventoryItemId: vm.inventoryItem.id
-            });
-        });
-
-        it('should open confirmation modal if form was touched', function() {
-            formCtrl.$setDirty();
-            $rootScope.$apply();
-
-            button.click();
-
-            expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
-        });
-
-        it('should take user back if form was dirty and confirmation was successful', function() {
-            inventoryItem.id = undefined;
-
-            formCtrl.$setDirty();
-            $rootScope.$apply();
-
-            button.click();
-            $rootScope.$apply();
-
-            expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
-
-            confirmDeferred.resolve();
-            $rootScope.$apply();
-
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
-        });
-
-        it('should not take user back if form was dirty and confirmation was unsuccessful', function() {
-            formCtrl.$setDirty();
-            $rootScope.$apply();
-
-            button.click();
-            $rootScope.$apply();
-
-            expect(confirmService.confirm).toHaveBeenCalled();
-            expect($state.go).not.toHaveBeenCalled();
-
-            confirmDeferred.reject();
-            $rootScope.$apply();
-
-            expect($state.go).not.toHaveBeenCalled();
+            expect(vm.cancel).toHaveBeenCalled();
         });
 
     });
 
+    function prepareSuite() {
+        module('openlmis-templates');
+        module('openlmis-form');
+        module('cce-edit-inventory-item');
+
+        inject(function($injector) {
+            $controller = $injector.get('$controller');
+            $compile = $injector.get('$compile');
+            $rootScope = $injector.get('$rootScope');
+            $templateRequest = $injector.get('$templateRequest');
+            $timeout = $injector.get('$timeout');
+            messageService = $injector.get('messageService');
+            $q = $injector.get('$q');
+        });
+
+        inventoryItem = {
+            catalogItem: {
+                manufacturer: 'Cooltec',
+                model: 'X-GGTA 1',
+                type: 'Refrigerator'
+            },
+            programId: 'program-id',
+            facility: {
+                id: 'facility-id',
+                name: 'Facility One',
+                supportedPrograms: [{
+                    id: 'program-id',
+                    name: 'Program One'
+                }]
+            }
+        };
+
+        messages = {
+            'cceEditInventoryItem.addNewColdChainEquipment': 'Add New Cold Chain Equipment',
+            'cceEditInventoryItem.editEquipmentDetails': 'Edit equipment details'
+        };
+
+        spyOn(messageService, 'get').andCallFake(function(key) {
+            return messages[key];
+        });
+
+        prepareView();
+
+        spyOn(vm, 'add');
+    }
+
     function prepareView() {
         $scope = $rootScope.$new();
-
-        vm = $controller('EditInventoryItemController', {
-            $scope: $scope,
-            inventoryItem: inventoryItem
-        });
-        vm.$onInit();
-
+        vm = jasmine.createSpyObj('EditInventoryItemController', ['cancel']);
+        vm.inventoryItem = inventoryItem;
         $scope.vm = vm;
 
         $templateRequest(
@@ -719,18 +445,6 @@ describe('edit-inventory-item.html template', function() {
             template = $compile(requested)($scope);
         });
         $rootScope.$apply();
-    }
-
-    function getElement(type, id) {
-        var result;
-
-        angular.forEach(template.find(type), function(element) {
-            if (angular.element(element).attr('id') === id) {
-                result = angular.element(element);
-            }
-        });
-
-        return result;
     }
 
 });

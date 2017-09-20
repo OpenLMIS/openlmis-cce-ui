@@ -8,7 +8,7 @@
     "cceEditInventoryItem.equipmentIdentification": "Equipment Identification",
     "cceEditInventoryItem.serialNumber": "Serial Number",
     "cceEditInventoryItem.referenceName": "Reference Name",
-    "cceEditInventoryItem.referenceName.description": "Enter the name that is used to refer to this device(e.g. \"Refrigerator 2\").",
+    "cceEditInventoryItem.referenceName.description": "Enter the name that is used to refer to this device (e.g. \"Refrigerator 2\").",
     "cceEditInventoryItem.equipmentHistory": "Equipment History",
     "cceEditInventoryItem.yearOfInstallation": "Year of Installation/Commission",
     "cceEditInventoryItem.source": "Source",
