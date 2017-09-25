@@ -30,17 +30,18 @@
 
     CceInventoryListController.$inject = [
         'inventoryItems', '$state', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'authorizationService',
-        'messageService'
+        'messageService' ,'REASON_FOR_NOT_WORKING'
     ];
 
     function CceInventoryListController(inventoryItems, $state, FUNCTIONAL_STATUS, CCE_RIGHTS,
-                                        authorizationService, messageService) {
+                                        authorizationService, messageService, REASON_FOR_NOT_WORKING) {
         var vm = this;
 
         vm.$onInit = onInit;
         vm.getFunctionalStatusClass = getFunctionalStatusClass;
         vm.getStatusLabel = getStatusLabel;
         vm.goToStatusUpdate = goToStatusUpdate;
+        vm.getReasonLabel = getReasonLabel;
 
         /**
          * @ngdoc property
@@ -121,6 +122,21 @@
          */
         function getStatusLabel(status) {
             return messageService.get(FUNCTIONAL_STATUS.getLabel(status));
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
+         * @name getReasonLabel
+         *
+         * @description
+         * Return localized label for the reason.
+         *
+         * @param   {String}    reason  the reason to get the label for
+         * @return  {String}            the localized reason label
+         */
+        function getReasonLabel(reason) {
+            return messageService.get(REASON_FOR_NOT_WORKING.getLabel(reason));
         }
 
         function goToStatusUpdate(inventoryItem) {

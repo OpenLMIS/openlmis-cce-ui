@@ -99,7 +99,8 @@ describe('cce-inventory-list template', function () {
                 manufacturer: 'Haeier',
                 model: 'LPL-1000'
             },
-            functionalStatus: 'FUNCTIONING'
+            functionalStatus: 'FUNCTIONING',
+            reasonNotWorkingOrNotInUse: 'NEEDS_SPARE_PARTS'
         };
     }
 
