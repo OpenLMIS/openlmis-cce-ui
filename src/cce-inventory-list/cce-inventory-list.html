@@ -36,7 +36,7 @@
                         <a class="update-status" ng-click="vm.goToStatusUpdate(item)"></a>
                     </div>
                 </td>
-                <td>{{item.lastModifier.firstName}} {{item.lastModifier.lastName}} {{item.modifiedDate | openlmisDate}}</td>
+                <td>{{item.lastModifier.firstName}} {{item.lastModifier.lastName}} {{item.modifiedDate | openlmisDate : 'short'}}</td>
                 <td>{{item.yearOfInstallation}}</td>
                 <td>{{item.yearOfWarrantyExpiry}}</td>
                 <td>

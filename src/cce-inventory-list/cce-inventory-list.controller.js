@@ -136,6 +136,9 @@
          * @return  {String}            the localized reason label
          */
         function getReasonLabel(reason) {
+            if (!reason) {
+                return "";
+            }
             return messageService.get(REASON_FOR_NOT_WORKING.getLabel(reason));
         }
 
