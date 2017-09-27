@@ -36,6 +36,12 @@
             resolve: {
                 inventoryItems: function(inventoryItemService, paginationService, $stateParams) {
                     return paginationService.registerUrl($stateParams, function(stateParams) {
+                        if (!stateParams.sort) {
+                            stateParams.sort = [
+                                "type",
+                                "equipmentTrackingId"
+                            ];
+                        }
                         return inventoryItemService.getAll(stateParams);
                     });
                 }
