@@ -15,8 +15,8 @@
 
 describe('openlmis.cce.inventory.edit state', function() {
 
-    var $state, $q, openlmisModalService, inventoryItemService, CCE_RIGHTS, state, dialogSpy,
-        inventoryItem, inventoryItemTwo, $stateParams;
+    var $state, $q, openlmisModalService, inventoryItemService, facilityService, CCE_RIGHTS, state, dialogSpy,
+        inventoryItem, inventoryItemTwo, $stateParams, facility;
 
     beforeEach(function() {
         module('openlmis-main-state');
@@ -32,9 +32,15 @@ describe('openlmis.cce.inventory.edit state', function() {
             $timeout = $injector.get('$timeout');
             CCE_RIGHTS = $injector.get('CCE_RIGHTS');
             inventoryItemService = $injector.get('inventoryItemService');
+            facilityService = $injector.get('facilityService');
         });
 
         dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
+
+        facility = {
+            id: 'facility-id',
+            name: 'facility'
+        };
 
         inventoryItem = {
             program: {
@@ -125,18 +131,24 @@ describe('openlmis.cce.inventory.edit state', function() {
 
             $stateParams.inventoryItem = inventoryItem;
 
-            state.onEnter(openlmisModalService, $stateParams, inventoryItemService);
+            spyOn(facilityService, 'get').andReturn($q.when(facility));
+
+            state.onEnter(openlmisModalService, $stateParams, inventoryItemService, facilityService);
             modal = openlmisModalService.createDialog.calls[0].args[0];
 
-            result = modal.resolve.inventoryItem();
+            modal.resolve.inventoryItem().then(function(inventoryItem) {
+                result = inventoryItem;
+            });
             $rootScope.$apply();
 
+            inventoryItem.facility = facility;
+
             expect(inventoryItemService.get).not.toHaveBeenCalled();
-            expect(result).toBe(inventoryItem);
+            expect(result.facility).toBe(inventoryItem.facility);
         });
 
         it('should redirect user to the add page if no ID or item is given', function() {
-            state.onEnter(openlmisModalService, $stateParams, inventoryItemService, $state);
+            state.onEnter(openlmisModalService, $stateParams, inventoryItemService, facilityService, $state);
             modal = openlmisModalService.createDialog.calls[0].args[0];
 
             modal.resolve.inventoryItem();

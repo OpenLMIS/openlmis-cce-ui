@@ -196,10 +196,10 @@ describe('inventory-item-details.html', function() {
             functionalStatus: 'FUNCTIONING',
             programId: 'some-program-id',
             facility: {
-                supportedPrograms: [{
-                    id: 'some-program-id',
-                    name: 'Some Program'
-                }]
+                name: 'Some Facility'
+            },
+            program: {
+                name: 'Some Program'
             }
         };
 
