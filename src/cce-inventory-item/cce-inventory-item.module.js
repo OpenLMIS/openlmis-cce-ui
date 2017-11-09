@@ -28,6 +28,7 @@
         'openlmis-config',
         'openlmis-date',
         'referencedata-program',
+        'referencedata-facility',
         'cce'
     ]);
 

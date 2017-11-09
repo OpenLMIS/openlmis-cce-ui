@@ -15,14 +15,18 @@
 
 describe('inventoryItemService', function() {
 
-    var $q, $rootScope, inventoryItemFactory, programService, inventoryItemService,
-        inventoryItem, program, programResolve, inventoryItemResolve;
+    var $q, $rootScope, inventoryItemFactory, programService, facilityService, inventoryItemService,
+        inventoryItem, program, facility, inventoryItemResolve, programDeferred, facilityDeferred;
 
     beforeEach(function() {
         module('cce-inventory-item', function($provide) {
             programService = jasmine.createSpyObj('programService', ['get']);
+            facilityService = jasmine.createSpyObj('facilityService', ['get']);
             $provide.service('programService', function() {
                 return programService;
+            });
+            $provide.service('facilityService', function() {
+                return facilityService;
             });
 
             inventoryItemService = jasmine.createSpyObj('inventoryItemService', ['get']);
@@ -35,6 +39,7 @@ describe('inventoryItemService', function() {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             programService = $injector.get('programService');
+            facilityService = $injector.get('facilityService');
             inventoryItemService = $injector.get('inventoryItemService');
             inventoryItemFactory = $injector.get('inventoryItemFactory');
         });
@@ -43,25 +48,33 @@ describe('inventoryItemService', function() {
             id: 'program-id',
             name: 'program'
         };
+        facility = {
+            id: 'facility-id',
+            name: 'facility'
+        };
         inventoryItem = {
             id: 'inventory-item-id',
             name: 'inventory-item',
-            programId: program.id
+            programId: program.id,
+            facility: {
+                id: facility.id
+            }
         };
 
-        programResolve = true;
         inventoryItemResolve = true;
 
-        programService.get.andCallFake(function() {
-            var programDeferred = $q.defer();
+        programDeferred = $q.defer();
+        programService.get.andReturn(programDeferred.promise);
 
-            if (programResolve) {
-                programDeferred.resolve(program);
-            } else {
-                programDeferred.reject();
-            }
+        facilityDeferred = $q.defer();
+        facilityService.get.andReturn(facilityDeferred.promise);
 
-            return programDeferred.promise;
+        facilityService.get.andCallFake(function() {
+            var facilityDeferred = $q.defer();
+
+            facilityDeferred.resolve({});
+
+            return facilityDeferred.promise;
         });
 
         inventoryItemService.get.andCallFake(function() {
@@ -103,11 +116,9 @@ describe('inventoryItemService', function() {
             expect(status).toEqual('rejected');
         });
 
-        it('should resolve promise if program is not found', function() {
+        it('should resolve promise if program and facility is not found', function() {
             var status,
                 result;
-
-            programResolve = false;
 
             inventoryItemFactory.get(inventoryItem.id).then(function(response) {
                 status = 'resolved';
@@ -116,6 +127,8 @@ describe('inventoryItemService', function() {
                 status = 'rejected';
             });
 
+            programDeferred.reject()
+            facilityDeferred.reject()
             $rootScope.$apply();
 
             expect(programService.get).toHaveBeenCalledWith(inventoryItem.programId);
@@ -126,7 +139,7 @@ describe('inventoryItemService', function() {
             expect(result.program).toBe(undefined);
         });
 
-        it('should resolve promise and add program info if program has been found', function() {
+        it('should resolve promise and add program and facility info if have been found', function() {
             var status,
                 result;
 
@@ -137,6 +150,8 @@ describe('inventoryItemService', function() {
                 status = 'rejected';
             });
 
+            programDeferred.resolve(program);
+            facilityDeferred.resolve(facility);
             $rootScope.$apply();
 
             expect(programService.get).toHaveBeenCalledWith(inventoryItem.programId);

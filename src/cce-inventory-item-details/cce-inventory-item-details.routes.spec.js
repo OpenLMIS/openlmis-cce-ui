@@ -47,15 +47,6 @@ describe('openlmis.cce.inventory.details state', function() {
             expect(inventoryItemFactory.get).toHaveBeenCalled();
         });
 
-        it('should use inventory item if it is given via state params', function() {
-            $stateParams.inventoryItem = inventoryItem;
-
-            var result = resolve.inventoryItem($stateParams, inventoryItemFactory);
-
-            expect(result).toEqual(inventoryItem);
-            expect(inventoryItemFactory.get).not.toHaveBeenCalled();
-        });
-
     });
 
     describe('on enter', function() {
