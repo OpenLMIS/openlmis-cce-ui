@@ -207,10 +207,19 @@ describe('EditInventoryItemController', function() {
             });
         });
 
-        it('should close loading modal after redirect was called', function() {
+        it('should not close loading modal after redirect was called', function() {
             vm.add();
 
             saveDeferred.resolve(inventoryItem);
+            $rootScope.$apply();
+
+            expect(loadingModalService.close).not.toHaveBeenCalled();
+        });
+
+        it('should close loading modal after save failed', function() {
+            vm.add();
+
+            saveDeferred.reject();
             $rootScope.$apply();
 
             expect(loadingModalService.close).toHaveBeenCalled();

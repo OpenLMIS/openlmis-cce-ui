@@ -121,14 +121,16 @@
         function add() {
             if (vm.inventoryItem.id) {
                 loadingModalService.open();
-                inventoryItemService.save(vm.inventoryItem).then(function(inventoryItem) {
+                inventoryItemService.save(vm.inventoryItem)
+                .then(function(inventoryItem) {
                     $state.go('openlmis.cce.inventory.details', {
                         inventoryItem: inventoryItem,
                         inventoryItemId: inventoryItem.id
                     }, {
                         reload: true
                     });
-                }).finally(loadingModalService.close);
+                })
+                .catch(loadingModalService.close);
             } else {
                 $state.go('openlmis.cce.inventory.statusUpdate', {
                     inventoryItem: vm.inventoryItem
