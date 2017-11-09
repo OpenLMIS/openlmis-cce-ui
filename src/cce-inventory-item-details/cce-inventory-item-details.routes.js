@@ -34,10 +34,7 @@
             },
             resolve: {
                 inventoryItem: function($stateParams, inventoryItemFactory) {
-                    if (!$stateParams.inventoryItem) {
-                        return inventoryItemFactory.get($stateParams.inventoryItemId);
-                    }
-                    return $stateParams.inventoryItem;
+                    return inventoryItemFactory.get($stateParams.inventoryItemId);
                 }
             },
             url: '/:inventoryItemId/details'

@@ -30,7 +30,6 @@
         'openlmis-rights',
         'openlmis-i18n',
         'openlmis-modal',
-        'openlmis-i18n',
         'referencedata-facility'
     ]);
 
