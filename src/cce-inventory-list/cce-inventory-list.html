@@ -13,12 +13,12 @@
                 <th>{{'cceInventoryList.district' | message}}</th>
                 <th>{{'cceInventoryList.facility' | message}}</th>
                 <th>{{'cceInventoryList.serialNo' | message}}</th>
+                <th>{{'cceInventoryList.referenceName' | message}}</th>
                 <th>{{'cceInventoryList.makeModel' | message}}</th>
                 <th>{{'cceInventoryList.type' | message}}</th>
                 <th>{{'cceInventoryList.functionalStatus' | message}}</th>
                 <th>{{'cceInventoryList.lastUpdated' | message}}</th>
                 <th>{{'cceInventoryList.yearInstalled' | message}}</th>
-                <th>{{'cceInventoryList.replacementYear' | message}}</th>
                 <th>{{'cceInventoryList.actions' | message}}</th>
             </tr>
         </thead>
@@ -27,6 +27,7 @@
                 <td>{{item.facility.geographicZone.name}}</td>
                 <td>{{item.facility.name}}</td>
                 <td>{{item.equipmentTrackingId}}</td>
+                <td>{{item.referenceName}}</td>
                 <td>{{item.catalogItem | makeModel}}</td>
                 <td>{{item.catalogItem.type}}</td>
                 <td>
@@ -38,7 +39,6 @@
                 </td>
                 <td>{{item.lastModifier.firstName}} {{item.lastModifier.lastName}} {{item.modifiedDate | openlmisDate : 'short'}}</td>
                 <td>{{item.yearOfInstallation}}</td>
-                <td>{{item.yearOfWarrantyExpiry}}</td>
                 <td>
                     <input type="button" class="inventory-item-details"
                         value="{{'cceInventoryList.view' | message}}"

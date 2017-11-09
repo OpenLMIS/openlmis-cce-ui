@@ -9,7 +9,7 @@
     "cceInventoryList.functionalStatus": "Functional Status",
     "cceInventoryList.lastUpdated": "Last Updated",
     "cceInventoryList.yearInstalled": "Year Installed",
-    "cceInventoryList.replacementYear": "Replacement Year",
+    "cceInventoryList.referenceName": "Reference Name",
     "cceInventoryList.actions": "Actions",
     "cceInventoryList.view": "View",
     "cceInventoryList.noInventoryItems": "No inventory items found."
