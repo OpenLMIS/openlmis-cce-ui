@@ -34,7 +34,8 @@
     function factory($q, inventoryItemService, programService, facilityService) {
 
         return {
-            get: get
+            get: get,
+            getAllWithFacilities: getAllWithFacilities
         };
 
         /**
@@ -68,5 +69,41 @@
 
             return deferred.promise;
         }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item.inventoryItemFactory
+         * @name getAllWithFacilities
+         *
+         * @description
+         * Returns inventory items with full facility object.
+         *
+         * @param  {Object}     params Pagination parameters
+         * @return {Promise}    the inventory items with facility info
+         */
+        function getAllWithFacilities(params) {
+            var deferred = $q.defer();
+
+            inventoryItemService.getAll(params).then(function(inventoryItems) {
+                var ids = inventoryItems.content.map(function (item) {
+                    return item.facility.id;
+                });
+
+                facilityService.getAll({id: ids}).then(function(facilities) {
+                    for (var i = 0; i < inventoryItems.content.length; ++i) {
+                        for (var j = 0; j < facilities.length; ++j) {
+                            if (inventoryItems.content[i].facility.id === facilities[j].id) {
+                                inventoryItems.content[i].facility = facilities[j];
+                                break;
+                            }
+                        }
+                    }
+                    deferred.resolve(inventoryItems);
+                }, deferred.resolve(inventoryItems));
+            }, deferred.reject);
+
+            return deferred.promise;
+        }
+
     }
 })();

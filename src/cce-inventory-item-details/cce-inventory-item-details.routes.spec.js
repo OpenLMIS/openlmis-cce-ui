@@ -15,7 +15,8 @@
 describe('openlmis.cce.inventory.details state', function() {
 
     var state, $timeout, $stateProvider, $rootScope, $state, $stateParams, $q,
-        paginationService, inventoryItemFactory, inventoryItemId, openlmisModalService;
+        paginationService, inventoryItemFactory, programService, inventoryItemId, openlmisModalService,
+        program, programId;
 
     beforeEach(function() {
         loadModules();
@@ -47,6 +48,20 @@ describe('openlmis.cce.inventory.details state', function() {
             expect(inventoryItemFactory.get).toHaveBeenCalled();
         });
 
+        it('should use inventory item if it is given via state params', function() {
+            $stateParams.inventoryItem = inventoryItem;
+
+            var result;
+            resolve.inventoryItem($stateParams, inventoryItemFactory, programService).then(function(inventoryItem) {
+                result = inventoryItem;
+            });
+            $rootScope.$apply();
+
+            inventoryItem.program = program
+            expect(result).toEqual(inventoryItem);
+            expect(programService.get).toHaveBeenCalled();
+            expect(inventoryItemFactory.get).not.toHaveBeenCalled();
+        });
     });
 
     describe('on enter', function() {
@@ -119,6 +134,7 @@ describe('openlmis.cce.inventory.details state', function() {
             paginationService = $injector.get('paginationService');
             $stateParams = $injector.get('$stateParams');
             inventoryItemFactory = $injector.get('inventoryItemFactory');
+            programService = $injector.get('programService');
             openlmisModalService = $injector.get('openlmisModalService');
         });
     }
@@ -126,8 +142,13 @@ describe('openlmis.cce.inventory.details state', function() {
     function prepareTestData() {
         state = $state.get('openlmis.cce.inventory.details');
         inventoryItemId = 'f37dff62-9b69-49ec-8576-deafceef5634';
+        programId = 'f37dff62-9b69-49ec-8576-deafceef5634';
         inventoryItem = {
-            id: inventoryItemId
+            id: inventoryItemId,
+            programId: programId
+        };
+        program = {
+            id: programId
         };
 
         $stateParams = {
@@ -141,6 +162,12 @@ describe('openlmis.cce.inventory.details state', function() {
         spyOn(inventoryItemFactory, 'get').andCallFake(function(id) {
             if (id === inventoryItemId) {
                 return $q.when(inventoryItem);
+            }
+            return $q.when();
+        });
+        spyOn(programService, 'get').andCallFake(function(id) {
+            if (id === programId) {
+                return $q.when(program);
             }
             return $q.when();
         });
