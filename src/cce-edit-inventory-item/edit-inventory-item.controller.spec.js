@@ -187,7 +187,7 @@ describe('EditInventoryItemController', function() {
             expect(vm.inventoryItem.backupGenerator).toBe(CCE_STATUS.NOT_APPLICABLE);
         });
 
-        it('should not set default options if ENERGY_SOURCE is different then SOLAR', function() {
+        it('should not set default options if ENERGY_SOURCE is different than SOLAR', function() {
             inventoryItem.catalogItem.energySource = ENERGY_SOURCE.GASOLINE;
 
             vm.$onInit();
