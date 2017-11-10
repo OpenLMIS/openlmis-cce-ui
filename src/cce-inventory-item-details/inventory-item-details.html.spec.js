@@ -142,6 +142,9 @@ describe('inventory-item-details.html', function() {
     describe('Edit button', function() {
 
         it('should take user to the inventory item edit page', function() {
+            vm.userHasRightToEdit = true;
+            $rootScope.$apply();
+
             templateTestingUtils.getButton('edit').click();
             $timeout.flush();
 
@@ -149,6 +152,13 @@ describe('inventory-item-details.html', function() {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });
+        });
+
+        it('should be hidden if user does not have right', function() {
+            vm.userHasRightToEdit = false;
+            $rootScope.$apply();
+
+            expect(templateTestingUtils.getButton('edit')).toBeUndefined();
         });
 
     });

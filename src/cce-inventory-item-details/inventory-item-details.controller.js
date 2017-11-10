@@ -30,13 +30,15 @@
 
     InventoryItemDetailsController.$inject = [
         'inventoryItem', 'CCE_STATUS', 'UTILIZATION_STATUS', 'MANUAL_TEMPERATURE_GAUGE_TYPE',
-        'REMOTE_TEMPERATURE_MONITOR_TYPE', 'FUNCTIONAL_STATUS', '$state'
+        'REMOTE_TEMPERATURE_MONITOR_TYPE', 'FUNCTIONAL_STATUS', '$state', 'authorizationService',
+        'CCE_RIGHTS'
     ];
 
     function InventoryItemDetailsController(inventoryItem, CCE_STATUS, UTILIZATION_STATUS,
                                             MANUAL_TEMPERATURE_GAUGE_TYPE,
                                             REMOTE_TEMPERATURE_MONITOR_TYPE,
-                                            FUNCTIONAL_STATUS, $state) {
+                                            FUNCTIONAL_STATUS, $state, authorizationService,
+                                            CCE_RIGHTS) {
         var vm = this;
 
         vm.$onInit = onInit;
@@ -44,6 +46,17 @@
         vm.goToEditPage = goToEditPage;
         vm.getFunctionalStatusLabel = getFunctionalStatusLabel;
         vm.getFunctionalStatusClass = getFunctionalStatusClass;
+
+        /**
+         * @ngdoc property
+         * @propertyOf cce-inventory-item-details.controller:InventoryItemDetailsController
+         * @name userHasRightToEdit
+         * @type {Boolean}
+         *
+         * @description
+         * Flag defining whether user has right for editing the inventory item.
+         */
+        vm.userHasRightToEdit = undefined;
 
         /**
          * @ngdoc method
@@ -59,6 +72,7 @@
             vm.getUtilizationStatusLabel = UTILIZATION_STATUS.getLabel;
             vm.getManualTemperatureGaugeTypeLabel = MANUAL_TEMPERATURE_GAUGE_TYPE.getLabel;
             vm.getRemoteTemperatureMonitorTypeLabel = REMOTE_TEMPERATURE_MONITOR_TYPE.getLabel;
+            vm.userHasRightToEdit = hasEditRightForProgram();
         }
 
         /**
@@ -118,6 +132,12 @@
          */
         function getFunctionalStatusClass() {
             return FUNCTIONAL_STATUS.getClass(vm.inventoryItem.functionalStatus);
+        }
+
+        function hasEditRightForProgram() {
+            return authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
+                programCode: vm.inventoryItem.program.code
+            });
         }
     }
 

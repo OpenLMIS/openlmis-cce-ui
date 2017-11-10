@@ -16,32 +16,65 @@
 describe('InventoryItemDetailsController', function() {
 
     var vm, inventoryItem, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, UTILIZATION_STATUS,
-        REMOTE_TEMPERATURE_MONITOR_TYPE, FUNCTIONAL_STATUS, $controller, $state;
+        REMOTE_TEMPERATURE_MONITOR_TYPE, FUNCTIONAL_STATUS, $controller, $state,
+        authorizationService, CCE_RIGHTS;
 
     beforeEach(prepareSuite);
 
     describe('$onInit', function() {
 
         it('should expose inventoryItem', function() {
+            vm.$onInit();
+
             expect(vm.inventoryItem).toEqual(inventoryItem);
         });
 
         it('should expose getStatusLabel function', function() {
+            vm.$onInit();
+
             expect(vm.getStatusLabel).toBe(CCE_STATUS.getLabel);
         });
 
         it('should expose getManualTemperatureGaugeTypeLabel', function() {
+            vm.$onInit();
+
             expect(vm.getManualTemperatureGaugeTypeLabel)
                 .toBe(MANUAL_TEMPERATURE_GAUGE_TYPE.getLabel);
         });
 
         it('should expose getRemoteTemperatureMonitorTypeLabel', function() {
+            vm.$onInit();
+
             expect(vm.getRemoteTemperatureMonitorTypeLabel)
                 .toBe(REMOTE_TEMPERATURE_MONITOR_TYPE.getLabel);
         });
 
         it('should expose getUtilizationStatusLabel', function() {
+            vm.$onInit();
+
             expect(vm.getUtilizationStatusLabel).toBe(UTILIZATION_STATUS.getLabel);
+        });
+
+        it('should display edit button if user has right', function() {
+            spyOn(authorizationService, 'hasRight').andReturn(true);
+
+            vm.$onInit();
+
+            expect(vm.userHasRightToEdit).toBe(true);
+            expect(authorizationService.hasRight).toHaveBeenCalledWith(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
+                programCode: vm.inventoryItem.program.code
+            });
+        });
+
+        it('should hide edit button if user does not has right', function() {
+            spyOn(authorizationService, 'hasRight').andReturn(false);
+
+            vm.$onInit();
+
+            expect(vm.userHasRightToEdit).toBe(false);
+            expect(authorizationService.hasRight).toHaveBeenCalledWith(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
+                programCode: vm.inventoryItem.program.code
+            });
         });
 
     });
@@ -74,6 +107,10 @@ describe('InventoryItemDetailsController', function() {
 
     describe('getFunctionalStatusClass', function() {
 
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
         it('should return is-functioning for FUNCTIONING', function() {
             vm.inventoryItem.functionalStatus = 'FUNCTIONING';
 
@@ -95,6 +132,10 @@ describe('InventoryItemDetailsController', function() {
     });
 
     describe('getFunctionalStatusLabel', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
 
         it('should return Functioning for FUNCTIONING', function() {
             vm.inventoryItem.functionalStatus = 'FUNCTIONING';
@@ -127,16 +168,21 @@ describe('InventoryItemDetailsController', function() {
     function services($injector) {
         $controller = $injector.get('$controller');
         CCE_STATUS = $injector.get('CCE_STATUS');
+        CCE_RIGHTS = $injector.get('CCE_RIGHTS');
         MANUAL_TEMPERATURE_GAUGE_TYPE = $injector.get('MANUAL_TEMPERATURE_GAUGE_TYPE');
         REMOTE_TEMPERATURE_MONITOR_TYPE = $injector.get('REMOTE_TEMPERATURE_MONITOR_TYPE');
         UTILIZATION_STATUS = $injector.get('UTILIZATION_STATUS');
         FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
         $state = $injector.get('$state');
+        authorizationService = $injector.get('authorizationService');
     }
 
     function prepareTestData() {
         inventoryItem = {
-            id: 'c699115e-3572-4a8f-951c-1297bc4f7995'
+            id: 'c699115e-3572-4a8f-951c-1297bc4f7995',
+            program: {
+                code: 'PRG01'
+            }
         };
     }
 
@@ -148,7 +194,6 @@ describe('InventoryItemDetailsController', function() {
         vm = $controller('InventoryItemDetailsController', {
             inventoryItem: inventoryItem
         });
-        vm.$onInit();
     }
 
 });
