@@ -163,6 +163,40 @@ describe('EditInventoryItemController', function() {
             expect(vm.powerFieldsDisabled).toBe(true);
         });
 
+        it('should set voltageStabilizer as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {
+            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.SOLAR;
+
+            vm.$onInit();
+
+            expect(vm.inventoryItem.voltageStabilizer).toBe(CCE_STATUS.NOT_APPLICABLE);
+        });
+
+        it('should set voltageRegulator as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {
+            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.SOLAR;
+
+            vm.$onInit();
+
+            expect(vm.inventoryItem.voltageRegulator).toBe(CCE_STATUS.NOT_APPLICABLE);
+        });
+
+        it('should set backupGenerator as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {
+            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.SOLAR;
+
+            vm.$onInit();
+
+            expect(vm.inventoryItem.backupGenerator).toBe(CCE_STATUS.NOT_APPLICABLE);
+        });
+
+        it('should not set default options if ENERGY_SOURCE is different then SOLAR', function() {
+            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.GASOLINE;
+
+            vm.$onInit();
+
+            expect(vm.inventoryItem.voltageStabilizer).toBeUndefined();
+            expect(vm.inventoryItem.voltageRegulator).toBeUndefined();
+            expect(vm.inventoryItem.backupGenerator).toBeUndefined();
+        });
+
     });
 
     describe('add', function() {
