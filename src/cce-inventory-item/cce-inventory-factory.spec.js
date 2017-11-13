@@ -114,11 +114,6 @@ describe('inventoryItemService', function() {
 
     describe('get', function() {
 
-        it('should return promise', function() {
-            var promise = inventoryItemFactory.get(inventoryItem.id);
-            expect(angular.isFunction(promise.then)).toBe(true);
-        });
-
         it('should reject promise if inventory item is not found', function() {
             var status;
 
@@ -191,11 +186,6 @@ describe('inventoryItemService', function() {
     });
 
     describe('getAllWithFacilities', function() {
-
-        it('should return promise', function() {
-            var promise = inventoryItemFactory.getAllWithFacilities(query);
-            expect(angular.isFunction(promise.then)).toBe(true);
-        });
 
         it('should reject promise if inventory items are not found', function() {
             var status = undefined;
