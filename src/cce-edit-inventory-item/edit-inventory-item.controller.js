@@ -31,13 +31,14 @@
     controller.$inject = [
         'inventoryItem', '$scope', '$state', 'confirmService', 'CCE_STATUS',
         'MANUAL_TEMPERATURE_GAUGE_TYPE', 'ENERGY_SOURCE', 'UTILIZATION_STATUS',
-        'REMOTE_TEMPERATURE_MONITOR_TYPE', 'inventoryItemService', 'loadingModalService'
+        'REMOTE_TEMPERATURE_MONITOR_TYPE', 'inventoryItemService', 'loadingModalService',
+        'InventoryItem'
     ];
 
     function controller(inventoryItem, $scope, $state, confirmService, CCE_STATUS,
                         MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, UTILIZATION_STATUS,
                         REMOTE_TEMPERATURE_MONITOR_TYPE, inventoryItemService,
-                        loadingModalService) {
+                        loadingModalService, InventoryItem) {
         var vm = this;
 
         vm.$onInit = onInit;
@@ -102,14 +103,12 @@
          * Initialization method of the EditInventoryItemController.
          */
         function onInit() {
-            vm.inventoryItem = angular.copy(inventoryItem);
+            vm.inventoryItem = new InventoryItem(inventoryItem);
             vm.cceStatuses = CCE_STATUS.getStatuses();
             vm.manualTemperatureGaugeTypes = MANUAL_TEMPERATURE_GAUGE_TYPE.getTypes();
             vm.remoteTemperatureMonitorTypes = REMOTE_TEMPERATURE_MONITOR_TYPE.getTypes();
             vm.utilizationStatuses = UTILIZATION_STATUS.getStatuses();
             vm.powerFieldsDisabled = shouldDisablePowerFields(inventoryItem.catalogItem.energySource);
-
-            setNotApplicableAsDefaultOption();
         }
 
         /**
@@ -174,14 +173,6 @@
 
         function shouldDisablePowerFields(source) {
             return (source === ENERGY_SOURCE.SOLAR || source === ENERGY_SOURCE.NOT_APPLICABLE);
-        }
-
-        function setNotApplicableAsDefaultOption() {
-            if (vm.inventoryItem.catalogItem.energySource === ENERGY_SOURCE.SOLAR) {
-                vm.inventoryItem.voltageStabilizer = CCE_STATUS.NOT_APPLICABLE;
-                vm.inventoryItem.voltageRegulator = CCE_STATUS.NOT_APPLICABLE;
-                vm.inventoryItem.backupGenerator = CCE_STATUS.NOT_APPLICABLE;
-            }
         }
     }
 
