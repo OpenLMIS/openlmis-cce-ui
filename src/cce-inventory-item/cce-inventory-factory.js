@@ -89,7 +89,7 @@
                     return item.facility.id;
                 });
 
-                facilityService.getAll({id: ids}).then(function(facilities) {
+                facilityService.query({id: ids}).then(function(facilities) {
                     for (var i = 0; i < inventoryItems.content.length; ++i) {
                         for (var j = 0; j < facilities.length; ++j) {
                             if (inventoryItems.content[i].facility.id === facilities[j].id) {

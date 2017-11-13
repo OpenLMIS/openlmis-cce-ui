@@ -14,9 +14,9 @@
  */
 describe('openlmis.cce.inventory.details state', function() {
 
-    var state, $timeout, $stateProvider, $rootScope, $state, $stateParams, $q,
-        paginationService, inventoryItemFactory, programService, inventoryItemId, openlmisModalService,
-        program, programId;
+    var state, $timeout, $rootScope, $state, $stateParams, $q, paginationService,
+        inventoryItemFactory, programService, inventoryItemId, openlmisModalService,
+        program, programId, inventoryItem;
 
     beforeEach(function() {
         loadModules();

@@ -22,7 +22,7 @@ describe('inventoryItemService', function() {
     beforeEach(function() {
         module('cce-inventory-item', function($provide) {
             programService = jasmine.createSpyObj('programService', ['get']);
-            facilityService = jasmine.createSpyObj('facilityService', ['get', 'getAll']);
+            facilityService = jasmine.createSpyObj('facilityService', ['get', 'query']);
             $provide.service('programService', function() {
                 return programService;
             });
@@ -99,7 +99,7 @@ describe('inventoryItemService', function() {
             return deffered.promise;
         });
 
-        facilityService.getAll.andCallFake(function() {
+        facilityService.query.andCallFake(function() {
             var deffered = $q.defer();
 
             if (facilitiesResolve) {
@@ -210,7 +210,7 @@ describe('inventoryItemService', function() {
 
             $rootScope.$apply();
 
-            expect(facilityService.getAll).not.toHaveBeenCalled();
+            expect(facilityService.query).not.toHaveBeenCalled();
             expect(inventoryItemService.getAll).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('rejected');
@@ -230,7 +230,7 @@ describe('inventoryItemService', function() {
             });
             $rootScope.$apply();
 
-            expect(facilityService.getAll).toHaveBeenCalledWith({id: [facility.id]});
+            expect(facilityService.query).toHaveBeenCalledWith({id: [facility.id]});
             expect(inventoryItemService.getAll).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('resolved');
@@ -252,7 +252,7 @@ describe('inventoryItemService', function() {
             });
             $rootScope.$apply();
 
-            expect(facilityService.getAll).toHaveBeenCalledWith({id: [facility.id]});
+            expect(facilityService.query).toHaveBeenCalledWith({id: [facility.id]});
             expect(inventoryItemService.getAll).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('resolved');
