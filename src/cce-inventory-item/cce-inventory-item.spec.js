@@ -33,29 +33,40 @@ describe('InventoryItem', function() {
                 energySource: ENERGY_SOURCE.SOLAR
             }
         };
+
+        facility = {
+            id: 'facility-id',
+            name: 'facility'
+        };
+    });
+
+    it('should set facility', function() {
+        var item = new InventoryItem(inventoryItem, facility);
+
+        expect(item.facility).toBe(facility);
     });
 
     it('should set voltageStabilizer as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {
-        var item = new InventoryItem(inventoryItem);
+        var item = new InventoryItem(inventoryItem, facility);
 
         expect(item.voltageStabilizer).toBe(CCE_STATUS.NOT_APPLICABLE);
     });
 
     it('should set voltageRegulator as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {
-        var item = new InventoryItem(inventoryItem);
+        var item = new InventoryItem(inventoryItem, facility);
 
         expect(item.voltageRegulator).toBe(CCE_STATUS.NOT_APPLICABLE);
     });
 
     it('should set backupGenerator as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {
-        var item = new InventoryItem(inventoryItem);
+        var item = new InventoryItem(inventoryItem, facility);
 
         expect(item.backupGenerator).toBe(CCE_STATUS.NOT_APPLICABLE);
     });
 
     it('should not set default options if ENERGY_SOURCE is different than SOLAR', function() {
         inventoryItem.catalogItem.energySource = ENERGY_SOURCE.GASOLINE;
-        var item = new InventoryItem(inventoryItem);
+        var item = new InventoryItem(inventoryItem, facility);
 
         expect(item.voltageStabilizer).toBeUndefined();
         expect(item.voltageRegulator).toBeUndefined();

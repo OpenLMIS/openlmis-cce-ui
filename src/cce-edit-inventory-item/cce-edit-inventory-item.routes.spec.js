@@ -25,10 +25,6 @@ describe('openlmis.cce.inventory.edit state', function() {
 
         module('cce-edit-inventory-item', function($provide) {
             InventoryItemSpy = jasmine.createSpy('InventoryItem').andReturn(inventoryItem);
-
-            $provide.service('InventoryItem', function(){
-                return InventoryItemSpy;
-            });
         });
 
         inject(function($injector) {
@@ -148,10 +144,8 @@ describe('openlmis.cce.inventory.edit state', function() {
             });
             $rootScope.$apply();
 
-            inventoryItem.facility = facility;
-
             expect(inventoryItemService.get).not.toHaveBeenCalled();
-            expect(result.facility).toBe(inventoryItem.facility);
+            expect(result).toEqual(inventoryItem);
         });
 
         it('should redirect user to the add page if no ID or item is given', function() {

@@ -45,7 +45,7 @@
          * @param  {Object} source  the inventory item to be updated
          * @return {Object}         the inventory item with default options
          */
-        function InventoryItem(source) {
+        function InventoryItem(source, facility) {
             angular.copy(source, this);
 
             if (this.catalogItem.energySource === ENERGY_SOURCE.SOLAR) {
@@ -53,6 +53,8 @@
                 this.voltageRegulator = CCE_STATUS.NOT_APPLICABLE;
                 this.backupGenerator = CCE_STATUS.NOT_APPLICABLE;
             }
+
+            this.facility = facility;
         }
     }
 })();

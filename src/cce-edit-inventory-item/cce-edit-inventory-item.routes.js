@@ -53,9 +53,7 @@
                     inventoryItem: function() {
                         if ($stateParams.inventoryItem) {
                             return facilityService.get($stateParams.inventoryItem.facility.id).then(function(facility) {
-                                var inventoryItem = new InventoryItem($stateParams.inventoryItem);
-                                inventoryItem.facility = facility;
-                                return inventoryItem;
+                                return new InventoryItem($stateParams.inventoryItem,  facility);
                             });
                         } else if ($stateParams.inventoryItemId) {
                             return inventoryItemFactory.get($stateParams.inventoryItemId);
