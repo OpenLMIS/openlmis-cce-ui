@@ -92,13 +92,11 @@
 
                     facilityService.query({id: ids})
                         .then(function(facilities) {
-                            facilities.forEach(function (facility) {
-                                var items = inventoryItems.content.filter(function (item) {
+                            inventoryItems.content.forEach(function (item) {
+                                var facilitiesFiltered = facilities.filter(function (facility) {
                                     return item.facility.id === facility.id;
                                 });
-                                items.forEach(function (item) {
-                                    item.facility = facility;
-                                })
+                                item.facility = facilitiesFiltered[0];
                             });
                             deferred.resolve(inventoryItems);
                         }, deferred.resolve(inventoryItems));

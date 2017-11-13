@@ -247,6 +247,7 @@ describe('inventoryItemService', function() {
 
             expect(status).toEqual('resolved');
 
+            expect(result.length).toBe(1);
             result.forEach(function (one) {
                 expect(one.id).toEqual(inventoryItem.id);
                 expect(one.name).toEqual(inventoryItem.name);
