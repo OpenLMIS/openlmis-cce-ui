@@ -84,23 +84,25 @@
         function getAllWithFacilities(params) {
             var deferred = $q.defer();
 
-            inventoryItemService.getAll(params).then(function(inventoryItems) {
-                var ids = inventoryItems.content.map(function (item) {
-                    return item.facility.id;
-                });
+            inventoryItemService.getAll(params)
+                .then(function(inventoryItems) {
+                    var ids = inventoryItems.content.map(function (item) {
+                        return item.facility.id;
+                    });
 
-                facilityService.query({id: ids}).then(function(facilities) {
-                    for (var i = 0; i < inventoryItems.content.length; ++i) {
-                        for (var j = 0; j < facilities.length; ++j) {
-                            if (inventoryItems.content[i].facility.id === facilities[j].id) {
-                                inventoryItems.content[i].facility = facilities[j];
-                                break;
+                    facilityService.query({id: ids})
+                        .then(function(facilities) {
+                            for (var i = 0; i < inventoryItems.content.length; ++i) {
+                                for (var j = 0; j < facilities.length; ++j) {
+                                    if (inventoryItems.content[i].facility.id === facilities[j].id) {
+                                        inventoryItems.content[i].facility = facilities[j];
+                                        break;
+                                    }
+                                }
                             }
-                        }
-                    }
-                    deferred.resolve(inventoryItems);
-                }, deferred.resolve(inventoryItems));
-            }, deferred.reject);
+                            deferred.resolve(inventoryItems);
+                        }, deferred.resolve(inventoryItems));
+                }, deferred.reject);
 
             return deferred.promise;
         }
