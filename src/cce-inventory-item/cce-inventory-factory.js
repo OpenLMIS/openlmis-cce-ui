@@ -92,14 +92,14 @@
 
                     facilityService.query({id: ids})
                         .then(function(facilities) {
-                            for (var i = 0; i < inventoryItems.content.length; ++i) {
-                                for (var j = 0; j < facilities.length; ++j) {
-                                    if (inventoryItems.content[i].facility.id === facilities[j].id) {
-                                        inventoryItems.content[i].facility = facilities[j];
-                                        break;
-                                    }
-                                }
-                            }
+                            facilities.forEach(function (facility) {
+                                var items = inventoryItems.content.filter(function (item) {
+                                    return item.facility.id === facility.id;
+                                });
+                                items.forEach(function (item) {
+                                    item.facility = facility;
+                                })
+                            });
                             deferred.resolve(inventoryItems);
                         }, deferred.resolve(inventoryItems));
                 }, deferred.reject);
