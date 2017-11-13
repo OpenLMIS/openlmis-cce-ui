@@ -40,8 +40,10 @@
 
         onEnter.$inject = [
             'openlmisModalService', '$stateParams', 'inventoryItemFactory', 'facilityService', '$state',
+            'InventoryItem'
         ];
-        function onEnter(openlmisModalService, $stateParams, inventoryItemFactory, facilityService, $state) {
+        function onEnter(openlmisModalService, $stateParams, inventoryItemFactory, facilityService, $state,
+            InventoryItem) {
             dialog = openlmisModalService.createDialog({
                 backdrop: 'static',
                 controller: 'EditInventoryItemController',
@@ -51,7 +53,7 @@
                     inventoryItem: function() {
                         if ($stateParams.inventoryItem) {
                             return facilityService.get($stateParams.inventoryItem.facility.id).then(function(facility) {
-                                var inventoryItem = angular.copy($stateParams.inventoryItem);
+                                var inventoryItem = new InventoryItem($stateParams.inventoryItem);
                                 inventoryItem.facility = facility;
                                 return inventoryItem;
                             });

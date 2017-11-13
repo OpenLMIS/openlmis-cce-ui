@@ -16,13 +16,20 @@
 describe('openlmis.cce.inventory.edit state', function() {
 
     var $state, $q, openlmisModalService, inventoryItemService, facilityService, CCE_RIGHTS, state, dialogSpy,
-        inventoryItem, inventoryItemTwo, $stateParams, facility;
+        inventoryItem, inventoryItemTwo, $stateParams, facility, InventoryItemSpy;
 
     beforeEach(function() {
         module('openlmis-main-state');
         module('cce');
         module('cce-inventory-list');
-        module('cce-edit-inventory-item');
+
+        module('cce-edit-inventory-item', function($provide) {
+            InventoryItemSpy = jasmine.createSpy('InventoryItem').andReturn(inventoryItem);
+
+            $provide.service('InventoryItem', function(){
+                return InventoryItemSpy;
+            });
+        });
 
         inject(function($injector) {
             $q = $injector.get('$q');
@@ -133,7 +140,7 @@ describe('openlmis.cce.inventory.edit state', function() {
 
             spyOn(facilityService, 'get').andReturn($q.when(facility));
 
-            state.onEnter(openlmisModalService, $stateParams, inventoryItemService, facilityService);
+            state.onEnter(openlmisModalService, $stateParams, inventoryItemService, facilityService, $state, InventoryItemSpy);
             modal = openlmisModalService.createDialog.calls[0].args[0];
 
             modal.resolve.inventoryItem().then(function(inventoryItem) {

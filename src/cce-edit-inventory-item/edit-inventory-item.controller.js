@@ -31,14 +31,13 @@
     controller.$inject = [
         'inventoryItem', '$scope', '$state', 'confirmService', 'CCE_STATUS',
         'MANUAL_TEMPERATURE_GAUGE_TYPE', 'ENERGY_SOURCE', 'UTILIZATION_STATUS',
-        'REMOTE_TEMPERATURE_MONITOR_TYPE', 'inventoryItemService', 'loadingModalService',
-        'InventoryItem'
+        'REMOTE_TEMPERATURE_MONITOR_TYPE', 'inventoryItemService', 'loadingModalService'
     ];
 
     function controller(inventoryItem, $scope, $state, confirmService, CCE_STATUS,
                         MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, UTILIZATION_STATUS,
                         REMOTE_TEMPERATURE_MONITOR_TYPE, inventoryItemService,
-                        loadingModalService, InventoryItem) {
+                        loadingModalService) {
         var vm = this;
 
         vm.$onInit = onInit;
@@ -103,7 +102,7 @@
          * Initialization method of the EditInventoryItemController.
          */
         function onInit() {
-            vm.inventoryItem = new InventoryItem(inventoryItem);
+            vm.inventoryItem = angular.copy(inventoryItem);
             vm.cceStatuses = CCE_STATUS.getStatuses();
             vm.manualTemperatureGaugeTypes = MANUAL_TEMPERATURE_GAUGE_TYPE.getTypes();
             vm.remoteTemperatureMonitorTypes = REMOTE_TEMPERATURE_MONITOR_TYPE.getTypes();

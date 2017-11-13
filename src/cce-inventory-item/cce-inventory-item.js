@@ -22,7 +22,7 @@
      * @name cce-inventory-item.InventoryItem
      *
      * @description
-     * Allows the user to retrieve inventory items with default options.
+     * Represents a single inventory item.
      */
     angular
     .module('cce-inventory-item')
@@ -40,7 +40,7 @@
          * @name InventoryItem
          *
          * @description
-         * Returns inventory item with default options.
+         * Creates a new instance of the InventoryItem class.
          *
          * @param  {Object} source  the inventory item to be updated
          * @return {Object}         the inventory item with default options
