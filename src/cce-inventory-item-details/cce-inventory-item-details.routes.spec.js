@@ -57,7 +57,7 @@ describe('openlmis.cce.inventory.details state', function() {
             });
             $rootScope.$apply();
 
-            inventoryItem.program = program
+            inventoryItem.program = program;
             expect(result).toEqual(inventoryItem);
             expect(programService.get).toHaveBeenCalled();
             expect(inventoryItemFactory.get).not.toHaveBeenCalled();
@@ -145,10 +145,15 @@ describe('openlmis.cce.inventory.details state', function() {
         programId = 'f37dff62-9b69-49ec-8576-deafceef5634';
         inventoryItem = {
             id: inventoryItemId,
-            programId: programId
+            program: {
+                id: programId,
+                href: 'localhost/program/' + programId
+            }
+
         };
         program = {
-            id: programId
+            id: programId,
+            name: 'Family Planning'
         };
 
         $stateParams = {

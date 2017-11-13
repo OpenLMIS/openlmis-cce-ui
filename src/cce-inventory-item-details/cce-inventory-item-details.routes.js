@@ -37,7 +37,7 @@
                     if (!$stateParams.inventoryItem) {
                         return inventoryItemFactory.get($stateParams.inventoryItemId);
                     } else {
-                        return programService.get($stateParams.inventoryItem.programId).then(function(program) {
+                        return programService.get($stateParams.inventoryItem.program.id).then(function(program) {
                             var inventoryItem = angular.copy($stateParams.inventoryItem);
                             inventoryItem.program = program;
                             return inventoryItem;
