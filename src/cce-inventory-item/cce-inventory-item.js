@@ -54,7 +54,11 @@
                 this.backupGenerator = CCE_STATUS.NOT_APPLICABLE;
             }
 
-            this.facility = facility;
+            if (this.facility.id === facility.id) {
+                this.facility = facility;
+            } else {
+                throw 'Parameter facility has different ID than facility from provided inventory item!';
+            }
         }
     }
 })();

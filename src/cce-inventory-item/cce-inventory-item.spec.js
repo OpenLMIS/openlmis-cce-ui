@@ -31,6 +31,9 @@ describe('InventoryItem', function() {
             id: '9c704186-6191-4434-b39f-71be7ca87304',
             catalogItem: {
                 energySource: ENERGY_SOURCE.SOLAR
+            },
+            facility: {
+                id: 'facility-id'
             }
         };
 
