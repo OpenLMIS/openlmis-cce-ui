@@ -55,7 +55,7 @@
             }
 
             if (this.facility.id === facility.id) {
-                this.facility = facility;
+                angular.merge(this.facility, facility);
             } else {
                 throw 'Parameter facility has different ID than facility from provided inventory item!';
             }

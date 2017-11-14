@@ -46,7 +46,7 @@ describe('InventoryItem', function() {
     it('should set facility', function() {
         var item = new InventoryItem(inventoryItem, facility);
 
-        expect(item.facility).toBe(facility);
+        expect(item.facility).toEqual(facility);
     });
 
     it('should throw exception when facility param has different ID than facility from provided inventory item', function() {
