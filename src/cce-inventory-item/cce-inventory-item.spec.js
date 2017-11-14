@@ -49,6 +49,14 @@ describe('InventoryItem', function() {
         expect(item.facility).toBe(facility);
     });
 
+    it('should throw exception when facility param has different ID than facility from provided inventory item', function() {
+        facility.id = 'bad-facility';
+
+        expect(function() {
+            new InventoryItem(inventoryItem, facility)
+        }).toThrow(new Error('Parameter facility has different ID than facility from provided inventory item!'));
+    });
+
     it('should set voltageStabilizer as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {
         var item = new InventoryItem(inventoryItem, facility);
 
