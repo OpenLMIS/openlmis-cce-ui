@@ -29,9 +29,9 @@
         .module('cce-inventory-item')
         .factory('inventoryItemFactory', factory);
 
-    factory.$inject = ['$q', 'inventoryItemService', 'programService', 'facilityService'];
+    factory.$inject = ['$q', 'inventoryItemService', 'programService', 'facilityService', 'InventoryItem'];
 
-    function factory($q, inventoryItemService, programService, facilityService) {
+    function factory($q, inventoryItemService, programService, facilityService, InventoryItem) {
 
         return {
             get: get,
@@ -53,18 +53,14 @@
             var deferred = $q.defer();
 
             inventoryItemService.get(inventoryItemId).then(function(inventoryItem) {
-                if (inventoryItem.programId) {
                     $q.all([
-                        programService.get(inventoryItem.programId),
+                        programService.get(inventoryItem.program.id),
                         facilityService.get(inventoryItem.facility.id)
                     ]).then(function(result) {
-                        inventoryItem.program = result[0];
-                        inventoryItem.facility = result[1];
-                        deferred.resolve(inventoryItem);
+                        deferred.resolve(new InventoryItem(inventoryItem, result[1], result[0]));
                     }, function() {
                         deferred.resolve(inventoryItem);
                     });
-                }
             }, deferred.reject);
 
             return deferred.promise;

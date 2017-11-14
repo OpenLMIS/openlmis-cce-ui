@@ -45,7 +45,14 @@
          * @param  {Object} source  the inventory item to be updated
          * @return {Object}         the inventory item with default options
          */
-        function InventoryItem(source, facility) {
+        function InventoryItem(source, facility, program) {
+            delete source.$promise;
+            if (facility !== undefined && facility.$promise !== undefined) {
+                delete facility.$promise;
+            }
+            if (program !== undefined && program.$promise !== undefined) {
+                delete program.$promise;
+            }
             angular.copy(source, this);
 
             if (this.catalogItem.energySource === ENERGY_SOURCE.SOLAR) {
@@ -58,6 +65,13 @@
                 angular.merge(this.facility, facility);
             } else {
                 throw 'Parameter facility has different ID than facility from provided inventory item!';
+            }
+            if (program !== undefined) {
+                if (this.program.id === program.id) {
+                    angular.merge(this.facility, facility);
+                } else {
+                    throw 'Parameter program has different ID than facility from provided inventory item!';
+                }
             }
         }
     }
