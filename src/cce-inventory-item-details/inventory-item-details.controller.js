@@ -136,7 +136,8 @@
 
         function hasEditRightForProgram() {
             return authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
-                programCode: vm.inventoryItem.program.code
+                programId: vm.inventoryItem.program.id,
+                facilityId: vm.inventoryItem.facility.id
             });
         }
     }

@@ -158,7 +158,7 @@ describe('inventory-item-details.html', function() {
             vm.userHasRightToEdit = false;
             $rootScope.$apply();
 
-            expect(templateTestingUtils.getButton('edit')).toBeUndefined();
+            expect(templateTestingUtils.getButton('edit')).toBeHidden();
         });
 
     });
@@ -173,6 +173,13 @@ describe('inventory-item-details.html', function() {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });
+        });
+
+        it('should be hidden if user does not have right', function() {
+            vm.userHasRightToEdit = false;
+            $rootScope.$apply();
+
+            expect(templateTestingUtils.getButton('status-update')).toBeHidden();
         });
 
     });

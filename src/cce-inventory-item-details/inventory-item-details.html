@@ -13,7 +13,7 @@
                         <em>{{vm.inventoryItem.lastModifier.firstName}} {{vm.inventoryItem.lastModifier.lastName}}</em>
                         {{vm.inventoryItem.modifiedDate | date:'yy/MM/dd HH:mm:ss'}}
                     </p>
-                    <button id="status-update" ng-click="vm.goToStatusUpdate(vm.inventoryItem)">
+                    <button ng-show="vm.userHasRightToEdit" id="status-update" ng-click="vm.goToStatusUpdate(vm.inventoryItem)">
                         {{'cceInventoryItemDetails.updateStatus' | message}}
                     </button>
                 </aside>
@@ -87,7 +87,7 @@
                 <button id="close" ui-sref="openlmis.cce.inventory">
                     {{'cceInventoryItemDetails.close' | message}}
                 </button>
-                <button ng-if="vm.userHasRightToEdit" id="edit" class="primary" ng-click="vm.goToEditPage(vm.inventoryItem)">
+                <button ng-show="vm.userHasRightToEdit" id="edit" class="primary" ng-click="vm.goToEditPage(vm.inventoryItem)">
                     {{'cceInventoryItemDetails.edit' | message}}
                 </button>
             </div>

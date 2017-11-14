@@ -59,6 +59,37 @@ describe('cce-inventory-list template', function () {
 
     });
 
+    describe('Update Status button', function() {
+
+        it('should be hidden if user has no rights to edit', function() {
+            authorizationService.hasRight.andReturn(false);
+
+            prepareView();
+
+            expect(template.find('#functional-status')).toBeHidden();
+        });
+
+        it('should be visible if user has rights to edit', function() {
+            authorizationService.hasRight.andReturn(true);
+
+            prepareView();
+
+            expect(template.find('#functional-status')).not.toBeHidden();
+        });
+
+        it('should take user to the add inventory item modal', function() {
+            authorizationService.hasRight.andReturn(true);
+
+            prepareView();
+
+            template.find('#functional-status').click();
+            $timeout.flush();
+
+            expect($state.go.calls[0].args[0]).toEqual('openlmis.cce.inventory.statusUpdate');
+        });
+
+    });
+
     describe('View button', function() {
 
         it('should take user to the Inventory Item Details page', function() {

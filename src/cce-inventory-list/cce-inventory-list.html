@@ -1,7 +1,7 @@
 <h2>{{'cceInventoryList.cceInventory' | message}}</h2>
 <section class="openlmis-table-container">
     <button id="add-inventory-item" class="add" ui-sref="openlmis.cce.inventory.add"
-        ng-show="vm.userHasRightToEdit">
+        ng-show="vm.hasEditRightToEdit()">
         {{'cceInventoryList.addEquipment' | message}}
     </button>
     <table>
@@ -34,7 +34,7 @@
                     <div class="cce-inventory-item-status {{vm.getFunctionalStatusClass(item.functionalStatus)}}"
                         popover="{{vm.getReasonLabel(item.reasonNotWorkingOrNotInUse)}}">
                         {{vm.getStatusLabel(item.functionalStatus)}}
-                        <a class="update-status" ng-click="vm.goToStatusUpdate(item)"></a>
+                        <a id="functional-status" ng-show="vm.hasEditRightToEdit(item.program.id, item.facility.id)" class="update-status" ng-click="vm.goToStatusUpdate(item)"></a>
                     </div>
                 </td>
                 <td>{{item.lastModifier.firstName}} {{item.lastModifier.lastName}} {{item.modifiedDate | openlmisDate : 'short'}}</td>

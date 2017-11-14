@@ -62,7 +62,8 @@ describe('InventoryItemDetailsController', function() {
 
             expect(vm.userHasRightToEdit).toBe(true);
             expect(authorizationService.hasRight).toHaveBeenCalledWith(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
-                programCode: vm.inventoryItem.program.code
+                programId: vm.inventoryItem.program.id,
+                facilityId: vm.inventoryItem.facility.id
             });
         });
 
@@ -73,7 +74,8 @@ describe('InventoryItemDetailsController', function() {
 
             expect(vm.userHasRightToEdit).toBe(false);
             expect(authorizationService.hasRight).toHaveBeenCalledWith(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
-                programCode: vm.inventoryItem.program.code
+                programId: vm.inventoryItem.program.id,
+                facilityId: vm.inventoryItem.facility.id
             });
         });
 
@@ -181,7 +183,10 @@ describe('InventoryItemDetailsController', function() {
         inventoryItem = {
             id: 'c699115e-3572-4a8f-951c-1297bc4f7995',
             program: {
-                code: 'PRG01'
+                id: '9945d83d-7b62-400f-b5bb-40b15a50f1f3'
+            },
+            facility: {
+                id: '334ae0b0-6974-4927-bc66-883b28f8adc1'
             }
         };
     }

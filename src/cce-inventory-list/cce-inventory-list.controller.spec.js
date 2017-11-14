@@ -15,7 +15,7 @@
 
 describe('CceInventoryListController', function () {
 
-    var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems;
+    var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, authorizationService;
 
     beforeEach(function() {
         module('cce-inventory-list');
@@ -24,6 +24,7 @@ describe('CceInventoryListController', function () {
             $controller = $injector.get('$controller');
             $state = $injector.get('$state');
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
+            authorizationService = $injector.get('authorizationService');
         });
 
         inventoryItems = [
@@ -82,6 +83,25 @@ describe('CceInventoryListController', function () {
                 inventoryItem: inventoryItems[0],
                 inventoryItemId: inventoryItems[0].id
             });
+        });
+
+    });
+
+    describe('hasEditRightToEdit', function() {
+
+        it('should return true if user has CCE_INVENTORY_EDIT for provided program', function() {
+            spyOn(authorizationService, 'hasRight').andReturn(true);
+            expect(vm.hasEditRightToEdit('program-one', 'facility-one')).toEqual(true);
+        });
+
+        it('should return true if user has CCE_INVENTORY_EDIT', function() {
+            spyOn(authorizationService, 'hasRight').andReturn(true);
+            expect(vm.hasEditRightToEdit()).toEqual(true);
+        });
+
+        it('should return false if user has CCE_INVENTORY_EDIT for provided program', function() {
+            spyOn(authorizationService, 'hasRight').andReturn(false);
+            expect(vm.hasEditRightToEdit('program-two', 'facility-two')).toEqual(false);
         });
 
     });
