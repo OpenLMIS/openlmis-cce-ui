@@ -175,7 +175,7 @@ describe('inventory-item-details.html', function() {
             });
         });
 
-        it('should be hidden if user does not have right', function() {
+        it('should be hidden if user does not have CCE_INVENTORY_EDIT right', function() {
             vm.userHasRightToEdit = false;
             $rootScope.$apply();
 

@@ -156,14 +156,10 @@
          * @return {Boolean}            true if user has permission to edit inventory item
          */
         function hasEditRightToEdit(programId, facilityId) {
-            if (programId && facilityId) {
-                return authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
-                    programId: programId,
-                    facilityId: facilityId
-                });
-            } else {
-                return authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT);
-            }
+            return authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
+                programId: programId,
+                facilityId: facilityId
+            });
         }
 
         function goToStatusUpdate(inventoryItem) {
