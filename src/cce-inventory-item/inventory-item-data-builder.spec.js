@@ -34,6 +34,7 @@
         InventoryItemDataBuilder.prototype.withFacility = withFacility;
         InventoryItemDataBuilder.prototype.withFunctionalStatus = withFunctionalStatus;
         InventoryItemDataBuilder.prototype.withId = withId;
+        InventoryItemDataBuilder.prototype.withoutId = withoutId;
         InventoryItemDataBuilder.prototype.withProgram = withProgram;
         InventoryItemDataBuilder.prototype.withYearOfInstallation = withYearOfInstallation;
         InventoryItemDataBuilder.prototype.withYearOfWarrantyExpiry = withYearOfWarrantyExpiry;
@@ -96,6 +97,11 @@
 
         function withId(newId) {
             this.source.id = newId;
+            return this;
+        }
+
+        function withoutId() {
+            this.source.id = undefined;
             return this;
         }
 

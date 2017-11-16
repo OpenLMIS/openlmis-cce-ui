@@ -131,7 +131,7 @@ describe('inventoryItemService', function() {
         });
 
         it('should create inventory item if ID is not given', function() {
-            inventoryItem = new InventoryItemDataBuilder().withId(undefined).build();
+            inventoryItem = new InventoryItemDataBuilder().withoutId().build();
 
             var returned = angular.copy(inventoryItem);
 

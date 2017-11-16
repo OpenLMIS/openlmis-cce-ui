@@ -158,7 +158,7 @@ describe('EditInventoryItemController', function() {
         });
 
         it('should redirect to status update page if inventory item has no ID', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withId(undefined).build();
+            vm.inventoryItem = new InventoryItemDataBuilder().withoutId().build();
 
             vm.add();
 

@@ -32,7 +32,7 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should be "Add New Cold Chain Equipment" if inventory item has no ID', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withId(undefined).build();
+            vm.inventoryItem = new InventoryItemDataBuilder().withoutId().build();
             $rootScope.$apply();
 
             expect(
