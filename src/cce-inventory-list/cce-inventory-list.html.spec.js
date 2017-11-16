@@ -16,7 +16,7 @@
 describe('cce-inventory-list template', function () {
 
     var template, $rootScope, $scope, vm, authorizationService, $timeout, $state,
-        templateTestingUtils, inventoryItem, inventoryItemId;
+        templateTestingUtils, inventoryItem, inventoryItemId, InventoryItemDataBuilder;
 
     beforeEach(function() {
         loadModules();
@@ -119,20 +119,12 @@ describe('cce-inventory-list template', function () {
             $state = $injector.get('$state');
             authorizationService = $injector.get('authorizationService');
             templateTestingUtils = $injector.get('templateTestingUtils');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
         });
     }
 
     function prepareTestData() {
-        inventoryItemId = 'b545e2dd-b38e-4c06-aa1b-4e1f2f12da6e';
-        inventoryItem = {
-            id: inventoryItemId,
-            catalogItem: {
-                manufacturer: 'Haeier',
-                model: 'LPL-1000'
-            },
-            functionalStatus: 'FUNCTIONING',
-            reasonNotWorkingOrNotInUse: 'NEEDS_SPARE_PARTS'
-        };
+        inventoryItem = new InventoryItemDataBuilder().build();
     }
 
     function initTestingUtils(suite) {

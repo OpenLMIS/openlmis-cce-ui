@@ -30,6 +30,7 @@
 
         InventoryItemDataBuilder.prototype.build = build;
         InventoryItemDataBuilder.prototype.withCatalogItem = withCatalogItem;
+        InventoryItemDataBuilder.prototype.withDecommissionDate = withDecommissionDate;
         InventoryItemDataBuilder.prototype.withFacility = withFacility;
         InventoryItemDataBuilder.prototype.withFunctionalStatus = withFunctionalStatus;
         InventoryItemDataBuilder.prototype.withId = withId;
@@ -68,8 +69,18 @@
             this.program = new ProgramDataBuilder().build();
         }
 
+        function withAdditionalNotes(newNotes) {
+            this.source.additionalNotes = newNotes;
+            return this;
+        }
+
         function withCatalogItem(newCatalogItem) {
             this.source.catalogItem = newCatalogItem;
+            return this;
+        }
+
+        function withDecommissionDate(newDate) {
+            this.source.decommissionDate = newDate;
             return this;
         }
 

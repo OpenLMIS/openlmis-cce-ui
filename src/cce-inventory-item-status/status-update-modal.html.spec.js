@@ -17,7 +17,8 @@ describe('status-update-modal.html template', function() {
 
     var $controller, $compile, $rootScope, $templateRequest, $state, $q;
 
-    var inventoryItemService, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, stateTrackerService;
+    var inventoryItemService, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, stateTrackerService,
+        InventoryItemDataBuilder;
 
     var vm, template, inventoryItem, saveDeferred;
 
@@ -35,7 +36,7 @@ describe('status-update-modal.html template', function() {
         var dl;
 
         it('should be hidden if current status is not set', function() {
-            vm.inventoryItem.functionalStatus = undefined;
+            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus(undefined).build();
 
             $rootScope.$apply();
 
@@ -43,7 +44,7 @@ describe('status-update-modal.html template', function() {
         });
 
         it('should be visible if current status is set', function() {
-            vm.inventoryItem.functionalStatus = FUNCTIONAL_STATUS.FUNCTIONING;
+            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
 
             $rootScope.$apply();
 
@@ -318,12 +319,13 @@ describe('status-update-modal.html template', function() {
             $rootScope.$apply();
             form.triggerHandler('submit');
 
-            expect(inventoryItemService.save).toHaveBeenCalledWith({
-                functionalStatus: FUNCTIONAL_STATUS.OBSOLETE,
-                reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NOT_APPLICABLE,
-                decommissionDate: date,
-                id: 'some-inventory-item-id'
-            });
+            var item = new InventoryItemDataBuilder()
+                                .withId('some-inventory-item-id')
+                                .withFunctionalStatus('OBSOLETE')
+                                .withDecommissionDate(date)
+                                .build();
+
+            expect(inventoryItemService.save).toHaveBeenCalledWith(item);
             expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
 
             saveDeferred.reject();
@@ -353,13 +355,12 @@ describe('status-update-modal.html template', function() {
             REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
             $timeout = $injector.get('$timeout');
             stateTrackerService = $injector.get('stateTrackerService');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
         });
     }
 
     function prepareTestData() {
-        inventoryItem = {
-            id: 'some-inventory-item-id'
-        };
+        inventoryItem = new InventoryItemDataBuilder().withId('some-inventory-item-id').build();
         saveDeferred = $q.defer();
     }
 

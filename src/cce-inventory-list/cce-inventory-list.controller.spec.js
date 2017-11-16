@@ -15,7 +15,8 @@
 
 describe('CceInventoryListController', function () {
 
-    var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, authorizationService;
+    var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, authorizationService,
+        InventoryItemDataBuilder;
 
     beforeEach(function() {
         module('cce-inventory-list');
@@ -25,17 +26,12 @@ describe('CceInventoryListController', function () {
             $state = $injector.get('$state');
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
             authorizationService = $injector.get('authorizationService');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
         });
 
         inventoryItems = [
-            {
-                id: 'item-id-1',
-                name: 'item-1'
-            },
-            {
-                id: 'item-id-2',
-                name: 'item-2'
-            }
+            new InventoryItemDataBuilder().withId('1').build(),
+            new InventoryItemDataBuilder().withId('2').build
         ];
 
         vm = $controller('CceInventoryListController', {

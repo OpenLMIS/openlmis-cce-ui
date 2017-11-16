@@ -15,7 +15,7 @@
 
 describe('InventoryItem', function() {
 
-    var CCE_STATUS, ENERGY_SOURCE, inventoryItem, $rootScope, InventoryItem, InventoryItemDataBuilder,
+    var CCE_STATUS, ENERGY_SOURCE, inventoryItem, $rootScope, InventoryItemDataBuilder,
         CatalogItemDataBuilder;
 
     beforeEach(function() {
@@ -25,7 +25,6 @@ describe('InventoryItem', function() {
             CCE_STATUS = $injector.get('CCE_STATUS');
             ENERGY_SOURCE = $injector.get('ENERGY_SOURCE');
             $rootScope = $injector.get('$rootScope');
-            InventoryItem = $injector.get('InventoryItem');
             InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
             CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
         });
