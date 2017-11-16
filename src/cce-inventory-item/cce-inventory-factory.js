@@ -78,27 +78,29 @@
          * @return {Promise}    the inventory items with facility info
          */
         function getAllWithFacilities(params) {
-            var deferred = $q.defer();
+            var inventoryItems;
 
-            inventoryItemService.getAll(params)
-                .then(function(inventoryItems) {
+            return inventoryItemService.getAll(params)
+                .then(function(response) {
+                    inventoryItems = response;
+
                     var ids = inventoryItems.content.map(function (item) {
                         return item.facility.id;
                     });
 
-                    facilityService.query({id: ids})
-                        .then(function(facilities) {
-                            inventoryItems.content.forEach(function (item) {
-                                var facilitiesFiltered = facilities.filter(function (facility) {
-                                    return item.facility.id === facility.id;
-                                });
-                                item.facility = facilitiesFiltered[0];
-                            });
-                            deferred.resolve(inventoryItems);
-                        }, deferred.resolve(inventoryItems));
-                }, deferred.reject);
-
-            return deferred.promise;
+                    return facilityService.query({
+                        id: ids
+                    });
+                })
+                .then(function(facilities) {
+                    inventoryItems.content.forEach(function (item) {
+                        var facilitiesFiltered = facilities.filter(function (facility) {
+                            return item.facility.id === facility.id;
+                        });
+                        item.facility = facilitiesFiltered[0];
+                    });
+                    return inventoryItems;
+                });
         }
 
     }
