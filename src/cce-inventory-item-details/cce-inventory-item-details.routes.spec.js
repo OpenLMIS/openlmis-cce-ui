@@ -15,8 +15,8 @@
 describe('openlmis.cce.inventory.details state', function() {
 
     var state, $timeout, $rootScope, $state, $stateParams, $q, paginationService,
-        inventoryItemFactory, programService, inventoryItemId, openlmisModalService,
-        program, programId, inventoryItem;
+        inventoryItemFactory, programService, openlmisModalService, program, inventoryItem,
+        InventoryItemDataBuilder, ProgramDataBuilder;
 
     beforeEach(function() {
         loadModules();
@@ -136,28 +136,19 @@ describe('openlmis.cce.inventory.details state', function() {
             inventoryItemFactory = $injector.get('inventoryItemFactory');
             programService = $injector.get('programService');
             openlmisModalService = $injector.get('openlmisModalService');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            ProgramDataBuilder = $injector.get('ProgramDataBuilder');
         });
     }
 
     function prepareTestData() {
         state = $state.get('openlmis.cce.inventory.details');
-        inventoryItemId = 'f37dff62-9b69-49ec-8576-deafceef5634';
-        programId = 'f37dff62-9b69-49ec-8576-deafceef5634';
-        inventoryItem = {
-            id: inventoryItemId,
-            program: {
-                id: programId,
-                href: 'localhost/program/' + programId
-            }
 
-        };
-        program = {
-            id: programId,
-            name: 'Family Planning'
-        };
+        program = new ProgramDataBuilder().build();
+        inventoryItem = new InventoryItemDataBuilder().build();
 
         $stateParams = {
-            inventoryItemId: inventoryItemId,
+            inventoryItemId: inventoryItem.id,
             inventoryItem: undefined
         };
     }
@@ -165,13 +156,13 @@ describe('openlmis.cce.inventory.details state', function() {
     function prepareSpies() {
         spyOn(paginationService, 'registerUrl').andReturn();
         spyOn(inventoryItemFactory, 'get').andCallFake(function(id) {
-            if (id === inventoryItemId) {
+            if (id === inventoryItem.id) {
                 return $q.when(inventoryItem);
             }
             return $q.when();
         });
         spyOn(programService, 'get').andCallFake(function(id) {
-            if (id === programId) {
+            if (id === program.id) {
                 return $q.when(program);
             }
             return $q.when();

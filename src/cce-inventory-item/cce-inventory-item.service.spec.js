@@ -16,7 +16,7 @@
 describe('inventoryItemService', function() {
 
     var $rootScope, $httpBackend;
-    var cceUrlFactory, inventoryItemService;
+    var cceUrlFactory, inventoryItemService, InventoryItemDataBuilder;
     var inventoryItems, inventoryItem, ITEM_ID;
 
     beforeEach(function() {
@@ -27,6 +27,7 @@ describe('inventoryItemService', function() {
             $httpBackend = $injector.get('$httpBackend');
             cceUrlFactory = $injector.get('cceUrlFactory');
             inventoryItemService = $injector.get('inventoryItemService');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
         });
 
         prepareTestData();
@@ -56,7 +57,7 @@ describe('inventoryItemService', function() {
             $rootScope.$apply();
 
             var expected = angular.copy(inventoryItems[0]);
-            expected.decommissionDate = new Date('08/10/2017');
+            expected.decommissionDate = new Date('01/01/2017');
 
             expect(angular.toJson(result)).toEqual(angular.toJson(expected));
         });
@@ -104,8 +105,8 @@ describe('inventoryItemService', function() {
             $rootScope.$apply();
 
             var expected = angular.copy(inventoryItems);
-            expected[0].decommissionDate = new Date('08/10/2017');
-            expected[1].decommissionDate = new Date('08/10/2017');
+            expected[0].decommissionDate = new Date('01/01/2017');
+            expected[1].decommissionDate = new Date('01/01/2017');
 
             expect(angular.toJson(result)).toEqual(angular.toJson({
                 content: expected
@@ -130,6 +131,8 @@ describe('inventoryItemService', function() {
         });
 
         it('should create inventory item if ID is not given', function() {
+            inventoryItem = new InventoryItemDataBuilder().withId(undefined).build();
+
             var returned = angular.copy(inventoryItem);
 
             returned.id = ITEM_ID;
@@ -149,7 +152,7 @@ describe('inventoryItemService', function() {
         });
 
         it('should update inventory item if it has ID', function() {
-            inventoryItem.id = ITEM_ID;
+            inventoryItem = new InventoryItemDataBuilder().withId(ITEM_ID).build();
 
             $httpBackend.expect(
                 'PUT', cceUrlFactory('/api/inventoryItems/' + ITEM_ID), inventoryItem
@@ -173,105 +176,11 @@ describe('inventoryItemService', function() {
     });
 
     function prepareTestData() {
-        inventoryItem = {
-            'facility': {
-                'code': 'HC01',
-                'name': 'Comfort Health Clinic',
-                'geographicZone': {
-                    'code': 'Malawi-Southern',
-                    'name': 'Southern Region',
-                    'level': {
-                        'code': 'Region',
-                        'levelNumber': 2,
-                        'id': '9b497d87-cdd9-400e-bb04-fae0bf6a9491'
-                    },
-                    'parent': {
-                        'code': 'Malawi',
-                        'name': 'Malawi',
-                        'level': {
-                            'code': 'Country',
-                            'levelNumber': 1,
-                            'id': '6b78e6c6-292e-4733-bb9c-3d802ad61206'
-                        },
-                        'id': '4e471242-da63-436c-8157-ade3e615c848'
-                    },
-                    'id': '0bbd69c1-e20f-48f5-aae4-26dcd8aa7602'
-                },
-                'type': {
-                    'code': 'health_center',
-                    'name': 'Health Center',
-                    'displayOrder': 2,
-                    'active': true,
-                    'id': 'ac1d268b-ce10-455f-bf87-9c667da8f060'
-                },
-                'operator': {
-                    'code': 'moh',
-                    'name': 'Ministry of Health',
-                    'displayOrder': 1,
-                    'id': '9456c3e9-c4a6-4a28-9e08-47ceb16a4121'
-                },
-                'active': true,
-                'enabled': true,
-                'openLmisAccessible': true,
-                'supportedPrograms': [{
-                    'id': 'dce17f2e-af3e-40ad-8e00-3496adef44c3',
-                    'code': 'PRG001',
-                    'name': 'Family Planning',
-                    'programActive': true,
-                    'periodsSkippable': true,
-                    'showNonFullSupplyTab': true,
-                    'supportActive': true
-                }, {
-                    'id': '10845cb9-d365-4aaa-badd-b4fa39c6a26a',
-                    'code': 'PRG002',
-                    'name': 'Essential Meds',
-                    'programActive': true,
-                    'periodsSkippable': false,
-                    'showNonFullSupplyTab': false,
-                    'supportActive': true
-                }],
-                'id': 'e6799d64-d10d-4011-b8c2-0e4d4a3f65ce'
-            },
-            'programId': 'dce17f2e-af3e-40ad-8e00-3496adef44c3',
-            'catalogItem': {
-                'fromPqsCatalog': true,
-                'equipmentCode': 'string',
-                'type': 'Refrigerator',
-                'model': 'X-GGTA 1',
-                'manufacturer': 'Cooltec',
-                'energySource': 'ELECTRIC',
-                'dateOfPrequal': 0,
-                'storageTemperature': 'PLUS4',
-                'maxOperatingTemp': 0,
-                'minOperatingTemp': 0,
-                'energyConsumption': 'string',
-                'holdoverTime': 0,
-                'grossVolume': 0,
-                'netVolume': 0,
-                'visibleInCatalog': true,
-                'archived': false,
-                'id': 'cb3c5e06-688b-4568-ab0f-b08332b4a10e'
-            },
-            'voltageStabilizer': 'NO',
-            'voltageRegulator': 'UNKNOWN',
-            'serialNumber': 'S0M3-53R14L-NUMB3R',
-            'referenceName': 'Refrigerator One',
-            'yearOfInstallation': 2000,
-            'backupGenerator': 'YES',
-            'manualTemperatureGauge': 'PAIRED',
-            'functionalStatus': 'OBSOLETE',
-            'reasonNotWorkingOrNotInUse': 'NOT_APPLICABLE',
-            'decommissionDate': '08/10/2017'
-        };
-
-        inventoryItems = [{
-            id: '1',
-            decommissionDate: '08/10/2017'
-        }, {
-            id: '2',
-            decommissionDate: '08/10/2017'
-        }];
-
         ITEM_ID = 'some-inventory-item-id';
+
+        inventoryItems = [
+            new InventoryItemDataBuilder().withId('1').build(),
+            new InventoryItemDataBuilder().withId('2').build()
+        ];
     }
 });

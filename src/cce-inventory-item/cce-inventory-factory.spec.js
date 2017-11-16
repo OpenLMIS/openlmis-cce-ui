@@ -17,7 +17,7 @@ describe('inventoryItemService', function() {
 
     var $q, $rootScope, inventoryItemFactory, programService, facilityService, inventoryItemService,
         inventoryItem, program, facility, inventoryItemResolve, programDeferred, facilityDeferred,
-        query, facilitiesResolve;
+        query, facilitiesResolve, InventoryItemDataBuilder, ProgramDataBuilder, FacilityDataBuilder;
 
     beforeEach(function() {
         module('cce-inventory-item', function($provide) {
@@ -43,24 +43,15 @@ describe('inventoryItemService', function() {
             facilityService = $injector.get('facilityService');
             inventoryItemService = $injector.get('inventoryItemService');
             inventoryItemFactory = $injector.get('inventoryItemFactory');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            ProgramDataBuilder = $injector.get('ProgramDataBuilder');
+            FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
 
-        program = {
-            id: 'program-id',
-            name: 'program'
-        };
-        facility = {
-            id: 'facility-id',
-            name: 'facility'
-        };
-        inventoryItem = {
-            id: 'inventory-item-id',
-            name: 'inventory-item',
-            programId: program.id,
-            facility: {
-                id: facility.id
-            }
-        };
+        program = new ProgramDataBuilder().build();
+        facility = new FacilityDataBuilder().build();
+        inventoryItem = new InventoryItemDataBuilder().build();
+
         query = {
             page: 1,
             size: 10

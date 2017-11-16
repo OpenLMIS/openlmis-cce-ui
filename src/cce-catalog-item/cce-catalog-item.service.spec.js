@@ -15,7 +15,8 @@
 
 describe('catalogItemService', function() {
 
-    var $rootScope, $httpBackend, cceUrlFactory, catalogItemService, catalogItems;
+    var $rootScope, $httpBackend, cceUrlFactory, catalogItemService, catalogItems,
+        CatalogItemDataBuilder;
 
     beforeEach(function() {
         module('cce-catalog-item', function($provide) {
@@ -32,13 +33,13 @@ describe('catalogItemService', function() {
             $rootScope = $injector.get('$rootScope');
             cceUrlFactory = $injector.get('cceUrlFactory');
             catalogItemService = $injector.get('catalogItemService');
+            CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
         });
 
-        catalogItems = [{
-            id: '1'
-        }, {
-            id: '2'
-        }];
+        catalogItems = [
+            new CatalogItemDataBuilder().withId('1').build(),
+            new CatalogItemDataBuilder().withId('2').build()
+        ];
     });
 
     describe('get', function() {

@@ -17,7 +17,7 @@ describe('add-inventory-item.html template', function() {
 
     var template, $compile, $rootScope, $scope, $templateRequest, $controller,
         authorizationService, $timeout, $state, program, facility, types, type, catalogItem,
-        catalogItems;
+        catalogItems, CatalogItemDataBuilder, ProgramDataBuilder, FacilityDataBuilder;
 
     beforeEach(function() {
         module('openlmis-form');
@@ -35,36 +35,24 @@ describe('add-inventory-item.html template', function() {
             $templateRequest = $injector.get('$templateRequest');
             $timeout = $injector.get('$timeout');
             $state = $injector.get('$state');
+            CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
+            ProgramDataBuilder = $injector.get('ProgramDataBuilder');
+            FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
 
         types = [
-            'Walk-in freezer',
+            'Freezer',
             'Refrigerator'
         ];
 
-        catalogItems = [{
-            manufacturer: 'Haier',
-            model: 'LOL-1337',
-            type: types[0]
-        }, {
-            manufacturer: 'Haier',
-            model: 'LPL-101',
-            type: types[1]
-        }, {
-            manufacturer: 'Cooltec',
-            model: 'X-GGTA 1',
-            type: types[1]
-        }];
+        catalogItems = [
+            new CatalogItemDataBuilder().withModel('LOL-1337').build(),
+            new CatalogItemDataBuilder().withModel('LPL-101').withType(types[1]).build(),
+            new CatalogItemDataBuilder().withType(types[1]).build()
+        ];
 
-        program = {
-            id: 'program-id',
-            name: 'Program One'
-        };
-
-        facility = {
-            id: 'facility-id',
-            name: 'Facility One'
-        };
+        program = new ProgramDataBuilder().build();
+        facility = new FacilityDataBuilder().build();
 
         type = types[0];
 

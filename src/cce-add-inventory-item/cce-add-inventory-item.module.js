@@ -28,7 +28,8 @@
         'openlmis-modal',
         'openlmis-rights',
         'ui.router',
-        'openlmis-facility-program-select'
+        'openlmis-facility-program-select',
+        'cce-inventory-item'
     ]);
 
 })();

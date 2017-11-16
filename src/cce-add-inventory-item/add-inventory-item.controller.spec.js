@@ -15,7 +15,8 @@
 
 describe('AddInventoryItemController', function() {
 
-    var vm, $controller, $state, types, $scope, $rootScope, catalogItems, facility, program;
+    var vm, $controller, $state, types, $scope, $rootScope, catalogItem, facility, program,
+        InventoryItemDataBuilder, CatalogItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder;
 
     beforeEach(function() {
         module('cce-add-inventory-item');
@@ -24,6 +25,10 @@ describe('AddInventoryItemController', function() {
             $controller = $injector.get('$controller');
             $state = $injector.get('$state');
             $rootScope = $injector.get('$rootScope');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
+            ProgramDataBuilder = $injector.get('ProgramDataBuilder');
+            FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
 
         types = [
@@ -31,20 +36,9 @@ describe('AddInventoryItemController', function() {
             'Walk-in freezer'
         ];
 
-        catalogItems = [{
-            make: 'Make',
-            manufacturer: 'manufacturer'
-        }];
-
-        program = {
-            id: 'program-id',
-            name: 'Program One'
-        };
-
-        facility = {
-            id: 'facility-id',
-            name: 'Facility One'
-        };
+        catalogItem = new CatalogItemDataBuilder().build();
+        program = new ProgramDataBuilder().build();
+        facility = new FacilityDataBuilder().build();
 
         $scope = $rootScope.$new();
 
@@ -53,7 +47,7 @@ describe('AddInventoryItemController', function() {
         vm = $controller('AddInventoryItemController', {
             $scope: $scope,
             types: types,
-            catalogItems: catalogItems
+            catalogItems: [catalogItem]
         });
 
         vm.$onInit();
@@ -66,7 +60,7 @@ describe('AddInventoryItemController', function() {
         });
 
         it('should expose catalog items', function() {
-            expect(vm.catalogItems).toEqual(catalogItems);
+            expect(vm.catalogItems).toEqual([catalogItem]);
         });
 
     });
@@ -76,16 +70,16 @@ describe('AddInventoryItemController', function() {
         it('should redirect user to the edit page and pass inventory item', function() {
             vm.facility = facility;
             vm.program = program;
-            vm.catalogItem = catalogItems[0];
+            vm.catalogItem = catalogItem;
 
             vm.addInventoryItem();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.edit', {
                 inventoryItem: {
                     facility: facility,
-                    programId: 'program-id',
+                    programId: '418bdc1d-c303-4bd0-b2d3-d8901150a983',
                     program: program,
-                    catalogItem: catalogItems[0]
+                    catalogItem: catalogItem
                 }
             });
         });

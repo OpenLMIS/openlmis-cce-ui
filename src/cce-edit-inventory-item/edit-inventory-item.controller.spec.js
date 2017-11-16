@@ -17,7 +17,8 @@ describe('EditInventoryItemController', function() {
 
     var vm, $controller, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, inventoryItem,
         UTILIZATION_STATUS, REMOTE_TEMPERATURE_MONITOR_TYPE, $rootScope, $scope, $state, $q,
-        saveDeferred, inventoryItemService, loadingModalService, InventoryItemBuilder;
+        saveDeferred, inventoryItemService, loadingModalService, InventoryItemDataBuilder,
+        CatalogItemDataBuilder;
 
     beforeEach(function() {
         module('cce-edit-inventory-item');
@@ -34,10 +35,11 @@ describe('EditInventoryItemController', function() {
             inventoryItemService = $injector.get('inventoryItemService');
             $q = $injector.get('$q');
             loadingModalService = $injector.get('loadingModalService');
-            InventoryItemBuilder = $injector.get('InventoryItemBuilder');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
         });
 
-        inventoryItem = new InventoryItemBuilder().build();
+        inventoryItem = new InventoryItemDataBuilder().build();
 
         $scope = $rootScope.$new();
         saveDeferred = $q.defer();
@@ -118,8 +120,6 @@ describe('EditInventoryItemController', function() {
         });
 
         it('should set powerFieldsDisabled to false if ENERGY_SOURCE is ELECTRIC', function() {
-            inventoryItem.catalogItem.energySource = ENERGY_SOURCE.ELECTRIC;
-
             vm.$onInit();
 
             expect(vm.powerFieldsDisabled).toBe(false);
@@ -158,7 +158,7 @@ describe('EditInventoryItemController', function() {
         });
 
         it('should redirect to status update page if inventory item has no ID', function() {
-            vm.inventoryItem.id = undefined;
+            vm.inventoryItem = new InventoryItemDataBuilder().withId(undefined).build();
 
             vm.add();
 

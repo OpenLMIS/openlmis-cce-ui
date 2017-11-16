@@ -20,27 +20,31 @@
 
     angular
         .module('cce-inventory-item')
-        .factory('InventoryItemBuilder', InventoryItemBuilder);
+        .factory('InventoryItemDataBuilder', InventoryItemDataBuilder);
 
-    InventoryItemBuilder.$inject = ['InventoryItem', 'ObjectReferenceBuilder',
-        'CatalogItemBuilder',  'FacilityBuilder', 'ProgramBuilder'];
+    InventoryItemDataBuilder.$inject = ['InventoryItem', 'ObjectReferenceDataBuilder',
+        'CatalogItemDataBuilder',  'FacilityDataBuilder', 'ProgramDataBuilder'];
 
-    function InventoryItemBuilder(InventoryItem, ObjectReferenceBuilder,
-        CatalogItemBuilder, FacilityBuilder, ProgramBuilder) {
+    function InventoryItemDataBuilder(InventoryItem, ObjectReferenceDataBuilder,
+        CatalogItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder) {
 
-        InventoryItemBuilder.prototype.build = build;
-        InventoryItemBuilder.prototype.withCatalogItem = withCatalogItem;
-        InventoryItemBuilder.prototype.withFacility = withFacility;
-        InventoryItemBuilder.prototype.withProgram = withProgram;
+        InventoryItemDataBuilder.prototype.build = build;
+        InventoryItemDataBuilder.prototype.withCatalogItem = withCatalogItem;
+        InventoryItemDataBuilder.prototype.withFacility = withFacility;
+        InventoryItemDataBuilder.prototype.withFunctionalStatus = withFunctionalStatus;
+        InventoryItemDataBuilder.prototype.withId = withId;
+        InventoryItemDataBuilder.prototype.withProgram = withProgram;
+        InventoryItemDataBuilder.prototype.withYearOfInstallation = withYearOfInstallation;
+        InventoryItemDataBuilder.prototype.withYearOfWarrantyExpiry = withYearOfWarrantyExpiry;
 
-        return InventoryItemBuilder;
+        return InventoryItemDataBuilder;
 
-        function InventoryItemBuilder() {
+        function InventoryItemDataBuilder() {
             this.source = {
                 id : '35b8eeca-bfad-47f3-b966-c9cb726b872f',
-                facility: new ObjectReferenceBuilder().withId('97546f93-ac93-435f-a437-cd629deb7d6d').build(),
-                catalogItem: new CatalogItemBuilder().build(),
-                program: new ObjectReferenceBuilder().withId('418bdc1d-c303-4bd0-b2d3-d8901150a983').build(),
+                facility: new ObjectReferenceDataBuilder().withId('97546f93-ac93-435f-a437-cd629deb7d6d').build(),
+                catalogItem: new CatalogItemDataBuilder().build(),
+                program: new ObjectReferenceDataBuilder().withId('418bdc1d-c303-4bd0-b2d3-d8901150a983').build(),
                 equipmentTrackingId: 'tracking-id',
                 referenceName: 'Reference Name',
                 yearOfInstallation: 2010,
@@ -58,10 +62,10 @@
                 additionalNotes: 'notes',
                 decommissionDate: '2017-01-01',
                 modifiedDate: '2017-10-10',
-                lastModifier: new CatalogItemBuilder().build()
+                lastModifier: new CatalogItemDataBuilder().build()
             }
-            this.facility = new FacilityBuilder().build();
-            this.program = new ProgramBuilder().build();
+            this.facility = new FacilityDataBuilder().build();
+            this.program = new ProgramDataBuilder().build();
         }
 
         function withCatalogItem(newCatalogItem) {
@@ -74,8 +78,28 @@
             return this;
         }
 
+        function withFunctionalStatus(newStatus) {
+            this.source.functionalStatus = newStatus;
+            return this;
+        }
+
+        function withId(newId) {
+            this.source.id = newId;
+            return this;
+        }
+
         function withProgram(newProgram) {
             this.program = newProgram;
+            return this;
+        }
+
+        function withYearOfInstallation(newYear) {
+            this.source.yearOfInstallation = newYear;
+            return this;
+        }
+
+        function withYearOfWarrantyExpiry(newYear) {
+            this.source.yearOfWarrantyExpiry = newYear;
             return this;
         }
 

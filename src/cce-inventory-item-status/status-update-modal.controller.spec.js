@@ -18,7 +18,7 @@ describe('StatusUpdateModalController', function() {
     var vm, messageService, modalDeferred, $q, $state, $rootScope, inventoryItem, $controller,
         loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
         REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
-        stateTrackerService;
+        stateTrackerService, InventoryItemDataBuilder, CCE_STATUS;
 
     beforeEach(prepareSuite);
 
@@ -50,7 +50,7 @@ describe('StatusUpdateModalController', function() {
         });
 
         it('should expose decommissionDate', function() {
-            expect(vm.decommissionDate).toEqual(date);
+            expect(vm.decommissionDate).toEqual('2017-01-01');
         });
 
     });
@@ -153,8 +153,8 @@ describe('StatusUpdateModalController', function() {
             vm.save();
 
             expect(inventoryItem.functionalStatus).toEqual(FUNCTIONAL_STATUS.FUNCTIONING);
-            expect(inventoryItem.reasonNotWorkingOrNotInUse).toBeUndefined();
-            expect(inventoryItem.decommissionDate).toEqual(date);
+            expect(inventoryItem.reasonNotWorkingOrNotInUse).toEqual(CCE_STATUS.NOT_APPLICABLE);
+            expect(inventoryItem.decommissionDate).toEqual('2017-01-01');
         });
 
         it('should ignore reason and date for FUNCTIONING status', function() {
@@ -346,22 +346,19 @@ describe('StatusUpdateModalController', function() {
             $rootScope = $injector.get('$rootScope');
             $controller = $injector.get('$controller');
             messageService = $injector.get('messageService');
+            CCE_STATUS = $injector.get('CCE_STATUS');
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
             REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
             inventoryItemService = $injector.get('inventoryItemService');
             loadingModalService = $injector.get('loadingModalService');
             notificationService = $injector.get('notificationService');
             stateTrackerService = $injector.get('stateTrackerService');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
         });
 
         date = new Date();
 
-        inventoryItem = {
-            id: 'da86007b-bfdc-4ebd-b38c-746380cd98df',
-            reasonNotWorkingOrNotInUse: undefined,
-            functionalStatus: FUNCTIONAL_STATUS.FUNCTIONING,
-            decommissionDate: date
-        };
+        inventoryItem = new InventoryItemDataBuilder().build();
 
         modalDeferred = $q.defer();
         saveDeferred = $q.defer();

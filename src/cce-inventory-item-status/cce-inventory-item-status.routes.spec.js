@@ -16,7 +16,7 @@
 describe('openlmis.cce.inventory.statusUpdate state', function() {
 
     var $q, $state, $rootScope, openlmisModalService, inventoryItemService, state, $stateParams,
-        dialogSpy;
+        dialogSpy, InventoryItemDataBuilder;
 
     beforeEach(function() {
         loadModules();
@@ -116,27 +116,14 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
             openlmisModalService = $injector.get('openlmisModalService');
             inventoryItemService = $injector.get('inventoryItemService');
             $rootScope = $injector.get('$rootScope');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
         });
     }
 
     function prepareTestData() {
         state = $state.get('openlmis.cce.inventory.statusUpdate');
         $stateParams = {};
-        inventoryItem = {
-            program: {
-                id: 'program-id',
-                name: 'Program Name'
-            },
-            facility: {
-                id: 'facility-id',
-                name: 'Facility Name'
-            },
-            catalogItem: {
-                id: 'catalog-item-id',
-                make: 'Catalog Item Make',
-                manufacturer: 'Catalog Item Manufacturer'
-            }
-        };
+        inventoryItem = new InventoryItemDataBuilder().build();
         dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
     }
 

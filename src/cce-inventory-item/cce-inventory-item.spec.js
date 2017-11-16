@@ -15,8 +15,8 @@
 
 describe('InventoryItem', function() {
 
-    var CCE_STATUS, ENERGY_SOURCE, inventoryItem, $rootScope, InventoryItem, InventoryItemBuilder,
-        CatalogItemBuilder;
+    var CCE_STATUS, ENERGY_SOURCE, inventoryItem, $rootScope, InventoryItem, InventoryItemDataBuilder,
+        CatalogItemDataBuilder;
 
     beforeEach(function() {
         module('cce-inventory-item');
@@ -26,49 +26,49 @@ describe('InventoryItem', function() {
             ENERGY_SOURCE = $injector.get('ENERGY_SOURCE');
             $rootScope = $injector.get('$rootScope');
             InventoryItem = $injector.get('InventoryItem');
-            InventoryItemBuilder = $injector.get('InventoryItemBuilder');
-            CatalogItemBuilder = $injector.get('CatalogItemBuilder');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
         });
     });
 
     it('should merge facilities', function() {
-        var item = new InventoryItemBuilder().build();
+        var item = new InventoryItemDataBuilder().build();
 
         expect(item.facility.href).not.toBeUndefined();
     });
 
     it('should throw exception when facility param has different ID than facility from provided inventory item', function() {
         expect(function() {
-            new InventoryItemBuilder().withFacility('bad-facility').build()
+            new InventoryItemDataBuilder().withFacility('bad-facility').build()
         }).toThrow(new Error('Parameter facility has different ID than facility from provided inventory item!'));
     });
 
     it('should set voltageStabilizer as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {
-        var item = new InventoryItemBuilder()
-                        .withCatalogItem(new CatalogItemBuilder().withEnergySource('SOLAR'))
+        var item = new InventoryItemDataBuilder()
+                        .withCatalogItem(new CatalogItemDataBuilder().withEnergySource('SOLAR'))
                         .build();
 
         expect(item.voltageStabilizer).toBe(CCE_STATUS.NOT_APPLICABLE);
     });
 
     it('should set voltageRegulator as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {
-        var item = new InventoryItemBuilder()
-                        .withCatalogItem(new CatalogItemBuilder().withEnergySource('SOLAR'))
+        var item = new InventoryItemDataBuilder()
+                        .withCatalogItem(new CatalogItemDataBuilder().withEnergySource('SOLAR'))
                         .build();
 
         expect(item.voltageRegulator).toBe(CCE_STATUS.NOT_APPLICABLE);
     });
 
     it('should set backupGenerator as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {
-        var item = new InventoryItemBuilder()
-                        .withCatalogItem(new CatalogItemBuilder().withEnergySource('SOLAR'))
+        var item = new InventoryItemDataBuilder()
+                        .withCatalogItem(new CatalogItemDataBuilder().withEnergySource('SOLAR'))
                         .build();
 
         expect(item.backupGenerator).toBe(CCE_STATUS.NOT_APPLICABLE);
     });
 
     it('should not set default options if ENERGY_SOURCE is different than SOLAR', function() {
-        var item = new InventoryItemBuilder().build();
+        var item = new InventoryItemDataBuilder().build();
 
         expect(item.voltageStabilizer).toEqual('YES');
         expect(item.voltageRegulator).toEqual('YES');

@@ -20,18 +20,21 @@
 
     angular
         .module('cce-catalog-item')
-        .factory('CatalogItemBuilder', CatalogItemBuilder);
+        .factory('CatalogItemDataBuilder', CatalogItemDataBuilder);
 
-    CatalogItemBuilder.$inject = ['CatalogItem'];
+    CatalogItemDataBuilder.$inject = ['CatalogItem'];
 
-    function CatalogItemBuilder(CatalogItem) {
+    function CatalogItemDataBuilder(CatalogItem) {
 
-        CatalogItemBuilder.prototype.build = build;
-        CatalogItemBuilder.prototype.withEnergySource = withEnergySource;
+        CatalogItemDataBuilder.prototype.build = build;
+        CatalogItemDataBuilder.prototype.withEnergySource = withEnergySource;
+        CatalogItemDataBuilder.prototype.withId = withId;
+        CatalogItemDataBuilder.prototype.withModel = withModel;
+        CatalogItemDataBuilder.prototype.withType = withType;
 
-        return CatalogItemBuilder;
+        return CatalogItemDataBuilder;
 
-        function CatalogItemBuilder() {
+        function CatalogItemDataBuilder() {
             this.id = 'df135ec9-8dda-4f6b-aac0-4ae69c684990',
             this.fromPqsCatalog = true;
             this.equipmentCode = 'E003/002';
@@ -54,6 +57,21 @@
 
         function withEnergySource(newEnergySource) {
             this.energySource = newEnergySource;
+            return this;
+        }
+
+        function withId(newId) {
+            this.id = newId;
+            return this;
+        }
+
+        function withModel(newModel) {
+            this.model = newModel;
+            return this;
+        }
+
+        function withType(newType) {
+            this.type = newType;
             return this;
         }
 

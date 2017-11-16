@@ -16,7 +16,7 @@
 describe('openlmis.cce.inventory.edit state', function() {
 
     var $state, $q, openlmisModalService, inventoryItemService, facilityService, CCE_RIGHTS, state, dialogSpy,
-        inventoryItem, $stateParams, facility, InventoryItemSpy, InventoryItemBuilder, FacilityBuilder;
+        inventoryItem, $stateParams, facility, InventoryItemSpy, InventoryItemDataBuilder, FacilityDataBuilder;
 
     beforeEach(function() {
         module('openlmis-main-state');
@@ -36,15 +36,15 @@ describe('openlmis.cce.inventory.edit state', function() {
             CCE_RIGHTS = $injector.get('CCE_RIGHTS');
             inventoryItemService = $injector.get('inventoryItemService');
             facilityService = $injector.get('facilityService');
-            InventoryItemBuilder = $injector.get('InventoryItemBuilder');
-            FacilityBuilder = $injector.get('FacilityBuilder');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
 
         dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
 
-        facility = new FacilityBuilder().build();
+        facility = new FacilityDataBuilder().build();
 
-        inventoryItem = new InventoryItemBuilder().build();
+        inventoryItem = new InventoryItemDataBuilder().build();
 
         $stateParams = {};
 

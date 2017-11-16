@@ -15,30 +15,25 @@
 
 describe('catalogItemTypeFactory', function() {
 
-    var catalogItemTypeFactory, catalogItems;
+    var catalogItemTypeFactory, catalogItems,CatalogItemDataBuilder;
 
     beforeEach(function() {
         module('cce-catalog-item');
 
         inject(function($injector) {
             catalogItemTypeFactory = $injector.get('catalogItemTypeFactory');
+            CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
         });
 
-        catalogItems = [{
-            type: 'Type One'
-        }, {
-            type: 'Type Two'
-        }, {
-            type: 'Type Three'
-        }, {
-            type: 'Type Four'
-        }, {
-            type: 'Type Two'
-        }, {
-            type: 'Type Two'
-        }, {
-            type: 'Type One'
-        }];
+        catalogItems = [
+            new CatalogItemDataBuilder().withType('Type One').build(),
+            new CatalogItemDataBuilder().withType('Type Two').build(),
+            new CatalogItemDataBuilder().withType('Type Three').build(),
+            new CatalogItemDataBuilder().withType('Type Four').build(),
+            new CatalogItemDataBuilder().withType('Type Two').build(),
+            new CatalogItemDataBuilder().withType('Type Two').build(),
+            new CatalogItemDataBuilder().withType('Type One').build()
+        ];
     });
 
     describe('getTypes', function() {

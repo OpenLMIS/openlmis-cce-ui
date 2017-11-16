@@ -16,14 +16,14 @@
 describe('edit-inventory-item.html template', function() {
 
     var vm, $controller, $compile, $rootScope, $templateRequest, $timeout, $state, template,
-        messages, messageService, inventoryItem, $q;
+        messages, messageService, inventoryItem, $q, InventoryItemDataBuilder;
 
     beforeEach(prepareSuite);
 
     describe('modal title', function() {
 
         it('should be "Edit equipment details" if inventory item has ID', function() {
-            vm.inventoryItem.id = 'some-inventory-item-id';
+            vm.inventoryItem = new InventoryItemDataBuilder().build();
             $rootScope.$apply();
 
             expect(
@@ -32,7 +32,7 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should be "Add New Cold Chain Equipment" if inventory item has no ID', function() {
-            vm.inventoryItem.id = undefined;
+            vm.inventoryItem = new InventoryItemDataBuilder().withId(undefined).build();
             $rootScope.$apply();
 
             expect(
@@ -75,7 +75,7 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should allow only year to be entered', function() {
-            vm.inventoryItem.yearOfInstallation = 42443;
+            vm.inventoryItem = new InventoryItemDataBuilder().withYearOfInstallation(42443).build();
 
             $rootScope.$apply();
 
@@ -83,8 +83,6 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should be valid for four-digit year', function() {
-            vm.inventoryItem.yearOfInstallation = 2017;
-
             $rootScope.$apply();
 
             expect($scope.editInventoryItemForm.yearOfInstallation.$valid).toBe(true);
@@ -101,7 +99,7 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should allow only year to be entered', function() {
-            vm.inventoryItem.yearOfWarrantyExpiry = 42443;
+            vm.inventoryItem = new InventoryItemDataBuilder().withYearOfWarrantyExpiry(42443).build();
 
             $rootScope.$apply();
 
@@ -109,8 +107,6 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should be valid for four-digit year', function() {
-            vm.inventoryItem.yearOfWarrantyExpiry = 2017;
-
             $rootScope.$apply();
 
             expect($scope.editInventoryItemForm.yearOfWarrantyExpiry.$valid).toBe(true);
@@ -338,16 +334,7 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should call vm.add', function() {
-            vm.inventoryItem.id = '9c704186-6191-4434-b39f-71be7ca87304';
-            vm.inventoryItem.equipmentTrackingId = 'some-serial-number';
-            vm.inventoryItem.referenceName = 'Reference Name';
-            vm.inventoryItem.yearOfInstallation = 1998;
-            vm.inventoryItem.voltageStabilizer = 'YES';
-            vm.inventoryItem.voltageRegulator = 'NO';
-            vm.inventoryItem.backupGenerator = 'UNKNOWN';
-            vm.inventoryItem.manualTemperatureGauge = 'BUILD_IN';
-            vm.inventoryItem.remoteTemperatureMonitor = 'BUILD_IN';
-            vm.inventoryItem.utilization = 'ACTIVE';
+            vm.inventoryItem = new InventoryItemDataBuilder().withId('9c704186-6191-4434-b39f-71be7ca87304').build();
 
             $rootScope.$apply();
             form.triggerHandler('submit');
@@ -400,24 +387,10 @@ describe('edit-inventory-item.html template', function() {
             $timeout = $injector.get('$timeout');
             messageService = $injector.get('messageService');
             $q = $injector.get('$q');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
         });
 
-        inventoryItem = {
-            catalogItem: {
-                manufacturer: 'Cooltec',
-                model: 'X-GGTA 1',
-                type: 'Refrigerator'
-            },
-            programId: 'program-id',
-            facility: {
-                id: 'facility-id',
-                name: 'Facility One',
-                supportedPrograms: [{
-                    id: 'program-id',
-                    name: 'Program One'
-                }]
-            }
-        };
+        inventoryItem = new InventoryItemDataBuilder().build();
 
         messages = {
             'cceEditInventoryItem.addNewColdChainEquipment': 'Add New Cold Chain Equipment',

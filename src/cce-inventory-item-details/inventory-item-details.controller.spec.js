@@ -17,7 +17,7 @@ describe('InventoryItemDetailsController', function() {
 
     var vm, inventoryItem, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, UTILIZATION_STATUS,
         REMOTE_TEMPERATURE_MONITOR_TYPE, FUNCTIONAL_STATUS, $controller, $state,
-        authorizationService, CCE_RIGHTS;
+        authorizationService, CCE_RIGHTS, InventoryItemDataBuilder;
 
     beforeEach(prepareSuite);
 
@@ -114,19 +114,19 @@ describe('InventoryItemDetailsController', function() {
         });
 
         it('should return is-functioning for FUNCTIONING', function() {
-            vm.inventoryItem.functionalStatus = 'FUNCTIONING';
+            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
 
             expect(vm.getFunctionalStatusClass()).toEqual('is-functioning');
         });
 
         it('should return is-obsolete for OBSOLETE', function() {
-            vm.inventoryItem.functionalStatus = 'OBSOLETE';
+            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('OBSOLETE').build();
 
             expect(vm.getFunctionalStatusClass()).toEqual('is-obsolete');
         });
 
         it('should return is-non-functioning for NON_FUNCTIONING', function() {
-            vm.inventoryItem.functionalStatus = 'NON_FUNCTIONING';
+            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('NON_FUNCTIONING').build();
 
             expect(vm.getFunctionalStatusClass()).toEqual('is-non-functioning');
         });
@@ -140,19 +140,19 @@ describe('InventoryItemDetailsController', function() {
         });
 
         it('should return Functioning for FUNCTIONING', function() {
-            vm.inventoryItem.functionalStatus = 'FUNCTIONING';
+            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
 
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.functioning');
         });
 
         it('should return Obsolete for OBSOLETE', function() {
-            vm.inventoryItem.functionalStatus = 'OBSOLETE';
+            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('OBSOLETE').build();
 
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.obsolete');
         });
 
         it('should return Non-functioning for NON_FUNCTIONING', function() {
-            vm.inventoryItem.functionalStatus = 'NON_FUNCTIONING';
+            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('NON_FUNCTIONING').build();
 
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.nonFunctioning');
         });
@@ -177,18 +177,11 @@ describe('InventoryItemDetailsController', function() {
         FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
         $state = $injector.get('$state');
         authorizationService = $injector.get('authorizationService');
+        InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
     }
 
     function prepareTestData() {
-        inventoryItem = {
-            id: 'c699115e-3572-4a8f-951c-1297bc4f7995',
-            program: {
-                id: '9945d83d-7b62-400f-b5bb-40b15a50f1f3'
-            },
-            facility: {
-                id: '334ae0b0-6974-4927-bc66-883b28f8adc1'
-            }
-        };
+        inventoryItem = new InventoryItemDataBuilder().build();
     }
 
     function prepareSpies() {
