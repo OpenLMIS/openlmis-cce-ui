@@ -29,9 +29,11 @@
         .module('cce-inventory-item')
         .factory('inventoryItemFactory', factory);
 
-    factory.$inject = ['$q', 'inventoryItemService', 'programService', 'facilityService', 'InventoryItem'];
+    factory.$inject = ['$q', 'inventoryItemService', 'programService', 'facilityService',
+                       'InventoryItem', 'referencedataUserService'];
 
-    function factory($q, inventoryItemService, programService, facilityService, InventoryItem) {
+    function factory($q, inventoryItemService, programService, facilityService, InventoryItem,
+                     referencedataUserService) {
 
         return {
             get: get,
@@ -83,21 +85,45 @@
             return inventoryItemService.getAll(params)
                 .then(function(response) {
                     inventoryItems = response;
+                    if (!(inventoryItems.content && inventoryItems.content.length)) {
+                        return null;
+                    }
 
-                    var ids = inventoryItems.content.map(function (item) {
+                    var lastModifierIds = inventoryItems.content.map(function (item) {
+                        return item.lastModifier.id;
+                    });
+                    var facilityIds = inventoryItems.content.map(function (item) {
                         return item.facility.id;
                     });
 
-                    return facilityService.query({
-                        id: ids
-                    });
+                    return $q.all([
+                        referencedataUserService.query({
+                            id: lastModifierIds,
+                            page: 0,
+                            size: lastModifierIds.length
+                        }),
+                        facilityService.query({
+                            id: facilityIds
+                        })
+                    ]);
                 })
-                .then(function(facilities) {
+                .then(function(response) {
+                    if (response === null) {
+                        return inventoryItems;
+                    }
                     inventoryItems.content.forEach(function (item) {
+                        var facilities = response[1];
                         var facilitiesFiltered = facilities.filter(function (facility) {
                             return item.facility.id === facility.id;
                         });
                         item.facility = facilitiesFiltered[0];
+                    });
+                    inventoryItems.content.forEach(function (item) {
+                        var users = response[0].content;
+                        var usersFiltered = users.filter(function (user) {
+                            return item.lastModifier.id === user.id;
+                        });
+                        item.lastModifier = usersFiltered[0];
                     });
                     return inventoryItems;
                 });

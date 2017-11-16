@@ -30,6 +30,7 @@
         'referencedata',
         'referencedata-program',
         'referencedata-facility',
+        'referencedata-user',
         'referencedata-geographic-zone',
         'cce',
         'cce-catalog-item'
