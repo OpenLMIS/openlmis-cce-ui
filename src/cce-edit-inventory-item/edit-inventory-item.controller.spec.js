@@ -17,7 +17,7 @@ describe('EditInventoryItemController', function() {
 
     var vm, $controller, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, inventoryItem,
         UTILIZATION_STATUS, REMOTE_TEMPERATURE_MONITOR_TYPE, $rootScope, $scope, $state, $q,
-        saveDeferred, inventoryItemService, loadingModalService;
+        saveDeferred, inventoryItemService, loadingModalService, InventoryItemBuilder;
 
     beforeEach(function() {
         module('cce-edit-inventory-item');
@@ -34,24 +34,10 @@ describe('EditInventoryItemController', function() {
             inventoryItemService = $injector.get('inventoryItemService');
             $q = $injector.get('$q');
             loadingModalService = $injector.get('loadingModalService');
+            InventoryItemBuilder = $injector.get('InventoryItemBuilder');
         });
 
-        inventoryItem = {
-            id: '9c704186-6191-4434-b39f-71be7ca87304',
-            catalogItem: {
-                manufacturer: 'Cooltec',
-                model: 'X-GGTA 1',
-                type: 'Refrigerator'
-            },
-            program: {
-                id: 'program-id',
-                name: 'Program One'
-            },
-            facility: {
-                id: 'facility-id',
-                name: 'Facility One'
-            }
-        };
+        inventoryItem = new InventoryItemBuilder().build();
 
         $scope = $rootScope.$new();
         saveDeferred = $q.defer();

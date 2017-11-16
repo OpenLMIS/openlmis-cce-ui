@@ -27,8 +27,10 @@
         'ngResource',
         'openlmis-config',
         'openlmis-date',
+        'referencedata',
         'referencedata-program',
         'referencedata-facility',
+        'referencedata-geographic-zone',
         'cce',
         'cce-catalog-item'
     ]);

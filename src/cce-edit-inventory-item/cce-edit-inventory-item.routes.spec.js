@@ -16,7 +16,7 @@
 describe('openlmis.cce.inventory.edit state', function() {
 
     var $state, $q, openlmisModalService, inventoryItemService, facilityService, CCE_RIGHTS, state, dialogSpy,
-        inventoryItem, inventoryItemTwo, $stateParams, facility, InventoryItemSpy;
+        inventoryItem, $stateParams, facility, InventoryItemSpy, InventoryItemBuilder, FacilityBuilder;
 
     beforeEach(function() {
         module('openlmis-main-state');
@@ -36,52 +36,21 @@ describe('openlmis.cce.inventory.edit state', function() {
             CCE_RIGHTS = $injector.get('CCE_RIGHTS');
             inventoryItemService = $injector.get('inventoryItemService');
             facilityService = $injector.get('facilityService');
+            InventoryItemBuilder = $injector.get('InventoryItemBuilder');
+            FacilityBuilder = $injector.get('FacilityBuilder');
         });
 
         dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
 
-        facility = {
-            id: 'facility-id',
-            name: 'facility'
-        };
+        facility = new FacilityBuilder().build();
 
-        inventoryItem = {
-            program: {
-                id: 'program-id',
-                name: 'Program Name'
-            },
-            facility: {
-                id: 'facility-id',
-                name: 'Facility Name'
-            },
-            catalogItem: {
-                id: 'catalog-item-id',
-                make: 'Catalog Item Make',
-                manufacturer: 'Catalog Item Manufacturer'
-            }
-        };
-
-        inventoryItemTwo = {
-            program: {
-                id: 'program-two-id',
-                name: 'Program Two Name'
-            },
-            facility: {
-                id: 'facility-id',
-                name: 'Facility Name'
-            },
-            catalogItem: {
-                id: 'catalog-item-id',
-                make: 'Catalog Item Make',
-                manufacturer: 'Catalog Item Manufacturer'
-            }
-        };
+        inventoryItem = new InventoryItemBuilder().build();
 
         $stateParams = {};
 
         spyOn($state, 'go');
         spyOn(openlmisModalService, 'createDialog').andReturn(dialogSpy);
-        spyOn(inventoryItemService, 'get').andReturn($q.when(inventoryItemTwo));
+        spyOn(inventoryItemService, 'get').andReturn($q.when(inventoryItem));
 
         state = $state.get('openlmis.cce.inventory.edit');
     });
@@ -126,7 +95,7 @@ describe('openlmis.cce.inventory.edit state', function() {
             $rootScope.$apply();
 
             expect(inventoryItemService.get).toHaveBeenCalledWith('some-inventory-item-id');
-            expect(result).toBe(inventoryItemTwo);
+            expect(result).toBe(inventoryItem);
         });
 
         it('should return inventoryItem', function() {
