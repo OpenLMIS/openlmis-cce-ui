@@ -124,9 +124,10 @@ describe('inventoryItemService', function() {
             expect(status).toEqual('rejected');
         });
 
-        xit('should resolve promise if program and facility is not found', function() {
+        it('should resolve promise if program and facility is not found', function() {
             var status,
                 result;
+            inventoryItem = new InventoryItemDataBuilder().buildBase();
 
             inventoryItemFactory.get(inventoryItem.id).then(function(response) {
                 status = 'resolved';
@@ -139,19 +140,20 @@ describe('inventoryItemService', function() {
             facilityDeferred.reject();
             $rootScope.$apply();
 
-            expect(programService.get).toHaveBeenCalledWith(inventoryItem.programId);
+            expect(programService.get).toHaveBeenCalledWith(inventoryItem.program.id);
             expect(facilityService.get).toHaveBeenCalledWith(inventoryItem.facility.id);
             expect(inventoryItemService.get).toHaveBeenCalledWith(inventoryItem.id);
 
             expect(status).toEqual('resolved');
             expect(result).toEqual(inventoryItem);
-            expect(result.program).toBe(undefined);
+            expect(result.program.name).toBe(undefined);
             expect(result.facility.name).toBe(undefined);
         });
 
-        xit('should resolve promise and add program and facility info if have been found', function() {
+        it('should resolve promise and add program and facility info if have been found', function() {
             var status,
                 result;
+            inventoryItem = new InventoryItemDataBuilder().buildBase();
 
             inventoryItemFactory.get(inventoryItem.id).then(function(response) {
                 status = 'resolved';
@@ -164,7 +166,7 @@ describe('inventoryItemService', function() {
             facilityDeferred.resolve(facility);
             $rootScope.$apply();
 
-            expect(programService.get).toHaveBeenCalledWith(inventoryItem.programId);
+            expect(programService.get).toHaveBeenCalledWith(inventoryItem.program.id);
             expect(facilityService.get).toHaveBeenCalledWith(inventoryItem.facility.id);
             expect(inventoryItemService.get).toHaveBeenCalledWith(inventoryItem.id);
 

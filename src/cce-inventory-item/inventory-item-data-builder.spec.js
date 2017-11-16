@@ -29,6 +29,7 @@
         CatalogItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder) {
 
         InventoryItemDataBuilder.prototype.build = build;
+        InventoryItemDataBuilder.prototype.buildBase = buildBase;
         InventoryItemDataBuilder.prototype.withCatalogItem = withCatalogItem;
         InventoryItemDataBuilder.prototype.withDecommissionDate = withDecommissionDate;
         InventoryItemDataBuilder.prototype.withFacility = withFacility;
@@ -65,7 +66,7 @@
                 decommissionDate: '2017-01-01',
                 modifiedDate: '2017-10-10',
                 lastModifier: new CatalogItemDataBuilder().build()
-            }
+            };
             this.facility = new FacilityDataBuilder().build();
             this.program = new ProgramDataBuilder().build();
         }
@@ -125,6 +126,12 @@
                 this.source,
                 this.facility,
                 this.program
+            );
+        }
+
+        function buildBase() {
+            return new InventoryItem(
+                this.source
             );
         }
 

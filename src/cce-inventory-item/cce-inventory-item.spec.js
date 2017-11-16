@@ -30,10 +30,13 @@ describe('InventoryItem', function() {
         });
     });
 
-    it('should merge facilities', function() {
+    it('should merge facilities and programs', function() {
         var item = new InventoryItemDataBuilder().build();
 
         expect(item.facility.href).not.toBeUndefined();
+        expect(item.facility.name).not.toBeUndefined();
+        expect(item.program.href).not.toBeUndefined();
+        expect(item.program.name).not.toBeUndefined();
     });
 
     it('should throw exception when facility param has different ID than facility from provided inventory item', function() {
