@@ -17,8 +17,9 @@ describe('inventoryItemService', function() {
 
     var $q, $rootScope, inventoryItemFactory, programService, facilityService, inventoryItemService,
         inventoryItem, program, facility, inventoryItemResolve, programDeferred, facilityDeferred,
-        query, facilitiesResolve, FacilityProgramInventoryItemDataBuilder, ProgramDataBuilder, FacilityDataBuilder;
-
+        query, facilitiesResolve, ProgramDataBuilder,
+        FacilityDataBuilder, InventoryItemDataBuilder;
+-
     beforeEach(function() {
         module('cce-inventory-item', function($provide) {
             programService = jasmine.createSpyObj('programService', ['get']);
@@ -43,14 +44,14 @@ describe('inventoryItemService', function() {
             facilityService = $injector.get('facilityService');
             inventoryItemService = $injector.get('inventoryItemService');
             inventoryItemFactory = $injector.get('inventoryItemFactory');
-            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             ProgramDataBuilder = $injector.get('ProgramDataBuilder');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
+            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
         });
 
         program = new ProgramDataBuilder().build();
         facility = new FacilityDataBuilder().build();
-        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
+        inventoryItem = new InventoryItemDataBuilder().build();
 
         query = {
             page: 1,
@@ -127,7 +128,6 @@ describe('inventoryItemService', function() {
         it('should resolve promise if program and facility is not found', function() {
             var status,
                 result;
-            inventoryItem = new FacilityProgramInventoryItemDataBuilder().buildBase();
 
             inventoryItemFactory.get(inventoryItem.id).then(function(response) {
                 status = 'resolved';
@@ -153,7 +153,6 @@ describe('inventoryItemService', function() {
         it('should resolve promise and add program and facility info if have been found', function() {
             var status,
                 result;
-            inventoryItem = new FacilityProgramInventoryItemDataBuilder().buildBase();
 
             inventoryItemFactory.get(inventoryItem.id).then(function(response) {
                 status = 'resolved';

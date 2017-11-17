@@ -22,14 +22,13 @@
         .module('cce-inventory-item')
         .factory('FacilityProgramInventoryItemDataBuilder', FacilityProgramInventoryItemDataBuilder);
 
-    FacilityProgramInventoryItemDataBuilder.$inject = ['InventoryItem', 'ObjectReferenceDataBuilder',
-        'CatalogItemDataBuilder',  'FacilityDataBuilder', 'ProgramDataBuilder'];
+    FacilityProgramInventoryItemDataBuilder.$inject = ['InventoryItem', 'FacilityDataBuilder',
+        'ProgramDataBuilder', 'InventoryItemDataBuilder'];
 
-    function FacilityProgramInventoryItemDataBuilder(InventoryItem, ObjectReferenceDataBuilder,
-        CatalogItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder) {
+    function FacilityProgramInventoryItemDataBuilder(InventoryItem, FacilityDataBuilder,
+                                                     ProgramDataBuilder, InventoryItemDataBuilder) {
 
         FacilityProgramInventoryItemDataBuilder.prototype.build = build;
-        FacilityProgramInventoryItemDataBuilder.prototype.buildBase = buildBase;
         FacilityProgramInventoryItemDataBuilder.prototype.withCatalogItem = withCatalogItem;
         FacilityProgramInventoryItemDataBuilder.prototype.withDecommissionDate = withDecommissionDate;
         FacilityProgramInventoryItemDataBuilder.prototype.withFacility = withFacility;
@@ -43,30 +42,7 @@
         return FacilityProgramInventoryItemDataBuilder;
 
         function FacilityProgramInventoryItemDataBuilder() {
-            this.source = {
-                id : '35b8eeca-bfad-47f3-b966-c9cb726b872f',
-                facility: new ObjectReferenceDataBuilder().withId('97546f93-ac93-435f-a437-cd629deb7d6d').build(),
-                catalogItem: new CatalogItemDataBuilder().build(),
-                program: new ObjectReferenceDataBuilder().withId('418bdc1d-c303-4bd0-b2d3-d8901150a983').build(),
-                equipmentTrackingId: 'tracking-id',
-                referenceName: 'Reference Name',
-                yearOfInstallation: 2010,
-                yearOfWarrantyExpiry: 2020,
-                source: 'source',
-                functionalStatus: 'FUNCTIONING',
-                reasonNotWorkingOrNotInUse: 'NOT_APPLICABLE',
-                utilization: 'ACTIVE',
-                voltageStabilizer: 'YES',
-                backupGenerator: 'YES',
-                voltageRegulator: 'YES',
-                manualTemperatureGauge: 'BUILD_IN',
-                remoteTemperatureMonitor: 'BUILD_IN',
-                remoteTemperatureMonitorId: 'monitor-id',
-                additionalNotes: 'notes',
-                decommissionDate: '2017-01-01',
-                modifiedDate: '2017-10-10',
-                lastModifier: new CatalogItemDataBuilder().build()
-            };
+            this.source = new InventoryItemDataBuilder().build();
             this.facility = new FacilityDataBuilder().build();
             this.program = new ProgramDataBuilder().build();
         }
@@ -126,12 +102,6 @@
                 this.source,
                 this.facility,
                 this.program
-            );
-        }
-
-        function buildBase() {
-            return new InventoryItem(
-                this.source
             );
         }
 
