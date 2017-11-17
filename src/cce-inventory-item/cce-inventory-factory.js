@@ -32,12 +32,10 @@
     factory.$inject = ['$q', 'inventoryItemService', 'programService', 'facilityService',
                        'InventoryItem', 'referencedataUserService'];
 
-    function factory($q, inventoryItemService, programService, facilityService, InventoryItem,
-                     referencedataUserService) {
+    function factory($q, inventoryItemService, programService, facilityService, InventoryItem) {
 
         return {
-            get: get,
-            getAllWithFacilities: getAllWithFacilities
+            get: get
         };
 
         /**
@@ -66,69 +64,6 @@
             }, deferred.reject);
 
             return deferred.promise;
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf cce-inventory-item.inventoryItemFactory
-         * @name getAllWithFacilities
-         *
-         * @description
-         * Returns inventory items with full facility object.
-         *
-         * @param  {Object}     params Pagination parameters
-         * @return {Promise}    the inventory items with facility info
-         */
-        function getAllWithFacilities(params) {
-            var inventoryItems,
-                content;
-
-            return inventoryItemService.query(params)
-                .then(function(response) {
-                    inventoryItems = response;
-                    content = inventoryItems.content;
-                    if (!content.length) {
-                        return [];
-                    }
-
-                    var lastModifierIds = content.map(function (item) {
-                        return item.lastModifier.id;
-                    });
-                    var facilityIds = content.map(function (item) {
-                        return item.facility.id;
-                    });
-
-                    return $q.all([
-                        referencedataUserService.query({
-                            id: lastModifierIds,
-                            page: 0,
-                            size: lastModifierIds.length
-                        }),
-                        facilityService.query({
-                            id: facilityIds
-                        })
-                    ]);
-                })
-                .then(function(response) {
-                    for (var i = 0; i<content.length; i++) {
-                        var facilities = response[1];
-                        var users = response[0].content;
-                        var facilitiesFiltered = facilities.filter(function (facility) {
-                            return content[i].facility.id === facility.id;
-                        });
-
-                        var usersFiltered = users.filter(function (user) {
-                            return content[i].lastModifier.id === user.id;
-                        });
-
-                        content[i] = new InventoryItem(
-                            content[i],
-                            facilitiesFiltered[0],
-                            undefined,
-                            usersFiltered[0])
-                    }
-                    return inventoryItems;
-                });
         }
 
     }

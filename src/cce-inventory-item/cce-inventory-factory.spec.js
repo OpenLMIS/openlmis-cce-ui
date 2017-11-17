@@ -17,13 +17,12 @@ describe('inventoryItemService', function() {
 
     var $q, $rootScope, inventoryItemFactory, programService, facilityService, inventoryItemService,
         inventoryItem, program, facility, inventoryItemResolve, programDeferred, facilityDeferred,
-        query, facilitiesResolve, ProgramDataBuilder,
-        FacilityDataBuilder, InventoryItemDataBuilder;
--
+        facilitiesResolve, ProgramDataBuilder, FacilityDataBuilder, InventoryItemDataBuilder;
+
     beforeEach(function() {
         module('cce-inventory-item', function($provide) {
             programService = jasmine.createSpyObj('programService', ['get']);
-            facilityService = jasmine.createSpyObj('facilityService', ['get', 'query']);
+            facilityService = jasmine.createSpyObj('facilityService', ['get']);
             $provide.service('programService', function() {
                 return programService;
             });
@@ -31,7 +30,7 @@ describe('inventoryItemService', function() {
                 return facilityService;
             });
 
-            inventoryItemService = jasmine.createSpyObj('inventoryItemService', ['get', 'query']);
+            inventoryItemService = jasmine.createSpyObj('inventoryItemService', ['get']);
             $provide.service('inventoryItemService', function() {
                 return inventoryItemService;
             });
@@ -53,11 +52,6 @@ describe('inventoryItemService', function() {
         facility = new FacilityDataBuilder().build();
         inventoryItem = new InventoryItemDataBuilder().build();
 
-        query = {
-            page: 1,
-            size: 10
-        };
-
         inventoryItemResolve = true;
         facilitiesResolve = true;
 
@@ -77,30 +71,6 @@ describe('inventoryItemService', function() {
             }
 
             return inventoryItemDeferred.promise;
-        });
-
-        inventoryItemService.query.andCallFake(function() {
-            var deffered = $q.defer();
-
-            if (inventoryItemResolve) {
-                deffered.resolve([inventoryItem]);
-            } else {
-                deffered.reject();
-            }
-
-            return deffered.promise;
-        });
-
-        facilityService.query.andCallFake(function() {
-            var deffered = $q.defer();
-
-            if (facilitiesResolve) {
-                deffered.resolve([facility]);
-            } else {
-                deffered.reject();
-            }
-
-            return deffered.promise;
         });
     });
 
@@ -177,75 +147,4 @@ describe('inventoryItemService', function() {
         });
     });
 
-    describe('getAllWithFacilities', function() {
-
-        it('should reject promise if inventory items are not found', function() {
-            var status = undefined;
-
-            inventoryItemResolve = false;
-
-            inventoryItemFactory.getAllWithFacilities(query).then(function() {
-                status = 'resolved';
-            }, function() {
-                status = 'rejected';
-            });
-
-            $rootScope.$apply();
-
-            expect(facilityService.query).not.toHaveBeenCalled();
-            expect(inventoryItemService.query).toHaveBeenCalledWith(query);
-
-            expect(status).toEqual('rejected');
-        });
-
-        xit('should resolve promise if facilities are not found', function() {
-            var status = undefined,
-                result = [];
-
-            facilitiesResolve = false;
-
-            inventoryItemFactory.getAllWithFacilities(query).then(function(response) {
-                status = 'resolved';
-                result = response;
-            }, function() {
-                status = 'rejected';
-            });
-            $rootScope.$apply();
-
-            expect(facilityService.query).toHaveBeenCalledWith({id: [facility.id]});
-            expect(inventoryItemService.query).toHaveBeenCalledWith(query);
-
-            expect(status).toEqual('resolved');
-            expect(result).toEqual([inventoryItem]);
-            result.forEach(function (one) {
-                expect(one.facility.name).toBe(undefined);
-            });
-        });
-
-        xit('should resolve promise and add facilities info if have been found', function() {
-            var status = undefined,
-                result = [];
-
-            inventoryItemFactory.getAllWithFacilities(query).then(function(response) {
-                status = 'resolved';
-                result = response;
-            }, function() {
-                status = 'rejected';
-            });
-            $rootScope.$apply();
-
-            expect(facilityService.query).toHaveBeenCalledWith({id: [facility.id]});
-            expect(inventoryItemService.query).toHaveBeenCalledWith(query);
-
-            expect(status).toEqual('resolved');
-
-            expect(result.length).toBe(1);
-            result.forEach(function (one) {
-                expect(one.id).toEqual(inventoryItem.id);
-                expect(one.name).toEqual(inventoryItem.name);
-                expect(one.facility.id).toBe(inventoryItem.facility.id);
-                expect(one.facility.name).toBe(facility.name);
-            });
-        });
-    });
 });

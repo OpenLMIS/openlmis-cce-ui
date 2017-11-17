@@ -34,7 +34,7 @@
             controllerAs: 'vm',
             accessRights: [CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT],
             resolve: {
-                inventoryItems: function(inventoryItemFactory, paginationService, $stateParams) {
+                inventoryItems: function(facilityUserInventoryItemFactory, paginationService, $stateParams) {
                     return paginationService.registerUrl($stateParams, function(stateParams) {
                         if (!stateParams.sort) {
                             stateParams.sort = [
@@ -42,7 +42,7 @@
                                 "equipmentTrackingId"
                             ];
                         }
-                        return inventoryItemFactory.getAllWithFacilities(stateParams);
+                        return facilityUserInventoryItemFactory.query(stateParams);
                     });
                 }
             }

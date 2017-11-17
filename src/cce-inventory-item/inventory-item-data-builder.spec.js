@@ -35,9 +35,16 @@
         function InventoryItemDataBuilder() {
             this.source = {
                 id : '35b8eeca-bfad-47f3-b966-c9cb726b872f',
-                facility: new ObjectReferenceDataBuilder().withId('97546f93-ac93-435f-a437-cd629deb7d6d').build(),
-                catalogItem: new CatalogItemDataBuilder().build(),
-                program: new ObjectReferenceDataBuilder().withId('418bdc1d-c303-4bd0-b2d3-d8901150a983').build(),
+                facility: new ObjectReferenceDataBuilder()
+                    .withId('97546f93-ac93-435f-a437-cd629deb7d6d')
+                    .withHref('http://localhost/api/inventoryItems/97546f93-ac93-435f-a437-cd629deb7d6d')
+                    .build(),
+                catalogItem: new CatalogItemDataBuilder()
+                    .build(),
+                program: new ObjectReferenceDataBuilder()
+                    .withId('418bdc1d-c303-4bd0-b2d3-d8901150a983')
+                    .withHref('http://localhost/api/inventoryItems/418bdc1d-c303-4bd0-b2d3-d8901150a983')
+                    .build(),
                 equipmentTrackingId: 'tracking-id',
                 referenceName: 'Reference Name',
                 yearOfInstallation: 2010,
@@ -55,7 +62,10 @@
                 additionalNotes: 'notes',
                 decommissionDate: '2017-01-01',
                 modifiedDate: '2017-10-10',
-                lastModifier: new ObjectReferenceDataBuilder().withId('0b7b2042-205c-4685-a9d5-903143af12f0').build()
+                lastModifier: new ObjectReferenceDataBuilder()
+                    .withId('0b7b2042-205c-4685-a9d5-903143af12f0')
+                    .withHref('http://localhost/api/inventoryItems/0b7b2042-205c-4685-a9d5-903143af12f0')
+                    .build()
             };
         }
 
