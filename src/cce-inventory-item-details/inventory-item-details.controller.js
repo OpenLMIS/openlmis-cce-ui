@@ -29,12 +29,12 @@
         .controller('InventoryItemDetailsController', InventoryItemDetailsController);
 
     InventoryItemDetailsController.$inject = [
-        'inventoryItem', 'CCE_STATUS', 'UTILIZATION_STATUS', 'MANUAL_TEMPERATURE_GAUGE_TYPE',
+        'inventoryItem', 'canEdit', 'CCE_STATUS', 'UTILIZATION_STATUS', 'MANUAL_TEMPERATURE_GAUGE_TYPE',
         'REMOTE_TEMPERATURE_MONITOR_TYPE', 'FUNCTIONAL_STATUS', '$state', 'authorizationService',
         'CCE_RIGHTS'
     ];
 
-    function InventoryItemDetailsController(inventoryItem, CCE_STATUS, UTILIZATION_STATUS,
+    function InventoryItemDetailsController(inventoryItem, canEdit, CCE_STATUS, UTILIZATION_STATUS,
                                             MANUAL_TEMPERATURE_GAUGE_TYPE,
                                             REMOTE_TEMPERATURE_MONITOR_TYPE,
                                             FUNCTIONAL_STATUS, $state, authorizationService,
@@ -72,7 +72,7 @@
             vm.getUtilizationStatusLabel = UTILIZATION_STATUS.getLabel;
             vm.getManualTemperatureGaugeTypeLabel = MANUAL_TEMPERATURE_GAUGE_TYPE.getLabel;
             vm.getRemoteTemperatureMonitorTypeLabel = REMOTE_TEMPERATURE_MONITOR_TYPE.getLabel;
-            vm.userHasRightToEdit = hasEditRightForProgram();
+            vm.userHasRightToEdit = canEdit;
         }
 
         /**
@@ -132,13 +132,6 @@
          */
         function getFunctionalStatusClass() {
             return FUNCTIONAL_STATUS.getClass(vm.inventoryItem.functionalStatus);
-        }
-
-        function hasEditRightForProgram() {
-            return authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
-                programId: vm.inventoryItem.program.id,
-                facilityId: vm.inventoryItem.facility.id
-            });
         }
     }
 

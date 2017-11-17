@@ -29,12 +29,12 @@
         .controller('StatusUpdateModalController', StatusUpdateModalController);
 
     StatusUpdateModalController.$inject = [
-        '$scope', 'inventoryItem', 'FUNCTIONAL_STATUS', 'messageService', 'REASON_FOR_NOT_WORKING',
+        '$scope', 'inventoryItem', 'canEdit', 'FUNCTIONAL_STATUS', 'messageService', 'REASON_FOR_NOT_WORKING',
         'inventoryItemService', '$state', 'loadingModalService', 'confirmService',
         'notificationService', 'stateTrackerService'
     ];
 
-    function StatusUpdateModalController($scope, inventoryItem, FUNCTIONAL_STATUS, messageService,
+    function StatusUpdateModalController($scope, inventoryItem, canEdit, FUNCTIONAL_STATUS, messageService,
                                          REASON_FOR_NOT_WORKING, inventoryItemService, $state,
                                          loadingModalService, confirmService, notificationService,
                                          stateTrackerService) {
@@ -51,6 +51,17 @@
         vm.clearReasonAndDecommissionDate = clearReasonAndDecommissionDated;
 
         /**
+         * @ngdoc property
+         * @propertyOf cce-inventory-item-status.controller:StatusUpdateModalController
+         * @name userHasRightToEdit
+         * @type {Boolean}
+         *
+         * @description
+         * Flag defining whether user has right for editing the inventory item.
+         */
+        vm.userHasRightToEdit = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf cce-inventory-item-status.controller:StatusUpdateModalController
          * @name $onInit
@@ -65,6 +76,7 @@
             vm.statuses = FUNCTIONAL_STATUS.getStatuses();
             vm.reasons = REASON_FOR_NOT_WORKING.getReasons();
             vm.decommissionDate = inventoryItem.decommissionDate;
+            vm.userHasRightToEdit = canEdit;
         }
 
         /**

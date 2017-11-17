@@ -30,7 +30,7 @@
                         </dd>
                     </dl>
 
-                    <fieldset>
+                    <fieldset id="update-fieldset" ng-show="vm.userHasRightToEdit">
 
                         <div class="sub-heading">
                             <h3 class="title">{{'cceInventoryItemStatus.updateFunctionalStatus' | message}}</h3>
@@ -78,7 +78,8 @@
                 <button id="update"
                     class="primary"
                     type="submit"
-                    form="status-update-form">
+                    form="status-update-form"
+                    ng-show="vm.userHasRightToEdit">
                     {{'cceInventoryItemStatus.update' | message}}
                 </button>
             </div>

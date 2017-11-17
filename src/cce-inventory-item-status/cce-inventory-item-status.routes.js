@@ -33,14 +33,34 @@
                 inventoryItem: undefined
             },
             onEnter: onEnter,
-            onExit: onExit
+            onExit: onExit,
+            resolve: {
+                inventoryItem: function($stateParams, inventoryItemService, $state) {
+                    if ($stateParams.inventoryItem) {
+                        return $stateParams.inventoryItem;
+                    } else if ($stateParams.inventoryItemId) {
+                        return inventoryItemService.get($stateParams.inventoryItemId);
+                    }
+                    $state.go('openlmis.cce.inventory.add');
+                },
+                canEdit: function(inventoryItem, authorizationService, permissionService, CCE_RIGHTS) {
+                    var user = authorizationService.getUser();
+                    return permissionService.hasPermission(user.user_id, {
+                        right: CCE_RIGHTS.CCE_INVENTORY_EDIT,
+                        facilityId: inventoryItem.facility.id,
+                        programId: inventoryItem.program.id
+                    }).then(function() {
+                        return true;
+                    }, function() {
+                        return false;
+                    });
+                }
+            }
         });
 
-        onEnter.$inject = [
-            'openlmisModalService', 'inventoryItemService', '$stateParams', '$state'
-        ];
+        onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canEdit'];
 
-        function onEnter(openlmisModalService, inventoryItemService, $stateParams, $state) {
+        function onEnter(openlmisModalService, inventoryItem, canEdit) {
             dialog = openlmisModalService.createDialog({
                 backdrop: 'static',
                 controller: 'StatusUpdateModalController',
@@ -48,12 +68,10 @@
                 templateUrl: 'cce-inventory-item-status/status-update-modal.html',
                 resolve: {
                     inventoryItem: function() {
-                        if ($stateParams.inventoryItem) {
-                            return $stateParams.inventoryItem;
-                        } else if ($stateParams.inventoryItemId) {
-                            return inventoryItemService.get($stateParams.inventoryItemId);
-                        }
-                        $state.go('openlmis.cce.inventory.add');
+                        return inventoryItem;
+                    },
+                    canEdit: function() {
+                        return canEdit;
                     }
                 }
             });

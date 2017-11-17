@@ -55,28 +55,21 @@ describe('InventoryItemDetailsController', function() {
             expect(vm.getUtilizationStatusLabel).toBe(UTILIZATION_STATUS.getLabel);
         });
 
-        it('should display edit button if user has right', function() {
-            spyOn(authorizationService, 'hasRight').andReturn(true);
-
+        it('should display edit button if user has CCE_INVENTORY_EDIT right', function() {
             vm.$onInit();
 
             expect(vm.userHasRightToEdit).toBe(true);
-            expect(authorizationService.hasRight).toHaveBeenCalledWith(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
-                programId: vm.inventoryItem.program.id,
-                facilityId: vm.inventoryItem.facility.id
-            });
         });
 
-        it('should hide edit button if user does not has right', function() {
-            spyOn(authorizationService, 'hasRight').andReturn(false);
+        it('should hide edit button if user does not have CCE_INVENTORY_EDIT right', function() {
+            vm = $controller('InventoryItemDetailsController', {
+                inventoryItem: inventoryItem,
+                canEdit: false
+            });
 
             vm.$onInit();
 
             expect(vm.userHasRightToEdit).toBe(false);
-            expect(authorizationService.hasRight).toHaveBeenCalledWith(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
-                programId: vm.inventoryItem.program.id,
-                facilityId: vm.inventoryItem.facility.id
-            });
         });
 
     });
@@ -190,7 +183,8 @@ describe('InventoryItemDetailsController', function() {
 
     function prepareController() {
         vm = $controller('InventoryItemDetailsController', {
-            inventoryItem: inventoryItem
+            inventoryItem: inventoryItem,
+            canEdit: true
         });
     }
 

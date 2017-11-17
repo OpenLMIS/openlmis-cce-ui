@@ -37,7 +37,6 @@ describe('CceInventoryListController', function () {
         vm = $controller('CceInventoryListController', {
             inventoryItems: inventoryItems
         });
-        vm.$onInit();
 
         spyOn($state, 'go').andReturn();
     });
@@ -45,15 +44,37 @@ describe('CceInventoryListController', function () {
     describe('init', function() {
 
         it('should expose inventory items', function() {
+            vm.$onInit();
+
             expect(vm.inventoryItems).toEqual(inventoryItems);
         });
 
         it('should expose getFunctionalStatusClass method', function() {
+            vm.$onInit();
+
             expect(angular.isFunction(vm.getFunctionalStatusClass)).toBe(true);
+        });
+
+        it('should set userHasRightToEdit as true if user has CCE_INVENTORY_EDIT for provided program', function() {
+            spyOn(authorizationService, 'hasRight').andReturn(true);
+            vm.$onInit();
+
+            expect(vm.userHasRightToEdit).toEqual(true);
+        });
+
+        it('should set userHasRightToEdit as false if user has no CCE_INVENTORY_EDIT for provided program', function() {
+            spyOn(authorizationService, 'hasRight').andReturn(false);
+            vm.$onInit();
+
+            expect(vm.userHasRightToEdit).toEqual(false);
         });
     });
 
     describe('getFunctionalStatusClass', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
 
         it('should return is-functioning class', function() {
             expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.FUNCTIONING)).toEqual('is-functioning');
@@ -72,6 +93,10 @@ describe('CceInventoryListController', function () {
 
     describe('goToStatusUpdate', function() {
 
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
         it('should pass the inventory item', function() {
             vm.goToStatusUpdate(inventoryItems[0]);
 
@@ -79,25 +104,6 @@ describe('CceInventoryListController', function () {
                 inventoryItem: inventoryItems[0],
                 inventoryItemId: inventoryItems[0].id
             });
-        });
-
-    });
-
-    describe('hasEditRightToEdit', function() {
-
-        it('should return true if user has CCE_INVENTORY_EDIT for provided program', function() {
-            spyOn(authorizationService, 'hasRight').andReturn(true);
-            expect(vm.hasEditRightToEdit('program-one', 'facility-one')).toEqual(true);
-        });
-
-        it('should return true if user has CCE_INVENTORY_EDIT', function() {
-            spyOn(authorizationService, 'hasRight').andReturn(true);
-            expect(vm.hasEditRightToEdit()).toEqual(true);
-        });
-
-        it('should return false if user has CCE_INVENTORY_EDIT for provided program', function() {
-            spyOn(authorizationService, 'hasRight').andReturn(false);
-            expect(vm.hasEditRightToEdit('program-two', 'facility-two')).toEqual(false);
         });
 
     });

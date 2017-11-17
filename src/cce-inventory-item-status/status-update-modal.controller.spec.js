@@ -18,39 +18,71 @@ describe('StatusUpdateModalController', function() {
     var vm, messageService, modalDeferred, $q, $state, $rootScope, inventoryItem, $controller,
         loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
         REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
-        stateTrackerService, FacilityProgramInventoryItemDataBuilder, CCE_STATUS;
+        stateTrackerService, FacilityProgramInventoryItemDataBuilder, CCE_STATUS,
+        permissionService, authorizationService, deferred, result, CCE_RIGHTS;
 
     beforeEach(prepareSuite);
 
     describe('$onInit', function() {
 
         beforeEach(function() {
-            vm.$onInit();
+            deferred = $q.defer();
+            result = false;
         });
 
         it('should copy item', function() {
+            vm.$onInit();
+
             expect(vm.inventoryItem).not.toBe(inventoryItem);
             expect(vm.inventoryItem).toEqual(inventoryItem);
         });
 
         it('should pre-set new status', function() {
+            vm.$onInit();
+
             expect(vm.newStatus).toEqual(inventoryItem.functionalStatus);
         });
 
         it('should pre-set reason', function() {
+            vm.$onInit();
+
             expect(vm.reason).toEqual(inventoryItem.reasonNotWorkingOrNotInUse);
         });
 
         it('should expose statuses', function() {
+            vm.$onInit();
+
             expect(vm.statuses).toEqual(FUNCTIONAL_STATUS.getStatuses());
         });
 
         it('should expose reasons', function() {
+            vm.$onInit();
+
             expect(vm.reasons).toEqual(REASON_FOR_NOT_WORKING.getReasons());
         });
 
         it('should expose decommissionDate', function() {
+            vm.$onInit();
+
             expect(vm.decommissionDate).toEqual('2017-01-01');
+        });
+
+        it('should set userHasRightToEdit as true if user has CCE_INVENTORY_EDIT right', function() {
+            vm.$onInit();
+
+            expect(vm.userHasRightToEdit).toBe(true);
+        });
+
+        it('should set userHasRightToEdit as false if user has no CCE_INVENTORY_EDIT right', function() {
+            vm = $controller('StatusUpdateModalController', {
+                inventoryItem: inventoryItem,
+                $scope: $scope,
+                canEdit: false
+            });
+
+            vm.$onInit();
+
+            expect(vm.userHasRightToEdit).toBe(false);
         });
 
     });
@@ -347,12 +379,15 @@ describe('StatusUpdateModalController', function() {
             $controller = $injector.get('$controller');
             messageService = $injector.get('messageService');
             CCE_STATUS = $injector.get('CCE_STATUS');
+            CCE_RIGHTS = $injector.get('CCE_RIGHTS');
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
             REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
             inventoryItemService = $injector.get('inventoryItemService');
             loadingModalService = $injector.get('loadingModalService');
             notificationService = $injector.get('notificationService');
             stateTrackerService = $injector.get('stateTrackerService');
+            authorizationService = $injector.get('authorizationService');
+            permissionService = $injector.get('permissionService');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
         });
 
@@ -366,7 +401,8 @@ describe('StatusUpdateModalController', function() {
 
         vm = $controller('StatusUpdateModalController', {
             inventoryItem: inventoryItem,
-            $scope: $scope
+            $scope: $scope,
+            canEdit: true
         });
 
         messages = {

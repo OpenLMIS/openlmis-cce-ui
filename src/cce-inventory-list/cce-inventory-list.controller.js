@@ -42,7 +42,6 @@
         vm.getStatusLabel = getStatusLabel;
         vm.goToStatusUpdate = goToStatusUpdate;
         vm.getReasonLabel = getReasonLabel;
-        vm.hasEditRightToEdit = hasEditRightToEdit;
 
         /**
          * @ngdoc property
@@ -76,6 +75,7 @@
          */
         function onInit() {
             vm.inventoryItems = inventoryItems;
+            vm.userHasRightToEdit = authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT);
         }
 
         /**
@@ -140,26 +140,6 @@
                 return "";
             }
             return messageService.get(REASON_FOR_NOT_WORKING.getLabel(reason));
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf cce-inventory-list.controller:CceInventoryListController
-         * @name hasEditRightForProgram
-         *
-         * @description
-         * Returns true whether user has right for editing the list of inventory items,
-         * otherwise it returns false.
-         *
-         * @param  {String} programId   the UUID of inventory's program
-         * @param  {String} facilityId  the UUID of inventory's facility
-         * @return {Boolean}            true if user has permission to edit inventory item
-         */
-        function hasEditRightToEdit(programId, facilityId) {
-            return authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT, {
-                programId: programId,
-                facilityId: facilityId
-            });
         }
 
         function goToStatusUpdate(inventoryItem) {

@@ -43,19 +43,34 @@
                             return inventoryItem;
                         });
                     }
+                },
+                canEdit: function(inventoryItem, authorizationService, permissionService, CCE_RIGHTS) {
+                    var user = authorizationService.getUser();
+                    return permissionService.hasPermission(user.user_id, {
+                        right: CCE_RIGHTS.CCE_INVENTORY_EDIT,
+                        facilityId: inventoryItem.facility.id,
+                        programId: inventoryItem.program.id
+                    }).then(function() {
+                        return true;
+                    }, function() {
+                        return false;
+                    });
                 }
             },
             url: '/:inventoryItemId/details'
         });
 
-        onEnter.$inject = ['openlmisModalService', 'inventoryItem'];
-        function onEnter(openlmisModalService, inventoryItem) {
+        onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canEdit'];
+        function onEnter(openlmisModalService, inventoryItem, canEdit) {
             dialog = openlmisModalService.createDialog({
                 controller: 'InventoryItemDetailsController',
                 controllerAs: 'vm',
                 resolve: {
                     inventoryItem: function() {
                         return inventoryItem;
+                    },
+                    canEdit: function() {
+                        return canEdit;
                     }
                 },
                 templateUrl: 'cce-inventory-item-details/inventory-item-details.html'

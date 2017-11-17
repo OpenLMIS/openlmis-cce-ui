@@ -18,15 +18,15 @@ describe('status-update-modal.html template', function() {
     var $controller, $compile, $rootScope, $templateRequest, $state, $q;
 
     var inventoryItemService, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, stateTrackerService,
-        FacilityProgramInventoryItemDataBuilder;
+        FacilityProgramInventoryItemDataBuilder, templateTestingUtils;
 
     var vm, template, inventoryItem, saveDeferred;
 
     beforeEach(function() {
-        addCustomMatcher(this);
         loadModules();
         injectServices();
         prepareTestData();
+        initTestingUtils(this);
         prepareSpies();
         prepareView();
     });
@@ -40,7 +40,7 @@ describe('status-update-modal.html template', function() {
 
             $rootScope.$apply();
 
-            expect(getDl()).toBeUndefined();
+            expect(templateTestingUtils.getElementById('dl', 'current-status')).toBeUndefined();
         });
 
         it('should be visible if current status is set', function() {
@@ -48,19 +48,15 @@ describe('status-update-modal.html template', function() {
 
             $rootScope.$apply();
 
-            expect(getDl()).not.toBeUndefined();
+            expect(templateTestingUtils.getElementById('dl', 'current-status')).not.toBeUndefined();
         });
-
-        function getDl() {
-            return getElement('dl', 'current-status');
-        }
 
     });
 
     describe('Functional Status select', function() {
 
         it('should be required', function() {
-            expect(getElement('select', 'functional-status')).toBeRequired();
+            expect(templateTestingUtils.getElementById('select', 'functional-status')).toBeRequired();
         });
 
     });
@@ -68,7 +64,7 @@ describe('status-update-modal.html template', function() {
     describe('Reason not working or not in use select', function() {
 
         it('should clear after functional status changed', function() {
-            var statusSelect = getElement('select', 'functional-status');
+            var statusSelect = templateTestingUtils.getElementById('select', 'functional-status');
 
             vm.newStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
             vm.reason = REASON_FOR_NOT_WORKING.UNSERVICEABLE;
@@ -87,21 +83,21 @@ describe('status-update-modal.html template', function() {
             vm.newStatus = FUNCTIONAL_STATUS.FUNCTIONING;
             $rootScope.$apply();
 
-            expect(getSelect()).toBeUndefined();
+            expect(templateTestingUtils.getElementById('select', 'reason')).toBeUndefined();
         });
 
         it('should be required for NON_FUNCTIONING', function() {
             vm.newStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
             $rootScope.$apply();
 
-            expect(getSelect()).toBeRequired();
+            expect(templateTestingUtils.getElementById('select', 'reason')).toBeRequired();
         });
 
         it('should be required for OBSOLETE', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             $rootScope.$apply();
 
-            expect(getSelect()).toBeRequired();
+            expect(templateTestingUtils.getElementById('select', 'reason')).toBeRequired();
         });
 
         function getSelect() {
@@ -111,7 +107,7 @@ describe('status-update-modal.html template', function() {
         function getSelectedOption() {
             var selected;
 
-            angular.forEach(getSelect().find('option'), function(option) {
+            angular.forEach(templateTestingUtils.getElementById('select', 'reason').find('option'), function(option) {
                 if (angular.element(option).attr('selected')) {
                     selected = angular.element(option);
                 }
@@ -125,7 +121,7 @@ describe('status-update-modal.html template', function() {
     describe('Decommission Date input', function() {
 
         it('should clear after functional status changed', function() {
-            var statusSelect = getElement('select', 'functional-status');
+            var statusSelect = templateTestingUtils.getElementById('select', 'functional-status');
 
             vm.newStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
             vm.decommissionDate = 2017;
@@ -144,26 +140,40 @@ describe('status-update-modal.html template', function() {
             vm.newStatus = FUNCTIONAL_STATUS.FUNCTIONING;
             $rootScope.$apply();
 
-            expect(getInput()).toBeUndefined();
+            expect(templateTestingUtils.getInputs('decommission-date')[0]).toBeUndefined();
         });
 
         it('should be hidden for NON_FUNCTIONING', function() {
             vm.newStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
             $rootScope.$apply();
 
-            expect(getInput()).toBeUndefined();
+            expect(templateTestingUtils.getInputs('decommission-date')[0]).toBeUndefined();
         });
 
         it('should be required for OBSOLETE', function() {
             vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
             $rootScope.$apply();
 
-            expect(getInput()).toBeRequired();
+            expect(templateTestingUtils.getElementById('input', 'decommission-date')).toBeRequired();
         });
 
-        function getInput() {
-            return getElement('input', 'decommission-date');
-        }
+    });
+
+    describe('Update fieldset', function() {
+
+        it('should be visible if user has CCE_INVENTORY_ITEM right', function() {
+            vm.userHasRightToEdit = true;
+            $rootScope.$apply();
+
+            expect(templateTestingUtils.getElementById('fieldset', 'update-fieldset')).not.toBeHidden();
+        });
+
+        it('should be hidden if user has no CCE_INVENTORY_ITEM right', function() {
+            vm.userHasRightToEdit = false;
+            $rootScope.$apply();
+
+            expect(templateTestingUtils.getElementById('fieldset', 'update-fieldset')).toBeHidden();
+        });
 
     });
 
@@ -172,7 +182,7 @@ describe('status-update-modal.html template', function() {
         var button;
 
         beforeEach(function() {
-            button = getElement('button', 'update');
+            button = templateTestingUtils.getButton('update');
         });
 
         it('should point to the form', function() {
@@ -181,6 +191,20 @@ describe('status-update-modal.html template', function() {
 
         it('should be a submit type', function() {
             expect(button.attr('type')).toEqual('submit');
+        });
+
+        it('should be visible if user has CCE_INVENTORY_ITEM right', function() {
+            vm.userHasRightToEdit = true;
+            $rootScope.$apply();
+
+            expect(button).not.toBeHidden();
+        });
+
+        it('should be hidden if user has no CCE_INVENTORY_ITEM right', function() {
+            vm.userHasRightToEdit = false;
+            $rootScope.$apply();
+
+            expect(button).toBeHidden();
         });
 
     });
@@ -198,8 +222,8 @@ describe('status-update-modal.html template', function() {
             confirmDeferred = $q.defer();
             spyOn(confirmService, 'confirm').andReturn(confirmDeferred.promise);
 
-            button = getElement('button', 'cancel');
-            formCtrl = getElement('form', 'status-update-form').controller('form');
+            button = templateTestingUtils.getButton('cancel');
+            formCtrl = templateTestingUtils.getElementById('form', 'status-update-form').controller('form');
         });
 
         it('should take user back to the previous page if the form was not dirty', function() {
@@ -267,7 +291,7 @@ describe('status-update-modal.html template', function() {
         var form, date;
 
         beforeEach(function() {
-            form = getElement('form', 'status-update-form');
+            form = templateTestingUtils.getElementById('form', 'status-update-form');
             date = new Date('Fri Aug 11 2017 00:00:00 GMT+0000 (UTC)');
         });
 
@@ -337,6 +361,7 @@ describe('status-update-modal.html template', function() {
     });
 
     function loadModules() {
+        module('openlmis-testing-utils');
         module('openlmis-form');
         module('openlmis-templates');
         module('cce-inventory-item-status');
@@ -355,6 +380,7 @@ describe('status-update-modal.html template', function() {
             REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
             $timeout = $injector.get('$timeout');
             stateTrackerService = $injector.get('stateTrackerService');
+            templateTestingUtils = $injector.get('templateTestingUtils');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
         });
     }
@@ -364,6 +390,10 @@ describe('status-update-modal.html template', function() {
         saveDeferred = $q.defer();
     }
 
+    function initTestingUtils(suite) {
+        templateTestingUtils.init(suite);
+    }
+
     function prepareSpies() {
         spyOn($state, 'go').andReturn();
         spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
@@ -371,54 +401,15 @@ describe('status-update-modal.html template', function() {
     }
 
     function prepareView() {
-        $scope = $rootScope.$new();
+        var testContext = templateTestingUtils.prepareView(
+            'cce-inventory-item-status/status-update-modal.html',
+            'StatusUpdateModalController', {
+                inventoryItem: inventoryItem,
+                canEdit: true
+            });
 
-        vm = $controller('StatusUpdateModalController', {
-            $scope: $scope,
-            inventoryItem: inventoryItem
-        });
-        vm.$onInit();
-
-        $scope.vm = vm;
-
-        $templateRequest(
-            'cce-inventory-item-status/status-update-modal.html'
-        ).then(function(requested) {
-            template = $compile(requested)($scope);
-        });
-        $rootScope.$apply();
-    }
-
-    function getElement(type, id) {
-        var result;
-
-        angular.forEach(template.find(type), function(element) {
-            if (angular.element(element).attr('id') === id) {
-                result = angular.element(element);
-            }
-        });
-
-        return result;
-    }
-
-    function addCustomMatcher(suite) {
-        suite.addMatchers({
-            toBeRequired: function(expected) {
-                var pass = this.actual.prop('required');
-
-                if (!pass) {
-                    this.message = function () {
-                        return 'Element must be required';
-                    };
-                } else {
-                    this.message = function () {
-                        return 'Element is required';
-                    };
-                }
-
-                return pass;
-            }
-        });
+        vm = testContext.$scope.vm;
+        template = testContext.template;
     }
 
 });

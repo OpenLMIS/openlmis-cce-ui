@@ -32,14 +32,22 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
 
     describe('modal', function() {
 
+        var modal,
+            canEdit = true;
+
+        beforeEach(function() {
+            state.onEnter(openlmisModalService, inventoryItem, canEdit);
+            modal = openlmisModalService.createDialog.calls[0].args[0];
+        });
+
         it('should not close backdrop click', function() {
-            expect(getModal().backdrop).toEqual('static');
+            expect(modal.backdrop).toEqual('static');
         });
 
         it('should use inventory item from state params if it was given', function() {
             $stateParams.inventoryItem = inventoryItem;
 
-            expect(getModal().resolve.inventoryItem()).toEqual(inventoryItem);
+            expect(modal.resolve.inventoryItem()).toEqual(inventoryItem);
         });
 
         it('should download inventoryItem if ID was given', function() {
@@ -47,7 +55,7 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
 
             var result;
 
-            getModal().resolve.inventoryItem().then(function(inventoryItem) {
+            state.resolve.inventoryItem($stateParams, inventoryItemService).then(function(inventoryItem) {
                 result = inventoryItem;
             });
             $rootScope.$apply();
@@ -56,19 +64,26 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
         });
 
         it('should redirect user to the add page if no ID or item is given', function() {
-            state.onEnter(openlmisModalService, $stateParams, inventoryItemService, $state);
-            modal = openlmisModalService.createDialog.calls[0].args[0];
-
-            getModal().resolve.inventoryItem();
+            state.resolve.inventoryItem($stateParams, inventoryItemService, $state);
             $rootScope.$apply();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.add');
         });
 
-        function getModal() {
-            state.onEnter(openlmisModalService, inventoryItemService, $stateParams);
-            return openlmisModalService.createDialog.calls[0].args[0];
-        }
+        it('should call permissionService to check if user has CCE_INVENTORY_EDIT right', function() {
+            var result;
+
+            state.resolve.canEdit(inventoryItem, authorizationService, permissionService, CCE_RIGHTS).then(function(canEdit) {
+                result = canEdit;
+            });
+
+            deferred.resolve();
+            $rootScope.$apply();
+
+            expect(result).toEqual(true);
+            expect(permissionService.hasPermission).toHaveBeenCalled();
+            expect(authorizationService.getUser).toHaveBeenCalled();
+        });
 
     });
 
@@ -116,6 +131,9 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
             openlmisModalService = $injector.get('openlmisModalService');
             inventoryItemService = $injector.get('inventoryItemService');
             $rootScope = $injector.get('$rootScope');
+            CCE_RIGHTS = $injector.get('CCE_RIGHTS');
+            authorizationService = $injector.get('authorizationService');
+            permissionService = $injector.get('permissionService');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
         });
     }
@@ -125,12 +143,15 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
         $stateParams = {};
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
         dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
+        deferred = $q.defer();
     }
 
     function prepareSpies() {
+        spyOn(authorizationService, 'getUser').andReturn({ user_id: 'user-id' });
         spyOn($state, 'go');
         spyOn(openlmisModalService, 'createDialog').andReturn(dialogSpy);
         spyOn(inventoryItemService, 'get').andReturn($q.when(inventoryItem));
+        spyOn(permissionService, 'hasPermission').andReturn(deferred.promise);
     }
 
 });

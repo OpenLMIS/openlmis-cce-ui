@@ -31,25 +31,28 @@ describe('cce-inventory-list template', function () {
     describe('Add Inventory Item button', function() {
 
         it('should be hidden if user has no rights to edit', function() {
-            authorizationService.hasRight.andReturn(false);
-
             prepareView();
+
+            vm.userHasRightToEdit = false;
+            $rootScope.$apply();
 
             expect(templateTestingUtils.getButton('add-inventory-item')).toBeHidden();
         });
 
         it('should be visible if user has rights to edit', function() {
-            authorizationService.hasRight.andReturn(true);
-
             prepareView();
+
+            vm.userHasRightToEdit = true;
+            $rootScope.$apply();
 
             expect(templateTestingUtils.getButton('add-inventory-item')).not.toBeHidden();
         });
 
         it('should take user to the add inventory item modal', function() {
-            authorizationService.hasRight.andReturn(true);
-
             prepareView();
+
+            vm.userHasRightToEdit = true;
+            $rootScope.$apply();
 
             templateTestingUtils.getButton('add-inventory-item').click();
             $timeout.flush();
@@ -61,25 +64,13 @@ describe('cce-inventory-list template', function () {
 
     describe('Update Status button', function() {
 
-        it('should be hidden if user has no rights to edit', function() {
-            authorizationService.hasRight.andReturn(false);
-
-            prepareView();
-
-            expect(template.find('#functional-status')).toBeHidden();
-        });
-
         it('should be visible if user has rights to edit', function() {
-            authorizationService.hasRight.andReturn(true);
-
             prepareView();
 
             expect(template.find('#functional-status')).not.toBeHidden();
         });
 
         it('should take user to the add inventory item modal', function() {
-            authorizationService.hasRight.andReturn(true);
-
             prepareView();
 
             template.find('#functional-status').click();

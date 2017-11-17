@@ -239,7 +239,8 @@ describe('inventory-item-details.html', function() {
         var testContext = templateTestingUtils.prepareView(
             'cce-inventory-item-details/inventory-item-details.html',
             'InventoryItemDetailsController', {
-                inventoryItem: inventoryItem
+                inventoryItem: inventoryItem,
+                canEdit: true
             }
         );
 

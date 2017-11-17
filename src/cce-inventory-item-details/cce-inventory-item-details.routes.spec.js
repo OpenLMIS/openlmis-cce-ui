@@ -64,6 +64,30 @@ describe('openlmis.cce.inventory.details state', function() {
         });
     });
 
+    describe('canEdit resolve', function() {
+
+        var resolve;
+
+        beforeEach(function() {
+            resolve = state.resolve;
+        });
+
+        it('should call permissionService to check if user has CCE_INVENTORY_EDIT right', function() {
+            var result;
+            resolve.canEdit(inventoryItem, authorizationService, permissionService, CCE_RIGHTS).then(function(canEdit) {
+                result = canEdit;
+            });
+
+            deferred.resolve();
+            $rootScope.$apply();
+
+            expect(result).toEqual(true);
+            expect(permissionService.hasPermission).toHaveBeenCalled();
+            expect(authorizationService.getUser).toHaveBeenCalled();
+            expect(inventoryItemFactory.get).not.toHaveBeenCalled();
+        });
+    });
+
     describe('on enter', function() {
 
         it('should open modal', function() {
@@ -76,10 +100,11 @@ describe('openlmis.cce.inventory.details state', function() {
 
     describe('modal', function() {
 
-        var modal;
+        var modal,
+            canEdit = true;
 
         beforeEach(function() {
-            state.onEnter(openlmisModalService, inventoryItem);
+            state.onEnter(openlmisModalService, inventoryItem, canEdit);
             modal = openlmisModalService.createDialog.calls[0].args[0];
         });
 
@@ -89,6 +114,14 @@ describe('openlmis.cce.inventory.details state', function() {
             result = modal.resolve.inventoryItem(inventoryItem);
 
             expect(result).toEqual(inventoryItem);
+        });
+
+        it('should expose canEdit', function() {
+            var result;
+
+            result = modal.resolve.canEdit(true);
+
+            expect(result).toEqual(true);
         });
 
         it('should use inventory-item-details.html template', function() {
@@ -135,9 +168,12 @@ describe('openlmis.cce.inventory.details state', function() {
             $stateParams = $injector.get('$stateParams');
             inventoryItemFactory = $injector.get('inventoryItemFactory');
             programService = $injector.get('programService');
+            authorizationService = $injector.get('authorizationService');
+            permissionService = $injector.get('permissionService');
             openlmisModalService = $injector.get('openlmisModalService');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             ProgramDataBuilder = $injector.get('ProgramDataBuilder');
+            CCE_RIGHTS = $injector.get('CCE_RIGHTS');
         });
     }
 
@@ -151,10 +187,13 @@ describe('openlmis.cce.inventory.details state', function() {
             inventoryItemId: inventoryItem.id,
             inventoryItem: undefined
         };
+
+        deferred = $q.defer();
     }
 
     function prepareSpies() {
         spyOn(paginationService, 'registerUrl').andReturn();
+        spyOn(authorizationService, 'getUser').andReturn({ user_id: 'user-id' });
         spyOn(inventoryItemFactory, 'get').andCallFake(function(id) {
             if (id === inventoryItem.id) {
                 return $q.when(inventoryItem);
@@ -167,6 +206,8 @@ describe('openlmis.cce.inventory.details state', function() {
             }
             return $q.when();
         });
+
+        spyOn(permissionService, 'hasPermission').andReturn(deferred.promise);
         spyOn(openlmisModalService, 'createDialog');
     }
 
