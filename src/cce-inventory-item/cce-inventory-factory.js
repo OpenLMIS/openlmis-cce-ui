@@ -80,19 +80,21 @@
          * @return {Promise}    the inventory items with facility info
          */
         function getAllWithFacilities(params) {
-            var inventoryItems;
+            var inventoryItems,
+                content;
 
             return inventoryItemService.query(params)
                 .then(function(response) {
                     inventoryItems = response;
-                    if (!inventoryItems.content.length) {
-                        return null;
+                    content = inventoryItems.content;
+                    if (!content.length) {
+                        return [];
                     }
 
-                    var lastModifierIds = inventoryItems.content.map(function (item) {
+                    var lastModifierIds = content.map(function (item) {
                         return item.lastModifier.id;
                     });
-                    var facilityIds = inventoryItems.content.map(function (item) {
+                    var facilityIds = content.map(function (item) {
                         return item.facility.id;
                     });
 
@@ -108,34 +110,22 @@
                     ]);
                 })
                 .then(function(response) {
-                    if (!inventoryItems.content.length) {
-                        return inventoryItems;
-                    }
-                    var facilities = response[1];
-                    var users = response[0].content;
-
-                    var copyItems = [];
-                    angular.copy(inventoryItems, copyItems);
-
-                    copyItems.content.forEach(function (item) {
+                    for (var i = 0; i<content.length; i++) {
+                        var facilities = response[1];
+                        var users = response[0].content;
                         var facilitiesFiltered = facilities.filter(function (facility) {
-                            return item.facility.id === facility.id;
+                            return content[i].facility.id === facility.id;
                         });
-                        item.facility = facilitiesFiltered[0];
-                    });
-                    copyItems.content.forEach(function (item) {
-                        var usersFiltered = users.filter(function (user) {
-                            return item.lastModifier.id === user.id;
-                        });
-                        item.lastModifier = usersFiltered[0];
-                    });
 
-                    for (var i = 0; i<inventoryItems.content.length; i++) {
-                        inventoryItems.content[i] =
-                            new InventoryItem(inventoryItems.content[i],
-                                copyItems.content[i].facility,
-                                undefined,
-                                copyItems.content[i].lastModifier)
+                        var usersFiltered = users.filter(function (user) {
+                            return content[i].lastModifier.id === user.id;
+                        });
+
+                        content[i] = new InventoryItem(
+                            content[i],
+                            facilitiesFiltered[0],
+                            undefined,
+                            usersFiltered[0])
                     }
                     return inventoryItems;
                 });
