@@ -85,7 +85,7 @@
             return inventoryItemService.getAll(params)
                 .then(function(response) {
                     inventoryItems = response;
-                    if (!(inventoryItems.content && inventoryItems.content.length)) {
+                    if (!inventoryItems.content.length) {
                         return null;
                     }
 
@@ -108,7 +108,7 @@
                     ]);
                 })
                 .then(function(response) {
-                    if (response === null) {
+                    if (!inventoryItems.content.length) {
                         return inventoryItems;
                     }
                     var facilities = response[1];
