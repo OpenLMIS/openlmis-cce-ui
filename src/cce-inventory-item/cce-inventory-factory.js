@@ -111,15 +111,15 @@
                     if (response === null) {
                         return inventoryItems;
                     }
+                    var facilities = response[1];
+                    var users = response[0].content;
                     inventoryItems.content.forEach(function (item) {
-                        var facilities = response[1];
                         var facilitiesFiltered = facilities.filter(function (facility) {
                             return item.facility.id === facility.id;
                         });
                         item.facility = facilitiesFiltered[0];
                     });
                     inventoryItems.content.forEach(function (item) {
-                        var users = response[0].content;
                         var usersFiltered = users.filter(function (user) {
                             return item.lastModifier.id === user.id;
                         });
