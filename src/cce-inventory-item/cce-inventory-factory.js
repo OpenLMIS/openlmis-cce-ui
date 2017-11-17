@@ -82,7 +82,7 @@
         function getAllWithFacilities(params) {
             var inventoryItems;
 
-            return inventoryItemService.getAll(params)
+            return inventoryItemService.query(params)
                 .then(function(response) {
                     inventoryItems = response;
                     if (!inventoryItems.content.length) {

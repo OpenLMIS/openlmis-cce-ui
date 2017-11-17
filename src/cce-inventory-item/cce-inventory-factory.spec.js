@@ -31,7 +31,7 @@ describe('inventoryItemService', function() {
                 return facilityService;
             });
 
-            inventoryItemService = jasmine.createSpyObj('inventoryItemService', ['get', 'getAll']);
+            inventoryItemService = jasmine.createSpyObj('inventoryItemService', ['get', 'query']);
             $provide.service('inventoryItemService', function() {
                 return inventoryItemService;
             });
@@ -79,7 +79,7 @@ describe('inventoryItemService', function() {
             return inventoryItemDeferred.promise;
         });
 
-        inventoryItemService.getAll.andCallFake(function() {
+        inventoryItemService.query.andCallFake(function() {
             var deffered = $q.defer();
 
             if (inventoryItemResolve) {
@@ -193,7 +193,7 @@ describe('inventoryItemService', function() {
             $rootScope.$apply();
 
             expect(facilityService.query).not.toHaveBeenCalled();
-            expect(inventoryItemService.getAll).toHaveBeenCalledWith(query);
+            expect(inventoryItemService.query).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('rejected');
         });
@@ -213,7 +213,7 @@ describe('inventoryItemService', function() {
             $rootScope.$apply();
 
             expect(facilityService.query).toHaveBeenCalledWith({id: [facility.id]});
-            expect(inventoryItemService.getAll).toHaveBeenCalledWith(query);
+            expect(inventoryItemService.query).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('resolved');
             expect(result).toEqual([inventoryItem]);
@@ -235,7 +235,7 @@ describe('inventoryItemService', function() {
             $rootScope.$apply();
 
             expect(facilityService.query).toHaveBeenCalledWith({id: [facility.id]});
-            expect(inventoryItemService.getAll).toHaveBeenCalledWith(query);
+            expect(inventoryItemService.query).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('resolved');
 

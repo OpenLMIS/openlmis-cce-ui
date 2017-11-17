@@ -36,7 +36,7 @@
                 get: {
                     transformResponse: transformGetResponse
                 },
-                getAll: {
+                query: {
                     method: 'GET',
                     url: cceUrlFactory('/api/inventoryItems'),
                     transformResponse: transformGetAllResponse
@@ -48,7 +48,7 @@
 
         return {
             get: get,
-            getAll: getAll,
+            query: query,
             save: save
         };
 
@@ -80,8 +80,8 @@
          * @param  {Object} params Pagination parameters
          * @return {Promise}       Page of all CCE inventory items
          */
-        function getAll(params) {
-            return resource.getAll(params).$promise;
+        function query(params) {
+            return resource.query(params).$promise;
         }
 
         /**

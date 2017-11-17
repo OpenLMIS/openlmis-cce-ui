@@ -89,7 +89,7 @@ describe('inventoryItemService', function() {
         });
 
         it('should return promise', function() {
-            var result = inventoryItemService.getAll(parameters);
+            var result = inventoryItemService.query(parameters);
             $httpBackend.flush();
 
             expect(result.then).not.toBeUndefined();
@@ -98,7 +98,7 @@ describe('inventoryItemService', function() {
         it('should resolve to inventory items', function() {
             var result;
 
-            inventoryItemService.getAll(parameters).then(function(data) {
+            inventoryItemService.query(parameters).then(function(data) {
                 result = data;
             });
             $httpBackend.flush();
@@ -117,7 +117,7 @@ describe('inventoryItemService', function() {
             $httpBackend.expect('GET', cceUrlFactory('/api/inventoryItems?page=' + parameters.page +
                 '&size=' + parameters.size));
 
-            inventoryItemService.getAll(parameters);
+            inventoryItemService.query(parameters);
             $httpBackend.flush();
         });
     });
