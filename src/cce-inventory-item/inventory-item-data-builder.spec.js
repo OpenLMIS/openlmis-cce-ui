@@ -55,7 +55,7 @@
                 additionalNotes: 'notes',
                 decommissionDate: '2017-01-01',
                 modifiedDate: '2017-10-10',
-                lastModifier: new CatalogItemDataBuilder().build()
+                lastModifier: new ObjectReferenceDataBuilder().withId('0b7b2042-205c-4685-a9d5-903143af12f0').build()
             };
         }
 

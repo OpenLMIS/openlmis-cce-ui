@@ -113,18 +113,30 @@
                     }
                     var facilities = response[1];
                     var users = response[0].content;
-                    inventoryItems.content.forEach(function (item) {
+
+                    var copyItems = [];
+                    angular.copy(inventoryItems, copyItems);
+
+                    copyItems.content.forEach(function (item) {
                         var facilitiesFiltered = facilities.filter(function (facility) {
                             return item.facility.id === facility.id;
                         });
                         item.facility = facilitiesFiltered[0];
                     });
-                    inventoryItems.content.forEach(function (item) {
+                    copyItems.content.forEach(function (item) {
                         var usersFiltered = users.filter(function (user) {
                             return item.lastModifier.id === user.id;
                         });
                         item.lastModifier = usersFiltered[0];
                     });
+
+                    for (var i = 0; i<inventoryItems.content.length; i++) {
+                        inventoryItems.content[i] =
+                            new InventoryItem(inventoryItems.content[i],
+                                copyItems.content[i].facility,
+                                undefined,
+                                copyItems.content[i].lastModifier)
+                    }
                     return inventoryItems;
                 });
         }

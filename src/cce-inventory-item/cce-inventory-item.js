@@ -42,12 +42,13 @@
          * @description
          * Creates a new instance of the InventoryItem class.
          *
-         * @param  {Object} source    the inventory item to be updated
-         * @param  {Object} facility  full facility instance
-         * @param  {Object} program   full program instance
-         * @return {Object}           the inventory item with default options
+         * @param  {Object} source          the inventory item to be updated
+         * @param  {Object} facility        full facility instance
+         * @param  {Object} program         full program instance
+         * @param  {Object} lastModifier    full user instance
+         * @return {Object}                 the inventory item with default options
          */
-        function InventoryItem(source, facility, program) {
+        function InventoryItem(source, facility, program, lastModifier) {
             angular.copy(source, this);
 
             if (this.catalogItem.energySource === ENERGY_SOURCE.SOLAR) {
@@ -69,7 +70,15 @@
                     program.href = this.program.href;
                     this.program = program;
                 } else {
-                    throw 'Parameter program has different ID than facility from provided inventory item!';
+                    throw 'Parameter program has different ID than program from provided inventory item!';
+                }
+            }
+            if (lastModifier !== undefined) {
+                if (this.lastModifier.id === lastModifier.id) {
+                    lastModifier.href = this.lastModifier.href;
+                    this.lastModifier = lastModifier;
+                } else {
+                    throw 'Parameter lastModifier has different ID than lastModifier from provided inventory item!';
                 }
             }
         }
