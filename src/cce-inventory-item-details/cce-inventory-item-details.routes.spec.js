@@ -16,7 +16,7 @@ describe('openlmis.cce.inventory.details state', function() {
 
     var state, $timeout, $rootScope, $state, $stateParams, $q, paginationService,
         inventoryItemFactory, programService, openlmisModalService, program, inventoryItem,
-        InventoryItemDataBuilder, ProgramDataBuilder;
+        FacilityProgramInventoryItemDataBuilder, ProgramDataBuilder;
 
     beforeEach(function() {
         loadModules();
@@ -136,7 +136,7 @@ describe('openlmis.cce.inventory.details state', function() {
             inventoryItemFactory = $injector.get('inventoryItemFactory');
             programService = $injector.get('programService');
             openlmisModalService = $injector.get('openlmisModalService');
-            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             ProgramDataBuilder = $injector.get('ProgramDataBuilder');
         });
     }
@@ -145,7 +145,7 @@ describe('openlmis.cce.inventory.details state', function() {
         state = $state.get('openlmis.cce.inventory.details');
 
         program = new ProgramDataBuilder().build();
-        inventoryItem = new InventoryItemDataBuilder().build();
+        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
         $stateParams = {
             inventoryItemId: inventoryItem.id,

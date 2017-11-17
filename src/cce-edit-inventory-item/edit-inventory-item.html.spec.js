@@ -16,14 +16,14 @@
 describe('edit-inventory-item.html template', function() {
 
     var vm, $controller, $compile, $rootScope, $templateRequest, $timeout, $state, template,
-        messages, messageService, inventoryItem, $q, InventoryItemDataBuilder;
+        messages, messageService, inventoryItem, $q, FacilityProgramInventoryItemDataBuilder;
 
     beforeEach(prepareSuite);
 
     describe('modal title', function() {
 
         it('should be "Edit equipment details" if inventory item has ID', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
             $rootScope.$apply();
 
             expect(
@@ -32,7 +32,7 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should be "Add New Cold Chain Equipment" if inventory item has no ID', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withoutId().build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withoutId().build();
             $rootScope.$apply();
 
             expect(
@@ -75,7 +75,7 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should allow only year to be entered', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withYearOfInstallation(42443).build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withYearOfInstallation(42443).build();
 
             $rootScope.$apply();
 
@@ -99,7 +99,7 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should allow only year to be entered', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withYearOfWarrantyExpiry(42443).build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withYearOfWarrantyExpiry(42443).build();
 
             $rootScope.$apply();
 
@@ -334,7 +334,7 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should call vm.add', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withId('9c704186-6191-4434-b39f-71be7ca87304').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withId('9c704186-6191-4434-b39f-71be7ca87304').build();
 
             $rootScope.$apply();
             form.triggerHandler('submit');
@@ -387,10 +387,10 @@ describe('edit-inventory-item.html template', function() {
             $timeout = $injector.get('$timeout');
             messageService = $injector.get('messageService');
             $q = $injector.get('$q');
-            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
         });
 
-        inventoryItem = new InventoryItemDataBuilder().build();
+        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
         messages = {
             'cceEditInventoryItem.addNewColdChainEquipment': 'Add New Cold Chain Equipment',

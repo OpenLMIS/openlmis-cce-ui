@@ -18,7 +18,7 @@ describe('status-update-modal.html template', function() {
     var $controller, $compile, $rootScope, $templateRequest, $state, $q;
 
     var inventoryItemService, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, stateTrackerService,
-        InventoryItemDataBuilder;
+        FacilityProgramInventoryItemDataBuilder;
 
     var vm, template, inventoryItem, saveDeferred;
 
@@ -36,7 +36,7 @@ describe('status-update-modal.html template', function() {
         var dl;
 
         it('should be hidden if current status is not set', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus(undefined).build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus(undefined).build();
 
             $rootScope.$apply();
 
@@ -44,7 +44,7 @@ describe('status-update-modal.html template', function() {
         });
 
         it('should be visible if current status is set', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
 
             $rootScope.$apply();
 
@@ -319,7 +319,7 @@ describe('status-update-modal.html template', function() {
             $rootScope.$apply();
             form.triggerHandler('submit');
 
-            var item = new InventoryItemDataBuilder()
+            var item = new FacilityProgramInventoryItemDataBuilder()
                                 .withId('some-inventory-item-id')
                                 .withFunctionalStatus('OBSOLETE')
                                 .withDecommissionDate(date)
@@ -355,12 +355,12 @@ describe('status-update-modal.html template', function() {
             REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
             $timeout = $injector.get('$timeout');
             stateTrackerService = $injector.get('stateTrackerService');
-            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
         });
     }
 
     function prepareTestData() {
-        inventoryItem = new InventoryItemDataBuilder().withId('some-inventory-item-id').build();
+        inventoryItem = new FacilityProgramInventoryItemDataBuilder().withId('some-inventory-item-id').build();
         saveDeferred = $q.defer();
     }
 

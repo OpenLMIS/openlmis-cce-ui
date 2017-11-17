@@ -16,7 +16,7 @@
 describe('openlmis.cce.inventory.edit state', function() {
 
     var $state, $q, openlmisModalService, inventoryItemService, facilityService, CCE_RIGHTS, state, dialogSpy,
-        inventoryItem, $stateParams, facility, InventoryItemSpy, InventoryItemDataBuilder, FacilityDataBuilder;
+        inventoryItem, $stateParams, facility, InventoryItemSpy, FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder;
 
     beforeEach(function() {
         module('openlmis-main-state');
@@ -36,7 +36,7 @@ describe('openlmis.cce.inventory.edit state', function() {
             CCE_RIGHTS = $injector.get('CCE_RIGHTS');
             inventoryItemService = $injector.get('inventoryItemService');
             facilityService = $injector.get('facilityService');
-            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
 
@@ -44,7 +44,7 @@ describe('openlmis.cce.inventory.edit state', function() {
 
         facility = new FacilityDataBuilder().build();
 
-        inventoryItem = new InventoryItemDataBuilder().build();
+        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
         $stateParams = {};
 

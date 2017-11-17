@@ -17,7 +17,7 @@ describe('EditInventoryItemController', function() {
 
     var vm, $controller, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, inventoryItem,
         UTILIZATION_STATUS, REMOTE_TEMPERATURE_MONITOR_TYPE, $rootScope, $scope, $state, $q,
-        saveDeferred, inventoryItemService, loadingModalService, InventoryItemDataBuilder,
+        saveDeferred, inventoryItemService, loadingModalService, FacilityProgramInventoryItemDataBuilder,
         CatalogItemDataBuilder;
 
     beforeEach(function() {
@@ -35,11 +35,11 @@ describe('EditInventoryItemController', function() {
             inventoryItemService = $injector.get('inventoryItemService');
             $q = $injector.get('$q');
             loadingModalService = $injector.get('loadingModalService');
-            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
         });
 
-        inventoryItem = new InventoryItemDataBuilder().build();
+        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
         $scope = $rootScope.$new();
         saveDeferred = $q.defer();
@@ -158,7 +158,7 @@ describe('EditInventoryItemController', function() {
         });
 
         it('should redirect to status update page if inventory item has no ID', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withoutId().build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withoutId().build();
 
             vm.add();
 

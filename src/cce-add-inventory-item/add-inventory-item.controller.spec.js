@@ -16,7 +16,7 @@
 describe('AddInventoryItemController', function() {
 
     var vm, $controller, $state, types, $scope, $rootScope, catalogItem, facility, program,
-        InventoryItemDataBuilder, CatalogItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder;
+        FacilityProgramInventoryItemDataBuilder, CatalogItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder;
 
     beforeEach(function() {
         module('cce-add-inventory-item');
@@ -25,7 +25,7 @@ describe('AddInventoryItemController', function() {
             $controller = $injector.get('$controller');
             $state = $injector.get('$state');
             $rootScope = $injector.get('$rootScope');
-            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
             ProgramDataBuilder = $injector.get('ProgramDataBuilder');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');

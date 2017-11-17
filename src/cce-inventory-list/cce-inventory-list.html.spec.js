@@ -16,7 +16,7 @@
 describe('cce-inventory-list template', function () {
 
     var template, $rootScope, $scope, vm, authorizationService, $timeout, $state,
-        templateTestingUtils, inventoryItem, inventoryItemId, InventoryItemDataBuilder;
+        templateTestingUtils, inventoryItem, inventoryItemId, FacilityProgramInventoryItemDataBuilder;
 
     beforeEach(function() {
         loadModules();
@@ -119,12 +119,12 @@ describe('cce-inventory-list template', function () {
             $state = $injector.get('$state');
             authorizationService = $injector.get('authorizationService');
             templateTestingUtils = $injector.get('templateTestingUtils');
-            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
         });
     }
 
     function prepareTestData() {
-        inventoryItem = new InventoryItemDataBuilder().build();
+        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
     }
 
     function initTestingUtils(suite) {

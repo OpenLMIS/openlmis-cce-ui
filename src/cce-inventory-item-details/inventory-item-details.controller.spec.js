@@ -17,7 +17,7 @@ describe('InventoryItemDetailsController', function() {
 
     var vm, inventoryItem, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, UTILIZATION_STATUS,
         REMOTE_TEMPERATURE_MONITOR_TYPE, FUNCTIONAL_STATUS, $controller, $state,
-        authorizationService, CCE_RIGHTS, InventoryItemDataBuilder;
+        authorizationService, CCE_RIGHTS, FacilityProgramInventoryItemDataBuilder;
 
     beforeEach(prepareSuite);
 
@@ -114,19 +114,19 @@ describe('InventoryItemDetailsController', function() {
         });
 
         it('should return is-functioning for FUNCTIONING', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
 
             expect(vm.getFunctionalStatusClass()).toEqual('is-functioning');
         });
 
         it('should return is-obsolete for OBSOLETE', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('OBSOLETE').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('OBSOLETE').build();
 
             expect(vm.getFunctionalStatusClass()).toEqual('is-obsolete');
         });
 
         it('should return is-non-functioning for NON_FUNCTIONING', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('NON_FUNCTIONING').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('NON_FUNCTIONING').build();
 
             expect(vm.getFunctionalStatusClass()).toEqual('is-non-functioning');
         });
@@ -140,19 +140,19 @@ describe('InventoryItemDetailsController', function() {
         });
 
         it('should return Functioning for FUNCTIONING', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
 
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.functioning');
         });
 
         it('should return Obsolete for OBSOLETE', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('OBSOLETE').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('OBSOLETE').build();
 
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.obsolete');
         });
 
         it('should return Non-functioning for NON_FUNCTIONING', function() {
-            vm.inventoryItem = new InventoryItemDataBuilder().withFunctionalStatus('NON_FUNCTIONING').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('NON_FUNCTIONING').build();
 
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.nonFunctioning');
         });
@@ -177,11 +177,11 @@ describe('InventoryItemDetailsController', function() {
         FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
         $state = $injector.get('$state');
         authorizationService = $injector.get('authorizationService');
-        InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+        FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
     }
 
     function prepareTestData() {
-        inventoryItem = new InventoryItemDataBuilder().build();
+        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
     }
 
     function prepareSpies() {

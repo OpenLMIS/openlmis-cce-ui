@@ -18,7 +18,7 @@ describe('StatusUpdateModalController', function() {
     var vm, messageService, modalDeferred, $q, $state, $rootScope, inventoryItem, $controller,
         loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
         REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
-        stateTrackerService, InventoryItemDataBuilder, CCE_STATUS;
+        stateTrackerService, FacilityProgramInventoryItemDataBuilder, CCE_STATUS;
 
     beforeEach(prepareSuite);
 
@@ -353,12 +353,12 @@ describe('StatusUpdateModalController', function() {
             loadingModalService = $injector.get('loadingModalService');
             notificationService = $injector.get('notificationService');
             stateTrackerService = $injector.get('stateTrackerService');
-            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
         });
 
         date = new Date();
 
-        inventoryItem = new InventoryItemDataBuilder().build();
+        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
         modalDeferred = $q.defer();
         saveDeferred = $q.defer();

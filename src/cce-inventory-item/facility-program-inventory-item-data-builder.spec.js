@@ -20,29 +20,29 @@
 
     angular
         .module('cce-inventory-item')
-        .factory('InventoryItemDataBuilder', InventoryItemDataBuilder);
+        .factory('FacilityProgramInventoryItemDataBuilder', FacilityProgramInventoryItemDataBuilder);
 
-    InventoryItemDataBuilder.$inject = ['InventoryItem', 'ObjectReferenceDataBuilder',
+    FacilityProgramInventoryItemDataBuilder.$inject = ['InventoryItem', 'ObjectReferenceDataBuilder',
         'CatalogItemDataBuilder',  'FacilityDataBuilder', 'ProgramDataBuilder'];
 
-    function InventoryItemDataBuilder(InventoryItem, ObjectReferenceDataBuilder,
+    function FacilityProgramInventoryItemDataBuilder(InventoryItem, ObjectReferenceDataBuilder,
         CatalogItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder) {
 
-        InventoryItemDataBuilder.prototype.build = build;
-        InventoryItemDataBuilder.prototype.buildBase = buildBase;
-        InventoryItemDataBuilder.prototype.withCatalogItem = withCatalogItem;
-        InventoryItemDataBuilder.prototype.withDecommissionDate = withDecommissionDate;
-        InventoryItemDataBuilder.prototype.withFacility = withFacility;
-        InventoryItemDataBuilder.prototype.withFunctionalStatus = withFunctionalStatus;
-        InventoryItemDataBuilder.prototype.withId = withId;
-        InventoryItemDataBuilder.prototype.withoutId = withoutId;
-        InventoryItemDataBuilder.prototype.withProgram = withProgram;
-        InventoryItemDataBuilder.prototype.withYearOfInstallation = withYearOfInstallation;
-        InventoryItemDataBuilder.prototype.withYearOfWarrantyExpiry = withYearOfWarrantyExpiry;
+        FacilityProgramInventoryItemDataBuilder.prototype.build = build;
+        FacilityProgramInventoryItemDataBuilder.prototype.buildBase = buildBase;
+        FacilityProgramInventoryItemDataBuilder.prototype.withCatalogItem = withCatalogItem;
+        FacilityProgramInventoryItemDataBuilder.prototype.withDecommissionDate = withDecommissionDate;
+        FacilityProgramInventoryItemDataBuilder.prototype.withFacility = withFacility;
+        FacilityProgramInventoryItemDataBuilder.prototype.withFunctionalStatus = withFunctionalStatus;
+        FacilityProgramInventoryItemDataBuilder.prototype.withId = withId;
+        FacilityProgramInventoryItemDataBuilder.prototype.withoutId = withoutId;
+        FacilityProgramInventoryItemDataBuilder.prototype.withProgram = withProgram;
+        FacilityProgramInventoryItemDataBuilder.prototype.withYearOfInstallation = withYearOfInstallation;
+        FacilityProgramInventoryItemDataBuilder.prototype.withYearOfWarrantyExpiry = withYearOfWarrantyExpiry;
 
-        return InventoryItemDataBuilder;
+        return FacilityProgramInventoryItemDataBuilder;
 
-        function InventoryItemDataBuilder() {
+        function FacilityProgramInventoryItemDataBuilder() {
             this.source = {
                 id : '35b8eeca-bfad-47f3-b966-c9cb726b872f',
                 facility: new ObjectReferenceDataBuilder().withId('97546f93-ac93-435f-a437-cd629deb7d6d').build(),

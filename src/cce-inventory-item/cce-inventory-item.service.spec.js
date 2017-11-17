@@ -16,7 +16,7 @@
 describe('inventoryItemService', function() {
 
     var $rootScope, $httpBackend;
-    var cceUrlFactory, inventoryItemService, InventoryItemDataBuilder;
+    var cceUrlFactory, inventoryItemService, FacilityProgramInventoryItemDataBuilder;
     var inventoryItems, inventoryItem, ITEM_ID;
 
     beforeEach(function() {
@@ -27,7 +27,7 @@ describe('inventoryItemService', function() {
             $httpBackend = $injector.get('$httpBackend');
             cceUrlFactory = $injector.get('cceUrlFactory');
             inventoryItemService = $injector.get('inventoryItemService');
-            InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
         });
 
         prepareTestData();
@@ -131,7 +131,7 @@ describe('inventoryItemService', function() {
         });
 
         it('should create inventory item if ID is not given', function() {
-            inventoryItem = new InventoryItemDataBuilder().withoutId().build();
+            inventoryItem = new FacilityProgramInventoryItemDataBuilder().withoutId().build();
 
             var returned = angular.copy(inventoryItem);
 
@@ -152,7 +152,7 @@ describe('inventoryItemService', function() {
         });
 
         it('should update inventory item if it has ID', function() {
-            inventoryItem = new InventoryItemDataBuilder().withId(ITEM_ID).build();
+            inventoryItem = new FacilityProgramInventoryItemDataBuilder().withId(ITEM_ID).build();
 
             $httpBackend.expect(
                 'PUT', cceUrlFactory('/api/inventoryItems/' + ITEM_ID), inventoryItem
@@ -179,8 +179,8 @@ describe('inventoryItemService', function() {
         ITEM_ID = 'some-inventory-item-id';
 
         inventoryItems = [
-            new InventoryItemDataBuilder().withId('1').build(),
-            new InventoryItemDataBuilder().withId('2').build()
+            new FacilityProgramInventoryItemDataBuilder().withId('1').build(),
+            new FacilityProgramInventoryItemDataBuilder().withId('2').build()
         ];
     }
 });
