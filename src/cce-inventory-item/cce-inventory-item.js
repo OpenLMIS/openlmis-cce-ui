@@ -45,7 +45,6 @@
          * @param  {Object} source          the inventory item to be updated
          * @param  {Object} facility        full facility instance
          * @param  {Object} program         full program instance
-         * @param  {Object} lastModifier    simple user instance
          * @return {Object}                 the inventory item with default options
          */
         function InventoryItem(source, facility, program) {
