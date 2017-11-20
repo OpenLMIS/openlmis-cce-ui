@@ -86,6 +86,21 @@ describe('openlmis.cce.inventory.details state', function() {
             expect(authorizationService.getUser).toHaveBeenCalled();
             expect(inventoryItemFactory.get).not.toHaveBeenCalled();
         });
+
+        it('should return false if user has no CCE_INVENTORY_EDIT right', function() {
+            var result;
+
+            state.resolve.canEdit(inventoryItem, authorizationService, permissionService, CCE_RIGHTS).then(function(canEdit) {
+                result = canEdit;
+            });
+
+            deferred.reject();
+            $rootScope.$apply();
+
+            expect(result).toEqual(false);
+            expect(permissionService.hasPermission).toHaveBeenCalled();
+            expect(authorizationService.getUser).toHaveBeenCalled();
+        });
     });
 
     describe('on enter', function() {

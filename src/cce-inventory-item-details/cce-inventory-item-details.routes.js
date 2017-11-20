@@ -50,9 +50,11 @@
                         right: CCE_RIGHTS.CCE_INVENTORY_EDIT,
                         facilityId: inventoryItem.facility.id,
                         programId: inventoryItem.program.id
-                    }).then(function() {
+                    })
+                    .then(function() {
                         return true;
-                    }, function() {
+                    })
+                    .catch(function() {
                         return false;
                     });
                 }
