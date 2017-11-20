@@ -13,22 +13,17 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('facilityUserInventoryItemFactory', function() {
+describe('facilityInventoryItemFactory', function() {
 
-    var $q, $rootScope, facilityUserInventoryItemFactory, referencedataUserService, facilityService,
-        inventoryItemService, inventoryItem, facility, user,
-        facilityDeferred, inventoryItemDeferred, userDeferred, query, FacilityDataBuilder,
-        InventoryItemDataBuilder, UserDataBuilder;
+    var $q, $rootScope, facilityInventoryItemFactory, referencedataUserService, facilityService,
+        inventoryItemService, inventoryItem, facility, facilityDeferred, inventoryItemDeferred,
+        query, FacilityDataBuilder, InventoryItemDataBuilder, UserObjectReferenceDataBuilder;
 
     beforeEach(function() {
         module('cce-inventory-item', function($provide) {
             facilityService = jasmine.createSpyObj('facilityService', ['query']);
             $provide.service('facilityService', function() {
                 return facilityService;
-            });
-            referencedataUserService = jasmine.createSpyObj('referencedataUserService', ['query']);
-            $provide.service('referencedataUserService', function() {
-                return referencedataUserService;
             });
             inventoryItemService = jasmine.createSpyObj('inventoryItemService', ['query']);
             $provide.service('inventoryItemService', function() {
@@ -39,18 +34,17 @@ describe('facilityUserInventoryItemFactory', function() {
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
-            referencedataUserService = $injector.get('referencedataUserService');
             facilityService = $injector.get('facilityService');
             inventoryItemService = $injector.get('inventoryItemService');
-            facilityUserInventoryItemFactory = $injector.get('facilityUserInventoryItemFactory');
+            facilityInventoryItemFactory = $injector.get('facilityInventoryItemFactory');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
             InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
-            UserDataBuilder = $injector.get('UserDataBuilder');
+            UserObjectReferenceDataBuilder = $injector.get('UserObjectReferenceDataBuilder');
         });
 
         facility = new FacilityDataBuilder().build();
         inventoryItem = new InventoryItemDataBuilder().build();
-        user = new UserDataBuilder().build();
+        user = new UserObjectReferenceDataBuilder().build();
 
         query = {
             page: 1,
@@ -62,9 +56,6 @@ describe('facilityUserInventoryItemFactory', function() {
 
         facilityDeferred = $q.defer();
         facilityService.query.andReturn(facilityDeferred.promise);
-
-        userDeferred = $q.defer();
-        referencedataUserService.query.andReturn(userDeferred.promise);
     });
 
     describe('query', function() {
@@ -72,7 +63,7 @@ describe('facilityUserInventoryItemFactory', function() {
         it('should reject promise if inventory items promise is rejected', function() {
             var status = undefined;
 
-            facilityUserInventoryItemFactory.query(query).then(function() {
+            facilityInventoryItemFactory.query(query).then(function() {
                 status = 'resolved';
             }, function() {
                 status = 'rejected';
@@ -82,7 +73,6 @@ describe('facilityUserInventoryItemFactory', function() {
             $rootScope.$apply();
 
             expect(facilityService.query).not.toHaveBeenCalled();
-            expect(referencedataUserService.query).not.toHaveBeenCalled();
             expect(inventoryItemService.query).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('rejected');
@@ -92,23 +82,17 @@ describe('facilityUserInventoryItemFactory', function() {
             var status = undefined,
                 result = [];
 
-            facilityUserInventoryItemFactory.query(query).then(function(response) {
+            facilityInventoryItemFactory.query(query).then(function(response) {
                 status = 'resolved';
                 result = response;
             }, function() {
                 status = 'rejected';
             });
             inventoryItemDeferred.resolve({content: [inventoryItem]});
-            userDeferred.reject();
             facilityDeferred.reject();
             $rootScope.$apply();
 
             expect(facilityService.query).toHaveBeenCalledWith({id: [facility.id]});
-            expect(referencedataUserService.query).toHaveBeenCalledWith({
-                id: [user.id],
-                page: 0,
-                size: 1
-            });
             expect(inventoryItemService.query).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('rejected');
@@ -118,23 +102,17 @@ describe('facilityUserInventoryItemFactory', function() {
             var status = undefined,
                 result = [];
 
-            facilityUserInventoryItemFactory.query(query).then(function(response) {
+            facilityInventoryItemFactory.query(query).then(function(response) {
                 status = 'resolved';
                 result = response;
             }, function() {
                 status = 'rejected';
             });
             inventoryItemDeferred.resolve({content: [inventoryItem]});
-            userDeferred.resolve({content: [user]});
             facilityDeferred.resolve([facility]);
             $rootScope.$apply();
 
             expect(facilityService.query).toHaveBeenCalledWith({id: [facility.id]});
-            expect(referencedataUserService.query).toHaveBeenCalledWith({
-                id: [user.id],
-                page: 0,
-                size: 1
-            });
             expect(inventoryItemService.query).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('resolved');
@@ -148,7 +126,8 @@ describe('facilityUserInventoryItemFactory', function() {
                 expect(one.facility.name).toBe(facility.name);
                 expect(one.lastModifier.id).toBe(inventoryItem.lastModifier.id);
                 expect(one.lastModifier.href).toBe(inventoryItem.lastModifier.href);
-                expect(one.lastModifier.name).toBe(user.name);
+                expect(one.lastModifier.lastName).toBe(inventoryItem.lastModifier.lastName);
+                expect(one.lastModifier.firstName).toBe(inventoryItem.lastModifier.firstName);
             });
         });
     });

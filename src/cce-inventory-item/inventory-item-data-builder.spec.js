@@ -23,10 +23,10 @@
         .factory('InventoryItemDataBuilder', InventoryItemDataBuilder);
 
     InventoryItemDataBuilder.$inject = ['InventoryItem', 'ObjectReferenceDataBuilder',
-        'CatalogItemDataBuilder'];
+        'CatalogItemDataBuilder', 'UserObjectReferenceDataBuilder'];
 
     function InventoryItemDataBuilder(InventoryItem, ObjectReferenceDataBuilder,
-        CatalogItemDataBuilder) {
+        CatalogItemDataBuilder, UserObjectReferenceDataBuilder) {
 
         InventoryItemDataBuilder.prototype.build = build;
 
@@ -62,10 +62,7 @@
                 additionalNotes: 'notes',
                 decommissionDate: '2017-01-01',
                 modifiedDate: '2017-10-10',
-                lastModifier: new ObjectReferenceDataBuilder()
-                    .withId('0b7b2042-205c-4685-a9d5-903143af12f0')
-                    .withHref('http://localhost/api/inventoryItems/0b7b2042-205c-4685-a9d5-903143af12f0')
-                    .build()
+                lastModifier: new UserObjectReferenceDataBuilder().build()
             };
         }
 

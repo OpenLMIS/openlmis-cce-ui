@@ -45,10 +45,10 @@
          * @param  {Object} source          the inventory item to be updated
          * @param  {Object} facility        full facility instance
          * @param  {Object} program         full program instance
-         * @param  {Object} lastModifier    full user instance
+         * @param  {Object} lastModifier    simple user instance
          * @return {Object}                 the inventory item with default options
          */
-        function InventoryItem(source, facility, program, lastModifier) {
+        function InventoryItem(source, facility, program) {
             angular.copy(source, this);
 
             if (this.catalogItem.energySource === ENERGY_SOURCE.SOLAR) {
@@ -71,14 +71,6 @@
                     this.program = program;
                 } else {
                     throw 'Parameter program has different ID than program from provided inventory item!';
-                }
-            }
-            if (lastModifier !== undefined) {
-                if (this.lastModifier.id === lastModifier.id) {
-                    lastModifier.href = this.lastModifier.href;
-                    this.lastModifier = lastModifier;
-                } else {
-                    throw 'Parameter lastModifier has different ID than lastModifier from provided inventory item!';
                 }
             }
         }

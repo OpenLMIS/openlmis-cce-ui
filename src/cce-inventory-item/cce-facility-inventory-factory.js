@@ -20,14 +20,14 @@
 
     /**
      * @ngdoc service
-     * @name cce-inventory-item.facilityUserInventoryItemFactory
+     * @name cce-inventory-item.facilityInventoryItemFactory
      *
      * @description
      * Allows the user to retrieve inventory items with additional info.
      */
     angular
         .module('cce-inventory-item')
-        .factory('facilityUserInventoryItemFactory', factory);
+        .factory('facilityInventoryItemFactory', factory);
 
     factory.$inject = ['$q', 'inventoryItemService', 'facilityService',
                        'InventoryItem', 'referencedataUserService'];
@@ -41,7 +41,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf cce-inventory-item.facilityUserInventoryItemFactory
+         * @methodOf cce-inventory-item.facilityInventoryItemFactory
          * @name query
          *
          * @description
@@ -62,44 +62,27 @@
                         return [];
                     }
 
-                    var lastModifierIds = content.map(function (item) {
-                        return item.lastModifier.id;
-                    });
                     var facilityIds = content.map(function (item) {
                         return item.facility.id;
                     });
 
-                    return $q.all([
-                        referencedataUserService.query({
-                            id: lastModifierIds,
-                            page: 0,
-                            size: lastModifierIds.length
-                        }),
-                        facilityService.query({
-                            id: facilityIds
-                        })
-                    ]);
+                    return facilityService.query({
+                        id: facilityIds
+                    });
                 })
                 .then(function(response) {
                     for (var i = 0; i<content.length; i++) {
-                        var facilities = response[1];
-                        var users = response[0].content;
+                        var facilities = response;
                         var facilitiesFiltered = facilities.filter(function (facility) {
                             return content[i].facility.id === facility.id;
                         });
 
-                        var usersFiltered = users.filter(function (user) {
-                            return content[i].lastModifier.id === user.id;
-                        });
-
                         content[i] = new InventoryItem(
                             content[i],
-                            facilitiesFiltered[0],
-                            undefined,
-                            usersFiltered[0])
+                            facilitiesFiltered[0])
                     }
                     return inventoryItems;
-                })
+                });
         }
 
     }
