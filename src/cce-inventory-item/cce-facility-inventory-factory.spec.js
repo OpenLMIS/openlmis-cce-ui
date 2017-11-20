@@ -78,7 +78,7 @@ describe('facilityInventoryItemFactory', function() {
             expect(status).toEqual('rejected');
         });
 
-        it('should reject promise if facilities and users promises are rejected', function() {
+        it('should reject promise if facilities promise is rejected', function() {
             var status = undefined,
                 result = [];
 
@@ -98,7 +98,7 @@ describe('facilityInventoryItemFactory', function() {
             expect(status).toEqual('rejected');
         });
 
-        it('should resolve promise and add facilities and users info if all promises resolved', function() {
+        it('should resolve promise and add facilities if promise is resolved', function() {
             var status = undefined,
                 result = [];
 
