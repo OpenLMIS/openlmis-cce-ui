@@ -50,7 +50,7 @@ describe('inventoryItemService', function() {
 
         program = new ProgramDataBuilder().build();
         facility = new FacilityDataBuilder().build();
-        inventoryItem = new InventoryItemDataBuilder().build();
+        inventoryItem = new InventoryItemDataBuilder().withFacilityId(facility.id).withProgramId(program.id).build();
 
         inventoryItemResolve = true;
         facilitiesResolve = true;

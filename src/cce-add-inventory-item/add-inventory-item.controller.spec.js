@@ -16,7 +16,7 @@
 describe('AddInventoryItemController', function() {
 
     var vm, $controller, $state, types, $scope, $rootScope, catalogItem, facility, program,
-        FacilityProgramInventoryItemDataBuilder, CatalogItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder;
+        CatalogItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder;
 
     beforeEach(function() {
         module('cce-add-inventory-item');
@@ -25,7 +25,6 @@ describe('AddInventoryItemController', function() {
             $controller = $injector.get('$controller');
             $state = $injector.get('$state');
             $rootScope = $injector.get('$rootScope');
-            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
             ProgramDataBuilder = $injector.get('ProgramDataBuilder');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
@@ -77,7 +76,7 @@ describe('AddInventoryItemController', function() {
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.edit', {
                 inventoryItem: {
                     facility: facility,
-                    programId: '418bdc1d-c303-4bd0-b2d3-d8901150a983',
+                    programId: program.id,
                     program: program,
                     catalogItem: catalogItem
                 }

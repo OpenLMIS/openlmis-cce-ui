@@ -42,9 +42,9 @@
         return FacilityProgramInventoryItemDataBuilder;
 
         function FacilityProgramInventoryItemDataBuilder() {
-            this.source = new InventoryItemDataBuilder().build();
             this.facility = new FacilityDataBuilder().build();
             this.program = new ProgramDataBuilder().build();
+            this.source = new InventoryItemDataBuilder().withFacilityId(this.facility.id).withProgramId(this.program.id).build();
         }
 
         function withAdditionalNotes(newNotes) {

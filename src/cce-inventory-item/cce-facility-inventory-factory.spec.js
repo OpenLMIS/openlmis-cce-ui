@@ -43,7 +43,7 @@ describe('facilityInventoryItemFactory', function() {
         });
 
         facility = new FacilityDataBuilder().build();
-        inventoryItem = new InventoryItemDataBuilder().build();
+        inventoryItem = new InventoryItemDataBuilder().withFacilityId(facility.id).build();
         user = new UserObjectReferenceDataBuilder().build();
 
         query = {
