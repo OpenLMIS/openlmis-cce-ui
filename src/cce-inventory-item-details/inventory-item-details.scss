@@ -28,6 +28,14 @@
         margin: 0 0 0 50%;
     }
 
+    dl {
+        margin-bottom: 0;
+    }
+
+    dl + div {
+        margin-top: 1em;
+    }
+
     #additional-notes > dd {
         white-space: pre-line;
         word-break: break-word;
