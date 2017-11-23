@@ -58,7 +58,7 @@ describe('openlmis.cce.inventory.details state', function() {
             $rootScope.$apply();
 
             inventoryItem.program = program;
-            //expect(result).toEqual(inventoryItem);
+            expect(result).toEqual(inventoryItem);
             expect(programService.get).toHaveBeenCalled();
             expect(inventoryItemFactory.get).not.toHaveBeenCalled();
         });
@@ -195,8 +195,8 @@ describe('openlmis.cce.inventory.details state', function() {
     function prepareTestData() {
         state = $state.get('openlmis.cce.inventory.details');
 
-        program = new ProgramDataBuilder().build();
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
+        program = inventoryItem.program;
 
         $stateParams = {
             inventoryItemId: inventoryItem.id,

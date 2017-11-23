@@ -20,7 +20,7 @@ describe('status-update-modal.html template', function() {
     var inventoryItemService, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, stateTrackerService,
         FacilityProgramInventoryItemDataBuilder, templateTestingUtils;
 
-    var vm, template, inventoryItem, saveDeferred;
+    var vm, template, inventoryItem, inventoryItemBuilder, saveDeferred;
 
     beforeEach(function() {
         loadModules();
@@ -343,13 +343,12 @@ describe('status-update-modal.html template', function() {
             $rootScope.$apply();
             form.triggerHandler('submit');
 
-            var item = new FacilityProgramInventoryItemDataBuilder()
-                                .withId('some-inventory-item-id')
-                                .withFunctionalStatus('OBSOLETE')
-                                .withDecommissionDate(date)
-                                .build();
+            var item = inventoryItemBuilder
+                        .withFunctionalStatus('OBSOLETE')
+                        .withDecommissionDate(date)
+                        .build();
 
-            //expect(inventoryItemService.save).toHaveBeenCalledWith(item);
+            expect(inventoryItemService.save).toHaveBeenCalledWith(item);
             expect(stateTrackerService.goToPreviousState).not.toHaveBeenCalled();
 
             saveDeferred.reject();
@@ -386,7 +385,8 @@ describe('status-update-modal.html template', function() {
     }
 
     function prepareTestData() {
-        inventoryItem = new FacilityProgramInventoryItemDataBuilder().withId('some-inventory-item-id').build();
+        inventoryItemBuilder = new FacilityProgramInventoryItemDataBuilder().withId('some-inventory-item-id');
+        inventoryItem = inventoryItemBuilder.build();
         saveDeferred = $q.defer();
     }
 
