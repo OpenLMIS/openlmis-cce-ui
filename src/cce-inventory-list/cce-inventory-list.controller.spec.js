@@ -132,7 +132,7 @@ describe('CceInventoryListController', function () {
             vm.$onInit();
         });
 
-        it('should call state go method with proper parameters', function() {
+        it('should call state go method with facilityId parameter', function() {
             vm.facilityId = 'facility-id';
 
             vm.search();
@@ -141,6 +141,17 @@ describe('CceInventoryListController', function () {
                 page: stateParams.page,
                 size: stateParams.size,
                 facilityId: 'facility-id'
+            }, {reload: true});
+        });
+
+        it('should call state go method without facilityId parameter', function() {
+            vm.facilityId = undefined;
+
+            vm.search();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory', {
+                page: stateParams.page,
+                size: stateParams.size
             }, {reload: true});
         });
     });
