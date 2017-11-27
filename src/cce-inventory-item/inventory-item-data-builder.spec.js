@@ -39,13 +39,13 @@
                 id : '35b8eeca-bfad-47f3-b966-c9cb726b872f',
                 facility: new ObjectReferenceDataBuilder()
                     .withId('97546f93-ac93-435f-a437-cd629deb7d6d')
-                    .withHref('http://localhost/api/facilities/97546f93-ac93-435f-a437-cd629deb7d6d')
+                    .withResource('facilities')
                     .build(),
                 catalogItem: new CatalogItemDataBuilder()
                     .build(),
                 program: new ObjectReferenceDataBuilder()
                     .withId('418bdc1d-c303-4bd0-b2d3-d8901150a983')
-                    .withHref('http://localhost/api/program/418bdc1d-c303-4bd0-b2d3-d8901150a983')
+                    .withResource('programs')
                     .build(),
                 equipmentTrackingId: 'tracking-id',
                 referenceName: 'Reference Name',
@@ -77,7 +77,7 @@
         function withFacilityId(id) {
             this.source.facility = new ObjectReferenceDataBuilder()
                 .withId(id)
-                .withHref('http://localhost/api/facilities/' + id)
+                .withResource('facilities')
                 .build();
             return this;
         }
@@ -85,7 +85,7 @@
         function withProgramId(id) {
             this.source.program = new ObjectReferenceDataBuilder()
                 .withId(id)
-                .withHref('http://localhost/api/program/' + id)
+                .withResource('programs')
                 .build();
             return this;
         }
