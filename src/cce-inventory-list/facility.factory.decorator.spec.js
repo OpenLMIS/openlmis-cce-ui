@@ -61,21 +61,6 @@ describe('facilityFactory', function() {
             spyOn(facilityService, 'getAllMinimal').andReturn($q.resolve(minimalFacilities));
         });
 
-        it('should call authorization service get user method', function() {
-            facilityFactory.getSupervisedFacilitiesBasedOnRights([CCE_RIGHTS.CCE_INVENTORY_VIEW]);
-            expect(authorizationService.getUser).toHaveBeenCalled();
-        });
-
-        it('should call permission service load method', function() {
-            facilityFactory.getSupervisedFacilitiesBasedOnRights([CCE_RIGHTS.CCE_INVENTORY_VIEW]);
-            expect(permissionService.load).toHaveBeenCalledWith('user-id');
-        });
-
-        it('should call facility service get all minimal method', function() {
-            facilityFactory.getSupervisedFacilitiesBasedOnRights([CCE_RIGHTS.CCE_INVENTORY_VIEW]);
-            expect(facilityService.getAllMinimal).toHaveBeenCalled();
-        });
-
         it('should filter facilities', function() {
             var result;
 

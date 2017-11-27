@@ -34,7 +34,8 @@
     ];
 
     function CceInventoryListController(inventoryItems, supervisedFacilities, $state, $stateParams, FUNCTIONAL_STATUS, CCE_RIGHTS,
-                                        authorizationService, messageService, REASON_FOR_NOT_WORKING) {
+        authorizationService, messageService, REASON_FOR_NOT_WORKING) {
+
         var vm = this;
 
         vm.$onInit = onInit;
@@ -190,16 +191,16 @@
          * @name search
          *
          * @description
-         * Reloads page with new search parameters.
+         * Reloads page with the new search parameters.
          */
         function search() {
             var stateParams = angular.copy($stateParams);
 
-			stateParams.facilityId = vm.facilityId;
+            stateParams.facilityId = vm.facilityId;
 
-			$state.go('openlmis.cce.inventory', stateParams, {
-				reload: true
-			});
+            $state.go('openlmis.cce.inventory', stateParams, {
+                reload: true
+            });
         }
     }
 
