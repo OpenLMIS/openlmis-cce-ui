@@ -15,7 +15,7 @@
 
 describe('facilityFactory', function() {
 
-    var $rootScope, $q, permissionService, facilityService, authorizationService, facilityFactory, CCE_RIGHTS, FacilityDataBuilder, PermissionDataBuilder,
+    var $rootScope, $q, permissionService, facilityService, authorizationService, facilityFactory, CCE_RIGHTS, MinimalFacilityDataBuilder, PermissionDataBuilder,
         minimalFacilities, permissions;
 
     beforeEach(function() {
@@ -30,14 +30,14 @@ describe('facilityFactory', function() {
             facilityFactory = $injector.get('facilityFactory');
             CCE_RIGHTS = $injector.get('CCE_RIGHTS');
 
-            FacilityDataBuilder = $injector.get('FacilityDataBuilder');
+            MinimalFacilityDataBuilder = $injector.get('MinimalFacilityDataBuilder');
             PermissionDataBuilder = $injector.get('PermissionDataBuilder');
         });
 
         minimalFacilities = [
-            new FacilityDataBuilder().buildMinimal(),
-            new FacilityDataBuilder().buildMinimal(),
-            new FacilityDataBuilder().buildMinimal()
+            new MinimalFacilityDataBuilder().build(),
+            new MinimalFacilityDataBuilder().build(),
+            new MinimalFacilityDataBuilder().build()
         ];
 
         permissions = [
