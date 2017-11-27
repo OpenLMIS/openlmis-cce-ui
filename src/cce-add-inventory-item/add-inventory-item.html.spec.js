@@ -35,10 +35,15 @@ describe('add-inventory-item.html template', function() {
             $templateRequest = $injector.get('$templateRequest');
             $timeout = $injector.get('$timeout');
             $state = $injector.get('$state');
+            facilityService = $injector.get('facilityService');
+            programService = $injector.get('programService');
             CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
             ProgramDataBuilder = $injector.get('ProgramDataBuilder');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
+
+        spyOn(facilityService, 'getAllMinimal').andReturn($q.resolve(true));
+        spyOn(programService, 'getUserPrograms').andReturn($q.resolve(true));
 
         types = [
             'Freezer',
