@@ -16,7 +16,7 @@
 describe('cce-inventory-list template', function () {
 
     var template, $rootScope, $scope, vm, authorizationService, $timeout, $state,
-        templateTestingUtils, inventoryItem, inventoryItemId, FacilityProgramInventoryItemDataBuilder;
+        templateTestingUtils, inventoryItem, supervisedFacilities, inventoryItemId, FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder;
 
     beforeEach(function() {
         loadModules();
@@ -111,11 +111,17 @@ describe('cce-inventory-list template', function () {
             authorizationService = $injector.get('authorizationService');
             templateTestingUtils = $injector.get('templateTestingUtils');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
+            FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
     }
 
     function prepareTestData() {
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
+        supervisedFacilities = [
+            new FacilityDataBuilder().build(),
+            new FacilityDataBuilder().build(),
+            new FacilityDataBuilder().build()
+        ];
     }
 
     function initTestingUtils(suite) {
@@ -128,7 +134,8 @@ describe('cce-inventory-list template', function () {
             'CceInventoryListController', {
                 inventoryItems: [
                     inventoryItem
-                ]
+                ],
+                supervisedFacilities: supervisedFacilities
             });
 
         vm = testContext.$scope.vm;

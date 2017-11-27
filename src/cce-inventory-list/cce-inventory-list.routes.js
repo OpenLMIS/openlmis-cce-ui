@@ -28,12 +28,15 @@
         $stateProvider.state('openlmis.cce.inventory', {
             showInNavigation: true,
             label: 'cceInventoryList.cceInventory',
-            url: '/inventory?page&size',
+            url: '/inventory?page&size&facilityId',
             controller: 'CceInventoryListController',
             templateUrl: 'cce-inventory-list/cce-inventory-list.html',
             controllerAs: 'vm',
             accessRights: [CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT],
             resolve: {
+                supervisedFacilities: function(facilityFactory) {
+                    return facilityFactory.getSupervisedFacilitiesBasedOnRights([CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT]);
+                },
                 inventoryItems: function(facilityInventoryItemFactory, paginationService, $stateParams) {
                     return paginationService.registerUrl($stateParams, function(stateParams) {
                         if (!stateParams.sort) {

@@ -29,7 +29,9 @@
         'openlmis-auth',
         'openlmis-rights',
         'openlmis-date',
-        'cce-inventory-item-status'
+        'openlmis-permissions',
+        'cce-inventory-item-status',
+        'referencedata-facility'
     ]);
 
 })();

@@ -29,11 +29,11 @@
         .controller('CceInventoryListController', CceInventoryListController);
 
     CceInventoryListController.$inject = [
-        'inventoryItems', '$state', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'authorizationService',
-        'messageService' ,'REASON_FOR_NOT_WORKING'
+        'inventoryItems', 'supervisedFacilities', '$state', '$stateParams', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS',
+        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING'
     ];
 
-    function CceInventoryListController(inventoryItems, $state, FUNCTIONAL_STATUS, CCE_RIGHTS,
+    function CceInventoryListController(inventoryItems, supervisedFacilities, $state, $stateParams, FUNCTIONAL_STATUS, CCE_RIGHTS,
                                         authorizationService, messageService, REASON_FOR_NOT_WORKING) {
         var vm = this;
 
@@ -42,6 +42,7 @@
         vm.getStatusLabel = getStatusLabel;
         vm.goToStatusUpdate = goToStatusUpdate;
         vm.getReasonLabel = getReasonLabel;
+        vm.search = search;
 
         /**
          * @ngdoc property
@@ -66,6 +67,28 @@
         vm.userHasRightToEdit = undefined;
 
         /**
+         * @ngdoc property
+         * @propertyOf cce-inventory-list.controller:CceInventoryListController
+         * @name facilityId
+         * @type {String}
+         *
+         * @description
+         * The facility id that inventory items will be filtered by.
+         */
+        vm.facilityId = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf cce-inventory-list.controller:CceInventoryListController
+         * @name supervisedFacilities
+         * @type {Array}
+         *
+         * @description
+         * List of user supervised facilities for CCE inventory.
+         */
+        vm.supervisedFacilities = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf cce-inventory-list.controller:CceInventoryListController
          * @name onInit
@@ -76,6 +99,8 @@
         function onInit() {
             vm.inventoryItems = inventoryItems;
             vm.userHasRightToEdit = authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT);
+            vm.supervisedFacilities = supervisedFacilities;
+            vm.facilityId = $stateParams.facilityId;
         }
 
         /**
@@ -142,11 +167,39 @@
             return messageService.get(REASON_FOR_NOT_WORKING.getLabel(reason));
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
+         * @name goToStatusUpdate
+         *
+         * @description
+         * Redirects user to inventory item status update modal screen.
+         *
+         * @param {InventoryItem} inventoryItem the inventory item which status will be updated
+         */
         function goToStatusUpdate(inventoryItem) {
             $state.go('openlmis.cce.inventory.statusUpdate', {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
+         * @name search
+         *
+         * @description
+         * Reloads page with new search parameters.
+         */
+        function search() {
+            var stateParams = angular.copy($stateParams);
+
+			stateParams.facilityId = vm.facilityId;
+
+			$state.go('openlmis.cce.inventory', stateParams, {
+				reload: true
+			});
         }
     }
 

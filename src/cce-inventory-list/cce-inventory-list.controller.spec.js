@@ -15,8 +15,8 @@
 
 describe('CceInventoryListController', function () {
 
-    var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, authorizationService,
-        FacilityProgramInventoryItemDataBuilder;
+    var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, stateParams, authorizationService,
+        FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder;
 
     beforeEach(function() {
         module('cce-inventory-list');
@@ -27,15 +27,30 @@ describe('CceInventoryListController', function () {
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
             authorizationService = $injector.get('authorizationService');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
+            FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
 
         inventoryItems = [
             new FacilityProgramInventoryItemDataBuilder().withId('1').build(),
-            new FacilityProgramInventoryItemDataBuilder().withId('2').build
+            new FacilityProgramInventoryItemDataBuilder().withId('2').build()
         ];
 
+        supervisedFacilities = [
+            new FacilityDataBuilder().build(),
+            new FacilityDataBuilder().build(),
+            new FacilityDataBuilder().build()
+        ];
+
+        stateParams = {
+            page: 0,
+            size: 10,
+            facilityId: supervisedFacilities[0].id
+        };
+
         vm = $controller('CceInventoryListController', {
-            inventoryItems: inventoryItems
+            inventoryItems: inventoryItems,
+            supervisedFacilities: supervisedFacilities,
+            $stateParams: stateParams
         });
 
         spyOn($state, 'go').andReturn();
@@ -49,10 +64,14 @@ describe('CceInventoryListController', function () {
             expect(vm.inventoryItems).toEqual(inventoryItems);
         });
 
-        it('should expose getFunctionalStatusClass method', function() {
+        it('should expose supervised facilities', function() {
             vm.$onInit();
+            expect(vm.supervisedFacilities).toEqual(supervisedFacilities);
+        });
 
-            expect(angular.isFunction(vm.getFunctionalStatusClass)).toBe(true);
+        it('should expose supervised facilities', function() {
+            vm.$onInit();
+            expect(vm.facilityId).toEqual(supervisedFacilities[0].id);
         });
 
         it('should set userHasRightToEdit as true if user has CCE_INVENTORY_EDIT for provided program', function() {
@@ -105,6 +124,24 @@ describe('CceInventoryListController', function () {
                 inventoryItemId: inventoryItems[0].id
             });
         });
+    });
 
+    describe('search', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should call state go method with proper parameters', function() {
+            vm.facilityId = 'facility-id';
+
+            vm.search();
+
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory', {
+                page: stateParams.page,
+                size: stateParams.size,
+                facilityId: 'facility-id'
+            }, {reload: true});
+        });
     });
 });
