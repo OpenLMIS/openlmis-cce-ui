@@ -11,6 +11,12 @@
                     ng-options="facility.id as facility.name for facility in vm.supervisedFacilities">
             </select>
         </fieldset>
+        <fieldset class="form-group">
+            <label for="functionalStatus">{{'cceInventoryList.functionalStatus' | message}}</label>
+            <select id="functionalStatus" ng-model="vm.functionalStatus"
+                    ng-options="vm.getStatusLabel(status) for status in vm.functionalStatuses">
+            </select>
+        </fieldset>
         <input type="submit" value="{{'cceInventoryList.search' | message}}"/>
     </form>
     <table>

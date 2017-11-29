@@ -74,6 +74,11 @@ describe('CceInventoryListController', function () {
             expect(vm.facilityId).toEqual(supervisedFacilities[0].id);
         });
 
+        it('should expose the list of functional statuses', function() {
+            vm.$onInit();
+            expect(vm.functionalStatuses).toEqual(FUNCTIONAL_STATUS.getStatuses());
+        });
+
         it('should set userHasRightToEdit as true if user has CCE_INVENTORY_EDIT for provided program', function() {
             spyOn(authorizationService, 'hasRight').andReturn(true);
             vm.$onInit();
@@ -86,6 +91,14 @@ describe('CceInventoryListController', function () {
             vm.$onInit();
 
             expect(vm.userHasRightToEdit).toEqual(false);
+        });
+
+        it('should set functional status if it was given through state params', function() {
+            stateParams.functionalStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
+
+            vm.$onInit();
+
+            expect(vm.functionalStatus).toEqual(FUNCTIONAL_STATUS.NON_FUNCTIONING);
         });
     });
 
@@ -132,20 +145,23 @@ describe('CceInventoryListController', function () {
             vm.$onInit();
         });
 
-        it('should call state go method with facilityId parameter', function() {
+        it('should call state go method with parameters', function() {
             vm.facilityId = 'facility-id';
+            vm.functionalStatus = FUNCTIONAL_STATUS.FUNCTIONING;
 
             vm.search();
 
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory', {
                 page: stateParams.page,
                 size: stateParams.size,
-                facilityId: 'facility-id'
+                facilityId: 'facility-id',
+                functionalStatus: FUNCTIONAL_STATUS.FUNCTIONING
             }, {reload: true});
         });
 
-        it('should call state go method without facilityId parameter', function() {
+        it('should call state go method without parameters', function() {
             vm.facilityId = undefined;
+            vm.functionalStatus = undefined;
 
             vm.search();
 

@@ -90,6 +90,28 @@
         vm.supervisedFacilities = undefined;
 
         /**
+         * ngdoc property
+         * @propertyOf cce-inventory-list.controller.CceInventoryListController
+         * @name functionalStatus
+         * @type {String}
+         *
+         * @description
+         * The selected functional status.
+         */
+        vm.functionalStatus = undefined;
+
+        /**
+         * ngdoc property
+         * @propertyOf cce-inventory-list.controller.CceInventoryListController
+         * @name functionalStatuses
+         * @type {Array}
+         *
+         * @description
+         * The list of available functional statuses.
+         */
+        vm.functionalStatuses = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf cce-inventory-list.controller:CceInventoryListController
          * @name onInit
@@ -102,6 +124,8 @@
             vm.userHasRightToEdit = authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT);
             vm.supervisedFacilities = supervisedFacilities;
             vm.facilityId = $stateParams.facilityId;
+            vm.functionalStatuses = FUNCTIONAL_STATUS.getStatuses();
+            vm.functionalStatus = $stateParams.functionalStatus;
         }
 
         /**
@@ -197,6 +221,7 @@
             var stateParams = angular.copy($stateParams);
 
             stateParams.facilityId = vm.facilityId;
+            stateParams.functionalStatus = vm.functionalStatus;
 
             $state.go('openlmis.cce.inventory', stateParams, {
                 reload: true

@@ -28,7 +28,7 @@
         $stateProvider.state('openlmis.cce.inventory', {
             showInNavigation: true,
             label: 'cceInventoryList.cceInventory',
-            url: '/inventory?page&size&facilityId',
+            url: '/inventory?page&size&facilityId&functionalStatus',
             controller: 'CceInventoryListController',
             templateUrl: 'cce-inventory-list/cce-inventory-list.html',
             controllerAs: 'vm',
