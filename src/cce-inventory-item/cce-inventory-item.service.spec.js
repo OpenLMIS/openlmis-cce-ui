@@ -82,7 +82,9 @@ describe('inventoryItemService', function() {
         };
 
         beforeEach(function() {
-            $httpBackend.when('GET', cceUrlFactory('/api/inventoryItems?page=' + parameters.page +
+            $httpBackend.when('GET', cceUrlFactory('/api/inventoryItems?expand=lastModifier&page=' +
+
+            parameters.page +
                 '&size=' + parameters.size)).respond(200, {
                 content: inventoryItems
             });
@@ -114,8 +116,8 @@ describe('inventoryItemService', function() {
         });
 
         it('should make a proper request', function() {
-            $httpBackend.expect('GET', cceUrlFactory('/api/inventoryItems?page=' + parameters.page +
-                '&size=' + parameters.size));
+            $httpBackend.expect('GET', cceUrlFactory('/api/inventoryItems?expand=lastModifier&page='
+             + parameters.page + '&size=' + parameters.size));
 
             inventoryItemService.query(parameters);
             $httpBackend.flush();

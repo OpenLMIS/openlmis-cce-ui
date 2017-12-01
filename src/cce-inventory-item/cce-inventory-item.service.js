@@ -81,6 +81,7 @@
          * @return {Promise}       Page of all CCE inventory items
          */
         function query(params) {
+            params.expand = 'lastModifier';
             return resource.query(params).$promise;
         }
 
