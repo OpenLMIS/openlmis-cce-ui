@@ -29,6 +29,7 @@
             showInNavigation: true,
             label: 'cceInventoryList.cceInventory',
             url: '/inventory?page&size&facilityId&functionalStatus',
+            params: { expand: 'lastModifier' },
             controller: 'CceInventoryListController',
             templateUrl: 'cce-inventory-list/cce-inventory-list.html',
             controllerAs: 'vm',
