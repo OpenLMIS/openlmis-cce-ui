@@ -1,0 +1,21 @@
+.cce-status {
+	@extend .cce-inventory-item-status;
+	margin: 0;
+
+	&::before {
+		font-size: 1.5em;
+	}
+
+	&.is-unknown::before {
+		color: $gray;
+	}
+
+	&.is-not-fully-functioning::before {
+		color: $orange;
+	}
+
+	&.is-loading::before {
+		color: $brand_primary;
+	}
+
+}
