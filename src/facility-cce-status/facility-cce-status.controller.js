@@ -68,10 +68,10 @@
         function onInit() {
             setLabelAndClass(FACILITY_CCE_STATUS.LOADING);
             inventoryItemService.getAllForFacility(vm.facility.id)
-                .then(function (list) {
-                    var status = getStatus(list);
-                    setLabelAndClass(status);
-                });
+            .then(function (list) {
+                var status = getStatus(list);
+                setLabelAndClass(status);
+            });
         }
 
         /**
@@ -86,10 +86,10 @@
          * @return  {String}            the label for the inventory item
          */
         function getStatus(list) {
-            var nonFunctioningInventoryItems = filterNotFunctioningInventoryItems(list);
-            if (nonFunctioningInventoryItems.length === list.length) {
+            var notFunctioningInventoryItems = filterNotFunctioningInventoryItems(list);
+            if (notFunctioningInventoryItems.length === list.length) {
                 return FACILITY_CCE_STATUS.NOT_FUNCTIONING;
-            } else if (nonFunctioningInventoryItems.length > 0) {
+            } else if (notFunctioningInventoryItems.length > 0) {
                 return FACILITY_CCE_STATUS.NOT_FULLY_FUNCTIONING;
             }
             return FACILITY_CCE_STATUS.All_FUNCTIONING;

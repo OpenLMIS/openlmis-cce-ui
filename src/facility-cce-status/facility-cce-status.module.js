@@ -21,7 +21,7 @@
      * @module facility-cce-status
      *
      * @description
-     * This module provides all logic, markups and styles for CCE status.
+     * This module provides all logic, markups and styles for facility CCE status.
      */
     angular.module('facility-cce-status', [
         'cce-inventory-item',
