@@ -1,0 +1,7 @@
+{
+    "facilityCceStatus.allFunctioning": "All functioning",
+    "facilityCceStatus.notFullyFunctioning": "Not fully functioning",
+    "facilityCceStatus.notFunctioning": "Not functioning",
+    "facilityCceStatus.unknown": "Unknown",
+    "facilityCceStatus.loading": "Loading"
+}

@@ -31,6 +31,7 @@
         InventoryItemDataBuilder.prototype.build = build;
         InventoryItemDataBuilder.prototype.withFacilityId = withFacilityId;
         InventoryItemDataBuilder.prototype.withProgramId = withProgramId;
+        InventoryItemDataBuilder.prototype.withId = withId;
 
         return InventoryItemDataBuilder;
 
@@ -72,6 +73,11 @@
             return new InventoryItem(
                 this.source
             );
+        }
+
+        function withId(newId) {
+            this.source.id = newId;
+            return this;
         }
 
         function withFacilityId(id) {

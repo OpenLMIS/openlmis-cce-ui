@@ -54,11 +54,11 @@
             if (pageNumber === undefined) {
                 pageNumber = 0;
             }
-            var params = {
+            var queryParams = {
                 page: pageNumber,
                 facilityId: facilityId
             };
-            return $delegate.query($delegate, params)
+            return $delegate.query.apply($delegate, [queryParams])
             .then(function (page) {
                 if (!page.last) {
                     return getAllForFacility(facilityId, ++pageNumber)

@@ -72,12 +72,12 @@
         /**
          * @ngdoc method
          * @methodOf cce-inventory-item.inventoryItemService
-         * @name getAll
+         * @name query
          *
          * @description
-         * Gets all CCE inventory items.
+         * Query CCE inventory items.
          *
-         * @param  {Object} params Pagination parameters
+         * @param  {Object} params query parameters
          * @return {Promise}       Page of all CCE inventory items
          */
         function query(params) {
