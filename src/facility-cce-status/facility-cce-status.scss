@@ -1,4 +1,4 @@
-.cce-status {
+.facility-cce-status {
 	@extend .cce-inventory-item-status;
 	margin: 0;
 
@@ -7,7 +7,7 @@
 	}
 
 	&.is-unknown::before {
-		color: $gray;
+		@extend .cce-inventory-item-status.is-obsolete::before;
 	}
 
 	&.is-not-fully-functioning::before {

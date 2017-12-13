@@ -19,32 +19,32 @@
 
     /**
      * @ngdoc directive
-     * @name cce-status:cceStatus
+     * @name facility-cce-status:facilityCceStatus
      *
      * @description
      * The CCE status component provides facility CCE status data. The component has the following
-	 * states:
+     * states:
      * "All functioning" if all CCE inventory items are functional.
      * "Not fully functioning" if at least one CCE inventory item is functioning and at least
-	 * one CCE inventory item is not functioning
+     * one CCE inventory item is not functioning
      * "Not functioning" if no CCE inventory items are functional
      * "Loading" displayed while the facility CCE Status component is loading data from the
-	 * services
+     * services
      * "Unknown" displayed if the Facility CCE Status component failed to load information
-	 * from the CCE services or the current user doesn't have permission to view CCE status for
-	 * the specific facility.
+     * from the CCE services or the current user doesn't have permission to view CCE status for
+     * the specific facility.
      *
      * @example
      * ```
-     * <cce-status facility="facility"></cce-status>
+     * <facility-cce-status facility="facility"></facility-cce-status>
      * ```
      */
     angular
-        .module('cce-status')
-        .component('cceStatus', {
+        .module('facility-cce-status')
+        .component('facilityCceStatus', {
             controller: 'CceStatusController',
             controllerAs: 'vm',
-            templateUrl: 'cce-status/cce-status.html',
+            templateUrl: 'facility-cce-status/facility-cce-status.html',
             bindings: {
                 facility: '='
             }

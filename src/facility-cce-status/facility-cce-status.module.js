@@ -18,12 +18,12 @@
     'use strict';
 
     /**
-     * @module cce-status
+     * @module facility-cce-status
      *
      * @description
      * This module provides all logic, markups and styles for CCE status.
      */
-    angular.module('cce-status', [
+    angular.module('facility-cce-status', [
         'cce-inventory-item',
         'cce-inventory-item-status'
     ]);

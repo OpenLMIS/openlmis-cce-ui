@@ -19,17 +19,17 @@
 
     /**
      * @ngdoc object
-     * @name cce-status.STATUS
+     * @name facility-cce-status.FACILITY_CCE_STATUS
      *
      * @description
      * Contains all possible cce statuses.
      */
     angular
-        .module('cce-status')
-        .constant('STATUS', statuses());
+        .module('facility-cce-status')
+        .constant('FACILITY_CCE_STATUS', statuses());
 
     function statuses() {
-        var STATUS = {
+        var statuses = {
                 getLabel: getLabel,
                 getClass: getClass,
                 All_FUNCTIONING: 'All_FUNCTIONING',
@@ -39,18 +39,18 @@
                 LOADING: 'LOADING'
             },
             labels = {
-                All_FUNCTIONING: 'cceStatus.allFunctioning',
-                NOT_FULLY_FUNCTIONING: 'cceStatus.notFullyFunctioning',
-                NOT_FUNCTIONING: 'cceStatus.notFunctioning',
-                UNKNOWN: 'cceStatus.unknown',
-                LOADING: 'cceStatus.loading'
+                All_FUNCTIONING: 'facilityCceStatus.allFunctioning',
+                NOT_FULLY_FUNCTIONING: 'facilityCceStatus.notFullyFunctioning',
+                NOT_FUNCTIONING: 'facilityCceStatus.notFunctioning',
+                UNKNOWN: 'facilityCceStatus.unknown',
+                LOADING: 'facilityCceStatus.loading'
             };
 
-        return STATUS;
+        return statuses;
 
         /**
          * @ngdoc method
-         * @methodOf cce-status.STATUS
+         * @methodOf facility-cce-status.FACILITY_CCE_STATUS
          * @name getLabel
          *
          * @description
@@ -72,7 +72,7 @@
 
         /**
          * @ngdoc method
-         * @methodOf cce-status.STATUS
+         * @methodOf facility-cce-status.FACILITY_CCE_STATUS
          * @name getClass
          *
          * @description
@@ -85,19 +85,19 @@
             var statusClass;
 
             switch (status) {
-                case STATUS.All_FUNCTIONING:
+                case statuses.All_FUNCTIONING:
                     statusClass = 'is-functioning';
                     break;
-                case STATUS.NOT_FULLY_FUNCTIONING:
+                case statuses.NOT_FULLY_FUNCTIONING:
                     statusClass = 'is-not-fully-functioning';
                     break;
-                case STATUS.NOT_FUNCTIONING:
+                case statuses.NOT_FUNCTIONING:
                     statusClass = 'is-non-functioning';
                     break;
-                case STATUS.UNKNOWN:
+                case statuses.UNKNOWN:
                     statusClass = 'is-unknown';
                     break;
-                case STATUS.LOADING:
+                case statuses.LOADING:
                     statusClass = 'is-loading';
                     break;
             }
