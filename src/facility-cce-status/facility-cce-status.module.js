@@ -25,7 +25,10 @@
      */
     angular.module('facility-cce-status', [
         'cce-inventory-item',
-        'cce-inventory-item-status'
+        'cce-inventory-item-status',
+        'openlmis-permissions',
+        'referencedata-user',
+        'openlmis-rights'
     ]);
 
 })();

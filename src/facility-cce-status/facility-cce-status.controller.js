@@ -28,9 +28,11 @@
         .module('facility-cce-status')
         .controller('CceStatusController', CceStatusController);
 
-    CceStatusController.$inject = ['FUNCTIONAL_STATUS', 'inventoryItemService', 'FACILITY_CCE_STATUS'];
+    CceStatusController.$inject = ['FUNCTIONAL_STATUS', 'inventoryItemService',
+        'FACILITY_CCE_STATUS', 'permissionService', 'authorizationService', 'CCE_RIGHTS'];
 
-    function CceStatusController(FUNCTIONAL_STATUS, inventoryItemService, FACILITY_CCE_STATUS) {
+    function CceStatusController(FUNCTIONAL_STATUS, inventoryItemService, FACILITY_CCE_STATUS,
+                                 permissionService, authorizationService, CCE_RIGHTS) {
         var vm = this;
 
         vm.$onInit = onInit;
@@ -67,10 +69,22 @@
          */
         function onInit() {
             setLabelAndClass(FACILITY_CCE_STATUS.LOADING);
-            inventoryItemService.getAllForFacility(vm.facility.id)
+
+            var authUser = authorizationService.getUser();
+            var permission = {
+                facilityId: vm.facility.id,
+                right: CCE_RIGHTS.CCE_INVENTORY_VIEW
+            };
+            permissionService.hasPermissionWithAnyProgram(authUser.user_id, permission)
+            .then(function () {
+                return inventoryItemService.getAllForFacility(vm.facility.id)
+            })
             .then(function (list) {
                 var status = getStatus(list);
                 setLabelAndClass(status);
+            })
+            .catch(function () {
+                setLabelAndClass(FACILITY_CCE_STATUS.UNKNOWN);
             });
         }
 
@@ -87,7 +101,7 @@
          */
         function getStatus(list) {
             var notFunctioningInventoryItems = filterNotFunctioningInventoryItems(list);
-            if (notFunctioningInventoryItems.length === list.length) {
+            if (notFunctioningInventoryItems.length === list.length || list.length === 0) {
                 return FACILITY_CCE_STATUS.NOT_FUNCTIONING;
             } else if (notFunctioningInventoryItems.length > 0) {
                 return FACILITY_CCE_STATUS.NOT_FULLY_FUNCTIONING;
