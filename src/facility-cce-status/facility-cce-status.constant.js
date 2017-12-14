@@ -100,6 +100,8 @@
                 case statuses.LOADING:
                     statusClass = 'is-loading';
                     break;
+                default:
+                    throw 'Invalid status';
             }
 
             return statusClass;

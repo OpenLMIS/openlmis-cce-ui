@@ -54,11 +54,15 @@
             if (pageNumber === undefined) {
                 pageNumber = 0;
             }
+            if (facilityId === undefined) {
+                throw 'Facility id must be defined';
+            }
+
             var queryParams = {
                 page: pageNumber,
                 facilityId: facilityId
             };
-            return $delegate.query.apply($delegate, [queryParams])
+            return $delegate.query.call($delegate, queryParams)
             .then(function (page) {
                 if (!page.last) {
                     return getAllForFacility(facilityId, ++pageNumber)

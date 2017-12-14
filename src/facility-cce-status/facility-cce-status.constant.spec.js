@@ -49,7 +49,7 @@ describe('FACILITY_CCE_STATUS', function() {
             ).toEqual('facilityCceStatus.loading');
         });
 
-        it('should throw exception for invalid source', function() {
+        it('should throw exception for invalid status', function() {
             expect(function() {
                 FACILITY_CCE_STATUS.getLabel('NON_EXISTENT_SOURCE');
             }).toThrow('Invalid status');
@@ -68,4 +68,48 @@ describe('FACILITY_CCE_STATUS', function() {
         });
 
     });
+
+    describe('getClass', function() {
+
+        it('should return css class for valid status', function () {
+            expect(
+                FACILITY_CCE_STATUS.getClass('All_FUNCTIONING')
+            ).toEqual('is-functioning');
+
+            expect(
+                FACILITY_CCE_STATUS.getClass('NOT_FULLY_FUNCTIONING')
+            ).toEqual('is-not-fully-functioning');
+
+            expect(
+                FACILITY_CCE_STATUS.getClass('NOT_FUNCTIONING')
+            ).toEqual('is-non-functioning');
+
+            expect(
+                FACILITY_CCE_STATUS.getClass('UNKNOWN')
+            ).toEqual('is-unknown');
+
+            expect(
+                FACILITY_CCE_STATUS.getClass('LOADING')
+            ).toEqual('is-loading');
+        });
+
+        it('should throw exception for invalid status', function () {
+            expect(function () {
+                FACILITY_CCE_STATUS.getClass('NON_EXISTENT_SOURCE');
+            }).toThrow('Invalid status');
+
+            expect(function () {
+                FACILITY_CCE_STATUS.getClass(undefined);
+            }).toThrow('Invalid status');
+
+            expect(function () {
+                FACILITY_CCE_STATUS.getClass(null);
+            }).toThrow('Invalid status');
+
+            expect(function () {
+                FACILITY_CCE_STATUS.getClass('');
+            }).toThrow('Invalid status');
+        });
+    });
+
 });

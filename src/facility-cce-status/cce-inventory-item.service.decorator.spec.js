@@ -34,17 +34,20 @@ describe('inventoryItemService', function() {
 
     describe('getAllForFacility', function() {
 
-        beforeEach(function() {
-            $httpBackend.when('GET', cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
-            .respond(200, {
-                content: inventoryItems,
-                last: true
-            });
+        it('should throw exception if no arguments passed', function() {
+            expect(function() {
+                inventoryItemService.getAllForFacility();
+            }).toThrow('Facility id must be defined');
         });
 
         it('should resolve to inventory items', function() {
-            var result = undefined;
+            $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
+                .respond(200, {
+                    content: inventoryItems,
+                    last: true
+                });
 
+            var result;
             inventoryItemService.getAllForFacility('facility-id').then(function(data) {
                 result = data;
             });
@@ -54,20 +57,34 @@ describe('inventoryItemService', function() {
             verifyResponse(result);
         });
 
-        it('should make proper requests and concat response', function() {
-            var result = undefined;
+        it('should reject promise if server return an error', function() {
+            $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
+                .respond(400);
 
-            $httpBackend.expect('GET', cceUrlFactory('/api/inventoryItems?page=1&facilityId=facility-id'))
+            var result = false;
+            inventoryItemService.getAllForFacility('facility-id').catch(function() {
+                result = true;
+            });
+            $httpBackend.flush();
+            $rootScope.$apply();
+
+            expect(result).toBe(true);
+        });
+
+        it('should make proper requests and concat response', function() {
+            $httpBackend.expectGET(cceUrlFactory('/api/inventoryItems?page=1&facilityId=facility-id'))
             .respond(200, {
                 content: [inventoryItems[0]],
                 last: false
             });
-            $httpBackend.expect('GET', cceUrlFactory('/api/inventoryItems?page=2&facilityId=facility-id'))
+
+            $httpBackend.expectGET(cceUrlFactory('/api/inventoryItems?page=2&facilityId=facility-id'))
             .respond(200, {
                 content: [inventoryItems[1]],
                 last: true
             });
 
+            var result;
             inventoryItemService.getAllForFacility('facility-id', 1).then(function(data) {
                 result = data;
             });
