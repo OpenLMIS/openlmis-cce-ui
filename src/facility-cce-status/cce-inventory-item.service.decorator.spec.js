@@ -57,6 +57,23 @@ describe('inventoryItemService', function() {
             verifyResponse(result);
         });
 
+        it('should resolve with empty list if content is empty', function() {
+            $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
+                .respond(200, {
+                    content: [],
+                    last: true
+                });
+
+            var result;
+            inventoryItemService.getAllForFacility('facility-id').then(function(data) {
+                result = data;
+            });
+            $httpBackend.flush();
+            $rootScope.$apply();
+
+            expect(result).toEqual([]);
+        });
+
         it('should reject promise if server return an error', function() {
             $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
                 .respond(400);

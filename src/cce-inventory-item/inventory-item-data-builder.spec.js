@@ -32,6 +32,7 @@
         InventoryItemDataBuilder.prototype.withFacilityId = withFacilityId;
         InventoryItemDataBuilder.prototype.withProgramId = withProgramId;
         InventoryItemDataBuilder.prototype.withId = withId;
+        InventoryItemDataBuilder.prototype.withNonFunctioningStatus = withNonFunctioningStatus;
 
         return InventoryItemDataBuilder;
 
@@ -77,6 +78,11 @@
 
         function withId(newId) {
             this.source.id = newId;
+            return this;
+        }
+
+        function withNonFunctioningStatus() {
+            this.source.functionalStatus = 'NON_FUNCTIONING';
             return this;
         }
 
