@@ -14,8 +14,11 @@
 		color: $orange;
 	}
 
-	&.is-loading::before {
+	&.is-loading-status::before {
+	    @extend .loading;
+	    @extend .loading::before;
 		color: $brand_primary;
+        font-size: 1.5em;
 	}
 
 }

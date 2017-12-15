@@ -98,7 +98,7 @@
                     statusClass = 'is-unknown';
                     break;
                 case statuses.LOADING:
-                    statusClass = 'is-loading';
+                    statusClass = 'is-loading-status';
                     break;
                 default:
                     throw 'Invalid status';
