@@ -90,7 +90,7 @@ describe('FACILITY_CCE_STATUS', function() {
 
             expect(
                 FACILITY_CCE_STATUS.getClass('LOADING')
-            ).toEqual('is-loading');
+            ).toEqual('is-loading-status');
         });
 
         it('should throw exception for invalid status', function () {
