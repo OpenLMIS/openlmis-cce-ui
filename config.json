@@ -1,7 +1,4 @@
 {
-    "app": {
-        "src": "./src"
-    },
     "orderedBuildDirectories": [
         "/openlmis-ui-components",
         "/openlmis-ui-layout",
@@ -9,7 +6,5 @@
         "/openlmis-referencedata-ui",
         "/openlmis-cce-ui"
     ],
-    "cceServiceURL": "/",
-    "transifexProjectName": "openlmis-cce-ui",
-    "defaultLanguage": "en"
+    "cceServiceURL": "/"
 }
