@@ -15,10 +15,10 @@
 
 describe('status-update-modal.html template', function() {
 
-    var $controller, $compile, $rootScope, $templateRequest, $state, $q;
+    var $controller, $compile, $rootScope, $templateRequest, $state, $q, $timeout;
 
     var inventoryItemService, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, stateTrackerService,
-        FacilityProgramInventoryItemDataBuilder, templateTestingUtils;
+        FacilityProgramInventoryItemDataBuilder, templateTestingUtils, dateUtils;
 
     var vm, template, inventoryItem, inventoryItemBuilder, saveDeferred;
 
@@ -32,8 +32,6 @@ describe('status-update-modal.html template', function() {
     });
 
     describe('Current Status fieldset', function() {
-
-        var dl;
 
         it('should be hidden if current status is not set', function() {
             vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus(undefined).build();
@@ -99,10 +97,6 @@ describe('status-update-modal.html template', function() {
 
             expect(templateTestingUtils.getElementById('select', 'reason')).toBeRequired();
         });
-
-        function getSelect() {
-            return getElement('select', 'reason');
-        }
 
         function getSelectedOption() {
             var selected;
@@ -381,6 +375,7 @@ describe('status-update-modal.html template', function() {
             stateTrackerService = $injector.get('stateTrackerService');
             templateTestingUtils = $injector.get('templateTestingUtils');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
+            dateUtils = $injector.get('dateUtils');
         });
     }
 
@@ -398,6 +393,9 @@ describe('status-update-modal.html template', function() {
         spyOn($state, 'go').andReturn();
         spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
         spyOn(stateTrackerService, 'goToPreviousState');
+        spyOn(dateUtils, 'toDate').andCallFake(function(parameter) {
+            return parameter;
+        });
     }
 
     function prepareView() {
