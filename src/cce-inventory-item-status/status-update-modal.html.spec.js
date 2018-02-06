@@ -286,7 +286,7 @@ describe('status-update-modal.html template', function() {
 
         beforeEach(function() {
             form = templateTestingUtils.getElementById('form', 'status-update-form');
-            date = new Date('Fri Aug 11 2017 00:00:00 GMT+0000 (UTC)');
+            date = "2017-08-11";
         });
 
         it('should take user back to the previous state after saving', function() {
@@ -296,7 +296,7 @@ describe('status-update-modal.html template', function() {
                 decommissionDate: date
             });
 
-            vm.newStatus = expected.functionalStatus
+            vm.newStatus = expected.functionalStatus;
             vm.reason = expected.reasonNotWorkingOrNotInUse;
             vm.decommissionDate = expected.decommissionDate;
 
