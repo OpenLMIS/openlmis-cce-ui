@@ -46,10 +46,13 @@
                 <td>{{item.catalogItem | makeModel}}</td>
                 <td>{{item.catalogItem.type}}</td>
                 <td>
-                    <div class="cce-inventory-item-status {{vm.getFunctionalStatusClass(item.functionalStatus)}}"
-                        popover="{{vm.getReasonLabel(item.reasonNotWorkingOrNotInUse)}}">
-                        {{vm.getStatusLabel(item.functionalStatus)}}
-                        <a id="functional-status" class="update-status" ng-click="vm.goToStatusUpdate(item)"></a>
+                    <div class="cce-inventory-item-status-box">
+                        <span class="cce-inventory-item-status {{vm.getFunctionalStatusClass(item.functionalStatus)}}"
+                            popover="{{vm.getReasonLabel(item.reasonNotWorkingOrNotInUse)}}">{{vm.getStatusLabel(item.functionalStatus)}}</span>
+                        <span class="rtm-alert-status-{{vm.getAlertClass(item.id)}}" popover 
+                            popover-title="{{vm.getAlertPopoverTitle(item.id)}}" 
+                            popover-template="{{vm.getAlertPopoverTemplateUrl(item.id)}}"></span>
+                        <a id="functional-status" class="cce-inventory-item-update-status" ng-click="vm.goToStatusUpdate(item)"></a>
                     </div>
                 </td>
                 <td>{{item.lastModifier.firstName}} {{item.lastModifier.lastName}} {{item.modifiedDate | openlmisDate : 'short'}}</td>

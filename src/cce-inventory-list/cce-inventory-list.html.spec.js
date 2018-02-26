@@ -16,7 +16,8 @@
 describe('cce-inventory-list template', function () {
 
     var template, $rootScope, $scope, vm, authorizationService, $timeout, $state,
-        templateTestingUtils, inventoryItem, supervisedFacilities, inventoryItemId, FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder;
+        templateTestingUtils, inventoryItem, supervisedFacilities, inventoryItemId, 
+        FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder, cceActiveAlerts;
 
     beforeEach(function() {
         loadModules();
@@ -122,6 +123,20 @@ describe('cce-inventory-list template', function () {
             new FacilityDataBuilder().build(),
             new FacilityDataBuilder().build()
         ];
+        cceActiveAlerts = {
+            "device-1": [
+                {
+                    alert_id: "active-alert-1",
+                    alert_type: "warning_hot",
+                    device_id: "device-1",
+                    end_ts: null,
+                    start_ts: 1,
+                    status: {
+                        "en-US": "Equipment needs attention: too hot"
+                    }
+                }
+            ]
+        };
     }
 
     function initTestingUtils(suite) {
@@ -135,7 +150,8 @@ describe('cce-inventory-list template', function () {
                 inventoryItems: [
                     inventoryItem
                 ],
-                supervisedFacilities: supervisedFacilities
+                supervisedFacilities: supervisedFacilities,
+                cceActiveAlerts: cceActiveAlerts
             });
 
         vm = testContext.$scope.vm;

@@ -30,11 +30,11 @@
 
     CceInventoryListController.$inject = [
         'inventoryItems', 'supervisedFacilities', '$state', '$stateParams', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS',
-        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING'
+        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceActiveAlerts'
     ];
 
     function CceInventoryListController(inventoryItems, supervisedFacilities, $state, $stateParams, FUNCTIONAL_STATUS, CCE_RIGHTS,
-        authorizationService, messageService, REASON_FOR_NOT_WORKING) {
+        authorizationService, messageService, REASON_FOR_NOT_WORKING, cceActiveAlerts) {
 
         var vm = this;
 
@@ -44,6 +44,10 @@
         vm.goToStatusUpdate = goToStatusUpdate;
         vm.getReasonLabel = getReasonLabel;
         vm.search = search;
+        vm.getAlertClass = getAlertClass;
+        vm.getAlertPopoverTitle = getAlertPopoverTitle;
+        vm.getAlertPopoverTemplateUrl = getAlertPopoverTemplateUrl;
+        vm.toIsoDate = toIsoDate;
 
         /**
          * @ngdoc property
@@ -111,6 +115,8 @@
          */
         vm.functionalStatuses = undefined;
 
+        vm.cceActiveAlerts = undefined;
+
         /**
          * @ngdoc method
          * @methodOf cce-inventory-list.controller:CceInventoryListController
@@ -123,6 +129,7 @@
             vm.inventoryItems = inventoryItems;
             vm.userHasRightToEdit = authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT);
             vm.supervisedFacilities = supervisedFacilities;
+            vm.cceActiveAlerts = cceActiveAlerts;
             vm.facilityId = $stateParams.facilityId;
             vm.functionalStatuses = FUNCTIONAL_STATUS.getStatuses();
             vm.functionalStatus = $stateParams.functionalStatus;
@@ -190,6 +197,74 @@
                 return "";
             }
             return messageService.get(REASON_FOR_NOT_WORKING.getLabel(reason));
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
+         * @name getAlertClass
+         *
+         * @description
+         * Get CCE alert class info.
+         *
+         * @param  {String} deviceId device ID to check
+         * @return {String}          the alert class
+         */
+        function getAlertClass(deviceId) {
+            var alertClass;
+
+            if (!cceActiveAlerts[deviceId]) {
+                alertClass = 'inactive';
+            } else {
+                alertClass = 'active';
+            }
+
+            return alertClass;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
+         * @name getAlertPopoverTitle
+         *
+         * @description
+         * Get CCE alert popover title.
+         *
+         * @param  {String} deviceId device ID to determine if there is a popover title
+         * @return {String}          popover title
+         */
+        function getAlertPopoverTitle(deviceId) {
+            return cceActiveAlerts[deviceId] ? messageService.get("cceAlert.title") : "";
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
+         * @name getAlertPopoverTemplateUrl
+         *
+         * @description
+         * Get CCE alert popover template URL.
+         *
+         * @param  {String} deviceId device ID to determine if there is a popover template
+         * @return {String}          template URL
+         */
+        function getAlertPopoverTemplateUrl(deviceId) {
+            return cceActiveAlerts[deviceId] ? "cce-inventory-list/rtm-alerts-popover.html" : "";
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
+         * @name toIsoDate
+         *
+         * @description
+         * Convert epoch in milliseconds to ISO-8601 formatted date.
+         *
+         * @param  {Number} epochMilli epoch in milliseconds
+         * @return {String}            ISO-8601 formatted date
+         */
+        function toIsoDate(epochMilli) {
+            return new Date(epochMilli).toISOString();
         }
 
         /**

@@ -16,7 +16,7 @@
 describe('CceInventoryListController', function () {
 
     var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, stateParams, authorizationService,
-        FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder;
+        FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder, cceActiveAlerts;
 
     beforeEach(function() {
         module('cce-inventory-list');
@@ -47,9 +47,25 @@ describe('CceInventoryListController', function () {
             facilityId: supervisedFacilities[0].id
         };
 
+        cceActiveAlerts = {
+            "device-1": [
+                {
+                    alert_id: "active-alert-1",
+                    alert_type: "warning_hot",
+                    device_id: "device-1",
+                    end_ts: null,
+                    start_ts: 1,
+                    status: {
+                        "en-US": "Equipment needs attention: too hot"
+                    }
+                }
+            ]
+        };
+
         vm = $controller('CceInventoryListController', {
             inventoryItems: inventoryItems,
             supervisedFacilities: supervisedFacilities,
+            cceActiveAlerts: cceActiveAlerts,
             $stateParams: stateParams
         });
 
@@ -72,6 +88,11 @@ describe('CceInventoryListController', function () {
         it('should expose supervised facilities', function() {
             vm.$onInit();
             expect(vm.facilityId).toEqual(supervisedFacilities[0].id);
+        });
+
+        it('should expose active alerts', function() {
+            vm.$onInit();
+            expect(vm.cceActiveAlerts).toEqual(cceActiveAlerts);
         });
 
         it('should expose the list of functional statuses', function() {
@@ -120,6 +141,62 @@ describe('CceInventoryListController', function () {
 
         it('should return is-obsolete class', function() {
             expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.OBSOLETE)).toEqual('is-obsolete');
+        });
+    });
+
+    describe('getAlertClass', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should return active class if device has any active alerts', function() {
+            expect(vm.getAlertClass('device-1')).toEqual('active');
+        });
+
+        it('should return inactive class if device has no active alerts', function() {
+            expect(vm.getAlertClass('no-alerts-device')).toEqual('inactive');
+        });
+    });
+
+    describe('getAlertPopoverTitle', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should return title if device has any active alerts', function() {
+            expect(vm.getAlertPopoverTitle('device-1')).not.toEqual('');
+        });
+
+        it('should return empty string if device has no active alerts', function() {
+            expect(vm.getAlertPopoverTitle('no-alerts-device')).toEqual('');
+        });
+    });
+
+    describe('getAlertPopoverTemplateUrl', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should return template URL if device has any active alerts', function() {
+            expect(vm.getAlertPopoverTemplateUrl('device-1')).toEqual('cce-inventory-list/rtm-alerts-popover.html');
+        });
+
+        it('should return empty string if device has no active alerts', function() {
+            expect(vm.getAlertPopoverTemplateUrl('no-alerts-device')).toEqual('');
+        });
+    });
+
+    describe('toIsoDate', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should return ISO formatted date given epoch in milliseconds', function() {
+            expect(vm.toIsoDate(1514793600000)).toEqual('2018-01-01T08:00:00.000Z');
         });
     });
 

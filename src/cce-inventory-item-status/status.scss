@@ -1,6 +1,9 @@
+.cce-inventory-item-status-box {
+    display: flex;
+}
+
 .cce-inventory-item-status {
     @include icon('circle');
-    display: flex;
 
     &::before {
         margin-right: 0.5em;
@@ -17,11 +20,22 @@
     &.is-obsolete::before {
         color: $gray;
     }
+}
 
-    & > a.update-status {
-        @include icon('edit');
-        color: $dark-gray;
-        margin-left: auto;
-        padding-left: 0.5em;
-    }
+.cce-inventory-item-update-status {
+    @include icon('edit');
+    color: $dark-gray;
+    padding-left: 0.5em;
+}
+
+.rtm-alert-status-active {
+    @include icon('bell');
+    margin-left: auto;
+    padding-left: 0.5em;
+}
+
+.rtm-alert-status-inactive {
+    @include icon('bell-o');
+    margin-left: auto;
+    padding-left: 0.5em;
 }

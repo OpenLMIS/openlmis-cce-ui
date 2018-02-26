@@ -48,6 +48,16 @@
                         }
                         return facilityInventoryItemFactory.query(stateParams);
                     });
+                },
+                cceActiveAlerts: function(cceAlertFactory, inventoryItems) {
+                    var inventoryItemIds = inventoryItems.map(function (item) {
+                        return item.id;
+                    });
+                    var queryParams = {
+                        deviceId: inventoryItemIds,
+                        active: true
+                    };
+                    return cceAlertFactory.query(queryParams);
                 }
             }
         });

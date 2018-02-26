@@ -25,6 +25,7 @@
      */
     angular.module('cce-inventory-list', [
         'openlmis-pagination',
+        'cce-alert',
         'cce-inventory-item',
         'openlmis-auth',
         'openlmis-rights',
