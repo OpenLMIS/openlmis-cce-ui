@@ -115,6 +115,15 @@
          */
         vm.functionalStatuses = undefined;
 
+        /**
+         * ngdoc property
+         * @propertyOf cce-inventory-list.controller.CceInventoryListController
+         * @name cceActiveAlerts
+         * @type {Object}
+         *
+         * @description
+         * A map of all active alerts for the inventory items.
+         */
         vm.cceActiveAlerts = undefined;
 
         /**
