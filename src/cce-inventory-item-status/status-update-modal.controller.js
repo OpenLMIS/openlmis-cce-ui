@@ -31,13 +31,13 @@
     StatusUpdateModalController.$inject = [
         '$scope', 'inventoryItem', 'canEdit', 'FUNCTIONAL_STATUS', 'messageService', 'REASON_FOR_NOT_WORKING',
         'inventoryItemService', '$state', 'loadingModalService', 'confirmService',
-        'notificationService', 'stateTrackerService', 'cceActiveAlerts'
+        'notificationService', 'stateTrackerService', 'cceActiveAlerts', 'dateUtils'
     ];
 
     function StatusUpdateModalController($scope, inventoryItem, canEdit, FUNCTIONAL_STATUS, messageService,
                                          REASON_FOR_NOT_WORKING, inventoryItemService, $state,
                                          loadingModalService, confirmService, notificationService,
-                                         stateTrackerService, cceActiveAlerts) {
+                                         stateTrackerService, cceActiveAlerts, dateUtils) {
         var vm = this;
 
         vm.save = save;
@@ -49,7 +49,7 @@
         vm.cancel = cancel;
         vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
         vm.clearReasonAndDecommissionDate = clearReasonAndDecommissionDated;
-        vm.toIsoDate = toIsoDate;
+        vm.dateUtils = dateUtils;
 
         /**
          * @ngdoc property
@@ -120,21 +120,6 @@
          */
         function getReasonLabel(reason) {
             return messageService.get(REASON_FOR_NOT_WORKING.getLabel(reason));
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf cce-inventory-list.controller:CceInventoryListController
-         * @name toIsoDate
-         *
-         * @description
-         * Convert epoch in milliseconds to ISO-8601 formatted date.
-         *
-         * @param  {Number} epochMilli epoch in milliseconds
-         * @return {String}            ISO-8601 formatted date
-         */
-        function toIsoDate(epochMilli) {
-            return new Date(epochMilli).toISOString();
         }
 
         /**

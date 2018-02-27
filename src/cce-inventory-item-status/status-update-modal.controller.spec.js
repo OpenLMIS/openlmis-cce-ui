@@ -140,17 +140,6 @@ describe('StatusUpdateModalController', function() {
 
     });
 
-    describe('toIsoDate', function() {
-
-        beforeEach(function() {
-            vm.$onInit();
-        });
-
-        it('should return ISO formatted date given epoch in milliseconds', function() {
-            expect(vm.toIsoDate(1514793600000)).toEqual('2018-01-01T08:00:00.000Z');
-        });
-    });
-
     describe('isFunctioning', function() {
 
         beforeEach(function() {

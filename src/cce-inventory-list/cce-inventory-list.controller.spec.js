@@ -144,62 +144,6 @@ describe('CceInventoryListController', function () {
         });
     });
 
-    describe('getAlertClass', function() {
-
-        beforeEach(function() {
-            vm.$onInit();
-        });
-
-        it('should return active class if device has any active alerts', function() {
-            expect(vm.getAlertClass('device-1')).toEqual('active');
-        });
-
-        it('should return inactive class if device has no active alerts', function() {
-            expect(vm.getAlertClass('no-alerts-device')).toEqual('inactive');
-        });
-    });
-
-    describe('getAlertPopoverTitle', function() {
-
-        beforeEach(function() {
-            vm.$onInit();
-        });
-
-        it('should return title if device has any active alerts', function() {
-            expect(vm.getAlertPopoverTitle('device-1')).not.toEqual('');
-        });
-
-        it('should return empty string if device has no active alerts', function() {
-            expect(vm.getAlertPopoverTitle('no-alerts-device')).toEqual('');
-        });
-    });
-
-    describe('getAlertPopoverTemplateUrl', function() {
-
-        beforeEach(function() {
-            vm.$onInit();
-        });
-
-        it('should return template URL if device has any active alerts', function() {
-            expect(vm.getAlertPopoverTemplateUrl('device-1')).toEqual('cce-inventory-list/rtm-alerts-popover.html');
-        });
-
-        it('should return empty string if device has no active alerts', function() {
-            expect(vm.getAlertPopoverTemplateUrl('no-alerts-device')).toEqual('');
-        });
-    });
-
-    describe('toIsoDate', function() {
-
-        beforeEach(function() {
-            vm.$onInit();
-        });
-
-        it('should return ISO formatted date given epoch in milliseconds', function() {
-            expect(vm.toIsoDate(1514793600000)).toEqual('2018-01-01T08:00:00.000Z');
-        });
-    });
-
     describe('goToStatusUpdate', function() {
 
         beforeEach(function() {

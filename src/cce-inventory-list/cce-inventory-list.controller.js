@@ -30,11 +30,11 @@
 
     CceInventoryListController.$inject = [
         'inventoryItems', 'supervisedFacilities', '$state', '$stateParams', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS',
-        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceActiveAlerts'
+        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceActiveAlerts', 'dateUtils'
     ];
 
     function CceInventoryListController(inventoryItems, supervisedFacilities, $state, $stateParams, FUNCTIONAL_STATUS, CCE_RIGHTS,
-        authorizationService, messageService, REASON_FOR_NOT_WORKING, cceActiveAlerts) {
+        authorizationService, messageService, REASON_FOR_NOT_WORKING, cceActiveAlerts, dateUtils) {
 
         var vm = this;
 
@@ -44,10 +44,7 @@
         vm.goToStatusUpdate = goToStatusUpdate;
         vm.getReasonLabel = getReasonLabel;
         vm.search = search;
-        vm.getAlertClass = getAlertClass;
-        vm.getAlertPopoverTitle = getAlertPopoverTitle;
-        vm.getAlertPopoverTemplateUrl = getAlertPopoverTemplateUrl;
-        vm.toIsoDate = toIsoDate;
+        vm.dateUtils = dateUtils;
 
         /**
          * @ngdoc property
@@ -229,51 +226,6 @@
             }
 
             return alertClass;
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf cce-inventory-list.controller:CceInventoryListController
-         * @name getAlertPopoverTitle
-         *
-         * @description
-         * Get CCE alert popover title.
-         *
-         * @param  {String} deviceId device ID to determine if there is a popover title
-         * @return {String}          popover title
-         */
-        function getAlertPopoverTitle(deviceId) {
-            return cceActiveAlerts[deviceId] ? messageService.get("cceInventoryList.rtmAlerts.title") : "";
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf cce-inventory-list.controller:CceInventoryListController
-         * @name getAlertPopoverTemplateUrl
-         *
-         * @description
-         * Get CCE alert popover template URL.
-         *
-         * @param  {String} deviceId device ID to determine if there is a popover template
-         * @return {String}          template URL
-         */
-        function getAlertPopoverTemplateUrl(deviceId) {
-            return cceActiveAlerts[deviceId] ? "cce-inventory-list/rtm-alerts-popover.html" : "";
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf cce-inventory-list.controller:CceInventoryListController
-         * @name toIsoDate
-         *
-         * @description
-         * Convert epoch in milliseconds to ISO-8601 formatted date.
-         *
-         * @param  {Number} epochMilli epoch in milliseconds
-         * @return {String}            ISO-8601 formatted date
-         */
-        function toIsoDate(epochMilli) {
-            return new Date(epochMilli).toISOString();
         }
 
         /**
