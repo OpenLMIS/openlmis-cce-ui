@@ -28,6 +28,10 @@
     padding-left: 0.5em;
 }
 
+.cce-alert-date {
+    display: block;
+}
+
 .rtm-alert-status-active {
     @include icon('bell');
     margin-left: auto;
