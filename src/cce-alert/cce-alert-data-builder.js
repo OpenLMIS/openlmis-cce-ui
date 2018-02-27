@@ -22,9 +22,9 @@
         .module('cce-alert')
         .factory('CCEAlertDataBuilder', CCEAlertDataBuilder);
 
-    CCEAlertDataBuilder.$inject = ['CCEAlert'];
+    CCEAlertDataBuilder.$inject = [];
 
-    function CCEAlertDataBuilder(CCEAlert) {
+    function CCEAlertDataBuilder() {
 
         CCEAlertDataBuilder.prototype.build = build;
         CCEAlertDataBuilder.prototype.withAlertId = withAlertId;
@@ -85,15 +85,15 @@
         }
 
         function build() {
-            return new CCEAlert(
-                this.alert_id,
-                this.alert_type,
-                this.device_id,
-                this.start_ts,
-                this.status,
-                this.end_ts,
-                this.dismissed
-            );
+            return {
+                alert_id: this.alert_id,
+                alert_type: this.alert_type,
+                device_id: this.device_id,
+                start_ts: this.start_ts,
+                status: this.status,
+                end_ts: this.end_ts,
+                dismissed: this.dismissed
+            };
         }
 
     }
