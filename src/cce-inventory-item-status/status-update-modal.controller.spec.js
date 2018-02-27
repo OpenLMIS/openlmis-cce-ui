@@ -19,7 +19,7 @@ describe('StatusUpdateModalController', function() {
         loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
         REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
         stateTrackerService, FacilityProgramInventoryItemDataBuilder, CCE_STATUS,
-        permissionService, authorizationService, deferred, result, CCE_RIGHTS;
+        permissionService, authorizationService, deferred, result, CCE_RIGHTS, cceActiveAlerts;
 
     beforeEach(prepareSuite);
 
@@ -67,6 +67,12 @@ describe('StatusUpdateModalController', function() {
             expect(vm.decommissionDate).toEqual('2017-01-01');
         });
 
+        it('should expose cceActiveAlerts', function() {
+            vm.$onInit();
+
+            expect(vm.cceActiveAlerts).toBeDefined();
+        });
+
         it('should set userHasRightToEdit as true if user has CCE_INVENTORY_EDIT right', function() {
             vm.$onInit();
 
@@ -77,7 +83,8 @@ describe('StatusUpdateModalController', function() {
             vm = $controller('StatusUpdateModalController', {
                 inventoryItem: inventoryItem,
                 $scope: $scope,
-                canEdit: false
+                canEdit: false,
+                cceActiveAlerts: cceActiveAlerts
             });
 
             vm.$onInit();
@@ -131,6 +138,17 @@ describe('StatusUpdateModalController', function() {
             ).toEqual('Needs Spare Parts');
         });
 
+    });
+
+    describe('toIsoDate', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should return ISO formatted date given epoch in milliseconds', function() {
+            expect(vm.toIsoDate(1514793600000)).toEqual('2018-01-01T08:00:00.000Z');
+        });
     });
 
     describe('isFunctioning', function() {
@@ -395,6 +413,21 @@ describe('StatusUpdateModalController', function() {
 
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
+        cceActiveAlerts = {
+            "device-1": [
+                {
+                    alert_id: "active-alert-1",
+                    alert_type: "warning_hot",
+                    device_id: "device-1",
+                    end_ts: null,
+                    start_ts: 1,
+                    status: {
+                        "en-US": "Equipment needs attention: too hot"
+                    }
+                }
+            ]
+        };
+
         modalDeferred = $q.defer();
         saveDeferred = $q.defer();
         $scope = {};
@@ -402,7 +435,8 @@ describe('StatusUpdateModalController', function() {
         vm = $controller('StatusUpdateModalController', {
             inventoryItem: inventoryItem,
             $scope: $scope,
-            canEdit: true
+            canEdit: true,
+            cceActiveAlerts: cceActiveAlerts
         });
 
         messages = {

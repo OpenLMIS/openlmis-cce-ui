@@ -382,6 +382,20 @@ describe('status-update-modal.html template', function() {
     function prepareTestData() {
         inventoryItemBuilder = new FacilityProgramInventoryItemDataBuilder().withId('some-inventory-item-id');
         inventoryItem = inventoryItemBuilder.build();
+        cceActiveAlerts = {
+            "device-1": [
+                {
+                    alert_id: "active-alert-1",
+                    alert_type: "warning_hot",
+                    device_id: "device-1",
+                    end_ts: null,
+                    start_ts: 1,
+                    status: {
+                        "en-US": "Equipment needs attention: too hot"
+                    }
+                }
+            ]
+        };
         saveDeferred = $q.defer();
     }
 
@@ -403,7 +417,8 @@ describe('status-update-modal.html template', function() {
             'cce-inventory-item-status/status-update-modal.html',
             'StatusUpdateModalController', {
                 inventoryItem: inventoryItem,
-                canEdit: true
+                canEdit: true,
+                cceActiveAlerts: cceActiveAlerts
             });
 
         vm = testContext.$scope.vm;

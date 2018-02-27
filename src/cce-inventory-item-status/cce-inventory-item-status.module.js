@@ -26,6 +26,7 @@
     angular.module('cce-inventory-item-status', [
         'ui.router',
         'openlmis-i18n',
+        'cce-alert',
         'cce-inventory-item',
         'openlmis-modal',
         'openlmis-state-tracker'

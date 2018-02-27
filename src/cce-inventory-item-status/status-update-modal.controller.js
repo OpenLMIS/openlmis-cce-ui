@@ -31,13 +31,13 @@
     StatusUpdateModalController.$inject = [
         '$scope', 'inventoryItem', 'canEdit', 'FUNCTIONAL_STATUS', 'messageService', 'REASON_FOR_NOT_WORKING',
         'inventoryItemService', '$state', 'loadingModalService', 'confirmService',
-        'notificationService', 'stateTrackerService'
+        'notificationService', 'stateTrackerService', 'cceActiveAlerts'
     ];
 
     function StatusUpdateModalController($scope, inventoryItem, canEdit, FUNCTIONAL_STATUS, messageService,
                                          REASON_FOR_NOT_WORKING, inventoryItemService, $state,
                                          loadingModalService, confirmService, notificationService,
-                                         stateTrackerService) {
+                                         stateTrackerService, cceActiveAlerts) {
         var vm = this;
 
         vm.save = save;
@@ -49,6 +49,7 @@
         vm.cancel = cancel;
         vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
         vm.clearReasonAndDecommissionDate = clearReasonAndDecommissionDated;
+        vm.toIsoDate = toIsoDate;
 
         /**
          * @ngdoc property
@@ -60,6 +61,17 @@
          * Flag defining whether user has right for editing the inventory item.
          */
         vm.userHasRightToEdit = undefined;
+
+        /**
+         * ngdoc property
+         * @propertyOf cce-inventory-list.controller.CceInventoryListController
+         * @name cceActiveAlerts
+         * @type {Object}
+         *
+         * @description
+         * A map of all active alerts for the inventory item.
+         */
+         vm.cceActiveAlerts = undefined;
 
         /**
          * @ngdoc method
@@ -77,6 +89,7 @@
             vm.reasons = REASON_FOR_NOT_WORKING.getReasons();
             vm.decommissionDate = inventoryItem.decommissionDate;
             vm.userHasRightToEdit = canEdit;
+            vm.cceActiveAlerts = cceActiveAlerts;
         }
 
         /**
@@ -107,6 +120,21 @@
          */
         function getReasonLabel(reason) {
             return messageService.get(REASON_FOR_NOT_WORKING.getLabel(reason));
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
+         * @name toIsoDate
+         *
+         * @description
+         * Convert epoch in milliseconds to ISO-8601 formatted date.
+         *
+         * @param  {Number} epochMilli epoch in milliseconds
+         * @return {String}            ISO-8601 formatted date
+         */
+        function toIsoDate(epochMilli) {
+            return new Date(epochMilli).toISOString();
         }
 
         /**

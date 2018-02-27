@@ -56,13 +56,20 @@
                     .catch(function() {
                         return false;
                     });
+                },
+                cceActiveAlerts: function(cceAlertFactory, inventoryItem) {
+                    var queryParams = {
+                        deviceId: inventoryItem.id,
+                        active: true
+                    };
+                    return cceAlertFactory.query(queryParams);
                 }
             }
         });
 
-        onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canEdit'];
+        onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canEdit', 'cceActiveAlerts'];
 
-        function onEnter(openlmisModalService, inventoryItem, canEdit) {
+        function onEnter(openlmisModalService, inventoryItem, canEdit, cceActiveAlerts) {
             dialog = openlmisModalService.createDialog({
                 backdrop: 'static',
                 controller: 'StatusUpdateModalController',
@@ -74,6 +81,9 @@
                     },
                     canEdit: function() {
                         return canEdit;
+                    },
+                    cceActiveAlerts: function() {
+                        return cceActiveAlerts;
                     }
                 }
             });
