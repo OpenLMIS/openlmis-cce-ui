@@ -33,30 +33,35 @@
     function factory($q, cceAlertService) {
 
         return {
-            getActiveAlertsGroupedByDevice: getActiveAlertsGroupedByDevice
+            getAlertsGroupedByDevice: getAlertsGroupedByDevice
         };
 
         /**
          * @ngdoc method
          * @methodOf cce-alert.cceAlertFactory
-         * @name getActiveAlertsGroupedByDevice
+         * @name getAlertsGroupedByDevice
          *
          * @description
-         * Returns active alerts. Map entry exists if there are any active alerts.
+         * Returns all alerts, active or inactive. Map entry exists if there are any alerts.
          *
          * @param  {Object}     params Pagination parameters, device ID and active
-         * @return {Promise}    the active alerts
+         * @return {Promise}    the alerts
          */
-        function getActiveAlertsGroupedByDevice(params) {
+        function getAlertsGroupedByDevice(params) {
             return cceAlertService.query(params)
                 .then(function(response) {
                     var cceAlertsMap = response.content.reduce(function (map, obj) {
                         if (!map[obj.device_id]) {
-                            map[obj.device_id] = [];
+                            map[obj.device_id] = {
+                                activeAlerts: [],
+                                inactiveAlerts: []
+                            };
                         }
 
                         if (!obj.end_ts && !obj.dismissed) {
-                            map[obj.device_id].push(obj);
+                            map[obj.device_id].activeAlerts.push(obj);
+                        } else {
+                            map[obj.device_id].inactiveAlerts.push(obj);
                         }
 
                         return map;

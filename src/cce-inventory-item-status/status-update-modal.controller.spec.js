@@ -19,7 +19,7 @@ describe('StatusUpdateModalController', function() {
         loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
         REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
         stateTrackerService, FacilityProgramInventoryItemDataBuilder, CCE_STATUS,
-        permissionService, authorizationService, deferred, result, CCE_RIGHTS, cceActiveAlerts;
+        permissionService, authorizationService, deferred, result, CCE_RIGHTS, cceAlerts;
 
     beforeEach(prepareSuite);
 
@@ -67,10 +67,10 @@ describe('StatusUpdateModalController', function() {
             expect(vm.decommissionDate).toEqual('2017-01-01');
         });
 
-        it('should expose cceActiveAlerts', function() {
+        it('should expose cceAlerts', function() {
             vm.$onInit();
 
-            expect(vm.cceActiveAlerts).toBeDefined();
+            expect(vm.cceAlerts).toBeDefined();
         });
 
         it('should set userHasRightToEdit as true if user has CCE_INVENTORY_EDIT right', function() {
@@ -84,7 +84,7 @@ describe('StatusUpdateModalController', function() {
                 inventoryItem: inventoryItem,
                 $scope: $scope,
                 canEdit: false,
-                cceActiveAlerts: cceActiveAlerts
+                cceAlerts: cceAlerts
             });
 
             vm.$onInit();
@@ -402,19 +402,11 @@ describe('StatusUpdateModalController', function() {
 
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
-        cceActiveAlerts = {
-            "device-1": [
-                {
-                    alert_id: "active-alert-1",
-                    alert_type: "warning_hot",
-                    device_id: "device-1",
-                    end_ts: null,
-                    start_ts: 1,
-                    status: {
-                        "en-US": "Equipment needs attention: too hot"
-                    }
-                }
-            ]
+        cceAlerts = {
+            "device-1": {
+                "activeAlerts": [],
+                "inactiveAlerts": []
+            }
         };
 
         modalDeferred = $q.defer();
@@ -425,7 +417,7 @@ describe('StatusUpdateModalController', function() {
             inventoryItem: inventoryItem,
             $scope: $scope,
             canEdit: true,
-            cceActiveAlerts: cceActiveAlerts
+            cceAlerts: cceAlerts
         });
 
         messages = {

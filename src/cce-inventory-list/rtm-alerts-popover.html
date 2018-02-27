@@ -1,3 +1,6 @@
 <ul class="list-unstyled">
-    <li ng-repeat="alert in vm.cceActiveAlerts[item.id]"><div class="cce-alert-date">{{vm.dateUtils.convertEpochMilliToIsoDateString(alert.start_ts)}}</div><p>{{alert.status.en_US}}</p></li>
+    <li ng-repeat="alert in vm.cceAlerts[item.id].activeAlerts">
+        <div class="cce-alert-date">{{vm.dateUtils.convertEpochMilliToIsoDateString(alert.start_ts)}}</div>
+        <p>{{alert.status.en_US}}</p>
+    </li>
 </ul>

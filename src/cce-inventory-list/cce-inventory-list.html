@@ -50,10 +50,11 @@
                         <span class="cce-inventory-item-status {{vm.getFunctionalStatusClass(item.functionalStatus)}}"
                             popover="{{vm.getReasonLabel(item.reasonNotWorkingOrNotInUse)}}">{{vm.getStatusLabel(item.functionalStatus)}}</span>
 
-                        <span ng-if="vm.cceActiveAlerts[item.id]" class="rtm-alert-status-active" popover 
+                        <span ng-if="vm.cceAlerts[item.id] && vm.cceAlerts[item.id].activeAlerts.length > 0" class="rtm-alert-status-active" popover 
                             popover-title="{{'cceInventoryList.rtmAlerts.title' | message}}" 
                             popover-template="cce-inventory-list/rtm-alerts-popover.html"></span>
-                        <span ng-if="!vm.cceActiveAlerts[item.id]" class="rtm-alert-status-inactive"></span>
+                        <span ng-if="vm.cceAlerts[item.id] && vm.cceAlerts[item.id].activeAlerts.length === 0" class="rtm-alert-status-inactive"></span>
+                        <span ng-if="!vm.cceAlerts[item.id]" class="rtm-alert-status-unavailable"></span>
 
                         <a id="functional-status" class="cce-inventory-item-update-status" ng-click="vm.goToStatusUpdate(item)"></a>
                     </div>

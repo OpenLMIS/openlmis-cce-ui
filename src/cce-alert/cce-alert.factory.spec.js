@@ -37,19 +37,13 @@ describe('cceAlertFactory', function() {
                 .withDismissed(false)
                 .build(),
             new CCEAlertDataBuilder()
-                .withAlertId("active-alert-2")
-                .withDeviceId("device-1")
-                .withEndTs(null)
-                .withDismissed(false)
-                .build(),
-            new CCEAlertDataBuilder()
                 .withAlertId("resolved-alert")
                 .withDeviceId("device-1")
                 .withEndTs(1)
                 .withDismissed(false)
                 .build(),
             new CCEAlertDataBuilder()
-                .withAlertId("active-alert-3")
+                .withAlertId("active-alert-2")
                 .withDeviceId("device-2")
                 .withEndTs(null)
                 .withDismissed(false)
@@ -62,7 +56,7 @@ describe('cceAlertFactory', function() {
                 .build(),
             new CCEAlertDataBuilder()
                 .withAlertId("resolved-dismissed-alert")
-                .withDeviceId("device-2")
+                .withDeviceId("device-3")
                 .withEndTs(1)
                 .withDismissed(true)
                 .build()
@@ -77,12 +71,12 @@ describe('cceAlertFactory', function() {
         spyOn(cceAlertService, 'query').andReturn(cceAlertDeferred.promise);
     });
 
-    describe('getActiveAlertsGroupedByDevice', function() {
+    describe('getAlertsGroupedByDevice', function() {
 
         it('should reject promise if alerts promise is rejected', function() {
             var status = undefined;
 
-            cceAlertFactory.getActiveAlertsGroupedByDevice(query).then(function() {
+            cceAlertFactory.getAlertsGroupedByDevice(query).then(function() {
                 status = 'resolved';
             }, function() {
                 status = 'rejected';
@@ -98,7 +92,7 @@ describe('cceAlertFactory', function() {
         it('should resolve promise if alerts promise is resolved', function() {
             var status = undefined;
 
-            cceAlertFactory.getActiveAlertsGroupedByDevice(query).then(function(response) {
+            cceAlertFactory.getAlertsGroupedByDevice(query).then(function(response) {
                 status = 'resolved';
             }, function() {
                 status = 'rejected';
@@ -114,7 +108,7 @@ describe('cceAlertFactory', function() {
         it('should resolve promise even if params is undefined', function() {
             var status = undefined;
 
-            cceAlertFactory.getActiveAlertsGroupedByDevice(undefined).then(function(response) {
+            cceAlertFactory.getAlertsGroupedByDevice(undefined).then(function(response) {
                 status = 'resolved';
             }, function() {
                 status = 'rejected';
@@ -130,7 +124,7 @@ describe('cceAlertFactory', function() {
         it('should transform to map with device ID as key if promise is resolved', function() {
             var resultMap = {};
 
-            cceAlertFactory.getActiveAlertsGroupedByDevice(query).then(function(response) {
+            cceAlertFactory.getAlertsGroupedByDevice(query).then(function(response) {
                 resultMap = response;
             });
 
@@ -141,10 +135,10 @@ describe('cceAlertFactory', function() {
             expect(resultMap['device-2']).toBeDefined();
         });
 
-        it('should have only active alerts, and consolidate alerts from the same device, if promise is resolved', function() {
+        it('should consolidate alerts from the same device, and separate into active and inactive, if promise is resolved', function() {
             var resultMap = {};
 
-            cceAlertFactory.getActiveAlertsGroupedByDevice(query).then(function(response) {
+            cceAlertFactory.getAlertsGroupedByDevice(query).then(function(response) {
                 resultMap = response;
             });
 
@@ -152,12 +146,21 @@ describe('cceAlertFactory', function() {
             $rootScope.$apply();
 
             expect(resultMap['device-1']).toBeDefined();
-            expect(resultMap['device-1'].length).toBe(2);
-            expect(resultMap['device-1'][0].alert_id).toContain('active-alert-');
-            expect(resultMap['device-1'][1].alert_id).toContain('active-alert-');
+            expect(resultMap['device-1'].activeAlerts.length).toBe(1);
+            expect(resultMap['device-1'].activeAlerts[0].alert_id).toBe('active-alert-1');
+            expect(resultMap['device-1'].inactiveAlerts.length).toBe(1);
+            expect(resultMap['device-1'].inactiveAlerts[0].alert_id).toBe('resolved-alert');
+
             expect(resultMap['device-2']).toBeDefined();
-            expect(resultMap['device-2'].length).toBe(1);
-            expect(resultMap['device-2'][0].alert_id).toBe('active-alert-3');
+            expect(resultMap['device-2'].activeAlerts.length).toBe(1);
+            expect(resultMap['device-2'].activeAlerts[0].alert_id).toBe('active-alert-2');
+            expect(resultMap['device-2'].inactiveAlerts.length).toBe(1);
+            expect(resultMap['device-2'].inactiveAlerts[0].alert_id).toBe('dismissed-alert');
+
+            expect(resultMap['device-3']).toBeDefined();
+            expect(resultMap['device-3'].activeAlerts.length).toBe(0);
+            expect(resultMap['device-3'].inactiveAlerts.length).toBe(1);
+            expect(resultMap['device-3'].inactiveAlerts[0].alert_id).toBe('resolved-dismissed-alert');
         });
     });
 });

@@ -16,7 +16,7 @@
 describe('CceInventoryListController', function () {
 
     var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, stateParams, authorizationService,
-        FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder, cceActiveAlerts;
+        FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder, cceAlerts;
 
     beforeEach(function() {
         module('cce-inventory-list');
@@ -47,25 +47,16 @@ describe('CceInventoryListController', function () {
             facilityId: supervisedFacilities[0].id
         };
 
-        cceActiveAlerts = {
-            "device-1": [
-                {
-                    alert_id: "active-alert-1",
-                    alert_type: "warning_hot",
-                    device_id: "device-1",
-                    end_ts: null,
-                    start_ts: 1,
-                    status: {
-                        "en-US": "Equipment needs attention: too hot"
-                    }
-                }
-            ]
+        cceAlerts = {
+            "device-1": {
+                "activeAlerts": []
+            }
         };
 
         vm = $controller('CceInventoryListController', {
             inventoryItems: inventoryItems,
             supervisedFacilities: supervisedFacilities,
-            cceActiveAlerts: cceActiveAlerts,
+            cceAlerts: cceAlerts,
             $stateParams: stateParams
         });
 
@@ -90,9 +81,9 @@ describe('CceInventoryListController', function () {
             expect(vm.facilityId).toEqual(supervisedFacilities[0].id);
         });
 
-        it('should expose active alerts', function() {
+        it('should expose alerts', function() {
             vm.$onInit();
-            expect(vm.cceActiveAlerts).toEqual(cceActiveAlerts);
+            expect(vm.cceAlerts).toEqual(cceAlerts);
         });
 
         it('should expose the list of functional statuses', function() {

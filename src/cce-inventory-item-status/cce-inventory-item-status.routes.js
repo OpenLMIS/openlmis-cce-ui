@@ -57,19 +57,18 @@
                         return false;
                     });
                 },
-                cceActiveAlerts: function(cceAlertFactory, inventoryItem) {
+                cceAlerts: function(cceAlertFactory, inventoryItem) {
                     var queryParams = {
-                        deviceId: inventoryItem.id,
-                        active: true
+                        deviceId: inventoryItem.id
                     };
-                    return cceAlertFactory.getActiveAlertsGroupedByDevice(queryParams);
+                    return cceAlertFactory.getAlertsGroupedByDevice(queryParams);
                 }
             }
         });
 
-        onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canEdit', 'cceActiveAlerts'];
+        onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canEdit', 'cceAlerts'];
 
-        function onEnter(openlmisModalService, inventoryItem, canEdit, cceActiveAlerts) {
+        function onEnter(openlmisModalService, inventoryItem, canEdit, cceAlerts) {
             dialog = openlmisModalService.createDialog({
                 backdrop: 'static',
                 controller: 'StatusUpdateModalController',
@@ -82,8 +81,8 @@
                     canEdit: function() {
                         return canEdit;
                     },
-                    cceActiveAlerts: function() {
-                        return cceActiveAlerts;
+                    cceAlerts: function() {
+                        return cceAlerts;
                     }
                 }
             });

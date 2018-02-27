@@ -31,13 +31,13 @@
     StatusUpdateModalController.$inject = [
         '$scope', 'inventoryItem', 'canEdit', 'FUNCTIONAL_STATUS', 'messageService', 'REASON_FOR_NOT_WORKING',
         'inventoryItemService', '$state', 'loadingModalService', 'confirmService',
-        'notificationService', 'stateTrackerService', 'cceActiveAlerts', 'dateUtils'
+        'notificationService', 'stateTrackerService', 'cceAlerts', 'dateUtils'
     ];
 
     function StatusUpdateModalController($scope, inventoryItem, canEdit, FUNCTIONAL_STATUS, messageService,
                                          REASON_FOR_NOT_WORKING, inventoryItemService, $state,
                                          loadingModalService, confirmService, notificationService,
-                                         stateTrackerService, cceActiveAlerts, dateUtils) {
+                                         stateTrackerService, cceAlerts, dateUtils) {
         var vm = this;
 
         vm.save = save;
@@ -65,13 +65,13 @@
         /**
          * ngdoc property
          * @propertyOf cce-inventory-list.controller.CceInventoryListController
-         * @name cceActiveAlerts
+         * @name cceAlerts
          * @type {Object}
          *
          * @description
-         * A map of all active alerts for the inventory item.
+         * A map of all alerts for the inventory item.
          */
-         vm.cceActiveAlerts = undefined;
+         vm.cceAlerts = undefined;
 
         /**
          * @ngdoc method
@@ -89,7 +89,7 @@
             vm.reasons = REASON_FOR_NOT_WORKING.getReasons();
             vm.decommissionDate = inventoryItem.decommissionDate;
             vm.userHasRightToEdit = canEdit;
-            vm.cceActiveAlerts = cceActiveAlerts;
+            vm.cceAlerts = cceAlerts;
         }
 
         /**

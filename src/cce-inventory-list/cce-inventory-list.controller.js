@@ -30,11 +30,11 @@
 
     CceInventoryListController.$inject = [
         'inventoryItems', 'supervisedFacilities', '$state', '$stateParams', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS',
-        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceActiveAlerts', 'dateUtils'
+        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceAlerts', 'dateUtils'
     ];
 
     function CceInventoryListController(inventoryItems, supervisedFacilities, $state, $stateParams, FUNCTIONAL_STATUS, CCE_RIGHTS,
-        authorizationService, messageService, REASON_FOR_NOT_WORKING, cceActiveAlerts, dateUtils) {
+        authorizationService, messageService, REASON_FOR_NOT_WORKING, cceAlerts, dateUtils) {
 
         var vm = this;
 
@@ -115,13 +115,13 @@
         /**
          * ngdoc property
          * @propertyOf cce-inventory-list.controller.CceInventoryListController
-         * @name cceActiveAlerts
+         * @name cceAlerts
          * @type {Object}
          *
          * @description
-         * A map of all active alerts for the inventory items.
+         * A map of all alerts for the inventory items.
          */
-        vm.cceActiveAlerts = undefined;
+        vm.cceAlerts = undefined;
 
         /**
          * @ngdoc method
@@ -135,7 +135,7 @@
             vm.inventoryItems = inventoryItems;
             vm.userHasRightToEdit = authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT);
             vm.supervisedFacilities = supervisedFacilities;
-            vm.cceActiveAlerts = cceActiveAlerts;
+            vm.cceAlerts = cceAlerts;
             vm.facilityId = $stateParams.facilityId;
             vm.functionalStatuses = FUNCTIONAL_STATUS.getStatuses();
             vm.functionalStatus = $stateParams.functionalStatus;
@@ -203,29 +203,6 @@
                 return "";
             }
             return messageService.get(REASON_FOR_NOT_WORKING.getLabel(reason));
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf cce-inventory-list.controller:CceInventoryListController
-         * @name getAlertClass
-         *
-         * @description
-         * Get CCE alert class info.
-         *
-         * @param  {String} deviceId device ID to check
-         * @return {String}          the alert class
-         */
-        function getAlertClass(deviceId) {
-            var alertClass;
-
-            if (!cceActiveAlerts[deviceId]) {
-                alertClass = 'inactive';
-            } else {
-                alertClass = 'active';
-            }
-
-            return alertClass;
         }
 
         /**
