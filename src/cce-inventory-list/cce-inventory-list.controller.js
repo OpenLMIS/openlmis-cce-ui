@@ -243,7 +243,7 @@
          * @return {String}          popover title
          */
         function getAlertPopoverTitle(deviceId) {
-            return cceActiveAlerts[deviceId] ? messageService.get("cceAlert.title") : "";
+            return cceActiveAlerts[deviceId] ? messageService.get("cceInventoryList.rtmAlerts.title") : "";
         }
 
         /**

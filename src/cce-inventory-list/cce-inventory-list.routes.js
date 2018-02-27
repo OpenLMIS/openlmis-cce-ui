@@ -57,7 +57,7 @@
                         deviceId: inventoryItemIds,
                         active: true
                     };
-                    return cceAlertFactory.query(queryParams);
+                    return cceAlertFactory.getActiveAlertsGroupedByDevice(queryParams);
                 }
             }
         });

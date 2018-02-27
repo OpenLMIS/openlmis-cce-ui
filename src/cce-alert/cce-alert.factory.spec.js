@@ -15,60 +15,57 @@
 
 describe('cceAlertFactory', function() {
 
-    var $q, $rootScope, cceAlertFactory, cceAlertService, cceAlertDeferred, cceAlerts, query;
+    var $q, $rootScope, cceAlertFactory, cceAlertService, cceAlertDeferred, cceAlerts, query,
+        CCEAlertDataBuilder;
 
     beforeEach(function() {
-        module('cce-alert', function($provide) {
-            cceAlertService = jasmine.createSpyObj('cceAlertService', ['query']);
-            $provide.service('cceAlertService', function() {
-                return cceAlertService;
-            });
-        });
+        module('cce-alert');
 
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             cceAlertService = $injector.get('cceAlertService');
             cceAlertFactory = $injector.get('cceAlertFactory');
+            CCEAlertDataBuilder = $injector.get('CCEAlertDataBuilder');
         });
 
         cceAlerts = [
-            {
-                id: "active-alert-1",
-                device_id: "device-1",
-                end_ts: null,
-                dismissed: false
-            },
-            {
-                id: "active-alert-2",
-                device_id: "device-1",
-                end_ts: null,
-                dismissed: false
-            },
-            {
-                id: "resolved-alert",
-                device_id: "device-1",
-                end_ts: 1,
-                dismissed: false
-            },
-            {
-                id: "active-alert-3",
-                device_id: "device-2",
-                end_ts: null,
-                dismissed: false
-            },
-            {
-                id: "dismissed-alert",
-                device_id: "device-2",
-                end_ts: null,
-                dismissed: true
-            },
-            {
-                id: "resolved-dismissed-alert",
-                device_id: "device-2",
-                end_ts: 1,
-                dismissed: true
-            }
+            new CCEAlertDataBuilder()
+                .withAlertId("active-alert-1")
+                .withDeviceId("device-1")
+                .withEndTs(null)
+                .withDismissed(false)
+                .build(),
+            new CCEAlertDataBuilder()
+                .withAlertId("active-alert-2")
+                .withDeviceId("device-1")
+                .withEndTs(null)
+                .withDismissed(false)
+                .build(),
+            new CCEAlertDataBuilder()
+                .withAlertId("resolved-alert")
+                .withDeviceId("device-1")
+                .withEndTs(1)
+                .withDismissed(false)
+                .build(),
+            new CCEAlertDataBuilder()
+                .withAlertId("active-alert-3")
+                .withDeviceId("device-2")
+                .withEndTs(null)
+                .withDismissed(false)
+                .build(),
+            new CCEAlertDataBuilder()
+                .withAlertId("dismissed-alert")
+                .withDeviceId("device-2")
+                .withEndTs(null)
+                .withDismissed(true)
+                .build(),
+            new CCEAlertDataBuilder()
+                .withAlertId("resolved-dismissed-alert")
+                .withDeviceId("device-2")
+                .withEndTs(1)
+                .withDismissed(true)
+                .build()
         ];
 
         query = {
@@ -77,15 +74,15 @@ describe('cceAlertFactory', function() {
         };
 
         cceAlertDeferred = $q.defer();
-        cceAlertService.query.andReturn(cceAlertDeferred.promise);
+        spyOn(cceAlertService, 'query').andReturn(cceAlertDeferred.promise);
     });
 
-    describe('query', function() {
+    describe('getActiveAlertsGroupedByDevice', function() {
 
         it('should reject promise if alerts promise is rejected', function() {
             var status = undefined;
 
-            cceAlertFactory.query(query).then(function() {
+            cceAlertFactory.getActiveAlertsGroupedByDevice(query).then(function() {
                 status = 'resolved';
             }, function() {
                 status = 'rejected';
@@ -101,7 +98,7 @@ describe('cceAlertFactory', function() {
         it('should resolve promise if alerts promise is resolved', function() {
             var status = undefined;
 
-            cceAlertFactory.query(query).then(function(response) {
+            cceAlertFactory.getActiveAlertsGroupedByDevice(query).then(function(response) {
                 status = 'resolved';
             }, function() {
                 status = 'rejected';
@@ -114,10 +111,26 @@ describe('cceAlertFactory', function() {
             expect(status).toEqual('resolved');
         });
 
+        it('should resolve promise even if params is undefined', function() {
+            var status = undefined;
+
+            cceAlertFactory.getActiveAlertsGroupedByDevice(undefined).then(function(response) {
+                status = 'resolved';
+            }, function() {
+                status = 'rejected';
+            });
+
+            cceAlertDeferred.resolve({content: cceAlerts});
+            $rootScope.$apply();
+
+            expect(cceAlertService.query).toHaveBeenCalledWith(undefined);
+            expect(status).toEqual('resolved');
+        });
+
         it('should transform to map with device ID as key if promise is resolved', function() {
             var resultMap = {};
 
-            cceAlertFactory.query(query).then(function(response) {
+            cceAlertFactory.getActiveAlertsGroupedByDevice(query).then(function(response) {
                 resultMap = response;
             });
 
@@ -131,7 +144,7 @@ describe('cceAlertFactory', function() {
         it('should have only active alerts, and consolidate alerts from the same device, if promise is resolved', function() {
             var resultMap = {};
 
-            cceAlertFactory.query(query).then(function(response) {
+            cceAlertFactory.getActiveAlertsGroupedByDevice(query).then(function(response) {
                 resultMap = response;
             });
 
@@ -140,11 +153,11 @@ describe('cceAlertFactory', function() {
 
             expect(resultMap['device-1']).toBeDefined();
             expect(resultMap['device-1'].length).toBe(2);
-            expect(resultMap['device-1'][0].id).toContain('active-alert-');
-            expect(resultMap['device-1'][1].id).toContain('active-alert-');
+            expect(resultMap['device-1'][0].alert_id).toContain('active-alert-');
+            expect(resultMap['device-1'][1].alert_id).toContain('active-alert-');
             expect(resultMap['device-2']).toBeDefined();
             expect(resultMap['device-2'].length).toBe(1);
-            expect(resultMap['device-2'][0].id).toBe('active-alert-3');
+            expect(resultMap['device-2'][0].alert_id).toBe('active-alert-3');
         });
     });
 });

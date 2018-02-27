@@ -33,13 +33,13 @@
     function factory($q, cceAlertService) {
 
         return {
-            query: query
+            getActiveAlertsGroupedByDevice: getActiveAlertsGroupedByDevice
         };
 
         /**
          * @ngdoc method
          * @methodOf cce-alert.cceAlertFactory
-         * @name query
+         * @name getActiveAlertsGroupedByDevice
          *
          * @description
          * Returns active alerts. Map entry exists if there are any active alerts.
@@ -47,7 +47,7 @@
          * @param  {Object}     params Pagination parameters, device ID and active
          * @return {Promise}    the active alerts
          */
-        function query(params) {
+        function getActiveAlertsGroupedByDevice(params) {
             return cceAlertService.query(params)
                 .then(function(response) {
                     var cceAlertsMap = response.content.reduce(function (map, obj) {

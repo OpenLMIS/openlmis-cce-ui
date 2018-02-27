@@ -34,7 +34,7 @@
 
         var resource = $resource(cceUrlFactory('/api/cceAlerts'), {}, {
                 query: {
-                    method: 'GET'
+                    isArray: false
                 },
                 update: {
                     method: 'PUT'
@@ -54,8 +54,8 @@
          * @description
          * Query CCE alerts.
          *
-         * @param  {Object} params query parameters
-         * @return {Promise}       Page of all CCE alerts
+         * @param  {Object}  params query parameters
+         * @return {Promise}        Page of all CCE alerts
          */
         function query(params) {
             return resource.query(params).$promise;
@@ -74,7 +74,7 @@
          * @return {Promise}            the promise resolving to the saved item
          */
         function save(alert) {
-            return resource.save({}, alert).$promise;
+            return resource.update({}, alert).$promise;
         }
     }
 })();

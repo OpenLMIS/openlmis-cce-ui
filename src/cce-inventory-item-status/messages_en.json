@@ -9,6 +9,7 @@
     "cceInventoryItemStatus.awaitingRepair": "Awaiting Repair",
     "cceInventoryItemStatus.unserviceable": "Unserviceable",
     "cceInventoryItemStatus.obsolete": "Obsolete",
+    "cceInventoryItemStatus.rtmAlerts.title": "RTM Alerts",
     "cceInventoryItemStatus.cancel": "Cancel",
     "cceInventoryItemStatus.update": "Update",
     "cceInventoryItemStatus.needsSpareParts": "Needs Spare Parts",
