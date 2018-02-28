@@ -30,7 +30,7 @@
                     <dl class="horizontal-list" id="cce-active-alerts" ng-if="vm.cceAlerts[vm.inventoryItem.id] && vm.cceAlerts[vm.inventoryItem.id].activeAlerts.length > 0">
                         <dt>{{'cceInventoryItemStatus.rtmAlerts.title' | message}}</dt>
                         <dd ng-repeat="alert in vm.cceAlerts[vm.inventoryItem.id].activeAlerts">
-                            <div class="cce-alert-date">{{vm.dateUtils.convertEpochMilliToIsoDateString(alert.start_ts)}}</div>
+                            <div class="cce-alert-date">{{alert.start_ts}}</div>
                             <p>{{alert.status.en_US}}</p>
                         </dd>
                     </dl>

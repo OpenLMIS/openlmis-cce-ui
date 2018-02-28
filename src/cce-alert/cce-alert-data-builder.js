@@ -41,7 +41,7 @@
             this.alert_id = 'alert-1';
             this.alert_type = 'warning_hot';
             this.device_id = 'device-1';
-            this.start_ts = 1;
+            this.start_ts = '2018-01-01T00:00:00Z';
             this.status = {
                 'en-US': 'Status message'
             };
