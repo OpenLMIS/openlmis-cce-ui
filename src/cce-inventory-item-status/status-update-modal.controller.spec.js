@@ -403,9 +403,9 @@ describe('StatusUpdateModalController', function() {
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
         cceAlerts = {
-            "device-1": {
-                "activeAlerts": [],
-                "inactiveAlerts": []
+            'device-1': {
+                activeAlerts: [],
+                inactiveAlerts: []
             }
         };
 

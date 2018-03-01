@@ -48,8 +48,8 @@ describe('CceInventoryListController', function () {
         };
 
         cceAlerts = {
-            "device-1": {
-                "activeAlerts": []
+            'device-1': {
+                activeAlerts: []
             }
         };
 

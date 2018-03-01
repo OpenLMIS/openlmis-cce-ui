@@ -27,7 +27,7 @@
                         </dd>
                     </dl>
 
-                    <dl class="horizontal-list" id="cce-active-alerts" ng-if="vm.cceAlerts[vm.inventoryItem.id] && vm.cceAlerts[vm.inventoryItem.id].activeAlerts.length > 0">
+                    <dl class="horizontal-list" id="cce-active-alerts" ng-if="vm.cceAlerts[vm.inventoryItem.id] && vm.cceAlerts[vm.inventoryItem.id].activeAlerts.length">
                         <dt>{{'cceInventoryItemStatus.rtmAlerts.title' | message}}</dt>
                         <dd ng-repeat="alert in vm.cceAlerts[vm.inventoryItem.id].activeAlerts">
                             <div class="cce-alert-date">{{alert.start_ts}}</div>
