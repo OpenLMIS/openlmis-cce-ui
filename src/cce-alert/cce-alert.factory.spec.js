@@ -15,16 +15,22 @@
 
 describe('cceAlertFactory', function() {
 
-    var $q, $rootScope, cceAlertFactory, cceAlertService, cceAlertDeferred, cceAlerts, query,
+    var $q, $rootScope, cceAlertFactory, CCEAlertRepository, cceAlertDeferred, cceAlerts, query,
         CCEAlertDataBuilder;
 
     beforeEach(function() {
-        module('cce-alert');
+        module('cce-alert', function($provide) {
+            $provide.factory('CCEAlertRepository', function() {
+                return function() {
+                    repositoryMock = jasmine.createSpyObj('CCEAlertRepository', ['query']);
+                    return repositoryMock;
+                };
+            });
+        });
 
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
-            cceAlertService = $injector.get('cceAlertService');
             cceAlertFactory = $injector.get('cceAlertFactory');
             CCEAlertDataBuilder = $injector.get('CCEAlertDataBuilder');
         });
@@ -68,7 +74,7 @@ describe('cceAlertFactory', function() {
         };
 
         cceAlertDeferred = $q.defer();
-        spyOn(cceAlertService, 'query').andReturn(cceAlertDeferred.promise);
+        repositoryMock.query.andReturn(cceAlertDeferred.promise);
     });
 
     describe('getAlertsGroupedByDevice', function() {
@@ -85,7 +91,7 @@ describe('cceAlertFactory', function() {
             cceAlertDeferred.reject();
             $rootScope.$apply();
 
-            expect(cceAlertService.query).toHaveBeenCalledWith(query);
+            expect(repositoryMock.query).toHaveBeenCalledWith(query);
             expect(status).toEqual('rejected');
         });
 
@@ -101,7 +107,7 @@ describe('cceAlertFactory', function() {
             cceAlertDeferred.resolve({content: cceAlerts});
             $rootScope.$apply();
 
-            expect(cceAlertService.query).toHaveBeenCalledWith(query);
+            expect(repositoryMock.query).toHaveBeenCalledWith(query);
             expect(status).toEqual('resolved');
         });
 
@@ -117,7 +123,7 @@ describe('cceAlertFactory', function() {
             cceAlertDeferred.resolve({content: cceAlerts});
             $rootScope.$apply();
 
-            expect(cceAlertService.query).toHaveBeenCalledWith(undefined);
+            expect(repositoryMock.query).toHaveBeenCalledWith(undefined);
             expect(status).toEqual('resolved');
         });
 

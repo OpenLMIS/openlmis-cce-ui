@@ -13,11 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('cceAlertService', function() {
+describe('CCEAlertRepositoryImpl', function() {
 
     var $rootScope, $httpBackend;
-    var cceUrlFactory, cceAlertService, CCEAlertDataBuilder;
-    var cceAlerts, cceAlert;
+    var cceUrlFactory, CCEAlertRepositoryImpl, CCEAlertDataBuilder;
+    var cceAlerts, cceAlert, cceAlertRepositoryImpl;
 
     beforeEach(function() {
         module('cce-alert');
@@ -26,9 +26,11 @@ describe('cceAlertService', function() {
             $rootScope = $injector.get('$rootScope');
             $httpBackend = $injector.get('$httpBackend');
             cceUrlFactory = $injector.get('cceUrlFactory');
-            cceAlertService = $injector.get('cceAlertService');
+            CCEAlertRepositoryImpl = $injector.get('CCEAlertRepositoryImpl');
             CCEAlertDataBuilder = $injector.get('CCEAlertDataBuilder');
         });
+
+        cceAlertRepositoryImpl = new CCEAlertRepositoryImpl();
 
         prepareTestData();
     });
@@ -48,7 +50,7 @@ describe('cceAlertService', function() {
         });
 
         it('should return promise', function() {
-            var result = cceAlertService.query(parameters);
+            var result = cceAlertRepositoryImpl.query(parameters);
             $httpBackend.flush();
 
             expect(result.then).not.toBeUndefined();
@@ -57,7 +59,7 @@ describe('cceAlertService', function() {
         it('should resolve to CCE alerts', function() {
             var result;
 
-            cceAlertService.query(parameters).then(function(data) {
+            cceAlertRepositoryImpl.query(parameters).then(function(data) {
                 result = data;
             });
             $httpBackend.flush();
@@ -73,7 +75,7 @@ describe('cceAlertService', function() {
             $httpBackend.expect('GET', cceUrlFactory('/api/cceAlerts?page=' + parameters.page +
                 '&size=' + parameters.size));
 
-            cceAlertService.query(parameters);
+            cceAlertRepositoryImpl.query(parameters);
             $httpBackend.flush();
         });
     });
@@ -95,7 +97,7 @@ describe('cceAlertService', function() {
                 'PUT', cceUrlFactory('/api/cceAlerts'), cceAlert
             ).respond(200, returned);
 
-            cceAlertService.save(cceAlert).then(function(cceAlert) {
+            cceAlertRepositoryImpl.save(cceAlert).then(function(cceAlert) {
                 result = cceAlert;
             });
 

@@ -22,11 +22,12 @@
         .module('cce-alert')
         .factory('CCEAlertDataBuilder', CCEAlertDataBuilder);
 
-    CCEAlertDataBuilder.$inject = [];
+    CCEAlertDataBuilder.$inject = ['CCEAlert'];
 
-    function CCEAlertDataBuilder() {
+    function CCEAlertDataBuilder(CCEAlert) {
 
         CCEAlertDataBuilder.prototype.build = build;
+        CCEAlertDataBuilder.prototype.buildJson = buildJson;
         CCEAlertDataBuilder.prototype.withAlertId = withAlertId;
         CCEAlertDataBuilder.prototype.withAlertType = withAlertType;
         CCEAlertDataBuilder.prototype.withDeviceId = withDeviceId;
@@ -85,6 +86,10 @@
         }
 
         function build() {
+            return new CCEAlert(this.buildJson());
+        }
+
+        function buildJson() {
             return {
                 alert_id: this.alert_id,
                 alert_type: this.alert_type,

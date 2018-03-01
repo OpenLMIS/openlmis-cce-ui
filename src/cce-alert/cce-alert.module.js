@@ -25,7 +25,8 @@
      */
     angular.module('cce-alert', [
         'ngResource',
-        'cce'
+        'cce',
+        'openlmis-pagination'
     ]);
 
 })();

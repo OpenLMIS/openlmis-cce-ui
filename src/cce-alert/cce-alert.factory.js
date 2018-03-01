@@ -28,9 +28,11 @@
         .module('cce-alert')
         .factory('cceAlertFactory', factory);
 
-    factory.$inject = ['$q', 'cceAlertService'];
+    factory.$inject = ['$q', 'CCEAlertRepository', 'CCEAlertRepositoryImpl'];
 
-    function factory($q, cceAlertService) {
+    function factory($q, CCEAlertRepository, CCEAlertRepositoryImpl) {
+
+        var repository = new CCEAlertRepository(new CCEAlertRepositoryImpl());
 
         return {
             getAlertsGroupedByDevice: getAlertsGroupedByDevice
@@ -48,7 +50,7 @@
          * @return {Promise}    the alerts
          */
         function getAlertsGroupedByDevice(params) {
-            return cceAlertService.query(params)
+            return repository.query(params)
                 .then(function(response) {
                     var cceAlertsMap = response.content.reduce(function (map, obj) {
                         if (!map[obj.device_id]) {

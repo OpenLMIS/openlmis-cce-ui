@@ -13,42 +13,38 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
+(function() {
 
     'use strict';
 
     /**
      * @ngdoc service
-     * @name cce-alert.cceAlertService
+     * @name cce-alert.CCEAlertRepository
      *
      * @description
-     * Responsible for retrieving CCE alerts from the server.
+     * Repository of CCE alerts. It's an abstraction layer over internals communicating with
+     * the OpenLMIS server.
      */
     angular
         .module('cce-alert')
-        .factory('cceAlertService', service);
+        .factory('CCEAlertRepository', CCEAlertRepository);
 
-    service.$inject = ['cceUrlFactory', '$resource'];
+    CCEAlertRepository.$inject = ['CCEAlert'];
 
-    function service(cceUrlFactory, $resource) {
+    function CCEAlertRepository(CCEAlert) {
 
-        var resource = $resource(cceUrlFactory('/api/cceAlerts'), {}, {
-                query: {
-                    isArray: false
-                },
-                update: {
-                    method: 'PUT'
-                }
-            });
+        CCEAlertRepository.prototype.query = query;
+        CCEAlertRepository.prototype.save = save;
 
-        return {
-            query: query,
-            save: save
-        };
+        return CCEAlertRepository;
+
+        function CCEAlertRepository(impl) {
+            this.impl = impl;
+        }
 
         /**
          * @ngdoc method
-         * @methodOf cce-alert.cceAlertService
+         * @methodOf cce-alert.CCEAlertRepository
          * @name query
          *
          * @description
@@ -58,12 +54,19 @@
          * @return {Promise}        Page of all CCE alerts
          */
         function query(params) {
-            return resource.query(params).$promise;
+            var repository = this;
+            return this.impl.query(params)
+            .then(function(page) {
+                page.content = page.content.map(function(cceAlertJson) {
+                    return new CCEAlert(cceAlertJson);
+                });
+                return page;
+            });
         }
 
         /**
-         * @ngdoc method
-         * @methodOf cce-alert.cceAlertService
+         * @ngodc method
+         * @methodOf cce-alert.CCEAlertRepository
          * @name save
          *
          * @description
@@ -74,7 +77,12 @@
          * @return {Promise}            the promise resolving to the saved item
          */
         function save(alert) {
-            return resource.update({}, alert).$promise;
+            var repository = this;
+            return this.impl.save(alert)
+            .then(function(json) {
+                return new CCEAlert(json, repository);
+            })
         }
     }
+
 })();
