@@ -75,7 +75,7 @@ describe('CCEAlertRepository', function() {
     describe('save', function() {
 
         it('should resolve to saved CCE alert', function() {
-            cceAlert = new CCEAlert(json, CCEAlertRepository);
+            cceAlert = new CCEAlert(json, cceAlertRepository);
 
             implMock.save.andCallFake(function(cceAlert) {
                 return $q.resolve(json);

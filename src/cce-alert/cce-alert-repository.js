@@ -54,7 +54,6 @@
          * @return {Promise}        Page of all CCE alerts
          */
         function query(params) {
-            var repository = this;
             return this.impl.query(params)
             .then(function(page) {
                 page.content = page.content.map(function(cceAlertJson) {
