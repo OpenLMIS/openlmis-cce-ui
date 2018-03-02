@@ -29,18 +29,21 @@
         .controller('CceStatusController', CceStatusController);
 
     CceStatusController.$inject = ['FUNCTIONAL_STATUS', 'inventoryItemService',
-        'FACILITY_CCE_STATUS', 'permissionService', 'authorizationService', 'CCE_RIGHTS'];
+        'FACILITY_CCE_STATUS', 'permissionService', 'authorizationService', 'CCE_RIGHTS',
+        'cceInventoryItemStatusFactory', 'cceAlertFactory'];
 
     function CceStatusController(FUNCTIONAL_STATUS, inventoryItemService, FACILITY_CCE_STATUS,
-                                 permissionService, authorizationService, CCE_RIGHTS) {
+                                 permissionService, authorizationService, CCE_RIGHTS,
+                                 cceInventoryItemStatusFactory, cceAlertFactory) {
         var vm = this;
 
         vm.$onInit = onInit;
+        vm.cceInventoryItemStatusFactory = cceInventoryItemStatusFactory;
 
         /**
          * @ngdoc property
          * @propertyOf facility-cce-status.controller:CceStatusController
-         * @name page
+         * @name statusLabel
          * @type {String}
          *
          * @description
@@ -51,13 +54,46 @@
         /**
          * @ngdoc property
          * @propertyOf facility-cce-status.controller:CceStatusController
-         * @name page
+         * @name statusClass
          * @type {String}
          *
          * @description
          * Holds status class.
          */
         vm.statusClass = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf facility-cce-status.controller:CceStatusController
+         * @name inventoryItems
+         * @type {Array}
+         *
+         * @description
+         * Holds list of inventory items for facility.
+         */
+        vm.inventoryItems = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf facility-cce-status.controller:CceStatusController
+         * @name cceAlerts
+         * @type {Object}
+         *
+         * @description
+         * Holds map of alerts related to inventory items for facility.
+         */
+        vm.cceAlerts = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf facility-cce-status.controller:CceStatusController
+         * @name alertStatusClass
+         * @type {String}
+         *
+         * @description
+         * Holds string of CSS class.
+         */
+        vm.alertStatusClass = undefined;
 
         /**
          * @ngdoc method
@@ -77,9 +113,11 @@
             };
             permissionService.hasPermissionWithAnyProgram(authUser.user_id, permission)
             .then(function () {
-                return inventoryItemService.getAllForFacility(vm.facility.id)
+                return inventoryItemService.getAllForFacility(vm.facility.id);
             })
             .then(function (list) {
+                vm.inventoryItems = list;
+                setCceAlerts(list);
                 var status = getStatus(list);
                 setLabelAndClass(status);
             })
@@ -120,6 +158,34 @@
             vm.statusClass = FACILITY_CCE_STATUS.getClass(status);
         }
 
+        function setCceAlerts(inventoryItems) {
+            var inventoryItemIds = inventoryItems.map(function (item) {
+                return item.id;
+            });
+            var queryParams = {
+                deviceId: inventoryItemIds
+            };
+            cceAlertFactory.getAlertsGroupedByDevice(queryParams)
+            .then(function (alertsMap) {
+                vm.cceAlerts = alertsMap;
+                setAlertClass(vm.cceAlerts);
+            })
+        }
+
+        function setAlertClass(alertsMap) {
+            if (Object.keys(alertsMap).length === 0) {
+                vm.alertStatusClass = 'rtm-alert-status-unavailable';
+            } else {
+                var devicesWithActiveAlerts = Object.keys(alertsMap).filter(function (deviceId) {
+                    return alertsMap[deviceId].activeAlerts && alertsMap[deviceId].activeAlerts.length > 0;
+                });
+                if (devicesWithActiveAlerts.length > 0) {
+                    vm.alertStatusClass = 'rtm-alert-status-active';
+                } else {
+                    vm.alertStatusClass = 'rtm-alert-status-inactive';
+                }
+            }
+        }
     }
 
 })();

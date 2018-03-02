@@ -17,7 +17,8 @@ describe('CceStatusController', function() {
 
     var vm, $controller, $rootScope, $q, FACILITY_CCE_STATUS, authorizationService, userId,
         permissionService, FacilityDataBuilder, CCE_RIGHTS, inventoryItemService,
-        InventoryItemDataBuilder, functioningInventoryItem, notFunctioningInventoryItem;
+        InventoryItemDataBuilder, functioningInventoryItem, notFunctioningInventoryItem,
+        cceAlertFactory, cceAlerts;
 
     beforeEach(function() {
         module('facility-cce-status');
@@ -33,95 +34,171 @@ describe('CceStatusController', function() {
             CCE_RIGHTS = $injector.get('CCE_RIGHTS');
             inventoryItemService = $injector.get('inventoryItemService');
             InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
+            CCEAlertDataBuilder = $injector.get('CCEAlertDataBuilder');
+            cceAlertFactory = $injector.get('cceAlertFactory');
         });
 
         userId = '123';
-        functioningInventoryItem = new InventoryItemDataBuilder().build();
+        functioningInventoryItem = new InventoryItemDataBuilder().withId('device-1').build();
         notFunctioningInventoryItem = new InventoryItemDataBuilder().withNonFunctioningStatus().build();
+
+        cceAlerts = {
+            'device-1': {
+                activeAlerts: []
+            }
+        };
 
         spyOn(authorizationService, 'getUser').andReturn({user_id: userId});
         spyOn(permissionService, 'hasPermissionWithAnyProgram').andReturn($q.resolve());
         spyOn(inventoryItemService, 'getAllForFacility');
+        spyOn(cceAlertFactory, 'getAlertsGroupedByDevice').andReturn($q.resolve(cceAlerts));
 
         vm = $controller('CceStatusController');
         vm.facility = new FacilityDataBuilder().build();
 
     });
 
-    describe('onInit should set status and label', function() {
+    describe('onInit', function() {
 
-        it('as ALL FUNCTIONING when all CCE inventory items are functional', function() {
+        describe('should set status and label', function() {
+
+            it('as ALL FUNCTIONING when all CCE inventory items are functional', function() {
+                inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
+
+                vm.$onInit();
+                $rootScope.$apply();
+
+                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('All_FUNCTIONING'));
+                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('All_FUNCTIONING'));
+            });
+
+            it('as NOT FULLY FUNCTIONING when at least one CCE inventory item is functioning and at least one CCE inventory item is not functioning', function() {
+                inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem, notFunctioningInventoryItem]));
+
+                vm.$onInit();
+                $rootScope.$apply();
+
+                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('NOT_FULLY_FUNCTIONING'));
+                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('NOT_FULLY_FUNCTIONING'));
+            });
+
+            it('as NOT FUNCTIONING when no CCE inventory items are functional', function() {
+                inventoryItemService.getAllForFacility.andReturn($q.resolve([notFunctioningInventoryItem]));
+
+                vm.$onInit();
+                $rootScope.$apply();
+
+                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('NOT_FUNCTIONING'));
+                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('NOT_FUNCTIONING'));
+            });
+
+            it('as NOT FUNCTIONING when there is no CCE inventory items', function() {
+                inventoryItemService.getAllForFacility.andReturn($q.resolve([]));
+
+                vm.$onInit();
+                $rootScope.$apply();
+
+                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('NOT_FUNCTIONING'));
+                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('NOT_FUNCTIONING'));
+            });
+
+            it('as LOADING when the facility CCE Status component is loading data from the services', function() {
+                vm.$onInit();
+                //no scope apply on purpose
+
+                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('LOADING'));
+                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('LOADING'));
+            });
+
+            it('as UNKNOWN the current user doesn\'t have permission to view CCE status for the specific facility', function() {
+                permissionService.hasPermissionWithAnyProgram.andReturn($q.reject());
+
+                vm.$onInit();
+                $rootScope.$apply();
+
+                var permission = {
+                    facilityId: vm.facility.id,
+                    right: CCE_RIGHTS.CCE_INVENTORY_VIEW
+                };
+                expect(permissionService.hasPermissionWithAnyProgram).toHaveBeenCalledWith(userId, permission);
+                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('UNKNOWN'));
+                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('UNKNOWN'));
+            });
+
+            it('as UNKNOWN when the Facility CCE Status component failed to load information from the CCE services', function() {
+                inventoryItemService.getAllForFacility.andReturn($q.reject());
+
+                vm.$onInit();
+                $rootScope.$apply();
+
+                expect(inventoryItemService.getAllForFacility).toHaveBeenCalledWith(vm.facility.id);
+                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('UNKNOWN'));
+                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('UNKNOWN'));
+            });
+
+        });
+
+        it('should set inventory items from service', function() {
             inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
 
             vm.$onInit();
             $rootScope.$apply();
 
-            expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('All_FUNCTIONING'));
-            expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('All_FUNCTIONING'));
+            expect(vm.inventoryItems).toEqual([functioningInventoryItem]);
+
         });
 
-        it('as NOT FULLY FUNCTIONING when at least one CCE inventory item is functioning and at least one CCE inventory item is not functioning', function() {
-            inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem, notFunctioningInventoryItem]));
+        it('should set CCE alerts from factory', function() {
+            inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
 
             vm.$onInit();
             $rootScope.$apply();
 
-            expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('NOT_FULLY_FUNCTIONING'));
-            expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('NOT_FULLY_FUNCTIONING'));
+            expect(cceAlertFactory.getAlertsGroupedByDevice).toHaveBeenCalledWith({deviceId: [functioningInventoryItem.id]});
+            expect(vm.cceAlerts).toEqual(cceAlerts);
         });
 
-        it('as NOT FUNCTIONING when no CCE inventory items are functional', function() {
-            inventoryItemService.getAllForFacility.andReturn($q.resolve([notFunctioningInventoryItem]));
+        describe('should set alert status class', function() {
 
-            vm.$onInit();
-            $rootScope.$apply();
+            beforeEach(function() {
+                inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
+            });
 
-            expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('NOT_FUNCTIONING'));
-            expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('NOT_FUNCTIONING'));
-        });
+            it('as RTM alert status unavailable when CCE alerts has no device id entries', function() {
+                cceAlerts = {};
+                cceAlertFactory.getAlertsGroupedByDevice.andReturn($q.resolve(cceAlerts));
 
-        it('as NOT FUNCTIONING when there is no CCE inventory items', function() {
-            inventoryItemService.getAllForFacility.andReturn($q.resolve([]));
+                vm.$onInit();
+                $rootScope.$apply();
 
-            vm.$onInit();
-            $rootScope.$apply();
+                expect(vm.alertStatusClass).toEqual('rtm-alert-status-unavailable');
+            });
 
-            expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('NOT_FUNCTIONING'));
-            expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('NOT_FUNCTIONING'));
-        });
+            it('as RTM alert status inactive when CCE alerts has device id entries, but no active alerts for them', function() {
+                vm.$onInit();
+                $rootScope.$apply();
 
-        it('as LOADING when the facility CCE Status component is loading data from the services', function() {
-            vm.$onInit();
-            //no scope apply on purpose
+                expect(vm.alertStatusClass).toEqual('rtm-alert-status-inactive');
+            });
 
-            expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('LOADING'));
-            expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('LOADING'));
-        });
+            it('as RTM alert status active when CCE alerts has device id entries and any active alerts for them', function() {
+                var cceAlert = new CCEAlertDataBuilder()
+                    .withDeviceId('device-1')
+                    .withEndTs(null)
+                    .withDismissed(false)
+                    .build();
+                cceAlerts = {
+                    'device-1': {
+                        activeAlerts: [cceAlert]
+                    }
+                };
+                cceAlertFactory.getAlertsGroupedByDevice.andReturn($q.resolve(cceAlerts));
 
-        it('as UNKNOWN the current user doesn\'t have permission to view CCE status for the specific facility', function() {
-            permissionService.hasPermissionWithAnyProgram.andReturn($q.reject());
+                vm.$onInit();
+                $rootScope.$apply();
 
-            vm.$onInit();
-            $rootScope.$apply();
-
-            var permission = {
-                facilityId: vm.facility.id,
-                right: CCE_RIGHTS.CCE_INVENTORY_VIEW
-            };
-            expect(permissionService.hasPermissionWithAnyProgram).toHaveBeenCalledWith(userId, permission);
-            expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('UNKNOWN'));
-            expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('UNKNOWN'));
-        });
-
-        it('as UNKNOWN when the Facility CCE Status component failed to load information from the CCE services', function() {
-            inventoryItemService.getAllForFacility.andReturn($q.reject());
-
-            vm.$onInit();
-            $rootScope.$apply();
-
-            expect(inventoryItemService.getAllForFacility).toHaveBeenCalledWith(vm.facility.id);
-            expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('UNKNOWN'));
-            expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('UNKNOWN'));
+                expect(vm.alertStatusClass).toEqual('rtm-alert-status-active');
+            });
         });
 
     });

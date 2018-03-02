@@ -3,5 +3,6 @@
     "facilityCceStatus.notFullyFunctioning": "Not fully functioning",
     "facilityCceStatus.notFunctioning": "Not functioning",
     "facilityCceStatus.unknown": "Unknown",
-    "facilityCceStatus.loading": "Loading"
+    "facilityCceStatus.loading": "Loading",
+    "facilityCceStatus.inventoryItems.title": "Inventory Items"
 }
