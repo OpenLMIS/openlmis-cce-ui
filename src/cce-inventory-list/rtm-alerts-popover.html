@@ -1,6 +1,6 @@
 <ul class="list-unstyled">
     <li ng-repeat="alert in vm.cceAlerts[item.id].activeAlerts">
-        <div class="cce-alert-date">{{alert.start_ts}}</div>
+        <div class="cce-alert-date">{{alert.start_ts | openlmisDatetime}}</div>
         <p>{{alert.status.en_US}}</p>
     </li>
 </ul>
