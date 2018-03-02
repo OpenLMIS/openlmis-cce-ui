@@ -114,27 +114,6 @@ describe('CceInventoryListController', function () {
         });
     });
 
-    describe('getFunctionalStatusClass', function() {
-
-        beforeEach(function() {
-            vm.$onInit();
-        });
-
-        it('should return is-functioning class', function() {
-            expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.FUNCTIONING)).toEqual('is-functioning');
-        });
-
-        it('should return is-non-functioning class', function() {
-            expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.NON_FUNCTIONING)).toEqual('is-non-functioning');
-            expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.AWAITING_REPAIR)).toEqual('is-non-functioning');
-            expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.UNSERVICABLE)).toEqual('is-non-functioning');
-        });
-
-        it('should return is-obsolete class', function() {
-            expect(vm.getFunctionalStatusClass(FUNCTIONAL_STATUS.OBSOLETE)).toEqual('is-obsolete');
-        });
-    });
-
     describe('goToStatusUpdate', function() {
 
         beforeEach(function() {

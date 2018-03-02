@@ -30,21 +30,20 @@
 
     CceInventoryListController.$inject = [
         'inventoryItems', 'supervisedFacilities', '$state', '$stateParams', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS',
-        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceAlerts', 'dateUtils'
+        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceAlerts', 'cceInventoryItemStatusFactory'
     ];
 
     function CceInventoryListController(inventoryItems, supervisedFacilities, $state, $stateParams, FUNCTIONAL_STATUS, CCE_RIGHTS,
-        authorizationService, messageService, REASON_FOR_NOT_WORKING, cceAlerts, dateUtils) {
+        authorizationService, messageService, REASON_FOR_NOT_WORKING, cceAlerts, cceInventoryItemStatusFactory) {
 
         var vm = this;
 
         vm.$onInit = onInit;
-        vm.getFunctionalStatusClass = getFunctionalStatusClass;
         vm.getStatusLabel = getStatusLabel;
         vm.goToStatusUpdate = goToStatusUpdate;
         vm.getReasonLabel = getReasonLabel;
         vm.search = search;
-        vm.dateUtils = dateUtils;
+        vm.cceInventoryItemStatusFactory = cceInventoryItemStatusFactory;
 
         /**
          * @ngdoc property
@@ -139,37 +138,6 @@
             vm.facilityId = $stateParams.facilityId;
             vm.functionalStatuses = FUNCTIONAL_STATUS.getStatuses();
             vm.functionalStatus = $stateParams.functionalStatus;
-        }
-
-        /**
-         * @ngdoc method
-         * @methodOf cce-inventory-list.controller:CceInventoryListController
-         * @name onInit
-         *
-         * @description
-         * Init method for CceInventoryListController.
-         *
-         * @param  {String} status functional status name
-         * @return {String}        functional status class for circle
-         */
-        function getFunctionalStatusClass(status) {
-            var statusClass;
-
-            switch (status) {
-                case FUNCTIONAL_STATUS.FUNCTIONING:
-                    statusClass = 'is-functioning';
-                    break;
-                case FUNCTIONAL_STATUS.NON_FUNCTIONING:
-                case FUNCTIONAL_STATUS.AWAITING_REPAIR:
-                case FUNCTIONAL_STATUS.UNSERVICABLE:
-                    statusClass = 'is-non-functioning';
-                    break;
-                case FUNCTIONAL_STATUS.OBSOLETE:
-                    statusClass = 'is-obsolete';
-                    break;
-            }
-
-            return statusClass;
         }
 
         /**
