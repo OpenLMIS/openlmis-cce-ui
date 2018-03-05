@@ -59,8 +59,7 @@
                 },
                 cceAlerts: function(cceAlertFactory, inventoryItem) {
                     var queryParams = {
-                        deviceId: inventoryItem.id,
-                        active: true
+                        deviceId: inventoryItem.id
                     };
                     return cceAlertFactory.getAlertsGroupedByDevice(queryParams);
                 }

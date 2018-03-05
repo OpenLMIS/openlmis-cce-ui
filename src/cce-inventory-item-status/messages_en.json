@@ -10,6 +10,7 @@
     "cceInventoryItemStatus.unserviceable": "Unserviceable",
     "cceInventoryItemStatus.obsolete": "Obsolete",
     "cceInventoryItemStatus.rtmAlerts.title": "RTM Alerts",
+    "cceInventoryItemStatus.rtmAlerts.noActiveAlerts": "No active alerts",
     "cceInventoryItemStatus.cancel": "Cancel",
     "cceInventoryItemStatus.update": "Update",
     "cceInventoryItemStatus.needsSpareParts": "Needs Spare Parts",
