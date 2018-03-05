@@ -30,11 +30,11 @@
 
     CceInventoryListController.$inject = [
         'inventoryItems', 'supervisedFacilities', '$state', '$stateParams', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS',
-        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceAlerts', 'cceInventoryItemStatusFactory'
+        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceAlerts'
     ];
 
     function CceInventoryListController(inventoryItems, supervisedFacilities, $state, $stateParams, FUNCTIONAL_STATUS, CCE_RIGHTS,
-        authorizationService, messageService, REASON_FOR_NOT_WORKING, cceAlerts, cceInventoryItemStatusFactory) {
+        authorizationService, messageService, REASON_FOR_NOT_WORKING, cceAlerts) {
 
         var vm = this;
 
@@ -43,7 +43,7 @@
         vm.goToStatusUpdate = goToStatusUpdate;
         vm.getReasonLabel = getReasonLabel;
         vm.search = search;
-        vm.cceInventoryItemStatusFactory = cceInventoryItemStatusFactory;
+        vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
 
         /**
          * @ngdoc property

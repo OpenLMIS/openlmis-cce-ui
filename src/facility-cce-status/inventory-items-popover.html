@@ -1,6 +1,6 @@
 <ul class="list-unstyled">
     <li ng-repeat="item in vm.inventoryItems" class="cce-inventory-item-status-box">
-        <span class="cce-inventory-item-status {{vm.cceInventoryItemStatusFactory.getFunctionalStatusClass(item.functionalStatus)}}">{{item.referenceName}}</span>
+        <span class="cce-inventory-item-status {{vm.getFunctionalStatusClass(item.functionalStatus)}}">{{item.referenceName}}</span>
 
         <span ng-if="vm.cceAlerts[item.id] && vm.cceAlerts[item.id].activeAlerts.length" class="rtm-alert-status-active"></span>
         <span ng-if="vm.cceAlerts[item.id] && !vm.cceAlerts[item.id].activeAlerts.length" class="rtm-alert-status-inactive"></span>

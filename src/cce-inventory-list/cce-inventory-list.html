@@ -47,7 +47,7 @@
                 <td>{{item.catalogItem.type}}</td>
                 <td>
                     <div class="cce-inventory-item-status-box">
-                        <span class="cce-inventory-item-status {{vm.cceInventoryItemStatusFactory.getFunctionalStatusClass(item.functionalStatus)}}"
+                        <span class="cce-inventory-item-status {{vm.getFunctionalStatusClass(item.functionalStatus)}}"
                             popover="{{vm.getReasonLabel(item.reasonNotWorkingOrNotInUse)}}">{{vm.getStatusLabel(item.functionalStatus)}}</span>
 
                         <span ng-if="vm.cceAlerts[item.id] && vm.cceAlerts[item.id].activeAlerts.length" class="rtm-alert-status-active" popover 

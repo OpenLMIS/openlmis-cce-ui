@@ -30,15 +30,15 @@
 
     CceStatusController.$inject = ['FUNCTIONAL_STATUS', 'inventoryItemService',
         'FACILITY_CCE_STATUS', 'permissionService', 'authorizationService', 'CCE_RIGHTS',
-        'cceInventoryItemStatusFactory', 'cceAlertFactory'];
+        'cceAlertFactory'];
 
     function CceStatusController(FUNCTIONAL_STATUS, inventoryItemService, FACILITY_CCE_STATUS,
                                  permissionService, authorizationService, CCE_RIGHTS,
-                                 cceInventoryItemStatusFactory, cceAlertFactory) {
+                                 cceAlertFactory) {
         var vm = this;
 
         vm.$onInit = onInit;
-        vm.cceInventoryItemStatusFactory = cceInventoryItemStatusFactory;
+        vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
 
         /**
          * @ngdoc property
@@ -175,16 +175,18 @@
         function setAlertClass(alertsMap) {
             if (Object.keys(alertsMap).length === 0) {
                 vm.alertStatusClass = 'rtm-alert-status-unavailable';
+            } else if (hasActiveAlerts(alertsMap)) {
+                vm.alertStatusClass = 'rtm-alert-status-active';
             } else {
-                var devicesWithActiveAlerts = Object.keys(alertsMap).filter(function (deviceId) {
-                    return alertsMap[deviceId].activeAlerts && alertsMap[deviceId].activeAlerts.length > 0;
-                });
-                if (devicesWithActiveAlerts.length > 0) {
-                    vm.alertStatusClass = 'rtm-alert-status-active';
-                } else {
-                    vm.alertStatusClass = 'rtm-alert-status-inactive';
-                }
+                vm.alertStatusClass = 'rtm-alert-status-inactive';
             }
+        }
+
+        function hasActiveAlerts(alertsMap) {
+            var devicesWithActiveAlerts = Object.keys(alertsMap).filter(function (deviceId) {
+                return alertsMap[deviceId].activeAlerts && alertsMap[deviceId].activeAlerts.length > 0;
+            });
+            return devicesWithActiveAlerts.length > 0;
         }
     }
 
