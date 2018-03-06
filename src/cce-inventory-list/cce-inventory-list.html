@@ -1,16 +1,19 @@
 <h2>{{'cceInventoryList.cceInventory' | message}}</h2>
+<form class="sidebar" ng-submit="vm.search()">
+    <openlmis-facility-program-select
+        is-supervised="vm.isSupervised"
+        program="vm.program"
+        facility="vm.facility"
+        module="'cce-inventory-list'">
+    </openlmis-facility-program-select>
+    <input type="submit" value="{{'cceInventoryList.search' | message}}"/>
+</form>
 <section class="openlmis-table-container">
     <button id="add-inventory-item" class="add" ui-sref="openlmis.cce.inventory.add"
         ng-show="vm.userHasRightToEdit">
         {{'cceInventoryList.addEquipment' | message}}
     </button>
     <form ng-submit="vm.search()" openlmis-table-filter>
-        <fieldset class="form-group">
-            <label for="facility">{{'cceInventoryList.facility' | message}}</label>
-            <select id="facility" ng-model="vm.facilityId"
-                    ng-options="facility.id as facility.name for facility in vm.supervisedFacilities">
-            </select>
-        </fieldset>
         <fieldset class="form-group">
             <label for="functionalStatus">{{'cceInventoryList.functionalStatus' | message}}</label>
             <select id="functionalStatus" ng-model="vm.functionalStatus"
@@ -25,7 +28,6 @@
         </caption>
         <thead>
             <tr>
-                <th>{{'cceInventoryList.district' | message}}</th>
                 <th>{{'cceInventoryList.facility' | message}}</th>
                 <th>{{'cceInventoryList.serialNo' | message}}</th>
                 <th>{{'cceInventoryList.referenceName' | message}}</th>
@@ -39,7 +41,6 @@
         </thead>
         <tbody>
             <tr ng-repeat="item in vm.inventoryItems">
-                <td>{{item.facility.geographicZone.name}}</td>
                 <td>{{item.facility.name}}</td>
                 <td>{{item.equipmentTrackingId}}</td>
                 <td>{{item.referenceName}}</td>

@@ -13,30 +13,18 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function () {
+(function() {
 
     'use strict';
 
-    /**
-     * @module cce-inventory-item
-     *
-     * @description
-     * Responsible for providing cce inventory items list screen.
-     */
-    angular.module('cce-inventory-list', [
-        'openlmis-pagination',
-        'cce-alert',
-        'cce-inventory-item',
-        'openlmis-auth',
-        'openlmis-permissions',
-        'openlmis-rights',
-        'openlmis-date',
-        'cce-inventory-item-status',
-        'referencedata-facilities-permissions',
-        'openlmis-facility-program-select',
-        'referencedata-user',
-        'referencedata-facility',
-        'referencedata-program'
-    ]);
+    angular
+        .module('cce-inventory-list')
+        .run(declareRights);
+
+    declareRights.$inject = ['facilityProgramCacheService', 'CCE_RIGHTS'];
+
+    function declareRights(facilityProgramCacheService, CCE_RIGHTS) {
+        facilityProgramCacheService.pushRightsForModule('cce-inventory-list', [CCE_RIGHTS.CCE_INVENTORY_VIEW,CCE_RIGHTS.CCE_INVENTORY_EDIT]);
+    }
 
 })();

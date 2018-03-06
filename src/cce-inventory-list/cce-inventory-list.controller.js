@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function() {
+(function () {
 
     'use strict';
 
@@ -29,12 +29,13 @@
         .controller('CceInventoryListController', CceInventoryListController);
 
     CceInventoryListController.$inject = [
-        'inventoryItems', 'supervisedFacilities', '$state', '$stateParams', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS',
-        'authorizationService', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceAlerts'
+        'inventoryItems', 'supervisedFacilities', 'supervisedPrograms', '$state', '$stateParams',
+        'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceAlerts',
+        'user', 'canEdit'
     ];
 
-    function CceInventoryListController(inventoryItems, supervisedFacilities, $state, $stateParams, FUNCTIONAL_STATUS, CCE_RIGHTS,
-        authorizationService, messageService, REASON_FOR_NOT_WORKING, cceAlerts) {
+    function CceInventoryListController(inventoryItems, supervisedFacilities, supervisedPrograms, $state, $stateParams,
+        FUNCTIONAL_STATUS, CCE_RIGHTS, messageService, REASON_FOR_NOT_WORKING, cceAlerts, user, canEdit) {
 
         var vm = this;
 
@@ -70,13 +71,35 @@
         /**
          * @ngdoc property
          * @propertyOf cce-inventory-list.controller:CceInventoryListController
-         * @name facilityId
+         * @name facility
          * @type {String}
          *
          * @description
-         * The facility id that inventory items will be filtered by.
+         * The facility that inventory items will be filtered by.
          */
-        vm.facilityId = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf cce-inventory-list.controller:CceInventoryListController
+         * @name program
+         * @type {String}
+         *
+         * @description
+         * The program that inventory items will be filtered by.
+         */
+
+        /**
+         * @ngdoc property
+         * @propertyOf cce-inventory-list.controller:CceInventoryListController
+         * @name isSupervised
+         * @type {Boolean}
+         *
+         * @description
+         * Holds currently selected facility selection type:
+         *  false - my facility
+         *  true - supervised facility
+         */
+        vm.isSupervised = false;
 
         /**
          * @ngdoc property
@@ -88,6 +111,17 @@
          * List of user supervised facilities for CCE inventory.
          */
         vm.supervisedFacilities = undefined;
+
+        /**
+         * @ngdoc property
+         * @propertyOf cce-inventory-list.controller:CceInventoryListController
+         * @name supervisedPrograms
+         * @type {Array}
+         *
+         * @description
+         * List of user supervised programs for CCE inventory.
+         */
+        vm.supervisedPrograms = undefined;
 
         /**
          * ngdoc property
@@ -132,12 +166,12 @@
          */
         function onInit() {
             vm.inventoryItems = inventoryItems;
-            vm.userHasRightToEdit = authorizationService.hasRight(CCE_RIGHTS.CCE_INVENTORY_EDIT);
             vm.supervisedFacilities = supervisedFacilities;
+            vm.supervisedPrograms = supervisedPrograms;
             vm.cceAlerts = cceAlerts;
-            vm.facilityId = $stateParams.facilityId;
             vm.functionalStatuses = FUNCTIONAL_STATUS.getStatuses();
             vm.functionalStatus = $stateParams.functionalStatus;
+            vm.userHasRightToEdit = canEdit;
         }
 
         /**
@@ -201,8 +235,13 @@
         function search() {
             var stateParams = angular.copy($stateParams);
 
-            stateParams.facilityId = vm.facilityId;
+            delete stateParams.facilityId;
+            delete stateParams.programId;
+
+            stateParams.facility = vm.facility.id;
+            stateParams.program = vm.program.id;
             stateParams.functionalStatus = vm.functionalStatus;
+            stateParams.supervised = vm.isSupervised;
 
             $state.go('openlmis.cce.inventory', stateParams, {
                 reload: true

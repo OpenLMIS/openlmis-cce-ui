@@ -1,8 +1,8 @@
 {
     "cceInventoryList.addEquipment": "Add Equipment",
     "cceInventoryList.cceInventory": "CCE Inventory",
-    "cceInventoryList.district": "District",
     "cceInventoryList.facility": "Facility",
+    "cceInventoryList.program": "Program",
     "cceInventoryList.serialNo": "Serial No.",
     "cceInventoryList.makeModel": "Make/Model",
     "cceInventoryList.type": "Type",

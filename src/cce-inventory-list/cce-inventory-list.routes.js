@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function() {
+(function () {
 
     'use strict';
 
@@ -28,28 +28,52 @@
         $stateProvider.state('openlmis.cce.inventory', {
             showInNavigation: true,
             label: 'cceInventoryList.cceInventory',
-            url: '/inventory?page&size&facilityId&functionalStatus',
+            url: '/inventory?page&size&facility&program&supervised&functionalStatus',
             params: { expand: 'lastModifier' },
             controller: 'CceInventoryListController',
             templateUrl: 'cce-inventory-list/cce-inventory-list.html',
             controllerAs: 'vm',
             accessRights: [CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT],
             resolve: {
-                supervisedFacilities: function(facilityFactory) {
+                user: function (authorizationService) {
+                    return authorizationService.getUser();
+                },
+                supervisedFacilities: function (facilityFactory) {
                     return facilityFactory.getSupervisedFacilitiesBasedOnRights([CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT]);
                 },
-                inventoryItems: function(facilityInventoryItemFactory, paginationService, $stateParams) {
-                    return paginationService.registerUrl($stateParams, function(stateParams) {
-                        if (!stateParams.sort) {
-                            stateParams.sort = [
-                                "type",
-                                "equipmentTrackingId"
-                            ];
+                supervisedPrograms: function (programService, user) {
+                    return programService.getUserPrograms(user.user_id);
+                },
+                inventoryItems: function (facilityInventoryItemFactory, paginationService, $stateParams) {
+                    return paginationService.registerUrl($stateParams, function (stateParams) {
+                        if (stateParams.facility && stateParams.program) {
+                            var stateParamsCopy = angular.copy(stateParams);
+                            stateParamsCopy.facilityId = stateParams.facility;
+                            stateParamsCopy.programId = stateParams.program;
+
+                            delete stateParamsCopy.facility;
+                            delete stateParamsCopy.program;
+
+                            return facilityInventoryItemFactory.query(stateParamsCopy);
                         }
-                        return facilityInventoryItemFactory.query(stateParams);
+
+                        return [];
                     });
                 },
-                cceAlerts: function(cceAlertFactory, inventoryItems) {
+                canEdit: function(permissionService, user, $stateParams, CCE_RIGHTS) {
+                    return permissionService.hasPermission(user.user_id, {
+                        right: CCE_RIGHTS.CCE_INVENTORY_EDIT,
+                        programId: $stateParams.program,
+                        facilityId: $stateParams.facility
+                    })
+                    .then(function() {
+                        return true;
+                    })
+                    .catch(function() {
+                        return false;
+                    });
+                },
+                cceAlerts: function (cceAlertFactory, inventoryItems) {
                     var inventoryItemIds = inventoryItems.map(function (item) {
                         return item.id;
                     });
