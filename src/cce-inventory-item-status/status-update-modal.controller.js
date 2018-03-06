@@ -30,14 +30,14 @@
 
     StatusUpdateModalController.$inject = [
         '$scope', 'inventoryItem', 'canEdit', 'FUNCTIONAL_STATUS', 'messageService', 'REASON_FOR_NOT_WORKING',
-        'inventoryItemService', '$state', 'loadingModalService', 'confirmService',
-        'notificationService', 'stateTrackerService', 'cceAlerts', 'dateUtils'
+        'inventoryItemService', '$state', 'loadingModalService', 'confirmService', 'notificationService',
+        'stateTrackerService', 'cceAlerts', 'cceAlertFactory', 'alertService'
     ];
 
     function StatusUpdateModalController($scope, inventoryItem, canEdit, FUNCTIONAL_STATUS, messageService,
                                          REASON_FOR_NOT_WORKING, inventoryItemService, $state,
                                          loadingModalService, confirmService, notificationService,
-                                         stateTrackerService, cceAlerts, dateUtils) {
+                                         stateTrackerService, cceAlerts, cceAlertFactory, alertService) {
         var vm = this;
 
         vm.save = save;
@@ -49,7 +49,7 @@
         vm.cancel = cancel;
         vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
         vm.clearReasonAndDecommissionDate = clearReasonAndDecommissionDated;
-        vm.dateUtils = dateUtils;
+        vm.dismissAlert = dismissAlert;
 
         /**
          * @ngdoc property
@@ -211,6 +211,30 @@
             } else {
                 doCancel();
             }
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item-status.controller:StatusUpdateModalController
+         * @name dismissAlert
+         *
+         * @description
+         * Dismisses an alert of the given inventory item to the server.
+         */
+        function dismissAlert(alert) {
+            alert.dismissed = true;
+
+            cceAlertFactory.saveAlert(alert)
+            .then(function() {
+                vm.cceAlerts[alert.device_id].activeAlerts = 
+                    vm.cceAlerts[alert.device_id].activeAlerts.filter(function (e) {
+                        return e.alert_id !== alert.alert_id;
+                    });
+                vm.cceAlerts[alert.device_id].inactiveAlerts.push(alert);
+            }).catch(function() {
+                //alertService.error('cceInventoryItemStatus.rtmAlerts.couldNotDismissAlert');
+                alert.dismissed = false;
+            });
         }
 
         function doCancel() {

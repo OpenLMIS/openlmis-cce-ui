@@ -19,7 +19,8 @@ describe('StatusUpdateModalController', function() {
         loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
         REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
         stateTrackerService, FacilityProgramInventoryItemDataBuilder, CCE_STATUS,
-        permissionService, authorizationService, deferred, result, CCE_RIGHTS, cceAlerts;
+        permissionService, authorizationService, deferred, result, CCE_RIGHTS, cceAlerts,
+        cceAlertFactory, alertService, cceAlert, CCEAlertDataBuilder, alertSaveDeferred;
 
     beforeEach(prepareSuite);
 
@@ -376,6 +377,40 @@ describe('StatusUpdateModalController', function() {
 
     });
 
+    describe('dismissAlert', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should move alert to inactive alerts with dismissed set to true if dismissal succeeded', function() {
+            vm.dismissAlert(cceAlert);
+
+            alertSaveDeferred.resolve();
+            $rootScope.$apply();
+
+            expect(vm.cceAlerts[cceAlert.device_id]).toBeDefined();
+            expect(vm.cceAlerts[cceAlert.device_id].activeAlerts.length).toEqual(0);
+            expect(vm.cceAlerts[cceAlert.device_id].inactiveAlerts.length).toEqual(1);
+            expect(vm.cceAlerts[cceAlert.device_id].inactiveAlerts[0].alert_id).toEqual(cceAlert.alert_id);
+            expect(vm.cceAlerts[cceAlert.device_id].inactiveAlerts[0].dismissed).toEqual(true);
+        });
+
+        it('should keep alert in active alerts if dismissal failed', function() {
+            vm.dismissAlert(cceAlert);
+
+            alertSaveDeferred.reject();
+            $rootScope.$apply();
+
+            expect(vm.cceAlerts[cceAlert.device_id]).toBeDefined();
+            expect(vm.cceAlerts[cceAlert.device_id].activeAlerts.length).toEqual(1);
+            expect(vm.cceAlerts[cceAlert.device_id].activeAlerts[0].alert_id).toEqual(cceAlert.alert_id);
+            expect(vm.cceAlerts[cceAlert.device_id].activeAlerts[0].dismissed).toEqual(false);
+            expect(vm.cceAlerts[cceAlert.device_id].inactiveAlerts.length).toEqual(0);
+        });
+
+    });
+
     function prepareSuite() {
         module('cce-inventory-item-status');
 
@@ -396,21 +431,26 @@ describe('StatusUpdateModalController', function() {
             authorizationService = $injector.get('authorizationService');
             permissionService = $injector.get('permissionService');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
+            cceAlertFactory = $injector.get('cceAlertFactory');
+            alertService = $injector.get('alertService');
+            CCEAlertDataBuilder = $injector.get('CCEAlertDataBuilder');
         });
 
         date = new Date();
 
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
+        cceAlert = new CCEAlertDataBuilder().withDeviceId('device-1').build();
         cceAlerts = {
             'device-1': {
-                activeAlerts: [],
+                activeAlerts: [cceAlert],
                 inactiveAlerts: []
             }
         };
 
         modalDeferred = $q.defer();
         saveDeferred = $q.defer();
+        alertSaveDeferred = $q.defer();
         $scope = {};
 
         vm = $controller('StatusUpdateModalController', {
@@ -431,6 +471,7 @@ describe('StatusUpdateModalController', function() {
         });
         spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
         spyOn($state, 'go').andReturn();
+        spyOn(cceAlertFactory, 'saveAlert').andReturn(alertSaveDeferred.promise);
     }
 
 });
