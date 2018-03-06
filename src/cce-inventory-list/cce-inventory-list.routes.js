@@ -38,12 +38,6 @@
                 user: function (authorizationService) {
                     return authorizationService.getUser();
                 },
-                supervisedFacilities: function (facilityFactory) {
-                    return facilityFactory.getSupervisedFacilitiesBasedOnRights([CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT]);
-                },
-                supervisedPrograms: function (programService, user) {
-                    return programService.getUserPrograms(user.user_id);
-                },
                 inventoryItems: function (facilityInventoryItemFactory, paginationService, $stateParams) {
                     return paginationService.registerUrl($stateParams, function (stateParams) {
                         if (stateParams.facility && stateParams.program) {

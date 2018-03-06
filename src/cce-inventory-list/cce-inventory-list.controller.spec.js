@@ -17,7 +17,7 @@ describe('CceInventoryListController', function () {
 
     var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, stateParams,
         FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder, UserDataBuilder,
-        cceAlerts, supervisedFacilities, supervisedPrograms, $rootScope, $q;
+        cceAlerts, $rootScope, $q;
 
     beforeEach(function () {
         module('cce-inventory-list');
@@ -39,21 +39,9 @@ describe('CceInventoryListController', function () {
             new FacilityProgramInventoryItemDataBuilder().withId('2').build()
         ];
 
-        supervisedFacilities = [
-            new FacilityDataBuilder().build(),
-            new FacilityDataBuilder().build(),
-            new FacilityDataBuilder().build()
-        ];
-
-        supervisedPrograms = [
-            new ProgramDataBuilder().build()
-        ];
-
         stateParams = {
             page: 0,
-            size: 10,
-            facilityId: supervisedFacilities[0].id,
-            programId: supervisedPrograms[0].id
+            size: 10
         };
 
         cceAlerts = {
@@ -64,17 +52,18 @@ describe('CceInventoryListController', function () {
 
         vm = $controller('CceInventoryListController', {
             inventoryItems: inventoryItems,
-            supervisedFacilities: supervisedFacilities,
-            supervisedPrograms: supervisedPrograms,
             cceAlerts: cceAlerts,
             $stateParams: stateParams,
             user: new UserDataBuilder().build(),
             canEdit: false
         });
 
-        vm.facility = supervisedFacilities[0];
-        vm.program = supervisedPrograms[0];
+        vm.facility = new FacilityDataBuilder().build();
+        vm.program = new ProgramDataBuilder().build();
         vm.isSupervised = false;
+
+        stateParams.facilityId = vm.facility.id;
+        stateParams.programId = vm.program.id;
 
         spyOn($state, 'go').andReturn();
     });
@@ -85,11 +74,6 @@ describe('CceInventoryListController', function () {
             vm.$onInit();
 
             expect(vm.inventoryItems).toEqual(inventoryItems);
-        });
-
-        it('should expose supervised facilities', function () {
-            vm.$onInit();
-            expect(vm.supervisedFacilities).toEqual(supervisedFacilities);
         });
 
         it('should expose alerts', function () {
@@ -141,8 +125,8 @@ describe('CceInventoryListController', function () {
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory', {
                 page: stateParams.page,
                 size: stateParams.size,
-                facility: supervisedFacilities[0].id,
-                program: supervisedPrograms[0].id,
+                facility: vm.facility.id,
+                program: vm.program.id,
                 functionalStatus: FUNCTIONAL_STATUS.FUNCTIONING,
                 supervised: vm.isSupervised
             }, { reload: true });
@@ -156,8 +140,8 @@ describe('CceInventoryListController', function () {
             expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory', {
                 page: stateParams.page,
                 size: stateParams.size,
-                facility: supervisedFacilities[0].id,
-                program: supervisedPrograms[0].id,
+                facility: vm.facility.id,
+                program: vm.program.id,
                 supervised: vm.isSupervised
             }, { reload: true });
         });

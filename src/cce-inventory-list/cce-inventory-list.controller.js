@@ -29,12 +29,12 @@
         .controller('CceInventoryListController', CceInventoryListController);
 
     CceInventoryListController.$inject = [
-        'inventoryItems', 'supervisedFacilities', 'supervisedPrograms', '$state', '$stateParams',
+        'inventoryItems', '$state', '$stateParams',
         'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceAlerts',
         'user', 'canEdit'
     ];
 
-    function CceInventoryListController(inventoryItems, supervisedFacilities, supervisedPrograms, $state, $stateParams,
+    function CceInventoryListController(inventoryItems, $state, $stateParams,
         FUNCTIONAL_STATUS, CCE_RIGHTS, messageService, REASON_FOR_NOT_WORKING, cceAlerts, user, canEdit) {
 
         var vm = this;
@@ -102,28 +102,6 @@
         vm.isSupervised = false;
 
         /**
-         * @ngdoc property
-         * @propertyOf cce-inventory-list.controller:CceInventoryListController
-         * @name supervisedFacilities
-         * @type {Array}
-         *
-         * @description
-         * List of user supervised facilities for CCE inventory.
-         */
-        vm.supervisedFacilities = undefined;
-
-        /**
-         * @ngdoc property
-         * @propertyOf cce-inventory-list.controller:CceInventoryListController
-         * @name supervisedPrograms
-         * @type {Array}
-         *
-         * @description
-         * List of user supervised programs for CCE inventory.
-         */
-        vm.supervisedPrograms = undefined;
-
-        /**
          * ngdoc property
          * @propertyOf cce-inventory-list.controller.CceInventoryListController
          * @name functionalStatus
@@ -166,8 +144,6 @@
          */
         function onInit() {
             vm.inventoryItems = inventoryItems;
-            vm.supervisedFacilities = supervisedFacilities;
-            vm.supervisedPrograms = supervisedPrograms;
             vm.cceAlerts = cceAlerts;
             vm.functionalStatuses = FUNCTIONAL_STATUS.getStatuses();
             vm.functionalStatus = $stateParams.functionalStatus;
