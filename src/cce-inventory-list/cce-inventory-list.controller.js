@@ -98,7 +98,7 @@
          *  false - my facility
          *  true - supervised facility
          */
-        vm.isSupervised = false;
+        vm.isSupervised = undefined;
 
         /**
          * ngdoc property
@@ -147,6 +147,7 @@
             vm.functionalStatuses = FUNCTIONAL_STATUS.getStatuses();
             vm.functionalStatus = $stateParams.functionalStatus;
             vm.userHasRightToEdit = canEdit;
+            vm.isSupervised = $stateParams.supervised;
         }
 
         /**
