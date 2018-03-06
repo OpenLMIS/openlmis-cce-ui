@@ -34,7 +34,6 @@
         'cce-inventory-item-status',
         'referencedata-facilities-permissions',
         'openlmis-facility-program-select',
-        'referencedata-user',
         'referencedata-facility',
         'referencedata-program'
     ]);
