@@ -29,13 +29,12 @@
         .controller('CceInventoryListController', CceInventoryListController);
 
     CceInventoryListController.$inject = [
-        'inventoryItems', '$state', '$stateParams',
-        'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'messageService' ,'REASON_FOR_NOT_WORKING', 'cceAlerts',
-        'user', 'canEdit'
+        'inventoryItems', '$state', '$stateParams', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'messageService',
+        'REASON_FOR_NOT_WORKING', 'cceAlerts', 'canEdit'
     ];
 
-    function CceInventoryListController(inventoryItems, $state, $stateParams,
-        FUNCTIONAL_STATUS, CCE_RIGHTS, messageService, REASON_FOR_NOT_WORKING, cceAlerts, user, canEdit) {
+    function CceInventoryListController(inventoryItems, $state, $stateParams, FUNCTIONAL_STATUS,
+        CCE_RIGHTS, messageService, REASON_FOR_NOT_WORKING, cceAlerts, canEdit) {
 
         var vm = this;
 
