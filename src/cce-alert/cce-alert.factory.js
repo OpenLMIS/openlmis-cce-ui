@@ -35,7 +35,8 @@
         var repository = new CCEAlertRepository(new CCEAlertRepositoryImpl());
 
         return {
-            getAlertsGroupedByDevice: getAlertsGroupedByDevice
+            getAlertsGroupedByDevice: getAlertsGroupedByDevice,
+            saveAlert: saveAlert
         };
 
         /**
@@ -72,6 +73,24 @@
                     return cceAlertsMap;
                 });
         }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-alert.cceAlertFactory
+         * @name saveAlert
+         *
+         * @description
+         * Save the alert provided.
+         *
+         * @param  {Object}     alert the alert to save
+         * @return {Promise}    the saved alert
+         */
+        function saveAlert(alert) {
+            return repository.save(alert)
+                .then(function(response) {
+                    return response;
+                });
+        }        
 
     }
 })();

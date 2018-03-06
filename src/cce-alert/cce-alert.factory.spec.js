@@ -22,7 +22,7 @@ describe('cceAlertFactory', function() {
         module('cce-alert', function($provide) {
             $provide.factory('CCEAlertRepository', function() {
                 return function() {
-                    repositoryMock = jasmine.createSpyObj('CCEAlertRepository', ['query']);
+                    repositoryMock = jasmine.createSpyObj('CCEAlertRepository', ['query', 'save']);
                     return repositoryMock;
                 };
             });
@@ -75,6 +75,7 @@ describe('cceAlertFactory', function() {
 
         cceAlertDeferred = $q.defer();
         repositoryMock.query.andReturn(cceAlertDeferred.promise);
+        repositoryMock.save.andReturn(cceAlertDeferred.promise);
     });
 
     describe('getAlertsGroupedByDevice', function() {
@@ -167,6 +168,41 @@ describe('cceAlertFactory', function() {
             expect(resultMap['device-3'].activeAlerts.length).toBe(0);
             expect(resultMap['device-3'].inactiveAlerts.length).toBe(1);
             expect(resultMap['device-3'].inactiveAlerts[0].alert_id).toBe('resolved-dismissed-alert');
+        });
+    });
+
+    describe('saveAlert', function() {
+
+        it('should reject promise if alerts promise is rejected', function() {
+            var status = undefined;
+
+            cceAlertFactory.saveAlert(cceAlerts[0]).then(function() {
+                status = 'resolved';
+            }, function() {
+                status = 'rejected';
+            });
+
+            cceAlertDeferred.reject();
+            $rootScope.$apply();
+
+            expect(repositoryMock.save).toHaveBeenCalledWith(cceAlerts[0]);
+            expect(status).toEqual('rejected');
+        });
+
+        it('should resolve promise if alerts promise is resolved', function() {
+            var status = undefined;
+
+            cceAlertFactory.saveAlert(cceAlerts[0]).then(function() {
+                status = 'resolved';
+            }, function() {
+                status = 'rejected';
+            });
+
+            cceAlertDeferred.resolve();
+            $rootScope.$apply();
+
+            expect(repositoryMock.save).toHaveBeenCalledWith(cceAlerts[0]);
+            expect(status).toEqual('resolved');
         });
     });
 });

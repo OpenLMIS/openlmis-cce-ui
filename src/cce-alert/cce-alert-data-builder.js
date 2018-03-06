@@ -46,7 +46,7 @@
             this.status = {
                 'en-US': 'Status message'
             };
-            this.end_ts = 2;
+            this.end_ts = null;
             this.dismissed = false;
         }
 
