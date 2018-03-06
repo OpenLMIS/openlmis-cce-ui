@@ -71,7 +71,7 @@
          * @ngdoc property
          * @propertyOf cce-inventory-list.controller:CceInventoryListController
          * @name facility
-         * @type {String}
+         * @type {string}
          *
          * @description
          * The facility that inventory items will be filtered by.
@@ -81,7 +81,7 @@
          * @ngdoc property
          * @propertyOf cce-inventory-list.controller:CceInventoryListController
          * @name program
-         * @type {String}
+         * @type {string}
          *
          * @description
          * The program that inventory items will be filtered by.
@@ -104,7 +104,7 @@
          * ngdoc property
          * @propertyOf cce-inventory-list.controller.CceInventoryListController
          * @name functionalStatus
-         * @type {String}
+         * @type {string}
          *
          * @description
          * The selected functional status.
@@ -157,8 +157,8 @@
          * @description
          * Return localized label for the functional status.
          *
-         * @param   {String}    status  the status to get the label for
-         * @return  {String}            the localized status label
+         * @param   {string}    status  the status to get the label for
+         * @return  {string}            the localized status label
          */
         function getStatusLabel(status) {
             return messageService.get(FUNCTIONAL_STATUS.getLabel(status));
@@ -172,8 +172,8 @@
          * @description
          * Return localized label for the reason.
          *
-         * @param   {String}    reason  the reason to get the label for
-         * @return  {String}            the localized reason label
+         * @param   {string}    reason  the reason to get the label for
+         * @return  {string}            the localized reason label
          */
         function getReasonLabel(reason) {
             if (!reason) {
