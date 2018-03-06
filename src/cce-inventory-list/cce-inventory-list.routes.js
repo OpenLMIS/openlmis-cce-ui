@@ -59,6 +59,12 @@
                         right: CCE_RIGHTS.CCE_INVENTORY_EDIT,
                         programId: $stateParams.program,
                         facilityId: $stateParams.facility
+                    })
+                    .then(function() {
+                        return true;
+                    })
+                    .catch(function() {
+                        return false;
                     });
                 },
                 cceAlerts: function (cceAlertFactory, inventoryItems) {
