@@ -149,7 +149,7 @@
 
         function filterNotFunctioningInventoryItems(list) {
             return list.filter(function (inventory) {
-                return inventory.functionalStatus !== FUNCTIONAL_STATUS.FUNCTIONING
+                return inventory.functionalStatus !== FUNCTIONAL_STATUS.FUNCTIONING;
             });
         }
 
@@ -169,7 +169,7 @@
             .then(function (alertsMap) {
                 vm.cceAlerts = alertsMap;
                 setAlertClass(vm.cceAlerts);
-            })
+            });
         }
 
         function setAlertClass(alertsMap) {

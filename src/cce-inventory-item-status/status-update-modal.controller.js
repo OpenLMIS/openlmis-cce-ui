@@ -233,7 +233,7 @@
                     });
                 vm.cceAlerts[alert.device_id].inactiveAlerts.push(alert);
             }).catch(function() {
-                //alertService.error('cceInventoryItemStatus.rtmAlerts.couldNotDismissAlert');
+                alertService.error('cceInventoryItemStatus.rtmAlerts.couldNotDismissAlert');
                 alert.dismissed = false;
             });
         }

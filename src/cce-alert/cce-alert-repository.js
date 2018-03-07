@@ -80,7 +80,7 @@
             return this.impl.save(alert)
             .then(function(json) {
                 return new CCEAlert(json, repository);
-            })
+            });
         }
     }
 

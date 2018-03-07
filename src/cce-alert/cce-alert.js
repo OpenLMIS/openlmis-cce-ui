@@ -28,9 +28,9 @@
         .module('cce-alert')
         .factory('CCEAlert', factory);
 
-    factory.$inject = ['$q'];
+    factory.$inject = [];
 
-    function factory($q) {
+    function factory() {
 
         CCEAlert.prototype.save = save;
 
