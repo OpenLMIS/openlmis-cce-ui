@@ -15,21 +15,15 @@
 
 describe('StatusUpdateModalController', function() {
 
-    var vm, messageService, modalDeferred, $q, $state, $rootScope, inventoryItem, $controller,
+    var vm, messageService, $q, $state, $rootScope, inventoryItem, $controller,
         loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
         REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
         stateTrackerService, FacilityProgramInventoryItemDataBuilder, CCE_STATUS,
-        permissionService, authorizationService, deferred, result, CCE_RIGHTS, cceAlerts,
-        cceAlertFactory, alertService, cceAlert, CCEAlertDataBuilder, alertSaveDeferred;
+        cceAlerts, cceAlertFactory, cceAlert, CCEAlertDataBuilder, alertSaveDeferred;
 
     beforeEach(prepareSuite);
 
     describe('$onInit', function() {
-
-        beforeEach(function() {
-            deferred = $q.defer();
-            result = false;
-        });
 
         it('should copy item', function() {
             vm.$onInit();
@@ -121,16 +115,6 @@ describe('StatusUpdateModalController', function() {
 
         beforeEach(function() {
             vm.$onInit();
-        });
-
-        it('should throw exception if reason is invalid', function() {
-            expect(function() {
-                vm.getReasonLabel(undefined);
-            }).toThrow('Invalid reason');
-
-            expect(function() {
-                vm.getReasonLabel('SOME_INVALID_REASON');
-            }).toThrow('Invalid reason');
         });
 
         it('should return localized label', function() {
@@ -418,18 +402,14 @@ describe('StatusUpdateModalController', function() {
             $controller = $injector.get('$controller');
             messageService = $injector.get('messageService');
             CCE_STATUS = $injector.get('CCE_STATUS');
-            CCE_RIGHTS = $injector.get('CCE_RIGHTS');
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
             REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
             inventoryItemService = $injector.get('inventoryItemService');
             loadingModalService = $injector.get('loadingModalService');
             notificationService = $injector.get('notificationService');
             stateTrackerService = $injector.get('stateTrackerService');
-            authorizationService = $injector.get('authorizationService');
-            permissionService = $injector.get('permissionService');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             cceAlertFactory = $injector.get('cceAlertFactory');
-            alertService = $injector.get('alertService');
             CCEAlertDataBuilder = $injector.get('CCEAlertDataBuilder');
         });
 
@@ -445,7 +425,6 @@ describe('StatusUpdateModalController', function() {
             }
         };
 
-        modalDeferred = $q.defer();
         saveDeferred = $q.defer();
         alertSaveDeferred = $q.defer();
         $scope = {};

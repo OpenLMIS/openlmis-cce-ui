@@ -17,7 +17,7 @@ describe('CceInventoryListController', function () {
 
     var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, stateParams,
         FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder,
-        cceAlerts, $rootScope, $q;
+        cceAlerts;
 
     beforeEach(function () {
         module('cce-inventory-list');
@@ -29,8 +29,6 @@ describe('CceInventoryListController', function () {
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
             ProgramDataBuilder = $injector.get('ProgramDataBuilder');
-            $rootScope = $injector.get('$rootScope');
-            $q = $injector.get('$q');
         });
 
         inventoryItems = [

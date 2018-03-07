@@ -37,7 +37,6 @@
                 DEAD: 'DEAD',
                 NOT_IN_USE: 'NOT_IN_USE',
                 DECOMMISSIONED: 'DECOMMISSIONED',
-
                 getLabel: getLabel,
                 getReasons: getReasons
             },
@@ -65,13 +64,7 @@
          * @return  {String}            the label for the given status
          */
         function getLabel(reason) {
-            var label = labels[reason];
-
-            if (!label) {
-                throw 'Invalid reason';
-            }
-
-            return label;
+            return labels[reason];
         }
 
         /**
