@@ -90,10 +90,7 @@
          * @return {Promise}    the saved alert
          */
         function saveAlert(alert) {
-            return repository.save(alert)
-                .then(function(response) {
-                    return response;
-                });
+            return repository.save(alert);
         }
 
         function replaceKeysFromHyphenToUnderscore(obj) {

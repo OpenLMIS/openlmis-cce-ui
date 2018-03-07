@@ -86,7 +86,7 @@ describe('cceAlertFactory', function() {
 
             cceAlertFactory.getAlertsGroupedByDevice(query).then(function() {
                 status = 'resolved';
-            }, function() {
+            }).catch(function() {
                 status = 'rejected';
             });
 
@@ -102,7 +102,7 @@ describe('cceAlertFactory', function() {
 
             cceAlertFactory.getAlertsGroupedByDevice(query).then(function(response) {
                 status = 'resolved';
-            }, function() {
+            }).catch(function() {
                 status = 'rejected';
             });
 
@@ -118,7 +118,7 @@ describe('cceAlertFactory', function() {
 
             cceAlertFactory.getAlertsGroupedByDevice(undefined).then(function(response) {
                 status = 'resolved';
-            }, function() {
+            }).catch(function() {
                 status = 'rejected';
             });
 
@@ -209,7 +209,7 @@ describe('cceAlertFactory', function() {
 
             cceAlertFactory.saveAlert(cceAlerts[0]).then(function() {
                 status = 'resolved';
-            }, function() {
+            }).catch(function() {
                 status = 'rejected';
             });
 
@@ -225,7 +225,7 @@ describe('cceAlertFactory', function() {
 
             cceAlertFactory.saveAlert(cceAlerts[0]).then(function() {
                 status = 'resolved';
-            }, function() {
+            }).catch(function() {
                 status = 'rejected';
             });
 

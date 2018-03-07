@@ -29,8 +29,8 @@
 
                     <dl class="horizontal-list" id="cce-active-alerts" ng-if="vm.cceAlerts[vm.inventoryItem.id]">
                         <dt>{{'cceInventoryItemStatus.rtmAlerts.title' | message}}</dt>
-                        <dd ng-if="vm.cceAlerts[vm.inventoryItem.id].activeAlerts.length" ng-repeat="alert in vm.cceAlerts[vm.inventoryItem.id].activeAlerts">
-                            <button type="button" class="cce-alert-dismiss" ng-if="vm.userHasRightToEdit" ng-click="vm.dismissAlert(alert)">{{'cceInventoryItemStatus.rtmAlerts.dismiss' | message}}</button>
+                        <dd ng-if="vm.cceAlerts[vm.inventoryItem.id].activeAlerts.length" class="cce-alert-entry" ng-repeat="alert in vm.cceAlerts[vm.inventoryItem.id].activeAlerts">
+                            <button type="button" ng-if="vm.userHasRightToEdit" ng-click="vm.dismissAlert(alert)">{{'cceInventoryItemStatus.rtmAlerts.dismiss' | message}}</button>
                             <div class="cce-alert-date">{{alert.start_ts | openlmisDatetime}}</div>
                             <p>{{alert.status.en_US}}</p>
                         </dd>
