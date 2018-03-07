@@ -112,7 +112,7 @@ describe('StatusUpdateModalController', function() {
         });
 
         it('should return localized label', function() {
-            expect(vm.getStatusLabel(FUNCTIONAL_STATUS.OBSOLETE)).toEqual('Obsolete');
+            expect(vm.getStatusLabel(FUNCTIONAL_STATUS.FUNCTIONING)).toEqual('Functioning');
         });
 
     });
@@ -152,29 +152,26 @@ describe('StatusUpdateModalController', function() {
         });
 
         it('should return false for status that is other than FUNCTIONING', function() {
-            expect(vm.isFunctioning(FUNCTIONAL_STATUS.NON_FUNCTIONING)).toBe(false);
-            expect(vm.isFunctioning(FUNCTIONAL_STATUS.UNSERVICABLE)).toBe(false);
+            expect(vm.isFunctioning(FUNCTIONAL_STATUS.UNSERVICEABLE)).toBe(false);
             expect(vm.isFunctioning(FUNCTIONAL_STATUS.AWAITING_REPAIR)).toBe(false);
-            expect(vm.isFunctioning(FUNCTIONAL_STATUS.OBSOLETE)).toBe(false);
         });
 
     });
 
-    describe('isObsolete', function() {
+    describe('isUnserviceable', function() {
 
         beforeEach(function() {
             vm.$onInit();
         });
 
-        it('should return true for OBSOLETE status', function() {
-            expect(vm.isObsolete(FUNCTIONAL_STATUS.OBSOLETE)).toBe(true);
+        it('should return true for UNSERVICEABLE status', function() {
+            expect(vm.isUnserviceable(FUNCTIONAL_STATUS.UNSERVICEABLE)).toBe(true);
         });
 
-        it('should return false for status that is other than OBSOLETE', function() {
-            expect(vm.isObsolete(FUNCTIONAL_STATUS.FUNCTIONING)).toBe(false);
-            expect(vm.isObsolete(FUNCTIONAL_STATUS.NON_FUNCTIONING)).toBe(false);
-            expect(vm.isObsolete(FUNCTIONAL_STATUS.UNSERVICABLE)).toBe(false);
-            expect(vm.isObsolete(FUNCTIONAL_STATUS.AWAITING_REPAIR)).toBe(false);
+        it('should return false for statuses other than UNSERVICEABLE', function()
+         {
+            expect(vm.isUnserviceable(FUNCTIONAL_STATUS.FUNCTIONING)).toBe(false);
+            expect(vm.isUnserviceable(FUNCTIONAL_STATUS.AWAITING_REPAIR)).toBe(false);
         });
 
     });
@@ -239,29 +236,29 @@ describe('StatusUpdateModalController', function() {
             }));
         });
 
-        it('should ignore date for UNSERVICABLE status', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.UNSERVICABLE;
+        it('should ignore date for AWAITING_REPAIR status', function() {
+            vm.newStatus = FUNCTIONAL_STATUS.AWAITING_REPAIR;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
             vm.decommissionDate = date;
 
             vm.save();
 
             expect(inventoryItemService.save).toHaveBeenCalledWith(angular.merge(inventoryItem, {
-                functionalStatus: FUNCTIONAL_STATUS.UNSERVICABLE,
+                functionalStatus: FUNCTIONAL_STATUS.AWAITING_REPAIR,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
                 decommissionDate: undefined
             }));
         });
 
-        it('should pass date and reason for OBSOLETE status', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.OBSOLETE;
+        it('should pass date and reason for UNSERVICEABLE status', function() {
+            vm.newStatus = FUNCTIONAL_STATUS.UNSERVICEABLE;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
             vm.decommissionDate = date;
 
             vm.save();
 
             expect(inventoryItemService.save).toHaveBeenCalledWith(angular.merge(inventoryItem, {
-                functionalStatus: FUNCTIONAL_STATUS.OBSOLETE,
+                functionalStatus: FUNCTIONAL_STATUS.UNSERVICEABLE,
                 reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
                 decommissionDate: date
             }));
@@ -462,6 +459,7 @@ describe('StatusUpdateModalController', function() {
 
         messages = {
             'cceInventoryItemStatus.obsolete': 'Obsolete',
+            'cceInventoryItemStatus.functioning': 'Functioning',
             'cceInventoryItemStatus.needsSpareParts': 'Needs Spare Parts'
         };
 

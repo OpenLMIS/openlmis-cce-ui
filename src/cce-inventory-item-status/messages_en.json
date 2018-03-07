@@ -9,6 +9,8 @@
     "cceInventoryItemStatus.awaitingRepair": "Awaiting Repair",
     "cceInventoryItemStatus.unserviceable": "Unserviceable",
     "cceInventoryItemStatus.obsolete": "Obsolete",
+    "cceInventoryItemStatus.notInUse": "Not in use",
+    "cceInventoryItemStatus.decommissioned": "Decommissioned",
     "cceInventoryItemStatus.rtmAlerts.title": "RTM Alerts",
     "cceInventoryItemStatus.rtmAlerts.noActiveAlerts": "No active alerts",
     "cceInventoryItemStatus.rtmAlerts.dismiss": "Dismiss",

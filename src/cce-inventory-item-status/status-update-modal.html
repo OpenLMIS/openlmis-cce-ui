@@ -67,8 +67,8 @@
                             </select>
                         </fieldset>
 
-                        <fieldset ng-if="vm.isObsolete(vm.newStatus)">
-                            <label for="decommission-date">
+                        <fieldset ng-if="vm.isUnserviceable(vm.newStatus)">
+                        <label for="decommission-date">
                                 {{'cceInventoryItemStatus.decommissionDate' | message}}
                             </label>
                             <openlmis-datepicker input-id="decommission-date"

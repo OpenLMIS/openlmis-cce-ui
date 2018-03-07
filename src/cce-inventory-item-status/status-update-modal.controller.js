@@ -42,7 +42,7 @@
 
         vm.save = save;
         vm.$onInit = onInit;
-        vm.isObsolete = isObsolete;
+        vm.isUnserviceable = isUnserviceable;
         vm.isFunctioning = isFunctioning;
         vm.getStatusLabel = getStatusLabel;
         vm.getReasonLabel = getReasonLabel;
@@ -145,10 +145,10 @@
          * @description
          *
          * @param   {String}    status  the status to be checked
-         * @return  {Boolean}           true if the status is obsolete, false otherwise
+         * @return  {Boolean}   true if the status is unserviceable; false otherwise
          */
-        function isObsolete(status) {
-            return status === FUNCTIONAL_STATUS.OBSOLETE;
+        function isUnserviceable(status) {
+            return (status === FUNCTIONAL_STATUS.UNSERVICEABLE);
         }
 
         /**
@@ -166,7 +166,8 @@
 
             item.functionalStatus = vm.newStatus;
             item.reasonNotWorkingOrNotInUse = isFunctioning(vm.newStatus) ? undefined : vm.reason;
-            item.decommissionDate = isObsolete(vm.newStatus) ? vm.decommissionDate : undefined;
+            item.decommissionDate =
+                        isUnserviceable(vm.newStatus) ? vm.decommissionDate : undefined;
 
             inventoryItemService.save(item).then(function(inventoryItem) {
                 loadingPromise.then(function() {

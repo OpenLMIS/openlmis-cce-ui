@@ -7,7 +7,7 @@
 	}
 
 	&.is-unknown::before {
-		@extend .cce-inventory-item-status.is-obsolete::before;
+		@extend .cce-inventory-item-status.is-unserviceable::before;
 	}
 
 	&.is-not-fully-functioning::before {

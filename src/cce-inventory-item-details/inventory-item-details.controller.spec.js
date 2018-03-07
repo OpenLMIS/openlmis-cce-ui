@@ -112,16 +112,16 @@ describe('InventoryItemDetailsController', function() {
             expect(vm.getFunctionalStatusClass()).toEqual('is-functioning');
         });
 
-        it('should return is-obsolete for OBSOLETE', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('OBSOLETE').build();
+        it('should return is-awaiting-repair for AWAITING_REPAIR', function() {
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('AWAITING_REPAIR').build();
 
-            expect(vm.getFunctionalStatusClass()).toEqual('is-obsolete');
+            expect(vm.getFunctionalStatusClass()).toEqual('is-awaiting-repair');
         });
 
-        it('should return is-non-functioning for NON_FUNCTIONING', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('NON_FUNCTIONING').build();
+        it('should return is-unserviceable for UNSERVICEABLE', function() {
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('UNSERVICEABLE').build();
 
-            expect(vm.getFunctionalStatusClass()).toEqual('is-non-functioning');
+            expect(vm.getFunctionalStatusClass()).toEqual('is-unserviceable');
         });
 
     });
@@ -132,22 +132,22 @@ describe('InventoryItemDetailsController', function() {
             vm.$onInit();
         });
 
-        it('should return Functioning for FUNCTIONING', function() {
+        it('should return the value of cceInventoryItemStatus.functioning for FUNCTIONING', function() {
             vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
 
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.functioning');
         });
 
-        it('should return Obsolete for OBSOLETE', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('OBSOLETE').build();
+        it('should return the value of cceInventoryItemStatus.awaitingRepair for AWAITING_REPAIR', function() {
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('AWAITING_REPAIR').build();
 
-            expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.obsolete');
+            expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.awaitingRepair');
         });
 
-        it('should return Non-functioning for NON_FUNCTIONING', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('NON_FUNCTIONING').build();
+        it('should return the value of cceInventoryItemStatus.unserviceable for UNSERVICEABLE', function() {
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('UNSERVICEABLE').build();
 
-            expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.nonFunctioning');
+            expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.unserviceable');
         });
 
     });

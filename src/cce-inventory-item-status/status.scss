@@ -12,12 +12,11 @@
     &.is-functioning::before {
         color: $green;
     }
-
-    &.is-non-functioning::before {
+    
+    &.is-awaiting-repair::before {
         color: $red;
     }
-
-    &.is-obsolete::before {
+    &.is-unserviceable::before {
         color: $gray;
     }
 }
