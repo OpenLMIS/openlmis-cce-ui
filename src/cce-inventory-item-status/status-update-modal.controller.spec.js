@@ -18,8 +18,8 @@ describe('StatusUpdateModalController', function() {
     var vm, messageService, $q, $state, $rootScope, inventoryItem, $controller,
         loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
         REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
-        stateTrackerService, FacilityProgramInventoryItemDataBuilder, CCE_STATUS,
-        cceAlerts, cceAlertFactory, cceAlert, CCEAlertDataBuilder, alertSaveDeferred;
+        stateTrackerService, FacilityProgramInventoryItemDataBuilder, cceAlerts,
+        cceAlertFactory, cceAlert, CCEAlertDataBuilder, alertSaveDeferred;
 
     beforeEach(prepareSuite);
 
@@ -117,6 +117,16 @@ describe('StatusUpdateModalController', function() {
             vm.$onInit();
         });
 
+        it('should throw exception if reason is invalid', function() {
+            expect(function() {
+                vm.getReasonLabel(undefined);
+            }).toThrow('Invalid reason');
+
+            expect(function() {
+                vm.getReasonLabel('SOME_INVALID_REASON');
+            }).toThrow('Invalid reason');
+        });
+
         it('should return localized label', function() {
             expect(
                 vm.getReasonLabel(REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS)
@@ -174,7 +184,8 @@ describe('StatusUpdateModalController', function() {
             vm.save();
 
             expect(inventoryItem.functionalStatus).toEqual(FUNCTIONAL_STATUS.FUNCTIONING);
-            expect(inventoryItem.reasonNotWorkingOrNotInUse).toEqual(CCE_STATUS.NOT_APPLICABLE);
+            expect(inventoryItem.reasonNotWorkingOrNotInUse).toEqual(
+                REASON_FOR_NOT_WORKING.NOT_APPLICABLE);
             expect(inventoryItem.decommissionDate).toEqual('2017-01-01');
         });
 
@@ -401,7 +412,6 @@ describe('StatusUpdateModalController', function() {
             $rootScope = $injector.get('$rootScope');
             $controller = $injector.get('$controller');
             messageService = $injector.get('messageService');
-            CCE_STATUS = $injector.get('CCE_STATUS');
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
             REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
             inventoryItemService = $injector.get('inventoryItemService');

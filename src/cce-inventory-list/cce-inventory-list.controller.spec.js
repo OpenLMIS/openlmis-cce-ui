@@ -17,7 +17,7 @@ describe('CceInventoryListController', function () {
 
     var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, stateParams,
         FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder,
-        cceAlerts;
+        cceAlerts, label, REASON_FOR_NOT_WORKING;
 
     beforeEach(function () {
         module('cce-inventory-list');
@@ -26,6 +26,7 @@ describe('CceInventoryListController', function () {
             $controller = $injector.get('$controller');
             $state = $injector.get('$state');
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
+            REASON_FOR_NOT_WORKING = $injector.get('REASON_FOR_NOT_WORKING');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
             ProgramDataBuilder = $injector.get('ProgramDataBuilder');
@@ -141,5 +142,34 @@ describe('CceInventoryListController', function () {
                 supervised: vm.isSupervised
             }, { reload: true });
         });
+    });
+
+    describe('getReasonLabel', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should return empty string if reason is undefined', function() {
+            label = vm.getReasonLabel(undefined);
+            expect(label).toBe('');
+        });
+
+        it('should return empty string if reason is null', function() {
+            label = vm.getReasonLabel(null);
+            expect(label).toBe('');
+        });
+
+        it('should throw exception if reason is invalid', function() {
+            expect(function() {
+                vm.getReasonLabel('SOME_INVALID_REASON');
+            }).toThrow('Invalid reason');
+        });
+
+        it('should return localized label', function() {
+            label = vm.getReasonLabel(REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS);
+            expect(label).toEqual('cceInventoryItemStatus.needsSpareParts');
+        });
+
     });
 });

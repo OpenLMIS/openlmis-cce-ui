@@ -37,6 +37,7 @@
                 DEAD: 'DEAD',
                 NOT_IN_USE: 'NOT_IN_USE',
                 DECOMMISSIONED: 'DECOMMISSIONED',
+                NOT_APPLICABLE: 'NOT_APPLICABLE',
                 getLabel: getLabel,
                 getReasons: getReasons
             },
@@ -47,7 +48,8 @@
                 SURPLUS: 'cceInventoryItemStatus.surplus',
                 DEAD: 'cceInventoryItemStatus.dead',
                 NOT_IN_USE: 'cceInventoryItemStatus.notInUse',
-                DECOMMISSIONED: 'cceInventoryItemStatus.decommissioned'
+                DECOMMISSIONED: 'cceInventoryItemStatus.decommissioned',
+                NOT_APPLICABLE: 'cceInventoryItemStatus.notApplicable'
             };
 
         return REASON_FOR_NOT_WORKING;
@@ -64,7 +66,12 @@
          * @return  {String}            the label for the given status
          */
         function getLabel(reason) {
-            return labels[reason];
+            var label = labels[reason];
+
+            if (!label) {
+                throw 'Invalid reason';
+            }
+            return label;
         }
 
         /**
@@ -85,7 +92,8 @@
                 REASON_FOR_NOT_WORKING.SURPLUS,
                 REASON_FOR_NOT_WORKING.DEAD,
                 REASON_FOR_NOT_WORKING.NOT_IN_USE,
-                REASON_FOR_NOT_WORKING.DECOMMISSIONED
+                REASON_FOR_NOT_WORKING.DECOMMISSIONED,
+                REASON_FOR_NOT_WORKING.NOT_APPLICABLE
             ];
         }
     }
