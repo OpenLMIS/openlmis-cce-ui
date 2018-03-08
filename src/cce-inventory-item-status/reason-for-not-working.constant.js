@@ -38,6 +38,8 @@
                 NOT_IN_USE: 'NOT_IN_USE',
                 DECOMMISSIONED: 'DECOMMISSIONED',
                 NOT_APPLICABLE: 'NOT_APPLICABLE',
+                AWAITING_REPAIR: 'AWAITING_REPAIR',
+                UNSERVICEABLE: 'UNSERVICEABLE',
                 getLabel: getLabel,
                 getReasons: getReasons
             },
@@ -49,7 +51,9 @@
                 DEAD: 'cceInventoryItemStatus.dead',
                 NOT_IN_USE: 'cceInventoryItemStatus.notInUse',
                 DECOMMISSIONED: 'cceInventoryItemStatus.decommissioned',
-                NOT_APPLICABLE: 'cceInventoryItemStatus.notApplicable'
+                NOT_APPLICABLE: 'cceInventoryItemStatus.notApplicable',
+                AWAITING_REPAIR: 'cceInventoryItemStatus.awaitingRepair',
+                UNSERVICEABLE: 'cceInventoryItemStatus.unserviceable',
             };
 
         return REASON_FOR_NOT_WORKING;
@@ -93,7 +97,9 @@
                 REASON_FOR_NOT_WORKING.DEAD,
                 REASON_FOR_NOT_WORKING.NOT_IN_USE,
                 REASON_FOR_NOT_WORKING.DECOMMISSIONED,
-                REASON_FOR_NOT_WORKING.NOT_APPLICABLE
+                REASON_FOR_NOT_WORKING.NOT_APPLICABLE,
+                REASON_FOR_NOT_WORKING.AWAITING_REPAIR,
+                REASON_FOR_NOT_WORKING.UNSERVICEABLE
             ];
         }
     }
