@@ -53,7 +53,7 @@
                 DECOMMISSIONED: 'cceInventoryItemStatus.decommissioned',
                 NOT_APPLICABLE: 'cceInventoryItemStatus.notApplicable',
                 AWAITING_REPAIR: 'cceInventoryItemStatus.awaitingRepair',
-                UNSERVICEABLE: 'cceInventoryItemStatus.unserviceable',
+                UNSERVICEABLE: 'cceInventoryItemStatus.unserviceable'
             };
 
         return REASON_FOR_NOT_WORKING;
