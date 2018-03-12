@@ -12,6 +12,7 @@
     "cceInventoryItemStatus.notInUse": "Not in use",
     "cceInventoryItemStatus.decommissioned": "Decommissioned",
     "cceInventoryItemStatus.rtmAlerts.title": "RTM Alerts",
+    "cceInventoryItemStatus.rtmAlerts.viewHistory": "View History",
     "cceInventoryItemStatus.rtmAlerts.noActiveAlerts": "No active alerts",
     "cceInventoryItemStatus.rtmAlerts.dismiss": "Dismiss",
     "cceInventoryItemStatus.rtmAlerts.alertDismissed": "Alert dismissed.",

@@ -19,7 +19,8 @@ describe('StatusUpdateModalController', function() {
         loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
         REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
         stateTrackerService, FacilityProgramInventoryItemDataBuilder, cceAlerts,
-        cceAlertFactory, cceAlert, CCEAlertDataBuilder, alertSaveDeferred;
+        cceAlertFactory, cceAlert, CCEAlertDataBuilder, alertSaveDeferred,
+        accessTokenFactory, cceUrlFactory, $window;
 
     beforeEach(prepareSuite);
 
@@ -403,6 +404,16 @@ describe('StatusUpdateModalController', function() {
 
     });
 
+    describe('printAlertHistory', function() {
+
+        it('should open report window', function() {
+            vm.printAlertHistory(inventoryItem.id);
+
+            expect($window.open).toHaveBeenCalled();
+            expect(accessTokenFactory.addAccessToken).toHaveBeenCalled();
+        });
+    });
+
     function prepareSuite() {
         module('cce-inventory-item-status');
 
@@ -421,6 +432,9 @@ describe('StatusUpdateModalController', function() {
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             cceAlertFactory = $injector.get('cceAlertFactory');
             CCEAlertDataBuilder = $injector.get('CCEAlertDataBuilder');
+            accessTokenFactory = $injector.get('accessTokenFactory');
+            cceUrlFactory = $injector.get('cceUrlFactory');
+            $window = $injector.get('$window');
         });
 
         date = new Date();
@@ -459,6 +473,9 @@ describe('StatusUpdateModalController', function() {
         spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
         spyOn($state, 'go').andReturn();
         spyOn(cceAlertFactory, 'saveAlert').andReturn(alertSaveDeferred.promise);
+
+        spyOn($window, 'open').andCallThrough();
+        spyOn(accessTokenFactory, 'addAccessToken').andCallThrough();
     }
 
 });

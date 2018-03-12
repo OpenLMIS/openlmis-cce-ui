@@ -31,13 +31,15 @@
     StatusUpdateModalController.$inject = [
         '$scope', 'inventoryItem', 'canEdit', 'FUNCTIONAL_STATUS', 'messageService', 'REASON_FOR_NOT_WORKING',
         'inventoryItemService', '$state', 'loadingModalService', 'confirmService', 'notificationService',
-        'stateTrackerService', 'cceAlerts', 'cceAlertFactory', 'alertService'
+        'stateTrackerService', 'cceAlerts', 'cceAlertFactory', 'alertService', 'accessTokenFactory',
+        'cceUrlFactory', '$window'
     ];
 
     function StatusUpdateModalController($scope, inventoryItem, canEdit, FUNCTIONAL_STATUS, messageService,
                                          REASON_FOR_NOT_WORKING, inventoryItemService, $state,
                                          loadingModalService, confirmService, notificationService,
-                                         stateTrackerService, cceAlerts, cceAlertFactory, alertService) {
+                                         stateTrackerService, cceAlerts, cceAlertFactory, alertService,
+                                         accessTokenFactory, cceUrlFactory, $window) {
         var vm = this;
 
         vm.save = save;
@@ -50,6 +52,7 @@
         vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
         vm.clearReasonAndDecommissionDate = clearReasonAndDecommissionDated;
         vm.dismissAlert = dismissAlert;
+        vm.printAlertHistory = printAlertHistory;
 
         /**
          * @ngdoc property
@@ -250,11 +253,28 @@
             });
         }
 
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item-status.controller:StatusUpdateModalController
+         * @name printAlertHistory
+         *
+         * @description
+         * Opens a new window of a printable history of CCE alerts.
+         */
+        function printAlertHistory(inventoryItemId) {
+            var popup = $window.open('', '_blank');
+            popup.location.href = accessTokenFactory.addAccessToken(getPrintUrl(inventoryItemId));
+        }
+
         function doCancel() {
             stateTrackerService.goToPreviousState('openlmis.cce.inventory', {
                 inventoryItem: vm.inventoryItem,
                 inventoryItemId: vm.inventoryItem.id
             });
+        }
+
+        function getPrintUrl(inventoryItemId) {
+            return cceUrlFactory('/api/reports/templates/common/5ccbdfe1-594f-4830-960d-801dabf36566/pdf?inventoryItemId=' + inventoryItemId);
         }
     }
 
