@@ -134,6 +134,17 @@
         vm.cceAlerts = undefined;
 
         /**
+         * ngdoc property
+         * @propertyOf cce-inventory-list.controller.CceInventoryListController
+         * @name cceAlertDefaultLocale
+         * @type {string}
+         *
+         * @description
+         * The default locale for all CCE alerts. US English for first iteration.
+         */
+        vm.cceAlertDefaultLocale = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf cce-inventory-list.controller:CceInventoryListController
          * @name onInit
@@ -148,6 +159,7 @@
             vm.functionalStatus = $stateParams.functionalStatus;
             vm.userHasRightToEdit = canEdit;
             vm.isSupervised = $stateParams.supervised;
+            vm.cceAlertDefaultLocale = 'en-US';
         }
 
         /**

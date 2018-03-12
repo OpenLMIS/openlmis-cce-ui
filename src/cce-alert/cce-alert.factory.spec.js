@@ -170,36 +170,6 @@ describe('cceAlertFactory', function() {
             expect(resultMap['device-3'].inactiveAlerts.length).toBe(1);
             expect(resultMap['device-3'].inactiveAlerts[0].alert_id).toBe('resolved-dismissed-alert');
         });
-
-        it('should replace alert status keys that have hyphens with underscores', function() {
-            var resultMap = {};
-
-            cceAlertFactory.getAlertsGroupedByDevice(query).then(function(response) {
-                resultMap = response;
-            });
-
-            cceAlertDeferred.resolve({content: cceAlerts});
-            $rootScope.$apply();
-
-            expect(resultMap['device-1']).toBeDefined();
-            expect(resultMap['device-1'].activeAlerts.length).toBe(1);
-            expect(resultMap['device-1'].activeAlerts[0].status['en_US']).toBe('Status message');
-        });
-
-        it('should not change alert status keys that do not have hyphens', function() {
-            var resultMap = {};
-
-            cceAlertFactory.getAlertsGroupedByDevice(query).then(function(response) {
-                resultMap = response;
-            });
-
-            cceAlertDeferred.resolve({content: cceAlerts});
-            $rootScope.$apply();
-
-            expect(resultMap['device-1']).toBeDefined();
-            expect(resultMap['device-1'].inactiveAlerts.length).toBe(1);
-            expect(resultMap['device-1'].inactiveAlerts[0].status['nohyphen']).toBe('No hyphen message');
-        });
     });
 
     describe('saveAlert', function() {

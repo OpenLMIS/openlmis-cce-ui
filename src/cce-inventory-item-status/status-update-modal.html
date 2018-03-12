@@ -32,7 +32,7 @@
                         <dd ng-if="vm.cceAlerts[vm.inventoryItem.id].activeAlerts.length" class="cce-alert-entry" ng-repeat="alert in vm.cceAlerts[vm.inventoryItem.id].activeAlerts">
                             <button type="button" ng-if="vm.userHasRightToEdit" ng-click="vm.dismissAlert(alert)">{{'cceInventoryItemStatus.rtmAlerts.dismiss' | message}}</button>
                             <div class="cce-alert-date">{{alert.start_ts | openlmisDatetime}}</div>
-                            <p>{{alert.status.en_US}}</p>
+                            <p>{{alert.status[vm.cceAlertDefaultLocale]}}</p>
                         </dd>
                         <dd ng-if="!vm.cceAlerts[vm.inventoryItem.id].activeAlerts.length">
                             <p>{{'cceInventoryItemStatus.rtmAlerts.noActiveAlerts' | message}}</p>

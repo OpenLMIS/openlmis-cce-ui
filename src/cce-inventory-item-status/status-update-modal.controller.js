@@ -74,6 +74,17 @@
          vm.cceAlerts = undefined;
 
         /**
+         * ngdoc property
+         * @propertyOf cce-inventory-list.controller.CceInventoryListController
+         * @name cceAlertDefaultLocale
+         * @type {string}
+         *
+         * @description
+         * The default locale for all CCE alerts. US English for first iteration.
+         */
+        vm.cceAlertDefaultLocale = undefined;
+
+        /**
          * @ngdoc method
          * @methodOf cce-inventory-item-status.controller:StatusUpdateModalController
          * @name $onInit
@@ -90,6 +101,7 @@
             vm.decommissionDate = inventoryItem.decommissionDate;
             vm.userHasRightToEdit = canEdit;
             vm.cceAlerts = cceAlerts;
+            vm.cceAlertDefaultLocale = 'en-US';
         }
 
         /**

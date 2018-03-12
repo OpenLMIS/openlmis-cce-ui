@@ -54,9 +54,6 @@
             return repository.query(params)
                 .then(function(response) {
                     var cceAlertsMap = response.content.reduce(function (map, obj) {
-                        //this is necessary because it is unclear how to do Angular interpolation
-                        //with object bracket notation with quotes
-                        replaceKeysFromHyphenToUnderscore(obj.status);
 
                         if (!map[obj.device_id]) {
                             map[obj.device_id] = {
@@ -91,17 +88,6 @@
          */
         function saveAlert(alert) {
             return repository.save(alert);
-        }
-
-        function replaceKeysFromHyphenToUnderscore(obj) {
-            var oldKeys = Object.keys(obj);
-            for (var j=0; j<oldKeys.length; j++) {
-               var newKey = oldKeys[j].replace(/-/, "_");
-               if (newKey !== oldKeys[j]) {
-                   obj[newKey] = obj[oldKeys[j]];
-                   delete obj[oldKeys[j]];
-               }
-            }
         }
 
     }
