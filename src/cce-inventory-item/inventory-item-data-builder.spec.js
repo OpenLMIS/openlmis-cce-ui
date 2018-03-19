@@ -55,7 +55,7 @@
                 yearOfWarrantyExpiry: 2020,
                 source: 'source',
                 functionalStatus: 'FUNCTIONING',
-                reasonNotWorkingOrNotInUse: 'NOT_APPLICABLE',
+                reasonNotWorkingOrNotInUse: 'NOT_IN_USE',
                 utilization: 'ACTIVE',
                 voltageStabilizer: 'YES',
                 backupGenerator: 'YES',

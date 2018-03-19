@@ -186,7 +186,7 @@ describe('StatusUpdateModalController', function() {
 
             expect(inventoryItem.functionalStatus).toEqual(FUNCTIONAL_STATUS.FUNCTIONING);
             expect(inventoryItem.reasonNotWorkingOrNotInUse).toEqual(
-                REASON_FOR_NOT_WORKING.NOT_APPLICABLE);
+                REASON_FOR_NOT_WORKING.NOT_IN_USE);
             expect(inventoryItem.decommissionDate).toEqual('2017-01-01');
         });
 
