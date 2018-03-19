@@ -461,9 +461,9 @@ describe('StatusUpdateModalController', function() {
         });
 
         messages = {
-            'cceInventoryItemStatus.obsolete': 'Obsolete',
             'cceInventoryItemStatus.functioning': 'Functioning',
-            'cceInventoryItemStatus.needsSpareParts': 'Needs Spare Parts'
+            'cceInventoryItemStatus.needsSpareParts': 'Needs Spare Parts',
+            'cceInventoryItemStatus.decommissioned': 'Decommissioned'
         };
 
         spyOn(stateTrackerService, 'goToPreviousState');
