@@ -36,14 +36,16 @@
                 NOT_FULLY_FUNCTIONING: 'NOT_FULLY_FUNCTIONING',
                 NOT_FUNCTIONING: 'NOT_FUNCTIONING',
                 UNKNOWN: 'UNKNOWN',
-                LOADING: 'LOADING'
+                LOADING: 'LOADING',
+                NO_CCE: 'NO_CCE'
             },
             labels = {
                 All_FUNCTIONING: 'facilityCceStatus.allFunctioning',
                 NOT_FULLY_FUNCTIONING: 'facilityCceStatus.notFullyFunctioning',
                 NOT_FUNCTIONING: 'facilityCceStatus.notFunctioning',
                 UNKNOWN: 'facilityCceStatus.unknown',
-                LOADING: 'facilityCceStatus.loading'
+                LOADING: 'facilityCceStatus.loading',
+                NO_CCE: 'facilityCceStatus.noCce'
             };
 
         return statuses;
@@ -99,6 +101,9 @@
                     break;
                 case statuses.LOADING:
                     statusClass = 'is-loading-status';
+                    break;
+                case statuses.NO_CCE:
+                    statusClass = 'no-cce';
                     break;
                 default:
                     throw 'Invalid status';

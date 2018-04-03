@@ -18,7 +18,7 @@ describe('CceStatusController', function() {
     var vm, $controller, $rootScope, $q, FACILITY_CCE_STATUS, authorizationService, userId,
         permissionService, FacilityDataBuilder, CCE_RIGHTS, inventoryItemService,
         InventoryItemDataBuilder, functioningInventoryItem, notFunctioningInventoryItem,
-        cceAlertFactory, cceAlerts;
+        cceAlertFactory, cceAlerts, CCEAlertDataBuilder;
 
     beforeEach(function() {
         module('facility-cce-status');
@@ -92,14 +92,14 @@ describe('CceStatusController', function() {
                 expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('NOT_FUNCTIONING'));
             });
 
-            it('as NOT FUNCTIONING when there is no CCE inventory items', function() {
+            it('as NO CCE when there is no CCE inventory items', function() {
                 inventoryItemService.getAllForFacility.andReturn($q.resolve([]));
 
                 vm.$onInit();
                 $rootScope.$apply();
 
-                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('NOT_FUNCTIONING'));
-                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('NOT_FUNCTIONING'));
+                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('NO_CCE'));
+                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('NO_CCE'));
             });
 
             it('as LOADING when the facility CCE Status component is loading data from the services', function() {

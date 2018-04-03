@@ -138,6 +138,9 @@
          * @return  {String}            the label for the inventory item
          */
         function getStatus(list) {
+            if (list.length === 0) {
+                return FACILITY_CCE_STATUS.NO_CCE;
+            }
             var notFunctioningInventoryItems = filterNotFunctioningInventoryItems(list);
             if (notFunctioningInventoryItems.length === list.length || list.length === 0) {
                 return FACILITY_CCE_STATUS.NOT_FUNCTIONING;

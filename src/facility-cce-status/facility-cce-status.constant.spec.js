@@ -47,6 +47,10 @@ describe('FACILITY_CCE_STATUS', function() {
             expect(
                 FACILITY_CCE_STATUS.getLabel('LOADING')
             ).toEqual('facilityCceStatus.loading');
+
+            expect(
+                FACILITY_CCE_STATUS.getLabel('NO_CCE')
+            ).toEqual('facilityCceStatus.noCce');
         });
 
         it('should throw exception for invalid status', function() {
@@ -91,6 +95,10 @@ describe('FACILITY_CCE_STATUS', function() {
             expect(
                 FACILITY_CCE_STATUS.getClass('LOADING')
             ).toEqual('is-loading-status');
+
+            expect(
+                FACILITY_CCE_STATUS.getClass('NO_CCE')
+            ).toEqual('no-cce');
         });
 
         it('should throw exception for invalid status', function () {

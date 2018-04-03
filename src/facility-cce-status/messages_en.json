@@ -4,5 +4,6 @@
     "facilityCceStatus.notFunctioning": "Not functioning",
     "facilityCceStatus.unknown": "Unknown",
     "facilityCceStatus.loading": "Loading",
+    "facilityCceStatus.noCce": "No CCE tracked at this facility",
     "facilityCceStatus.inventoryItems.title": "Inventory Items"
 }
