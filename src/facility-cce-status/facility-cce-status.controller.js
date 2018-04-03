@@ -162,6 +162,10 @@
         }
 
         function setCceAlerts(inventoryItems) {
+            if (inventoryItems.length === 0) {
+                vm.alertStatusClass = 'rtm-alert-status-unavailable';
+                return;
+            }
             var inventoryItemIds = inventoryItems.map(function (item) {
                 return item.id;
             });

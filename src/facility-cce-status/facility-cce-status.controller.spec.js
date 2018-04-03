@@ -174,6 +174,15 @@ describe('CceStatusController', function() {
                 expect(vm.alertStatusClass).toEqual('rtm-alert-status-unavailable');
             });
 
+            it('as RTM alert status unavailable when no Inventory items', function() {
+                inventoryItemService.getAllForFacility.andReturn($q.resolve([]));
+
+                vm.$onInit();
+                $rootScope.$apply();
+
+                expect(vm.alertStatusClass).toEqual('rtm-alert-status-unavailable');
+            });
+
             it('as RTM alert status inactive when CCE alerts has device id entries, but no active alerts for them', function() {
                 vm.$onInit();
                 $rootScope.$apply();
