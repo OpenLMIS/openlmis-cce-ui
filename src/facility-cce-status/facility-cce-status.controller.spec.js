@@ -158,6 +158,24 @@ describe('CceStatusController', function() {
             expect(vm.cceAlerts).toEqual(cceAlerts);
         });
 
+        it('should set cceAvailable flag as true when there are inventory items', function () {
+            inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
+
+            vm.$onInit();
+            $rootScope.$apply();
+
+            expect(vm.cceAvailable).toBe(true);
+        });
+
+        it('should set cceAvailable flag as false when there are no inventory items', function () {
+            inventoryItemService.getAllForFacility.andReturn($q.resolve([]));
+
+            vm.$onInit();
+            $rootScope.$apply();
+
+            expect(vm.cceAvailable).toBe(false);
+        });
+
         describe('should set alert status class', function() {
 
             beforeEach(function() {

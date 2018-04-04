@@ -102,9 +102,9 @@
          * @type {boolean}
          *
          * @description
-         * Indicator if there is CCE available..
+         * Indicator if there is CCE available.
          */
-        vm.cceAvailable = true;
+        vm.cceAvailable = undefined;
 
         /**
          * @ngdoc method
@@ -131,6 +131,7 @@
                 if (vm.inventoryItems.length === 0) {
                     vm.cceAvailable = false;
                 } else {
+                    vm.cceAvailable = true;
                     setCceAlerts(list);
                 }
                 var status = getStatus(list);
