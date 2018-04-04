@@ -96,6 +96,17 @@
         vm.alertStatusClass = undefined;
 
         /**
+         * @ngdoc property
+         * @propertyOf facility-cce-status.controller:CceStatusController
+         * @name cceAvailable
+         * @type {boolean}
+         *
+         * @description
+         * Indicator if there is CCE available..
+         */
+        vm.cceAvailable = true;
+
+        /**
          * @ngdoc method
          * @methodOf facility-cce-status.controller:CceStatusController
          * @name $onInit
@@ -117,7 +128,11 @@
             })
             .then(function (list) {
                 vm.inventoryItems = list;
-                setCceAlerts(list);
+                if (vm.inventoryItems.length === 0) {
+                    vm.cceAvailable = false;
+                } else {
+                    setCceAlerts(list);
+                }
                 var status = getStatus(list);
                 setLabelAndClass(status);
             })
@@ -138,7 +153,7 @@
          * @return  {String}            the label for the inventory item
          */
         function getStatus(list) {
-            if (list.length === 0) {
+            if (!vm.cceAvailable) {
                 return FACILITY_CCE_STATUS.NO_CCE;
             }
             var notFunctioningInventoryItems = filterNotFunctioningInventoryItems(list);
@@ -162,10 +177,6 @@
         }
 
         function setCceAlerts(inventoryItems) {
-            if (inventoryItems.length === 0) {
-                vm.alertStatusClass = 'rtm-alert-status-unavailable';
-                return;
-            }
             var inventoryItemIds = inventoryItems.map(function (item) {
                 return item.id;
             });
