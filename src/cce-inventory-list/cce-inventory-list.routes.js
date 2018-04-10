@@ -56,7 +56,7 @@
                 },
                 canEdit: function(permissionService, user, CCE_RIGHTS) {
                     return permissionService
-                    .hasPermissionWithAnyProgramAndFacility(user.user_id, {
+                    .hasPermissionWithAnyProgramAndAnyFacility(user.user_id, {
                         right: CCE_RIGHTS.CCE_INVENTORY_EDIT
                     })
                     .then(function() {
