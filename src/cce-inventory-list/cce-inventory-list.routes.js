@@ -54,11 +54,10 @@
                         return [];
                     });
                 },
-                canEdit: function(permissionService, user, $stateParams, CCE_RIGHTS) {
-                    return permissionService.hasPermission(user.user_id, {
-                        right: CCE_RIGHTS.CCE_INVENTORY_EDIT,
-                        programId: $stateParams.program,
-                        facilityId: $stateParams.facility
+                canEdit: function(permissionService, user, CCE_RIGHTS) {
+                    return permissionService
+                    .hasPermissionWithAnyProgramAndFacility(user.user_id, {
+                        right: CCE_RIGHTS.CCE_INVENTORY_EDIT
                     })
                     .then(function() {
                         return true;
