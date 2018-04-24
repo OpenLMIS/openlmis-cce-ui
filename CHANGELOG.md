@@ -1,4 +1,4 @@
-1.0.0 / 2018-04-24
+1.0.1 / 2018-04-24
 ==================
 
 Released openlmis-cce-ui 1.0.0 as part of openlmis-reference-ui 5.0.5. This was the first stable release of openlmis-cce-ui.
