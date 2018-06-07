@@ -73,10 +73,7 @@
                         <label for="decommission-date">
                                 {{'cceInventoryItemStatus.decommissionDate' | message}}
                             </label>
-                            <openlmis-datepicker input-id="decommission-date"
-                                value="vm.decommissionDate"
-                                required="true">
-                            </openlmis-datepicker>
+                            <input id="decommission-date" type="date" ng-model="vm.decommissionDate" required/>
                         </fieldset>
                     </fieldset>
                 </form>
