@@ -6,5 +6,6 @@
         "/openlmis-referencedata-ui",
         "/openlmis-cce-ui"
     ],
-    "cceServiceURL": "/"
+    "cceServiceURL": "/",
+    "noLint": true
 }
