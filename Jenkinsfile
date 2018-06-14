@@ -113,6 +113,13 @@ pipeline {
                 sh "docker push openlmis/cce-ui:${VERSION}"
             }
             post {
+                success {
+                    script {
+                        if (!VERSION.endsWith("SNAPSHOT")) {
+                            currentBuild.rawBuild.keepLog(true)
+                        }
+                    }
+                }
                 failure {
                     slackSend color: 'danger', message: "${env.JOB_NAME} - #${env.BUILD_NUMBER} ${env.STAGE_NAME} FAILED (<${env.BUILD_URL}|Open>)"
                 }
