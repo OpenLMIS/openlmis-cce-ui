@@ -15,9 +15,9 @@
 
 describe('add-inventory-item.html template', function() {
 
-    var template, $compile, $rootScope, $scope, $templateRequest, $controller,
-        authorizationService, $timeout, $state, program, facility, types, type, catalogItem,
-        catalogItems, CatalogItemDataBuilder, ProgramDataBuilder, FacilityDataBuilder;
+    var template, $compile, $rootScope, $scope, $templateRequest, $timeout, $state,
+        program, facility, types, type, catalogItem, catalogItems, CatalogItemDataBuilder,
+        ProgramDataBuilder, FacilityDataBuilder, facilityService, programService, $q;
 
     beforeEach(function() {
         module('openlmis-form');
@@ -29,7 +29,6 @@ describe('add-inventory-item.html template', function() {
         });
 
         inject(function($injector) {
-            $controller = $injector.get('$controller');
             $compile = $injector.get('$compile');
             $rootScope = $injector.get('$rootScope');
             $templateRequest = $injector.get('$templateRequest');
@@ -40,6 +39,7 @@ describe('add-inventory-item.html template', function() {
             CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
             ProgramDataBuilder = $injector.get('ProgramDataBuilder');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
+            $q = $injector.get('$q');
         });
 
         spyOn(facilityService, 'getAllMinimal').andReturn($q.resolve(true));
