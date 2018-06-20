@@ -8,7 +8,7 @@ Improvements:
 * [OLMIS-4813](https://openlmis.atlassian.net/browse/OLMIS-4813): Updated ui-components to version 6.0.0.
 
 Bug fixes:
-* [OLMIS-4910](https://openlmis.atlassian.net/browse/OLMIS-4910): Fixed returning undefined instead of empty list and added check if there are any inventory items before getting CCE Alerts.
+* [OLMIS-4910](https://openlmis.atlassian.net/browse/OLMIS-4910): Fixed broken inventory list when there are no inventory items.
 
 1.0.0 / 2018-04-24
 ==================
