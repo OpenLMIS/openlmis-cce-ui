@@ -50,8 +50,6 @@
 
                             return facilityInventoryItemFactory.query(stateParamsCopy);
                         }
-
-                        return [];
                     });
                 },
                 canEdit: function(permissionService, user, CCE_RIGHTS) {
@@ -67,13 +65,15 @@
                     });
                 },
                 cceAlerts: function (cceAlertFactory, inventoryItems) {
-                    var inventoryItemIds = inventoryItems.map(function (item) {
-                        return item.id;
-                    });
-                    var queryParams = {
-                        deviceId: inventoryItemIds
-                    };
-                    return cceAlertFactory.getAlertsGroupedByDevice(queryParams);
+                    if (inventoryItems.length) {
+                        var inventoryItemIds = inventoryItems.map(function (item) {
+                            return item.id;
+                        });
+                        var queryParams = {
+                            deviceId: inventoryItemIds
+                        };
+                        return cceAlertFactory.getAlertsGroupedByDevice(queryParams);
+                    }
                 }
             }
         });
