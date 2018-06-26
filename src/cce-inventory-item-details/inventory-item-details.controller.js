@@ -30,15 +30,12 @@
 
     InventoryItemDetailsController.$inject = [
         'inventoryItem', 'canEdit', 'CCE_STATUS', 'UTILIZATION_STATUS', 'MANUAL_TEMPERATURE_GAUGE_TYPE',
-        'REMOTE_TEMPERATURE_MONITOR_TYPE', 'FUNCTIONAL_STATUS', '$state', 'authorizationService',
-        'CCE_RIGHTS'
+        'REMOTE_TEMPERATURE_MONITOR_TYPE', 'FUNCTIONAL_STATUS', '$state'
     ];
 
     function InventoryItemDetailsController(inventoryItem, canEdit, CCE_STATUS, UTILIZATION_STATUS,
-                                            MANUAL_TEMPERATURE_GAUGE_TYPE,
-                                            REMOTE_TEMPERATURE_MONITOR_TYPE,
-                                            FUNCTIONAL_STATUS, $state, authorizationService,
-                                            CCE_RIGHTS) {
+                                            MANUAL_TEMPERATURE_GAUGE_TYPE, REMOTE_TEMPERATURE_MONITOR_TYPE,
+                                            FUNCTIONAL_STATUS, $state) {
         var vm = this;
 
         vm.$onInit = onInit;

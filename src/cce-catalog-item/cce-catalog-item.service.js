@@ -50,6 +50,7 @@
             get: get,
             upload: upload,
             search: search,
+            getAll: getAll,
             getDownloadUrl: getDownloadUrl
         };
 

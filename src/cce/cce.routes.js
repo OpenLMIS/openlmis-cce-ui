@@ -15,20 +15,20 @@
 
 (function() {
 
-	'use strict';
+    'use strict';
 
-	angular.module('cce').config(routes);
+    angular.module('cce').config(routes);
 
-	routes.$inject = ['$stateProvider', 'CCE_RIGHTS'];
+    routes.$inject = ['$stateProvider'];
 
-	function routes($stateProvider, CCE_RIGHTS) {
+    function routes($stateProvider) {
 
-		$stateProvider.state('openlmis.cce', {
+        $stateProvider.state('openlmis.cce', {
             abstract: true,
-			showInNavigation: true,
-			label: 'cce.cceManagement',
-			template: '<div ui-view></div>',
-			url: '/cce'
-		});
-	}
+            showInNavigation: true,
+            label: 'cce.cceManagement',
+            template: '<div ui-view></div>',
+            url: '/cce'
+        });
+    }
 })();

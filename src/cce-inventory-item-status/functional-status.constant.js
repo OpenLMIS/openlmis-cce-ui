@@ -108,6 +108,8 @@
                 case FUNCTIONAL_STATUS.UNSERVICEABLE:
                     statusClass = 'is-unserviceable';
                     break;
+                default:
+                    throw 'Invalid status';
             }
 
             return statusClass;

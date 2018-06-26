@@ -29,11 +29,9 @@
         .module('cce-inventory-item')
         .factory('facilityInventoryItemFactory', factory);
 
-    factory.$inject = ['$q', 'inventoryItemService', 'facilityService',
-                       'InventoryItem', 'referencedataUserService'];
+    factory.$inject = ['$q', 'inventoryItemService', 'facilityService', 'InventoryItem'];
 
-    function factory($q, inventoryItemService, facilityService, InventoryItem,
-                     referencedataUserService) {
+    function factory($q, inventoryItemService, facilityService, InventoryItem) {
 
         return {
             query: query
@@ -79,7 +77,7 @@
 
                         content[i] = new InventoryItem(
                             content[i],
-                            facilitiesFiltered[0])
+                            facilitiesFiltered[0]);
                     }
                     return inventoryItems;
                 });

@@ -52,7 +52,7 @@
         return function(url) {
             url = pathFactory(cceUrl, url);
             return openlmisUrlFactory(url);
-        }
+        };
     }
 
 })();
