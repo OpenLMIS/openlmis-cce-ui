@@ -32,7 +32,7 @@
         var statuses = {
                 getLabel: getLabel,
                 getClass: getClass,
-                All_FUNCTIONING: 'All_FUNCTIONING',
+                ALL_FUNCTIONING: 'ALL_FUNCTIONING',
                 NOT_FULLY_FUNCTIONING: 'NOT_FULLY_FUNCTIONING',
                 NOT_FUNCTIONING: 'NOT_FUNCTIONING',
                 UNKNOWN: 'UNKNOWN',
@@ -40,7 +40,7 @@
                 NO_CCE: 'NO_CCE'
             },
             labels = {
-                All_FUNCTIONING: 'facilityCceStatus.allFunctioning',
+                ALL_FUNCTIONING: 'facilityCceStatus.allFunctioning',
                 NOT_FULLY_FUNCTIONING: 'facilityCceStatus.notFullyFunctioning',
                 NOT_FUNCTIONING: 'facilityCceStatus.notFunctioning',
                 UNKNOWN: 'facilityCceStatus.unknown',
@@ -71,7 +71,6 @@
             return label;
         }
 
-
         /**
          * @ngdoc method
          * @methodOf facility-cce-status.FACILITY_CCE_STATUS
@@ -87,26 +86,26 @@
             var statusClass;
 
             switch (status) {
-                case statuses.All_FUNCTIONING:
-                    statusClass = 'is-functioning';
-                    break;
-                case statuses.NOT_FULLY_FUNCTIONING:
-                    statusClass = 'is-not-fully-functioning';
-                    break;
-                case statuses.NOT_FUNCTIONING:
-                    statusClass = 'is-non-functioning';
-                    break;
-                case statuses.UNKNOWN:
-                    statusClass = 'is-unknown';
-                    break;
-                case statuses.LOADING:
-                    statusClass = 'is-loading-status';
-                    break;
-                case statuses.NO_CCE:
-                    statusClass = 'no-cce';
-                    break;
-                default:
-                    throw 'Invalid status';
+            case statuses.ALL_FUNCTIONING:
+                statusClass = 'is-functioning';
+                break;
+            case statuses.NOT_FULLY_FUNCTIONING:
+                statusClass = 'is-not-fully-functioning';
+                break;
+            case statuses.NOT_FUNCTIONING:
+                statusClass = 'is-non-functioning';
+                break;
+            case statuses.UNKNOWN:
+                statusClass = 'is-unknown';
+                break;
+            case statuses.LOADING:
+                statusClass = 'is-loading-status';
+                break;
+            case statuses.NO_CCE:
+                statusClass = 'no-cce';
+                break;
+            default:
+                throw 'Invalid status';
             }
 
             return statusClass;

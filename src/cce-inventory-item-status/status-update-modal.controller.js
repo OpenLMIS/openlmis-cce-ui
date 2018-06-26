@@ -74,7 +74,7 @@
          * @description
          * A map of all alerts for the inventory item.
          */
-         vm.cceAlerts = undefined;
+        vm.cceAlerts = undefined;
 
         /**
          * ngdoc property
@@ -241,16 +241,17 @@
             alert.dismissed = true;
 
             cceAlertFactory.saveAlert(alert)
-            .then(function() {
-                vm.cceAlerts[alert.device_id].activeAlerts = 
-                    vm.cceAlerts[alert.device_id].activeAlerts.filter(function (e) {
+                .then(function() {
+                    vm.cceAlerts[alert.device_id].activeAlerts =
+                    vm.cceAlerts[alert.device_id].activeAlerts.filter(function(e) {
                         return e.alert_id !== alert.alert_id;
                     });
-                vm.cceAlerts[alert.device_id].inactiveAlerts.push(alert);
-            }).catch(function() {
-                alertService.error('cceInventoryItemStatus.rtmAlerts.couldNotDismissAlert');
-                alert.dismissed = false;
-            });
+                    vm.cceAlerts[alert.device_id].inactiveAlerts.push(alert);
+                })
+                .catch(function() {
+                    alertService.error('cceInventoryItemStatus.rtmAlerts.couldNotDismissAlert');
+                    alert.dismissed = false;
+                });
         }
 
         /**
@@ -274,7 +275,10 @@
         }
 
         function getPrintUrl(inventoryItemId) {
-            return cceUrlFactory('/api/reports/templates/common/5ccbdfe1-594f-4830-960d-801dabf36566/pdf?inventoryItemId=' + inventoryItemId);
+            return cceUrlFactory(
+                '/api/reports/templates/common/5ccbdfe1-594f-4830-960d-801dabf36566/pdf?inventoryItemId=' +
+                inventoryItemId
+            );
         }
     }
 

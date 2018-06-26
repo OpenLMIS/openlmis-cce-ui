@@ -17,7 +17,6 @@
 
     'use strict';
 
-
     angular
         .module('cce-alert')
         .factory('CCEAlertDataBuilder', CCEAlertDataBuilder);

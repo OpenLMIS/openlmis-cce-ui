@@ -29,17 +29,19 @@
             showInNavigation: true,
             label: 'cceInventoryList.cceInventory',
             url: '/inventory?page&size&facility&program&supervised&functionalStatus',
-            params: { expand: 'lastModifier' },
+            params: {
+                expand: 'lastModifier'
+            },
             controller: 'CceInventoryListController',
             templateUrl: 'cce-inventory-list/cce-inventory-list.html',
             controllerAs: 'vm',
             accessRights: [CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT],
             resolve: {
-                user: function (authorizationService) {
+                user: function(authorizationService) {
                     return authorizationService.getUser();
                 },
-                inventoryItems: function (facilityInventoryItemFactory, paginationService, $stateParams) {
-                    return paginationService.registerUrl($stateParams, function (stateParams) {
+                inventoryItems: function(facilityInventoryItemFactory, paginationService, $stateParams) {
+                    return paginationService.registerUrl($stateParams, function(stateParams) {
                         if (stateParams.facility && stateParams.program) {
                             var stateParamsCopy = angular.copy(stateParams);
                             stateParamsCopy.facilityId = stateParams.facility;
@@ -54,19 +56,19 @@
                 },
                 canEdit: function(permissionService, user, CCE_RIGHTS) {
                     return permissionService
-                    .hasPermissionWithAnyProgramAndAnyFacility(user.user_id, {
-                        right: CCE_RIGHTS.CCE_INVENTORY_EDIT
-                    })
-                    .then(function() {
-                        return true;
-                    })
-                    .catch(function() {
-                        return false;
-                    });
+                        .hasPermissionWithAnyProgramAndAnyFacility(user.user_id, {
+                            right: CCE_RIGHTS.CCE_INVENTORY_EDIT
+                        })
+                        .then(function() {
+                            return true;
+                        })
+                        .catch(function() {
+                            return false;
+                        });
                 },
-                cceAlerts: function (cceAlertFactory, inventoryItems) {
+                cceAlerts: function(cceAlertFactory, inventoryItems) {
                     if (inventoryItems.length) {
-                        var inventoryItemIds = inventoryItems.map(function (item) {
+                        var inventoryItemIds = inventoryItems.map(function(item) {
                             return item.id;
                         });
                         var queryParams = {

@@ -13,7 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 (function() {
 
     'use strict';
@@ -29,8 +28,9 @@
         .module('cce-inventory-item')
         .factory('inventoryItemFactory', factory);
 
-    factory.$inject = ['$q', 'inventoryItemService', 'programService', 'facilityService',
-                       'InventoryItem', 'referencedataUserService'];
+    factory.$inject = [
+        '$q', 'inventoryItemService', 'programService', 'facilityService', 'InventoryItem', 'referencedataUserService'
+    ];
 
     function factory($q, inventoryItemService, programService, facilityService, InventoryItem) {
 
@@ -53,14 +53,14 @@
             var deferred = $q.defer();
 
             inventoryItemService.get(inventoryItemId).then(function(inventoryItem) {
-                    $q.all([
-                        programService.get(inventoryItem.program.id),
-                        facilityService.get(inventoryItem.facility.id)
-                    ]).then(function(result) {
-                        deferred.resolve(new InventoryItem(inventoryItem, result[1], result[0]));
-                    }, function() {
-                        deferred.resolve(inventoryItem);
-                    });
+                $q.all([
+                    programService.get(inventoryItem.program.id),
+                    facilityService.get(inventoryItem.facility.id)
+                ]).then(function(result) {
+                    deferred.resolve(new InventoryItem(inventoryItem, result[1], result[0]));
+                }, function() {
+                    deferred.resolve(inventoryItem);
+                });
             }, deferred.reject);
 
             return deferred.promise;

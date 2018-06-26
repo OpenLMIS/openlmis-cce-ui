@@ -50,12 +50,12 @@
                         facilityId: inventoryItem.facility.id,
                         programId: inventoryItem.program.id
                     })
-                    .then(function() {
-                        return true;
-                    })
-                    .catch(function() {
-                        return false;
-                    });
+                        .then(function() {
+                            return true;
+                        })
+                        .catch(function() {
+                            return false;
+                        });
                 },
                 cceAlerts: function(cceAlertFactory, inventoryItem) {
                     var queryParams = {

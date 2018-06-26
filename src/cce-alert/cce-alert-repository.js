@@ -55,12 +55,12 @@
          */
         function query(params) {
             return this.impl.query(params)
-            .then(function(page) {
-                page.content = page.content.map(function(cceAlertJson) {
-                    return new CCEAlert(cceAlertJson);
+                .then(function(page) {
+                    page.content = page.content.map(function(cceAlertJson) {
+                        return new CCEAlert(cceAlertJson);
+                    });
+                    return page;
                 });
-                return page;
-            });
         }
 
         /**
@@ -78,9 +78,9 @@
         function save(alert) {
             var repository = this;
             return this.impl.save(alert)
-            .then(function(json) {
-                return new CCEAlert(json, repository);
-            });
+                .then(function(json) {
+                    return new CCEAlert(json, repository);
+                });
         }
     }
 

@@ -25,8 +25,8 @@
      * Represents a single inventory item.
      */
     angular
-    .module('cce-inventory-item')
-    .factory('InventoryItem', inventoryItem);
+        .module('cce-inventory-item')
+        .factory('InventoryItem', inventoryItem);
 
     inventoryItem.$inject = ['CCE_STATUS', 'ENERGY_SOURCE'];
 

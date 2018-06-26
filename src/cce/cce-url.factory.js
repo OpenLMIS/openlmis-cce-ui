@@ -34,7 +34,7 @@
 
         var cceUrl = '@@CCE_SERVICE_URL';
 
-        if (cceUrl.substr(0, 2) == '@@') {
+        if (cceUrl.substr(0, 2) === '@@') {
             cceUrl = '';
         }
 

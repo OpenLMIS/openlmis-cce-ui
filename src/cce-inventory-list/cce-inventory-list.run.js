@@ -24,7 +24,9 @@
     declareRights.$inject = ['facilityProgramCacheService', 'CCE_RIGHTS'];
 
     function declareRights(facilityProgramCacheService, CCE_RIGHTS) {
-        facilityProgramCacheService.pushRightsForModule('cce-inventory-list', [CCE_RIGHTS.CCE_INVENTORY_VIEW,CCE_RIGHTS.CCE_INVENTORY_EDIT]);
+        facilityProgramCacheService.pushRightsForModule('cce-inventory-list', [
+            CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT
+        ]);
     }
 
 })();

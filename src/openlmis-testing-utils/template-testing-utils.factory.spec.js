@@ -113,11 +113,11 @@
             var pass = this.actual.prop('required');
 
             if (!pass) {
-                this.message = function () {
+                this.message = function() {
                     return 'Element must be required';
                 };
             } else {
-                this.message = function () {
+                this.message = function() {
                     return 'Element is required';
                 };
             }
@@ -129,11 +129,11 @@
             var pass = this.actual.hasClass('ng-hide');
 
             if (!pass) {
-                this.message = function () {
+                this.message = function() {
                     return 'Element must be hidden';
                 };
             } else {
-                this.message = function () {
+                this.message = function() {
                     return 'Element is visible';
                 };
             }

@@ -59,9 +59,9 @@
          * @param  {Boolean} visibleInCatalog   true if the catalog item should be visible in catalog
          * @return {Object}                     the catalog item with default options
          */
-        function CatalogItem(id, fromPqsCatalog, equipmentCode, type, model, manufacturer,
-            energySource, dateOfPrequal, storageTemperature, maxOperatingTemp, minOperatingTemp,
-            energyConsumption, holdoverTime, grossVolume, netVolume, dimensions, visibleInCatalog, archived) {
+        function CatalogItem(id, fromPqsCatalog, equipmentCode, type, model, manufacturer, energySource, dateOfPrequal,
+                             storageTemperature, maxOperatingTemp, minOperatingTemp, energyConsumption, holdoverTime,
+                             grossVolume, netVolume, dimensions, visibleInCatalog, archived) {
             this.id = id,
             this.fromPqsCatalog = fromPqsCatalog;
             this.equipmentCode = equipmentCode;

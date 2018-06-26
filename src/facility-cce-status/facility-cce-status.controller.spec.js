@@ -68,8 +68,8 @@ describe('CceStatusController', function() {
                 vm.$onInit();
                 $rootScope.$apply();
 
-                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('All_FUNCTIONING'));
-                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('All_FUNCTIONING'));
+                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('ALL_FUNCTIONING'));
+                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('ALL_FUNCTIONING'));
             });
 
             it('as NOT FULLY FUNCTIONING when at least one CCE inventory item is functioning and at least one CCE inventory item is not functioning', function() {

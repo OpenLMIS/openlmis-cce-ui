@@ -43,7 +43,7 @@
             'InventoryItem'
         ];
         function onEnter(openlmisModalService, $stateParams, inventoryItemFactory, facilityService, $state,
-            InventoryItem) {
+                         InventoryItem) {
             dialog = openlmisModalService.createDialog({
                 backdrop: 'static',
                 controller: 'EditInventoryItemController',

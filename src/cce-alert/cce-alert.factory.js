@@ -53,7 +53,7 @@
         function getAlertsGroupedByDevice(params) {
             return repository.query(params)
                 .then(function(response) {
-                    var cceAlertsMap = response.content.reduce(function (map, obj) {
+                    var cceAlertsMap = response.content.reduce(function(map, obj) {
 
                         if (!map[obj.device_id]) {
                             map[obj.device_id] = {

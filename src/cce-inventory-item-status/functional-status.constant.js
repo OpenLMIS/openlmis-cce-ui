@@ -99,17 +99,17 @@
             var statusClass;
 
             switch (status) {
-                case FUNCTIONAL_STATUS.FUNCTIONING:
-                    statusClass = 'is-functioning';
-                    break;
-                case FUNCTIONAL_STATUS.AWAITING_REPAIR:
-                    statusClass = 'is-awaiting-repair';
-                    break;
-                case FUNCTIONAL_STATUS.UNSERVICEABLE:
-                    statusClass = 'is-unserviceable';
-                    break;
-                default:
-                    throw 'Invalid status';
+            case FUNCTIONAL_STATUS.FUNCTIONING:
+                statusClass = 'is-functioning';
+                break;
+            case FUNCTIONAL_STATUS.AWAITING_REPAIR:
+                statusClass = 'is-awaiting-repair';
+                break;
+            case FUNCTIONAL_STATUS.UNSERVICEABLE:
+                statusClass = 'is-unserviceable';
+                break;
+            default:
+                throw 'Invalid status';
             }
 
             return statusClass;

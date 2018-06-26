@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function(){
+(function() {
 
     'use strict';
 
@@ -33,18 +33,18 @@
     function service(cceUrlFactory, $resource) {
 
         var resource = $resource(cceUrlFactory('/api/inventoryItems/:id'), {}, {
-                get: {
-                    transformResponse: transformGetResponse
-                },
-                query: {
-                    method: 'GET',
-                    url: cceUrlFactory('/api/inventoryItems'),
-                    transformResponse: transformGetAllResponse
-                },
-                update: {
-                    method: 'PUT'
-                }
-            });
+            get: {
+                transformResponse: transformGetResponse
+            },
+            query: {
+                method: 'GET',
+                url: cceUrlFactory('/api/inventoryItems'),
+                transformResponse: transformGetAllResponse
+            },
+            update: {
+                method: 'PUT'
+            }
+        });
 
         return {
             get: get,

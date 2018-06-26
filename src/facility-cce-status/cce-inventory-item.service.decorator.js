@@ -63,16 +63,16 @@
                 facilityId: facilityId
             };
             return $delegate.query.call($delegate, queryParams)
-            .then(function (page) {
-                if (!page.last) {
-                    return getAllForFacility(facilityId, ++pageNumber)
-                    .then(function (nextPageContent) {
-                        return page.content.concat(nextPageContent);
-                    });
-                } else {
+                .then(function(page) {
+                    if (!page.last) {
+                        return getAllForFacility(facilityId, ++pageNumber)
+                            .then(function(nextPageContent) {
+                                return page.content.concat(nextPageContent);
+                            });
+                    }
                     return page.content;
-                }
-            });
+
+                });
         }
     }
 })();

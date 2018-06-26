@@ -13,7 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 (function() {
 
     'use strict';
@@ -60,7 +59,7 @@
                         return [];
                     }
 
-                    var facilityIds = content.map(function (item) {
+                    var facilityIds = content.map(function(item) {
                         return item.facility.id;
                     });
 
@@ -69,15 +68,16 @@
                     });
                 })
                 .then(function(response) {
-                    for (var i = 0; i<content.length; i++) {
+                    for (var i = 0; i < content.length; i++) {
                         var facilities = response;
-                        var facilitiesFiltered = facilities.filter(function (facility) {
+                        var facilitiesFiltered = facilities.filter(function(facility) {
                             return content[i].facility.id === facility.id;
                         });
 
                         content[i] = new InventoryItem(
                             content[i],
-                            facilitiesFiltered[0]);
+                            facilitiesFiltered[0]
+                        );
                     }
                     return inventoryItems;
                 });

@@ -33,18 +33,18 @@
     function service(cceUrlFactory, $resource, FormData) {
 
         var resource = $resource(cceUrlFactory('/api/catalogItems/:id'), {}, {
-                'upload': {
-                    url: cceUrlFactory('/api/catalogItems?format=csv'),
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': undefined
-                    }
-                },
-                'search': {
-                    url: cceUrlFactory('/api/catalogItems'),
-                    method: 'GET'
+            upload: {
+                url: cceUrlFactory('/api/catalogItems?format=csv'),
+                method: 'POST',
+                headers: {
+                    'Content-Type': undefined
                 }
-            });
+            },
+            search: {
+                url: cceUrlFactory('/api/catalogItems'),
+                method: 'GET'
+            }
+        });
 
         return {
             get: get,

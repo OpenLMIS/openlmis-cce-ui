@@ -29,7 +29,7 @@ describe('FACILITY_CCE_STATUS', function() {
 
         it('should return label for valid status', function() {
             expect(
-                FACILITY_CCE_STATUS.getLabel('All_FUNCTIONING')
+                FACILITY_CCE_STATUS.getLabel('ALL_FUNCTIONING')
             ).toEqual('facilityCceStatus.allFunctioning');
 
             expect(
@@ -77,7 +77,7 @@ describe('FACILITY_CCE_STATUS', function() {
 
         it('should return css class for valid status', function () {
             expect(
-                FACILITY_CCE_STATUS.getClass('All_FUNCTIONING')
+                FACILITY_CCE_STATUS.getClass('ALL_FUNCTIONING')
             ).toEqual('is-functioning');
 
             expect(

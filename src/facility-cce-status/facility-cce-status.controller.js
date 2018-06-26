@@ -123,23 +123,23 @@
                 right: CCE_RIGHTS.CCE_INVENTORY_VIEW
             };
             permissionService.hasPermissionWithAnyProgram(authUser.user_id, permission)
-            .then(function () {
-                return inventoryItemService.getAllForFacility(vm.facility.id);
-            })
-            .then(function (list) {
-                vm.inventoryItems = list;
-                if (vm.inventoryItems.length === 0) {
-                    vm.cceAvailable = false;
-                } else {
-                    vm.cceAvailable = true;
-                    setCceAlerts(list);
-                }
-                var status = getStatus(list);
-                setLabelAndClass(status);
-            })
-            .catch(function () {
-                setLabelAndClass(FACILITY_CCE_STATUS.UNKNOWN);
-            });
+                .then(function() {
+                    return inventoryItemService.getAllForFacility(vm.facility.id);
+                })
+                .then(function(list) {
+                    vm.inventoryItems = list;
+                    if (vm.inventoryItems.length === 0) {
+                        vm.cceAvailable = false;
+                    } else {
+                        vm.cceAvailable = true;
+                        setCceAlerts(list);
+                    }
+                    var status = getStatus(list);
+                    setLabelAndClass(status);
+                })
+                .catch(function() {
+                    setLabelAndClass(FACILITY_CCE_STATUS.UNKNOWN);
+                });
         }
 
         /**
@@ -163,11 +163,11 @@
             } else if (notFunctioningInventoryItems.length > 0) {
                 return FACILITY_CCE_STATUS.NOT_FULLY_FUNCTIONING;
             }
-            return FACILITY_CCE_STATUS.All_FUNCTIONING;
+            return FACILITY_CCE_STATUS.ALL_FUNCTIONING;
         }
 
         function filterNotFunctioningInventoryItems(list) {
-            return list.filter(function (inventory) {
+            return list.filter(function(inventory) {
                 return inventory.functionalStatus !== FUNCTIONAL_STATUS.FUNCTIONING;
             });
         }
@@ -178,17 +178,17 @@
         }
 
         function setCceAlerts(inventoryItems) {
-            var inventoryItemIds = inventoryItems.map(function (item) {
+            var inventoryItemIds = inventoryItems.map(function(item) {
                 return item.id;
             });
             var queryParams = {
                 deviceId: inventoryItemIds
             };
             cceAlertFactory.getAlertsGroupedByDevice(queryParams)
-            .then(function (alertsMap) {
-                vm.cceAlerts = alertsMap;
-                setAlertClass(vm.cceAlerts);
-            });
+                .then(function(alertsMap) {
+                    vm.cceAlerts = alertsMap;
+                    setAlertClass(vm.cceAlerts);
+                });
         }
 
         function setAlertClass(alertsMap) {
@@ -202,7 +202,7 @@
         }
 
         function hasActiveAlerts(alertsMap) {
-            var devicesWithActiveAlerts = Object.keys(alertsMap).filter(function (deviceId) {
+            var devicesWithActiveAlerts = Object.keys(alertsMap).filter(function(deviceId) {
                 return alertsMap[deviceId].activeAlerts && alertsMap[deviceId].activeAlerts.length > 0;
             });
             return devicesWithActiveAlerts.length > 0;

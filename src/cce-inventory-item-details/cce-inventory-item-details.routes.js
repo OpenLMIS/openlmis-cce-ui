@@ -36,13 +36,13 @@
                 inventoryItem: function($stateParams, inventoryItemFactory, programService) {
                     if (!$stateParams.inventoryItem) {
                         return inventoryItemFactory.get($stateParams.inventoryItemId);
-                    } else {
-                        return programService.get($stateParams.inventoryItem.program.id).then(function(program) {
-                            var inventoryItem = angular.copy($stateParams.inventoryItem);
-                            inventoryItem.program = program;
-                            return inventoryItem;
-                        });
                     }
+                    return programService.get($stateParams.inventoryItem.program.id).then(function(program) {
+                        var inventoryItem = angular.copy($stateParams.inventoryItem);
+                        inventoryItem.program = program;
+                        return inventoryItem;
+                    });
+
                 },
                 canEdit: function(inventoryItem, authorizationService, permissionService, CCE_RIGHTS) {
                     var user = authorizationService.getUser();
@@ -51,12 +51,12 @@
                         facilityId: inventoryItem.facility.id,
                         programId: inventoryItem.program.id
                     })
-                    .then(function() {
-                        return true;
-                    })
-                    .catch(function() {
-                        return false;
-                    });
+                        .then(function() {
+                            return true;
+                        })
+                        .catch(function() {
+                            return false;
+                        });
                 }
             },
             url: '/:inventoryItemId/details'

@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-(function () {
+(function() {
 
     'use strict';
 
@@ -34,7 +34,7 @@
     ];
 
     function CceInventoryListController(inventoryItems, $state, $stateParams, FUNCTIONAL_STATUS,
-        CCE_RIGHTS, messageService, REASON_FOR_NOT_WORKING, cceAlerts, canEdit) {
+                                        CCE_RIGHTS, messageService, REASON_FOR_NOT_WORKING, cceAlerts, canEdit) {
 
         var vm = this;
 
