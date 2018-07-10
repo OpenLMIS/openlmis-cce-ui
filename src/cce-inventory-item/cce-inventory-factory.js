@@ -29,7 +29,7 @@
         .factory('inventoryItemFactory', factory);
 
     factory.$inject = [
-        '$q', 'inventoryItemService', 'programService', 'facilityService', 'InventoryItem', 'referencedataUserService'
+        '$q', 'inventoryItemService', 'programService', 'facilityService', 'InventoryItem'
     ];
 
     function factory($q, inventoryItemService, programService, facilityService, InventoryItem) {
