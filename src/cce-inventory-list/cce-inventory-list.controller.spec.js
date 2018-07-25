@@ -13,16 +13,16 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('CceInventoryListController', function () {
+describe('CceInventoryListController', function() {
 
     var $controller, $state, FUNCTIONAL_STATUS, vm, inventoryItems, stateParams,
         FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder, ProgramDataBuilder,
         cceAlerts, label, REASON_FOR_NOT_WORKING;
 
-    beforeEach(function () {
+    beforeEach(function() {
         module('cce-inventory-list');
 
-        inject(function ($injector) {
+        inject(function($injector) {
             $controller = $injector.get('$controller');
             $state = $injector.get('$state');
             FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
@@ -33,8 +33,12 @@ describe('CceInventoryListController', function () {
         });
 
         inventoryItems = [
-            new FacilityProgramInventoryItemDataBuilder().withId('1').build(),
-            new FacilityProgramInventoryItemDataBuilder().withId('2').build()
+            new FacilityProgramInventoryItemDataBuilder()
+                .withId('1')
+                .build(),
+            new FacilityProgramInventoryItemDataBuilder()
+                .withId('2')
+                .build()
         ];
 
         stateParams = {
@@ -65,25 +69,25 @@ describe('CceInventoryListController', function () {
         spyOn($state, 'go').andReturn();
     });
 
-    describe('init', function () {
+    describe('init', function() {
 
-        it('should expose inventory items', function () {
+        it('should expose inventory items', function() {
             vm.$onInit();
 
             expect(vm.inventoryItems).toEqual(inventoryItems);
         });
 
-        it('should expose alerts', function () {
+        it('should expose alerts', function() {
             vm.$onInit();
             expect(vm.cceAlerts).toEqual(cceAlerts);
         });
 
-        it('should expose the list of functional statuses', function () {
+        it('should expose the list of functional statuses', function() {
             vm.$onInit();
             expect(vm.functionalStatuses).toEqual(FUNCTIONAL_STATUS.getStatuses());
         });
 
-        it('should set functional status if it was given through state params', function () {
+        it('should set functional status if it was given through state params', function() {
             stateParams.functionalStatus = FUNCTIONAL_STATUS.NON_FUNCTIONING;
 
             vm.$onInit();
@@ -92,29 +96,29 @@ describe('CceInventoryListController', function () {
         });
     });
 
-    describe('goToStatusUpdate', function () {
+    describe('goToStatusUpdate', function() {
 
-        beforeEach(function () {
+        beforeEach(function() {
             vm.$onInit();
         });
 
-        it('should pass the inventory item', function () {
+        it('should pass the inventory item', function() {
             vm.goToStatusUpdate(inventoryItems[0]);
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.item.statusUpdate', {
                 inventoryItem: inventoryItems[0],
                 inventoryItemId: inventoryItems[0].id
             });
         });
     });
 
-    describe('search', function () {
+    describe('search', function() {
 
-        beforeEach(function () {
+        beforeEach(function() {
             vm.$onInit();
         });
 
-        it('should call state go method with parameters', function () {
+        it('should call state go method with parameters', function() {
             vm.functionalStatus = FUNCTIONAL_STATUS.FUNCTIONING;
 
             vm.search();
@@ -126,10 +130,12 @@ describe('CceInventoryListController', function () {
                 program: vm.program.id,
                 functionalStatus: FUNCTIONAL_STATUS.FUNCTIONING,
                 supervised: vm.isSupervised
-            }, { reload: true });
+            }, {
+                reload: true
+            });
         });
 
-        it('should call state go method without parameters', function () {
+        it('should call state go method without parameters', function() {
             vm.functionalStatus = undefined;
 
             vm.search();
@@ -140,7 +146,9 @@ describe('CceInventoryListController', function () {
                 facility: vm.facility.id,
                 program: vm.program.id,
                 supervised: vm.isSupervised
-            }, { reload: true });
+            }, {
+                reload: true
+            });
         });
     });
 

@@ -83,7 +83,7 @@
          * @param   {Object}    inventoryItem   the inventory item to edit status for
          */
         function goToStatusUpdate(inventoryItem) {
-            $state.go('openlmis.cce.inventory.statusUpdate', {
+            $state.go('openlmis.cce.inventory.item.statusUpdate', {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });

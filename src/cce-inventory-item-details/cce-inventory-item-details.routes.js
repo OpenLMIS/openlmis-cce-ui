@@ -26,40 +26,14 @@
     function routes($stateProvider) {
         var dialog;
 
-        $stateProvider.state('openlmis.cce.inventory.details', {
+        $stateProvider.state('openlmis.cce.inventory.item.details', {
             onEnter: onEnter,
             onExit: onExit,
             params: {
                 inventoryItem: undefined
             },
-            resolve: {
-                inventoryItem: function($stateParams, inventoryItemFactory, programService) {
-                    if (!$stateParams.inventoryItem) {
-                        return inventoryItemFactory.get($stateParams.inventoryItemId);
-                    }
-                    return programService.get($stateParams.inventoryItem.program.id).then(function(program) {
-                        var inventoryItem = angular.copy($stateParams.inventoryItem);
-                        inventoryItem.program = program;
-                        return inventoryItem;
-                    });
-
-                },
-                canEdit: function(inventoryItem, authorizationService, permissionService, CCE_RIGHTS) {
-                    var user = authorizationService.getUser();
-                    return permissionService.hasPermission(user.user_id, {
-                        right: CCE_RIGHTS.CCE_INVENTORY_EDIT,
-                        facilityId: inventoryItem.facility.id,
-                        programId: inventoryItem.program.id
-                    })
-                        .then(function() {
-                            return true;
-                        })
-                        .catch(function() {
-                            return false;
-                        });
-                }
-            },
-            url: '/:inventoryItemId/details'
+            isOffline: true,
+            url: '/details'
         });
 
         onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canEdit'];

@@ -206,7 +206,7 @@
          * @param {InventoryItem} inventoryItem the inventory item which status will be updated
          */
         function goToStatusUpdate(inventoryItem) {
-            $state.go('openlmis.cce.inventory.statusUpdate', {
+            $state.go('openlmis.cce.inventory.item.statusUpdate', {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });

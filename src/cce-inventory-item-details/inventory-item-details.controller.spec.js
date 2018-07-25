@@ -16,10 +16,29 @@
 describe('InventoryItemDetailsController', function() {
 
     var vm, inventoryItem, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, UTILIZATION_STATUS,
-        REMOTE_TEMPERATURE_MONITOR_TYPE, FUNCTIONAL_STATUS, $controller, $state,
-        authorizationService, CCE_RIGHTS, FacilityProgramInventoryItemDataBuilder;
+        REMOTE_TEMPERATURE_MONITOR_TYPE, $controller, $state, FacilityProgramInventoryItemDataBuilder;
 
-    beforeEach(prepareSuite);
+    beforeEach(function() {
+        module('cce-inventory-item-details');
+
+        inject(function($injector) {
+            $controller = $injector.get('$controller');
+            CCE_STATUS = $injector.get('CCE_STATUS');
+            MANUAL_TEMPERATURE_GAUGE_TYPE = $injector.get('MANUAL_TEMPERATURE_GAUGE_TYPE');
+            REMOTE_TEMPERATURE_MONITOR_TYPE = $injector.get('REMOTE_TEMPERATURE_MONITOR_TYPE');
+            UTILIZATION_STATUS = $injector.get('UTILIZATION_STATUS');
+            $state = $injector.get('$state');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
+        });
+
+        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
+        spyOn($state, 'go');
+
+        vm = $controller('InventoryItemDetailsController', {
+            inventoryItem: inventoryItem,
+            canEdit: true
+        });
+    });
 
     describe('$onInit', function() {
 
@@ -79,7 +98,7 @@ describe('InventoryItemDetailsController', function() {
         it('should take user to the status update page', function() {
             vm.goToStatusUpdate(inventoryItem);
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.item.statusUpdate', {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });
@@ -107,19 +126,25 @@ describe('InventoryItemDetailsController', function() {
         });
 
         it('should return is-functioning for FUNCTIONING', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder()
+                .withFunctionalStatus('FUNCTIONING')
+                .build();
 
             expect(vm.getFunctionalStatusClass()).toEqual('is-functioning');
         });
 
         it('should return is-awaiting-repair for AWAITING_REPAIR', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('AWAITING_REPAIR').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder()
+                .withFunctionalStatus('AWAITING_REPAIR')
+                .build();
 
             expect(vm.getFunctionalStatusClass()).toEqual('is-awaiting-repair');
         });
 
         it('should return is-unserviceable for UNSERVICEABLE', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('UNSERVICEABLE').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder()
+                .withFunctionalStatus('UNSERVICEABLE')
+                .build();
 
             expect(vm.getFunctionalStatusClass()).toEqual('is-unserviceable');
         });
@@ -133,59 +158,29 @@ describe('InventoryItemDetailsController', function() {
         });
 
         it('should return the value of cceInventoryItemStatus.functioning for FUNCTIONING', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('FUNCTIONING').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder()
+                .withFunctionalStatus('FUNCTIONING')
+                .build();
 
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.functioning');
         });
 
         it('should return the value of cceInventoryItemStatus.awaitingRepair for AWAITING_REPAIR', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('AWAITING_REPAIR').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder()
+                .withFunctionalStatus('AWAITING_REPAIR')
+                .build();
 
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.awaitingRepair');
         });
 
         it('should return the value of cceInventoryItemStatus.unserviceable for UNSERVICEABLE', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withFunctionalStatus('UNSERVICEABLE').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder()
+                .withFunctionalStatus('UNSERVICEABLE')
+                .build();
 
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.unserviceable');
         });
 
     });
-
-    function prepareSuite() {
-        module('cce-inventory-item-details');
-        inject(services);
-        prepareTestData();
-        prepareSpies();
-        prepareController();
-    }
-
-    function services($injector) {
-        $controller = $injector.get('$controller');
-        CCE_STATUS = $injector.get('CCE_STATUS');
-        CCE_RIGHTS = $injector.get('CCE_RIGHTS');
-        MANUAL_TEMPERATURE_GAUGE_TYPE = $injector.get('MANUAL_TEMPERATURE_GAUGE_TYPE');
-        REMOTE_TEMPERATURE_MONITOR_TYPE = $injector.get('REMOTE_TEMPERATURE_MONITOR_TYPE');
-        UTILIZATION_STATUS = $injector.get('UTILIZATION_STATUS');
-        FUNCTIONAL_STATUS = $injector.get('FUNCTIONAL_STATUS');
-        $state = $injector.get('$state');
-        authorizationService = $injector.get('authorizationService');
-        FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
-    }
-
-    function prepareTestData() {
-        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
-    }
-
-    function prepareSpies() {
-        spyOn($state, 'go');
-    }
-
-    function prepareController() {
-        vm = $controller('InventoryItemDetailsController', {
-            inventoryItem: inventoryItem,
-            canEdit: true
-        });
-    }
 
 });

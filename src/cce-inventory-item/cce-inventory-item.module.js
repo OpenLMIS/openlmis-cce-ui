@@ -33,7 +33,8 @@
         'referencedata-user',
         'referencedata-geographic-zone',
         'cce',
-        'cce-catalog-item'
+        'cce-catalog-item',
+        'cce-inventory-list'
     ]);
 
 })();

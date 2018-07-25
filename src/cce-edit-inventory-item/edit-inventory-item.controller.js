@@ -123,7 +123,7 @@
                 loadingModalService.open();
                 inventoryItemService.save(vm.inventoryItem)
                     .then(function(inventoryItem) {
-                        $state.go('openlmis.cce.inventory.details', {
+                        $state.go('openlmis.cce.inventory.item.details', {
                             inventoryItem: inventoryItem,
                             inventoryItemId: inventoryItem.id
                         }, {
@@ -132,7 +132,7 @@
                     })
                     .catch(loadingModalService.close);
             } else {
-                $state.go('openlmis.cce.inventory.statusUpdate', {
+                $state.go('openlmis.cce.inventory.item.statusUpdate', {
                     inventoryItem: vm.inventoryItem
                 });
             }
@@ -161,7 +161,7 @@
 
         function doCancel() {
             if (inventoryItem.id) {
-                $state.go('openlmis.cce.inventory.details', {
+                $state.go('openlmis.cce.inventory.item.details', {
                     inventoryItem: inventoryItem,
                     inventoryItemId: inventoryItem.id
                 });

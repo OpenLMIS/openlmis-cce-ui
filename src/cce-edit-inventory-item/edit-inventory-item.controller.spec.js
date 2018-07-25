@@ -16,9 +16,8 @@
 describe('EditInventoryItemController', function() {
 
     var vm, $controller, CCE_STATUS, MANUAL_TEMPERATURE_GAUGE_TYPE, ENERGY_SOURCE, inventoryItem,
-        UTILIZATION_STATUS, REMOTE_TEMPERATURE_MONITOR_TYPE, $rootScope, $scope, $state, $q,
-        saveDeferred, inventoryItemService, loadingModalService, FacilityProgramInventoryItemDataBuilder,
-        CatalogItemDataBuilder;
+        UTILIZATION_STATUS, REMOTE_TEMPERATURE_MONITOR_TYPE, $rootScope, $scope, $state, $q, saveDeferred,
+        inventoryItemService, loadingModalService, FacilityProgramInventoryItemDataBuilder;
 
     beforeEach(function() {
         module('cce-edit-inventory-item');
@@ -36,7 +35,6 @@ describe('EditInventoryItemController', function() {
             $q = $injector.get('$q');
             loadingModalService = $injector.get('loadingModalService');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
-            CatalogItemDataBuilder = $injector.get('CatalogItemDataBuilder');
         });
 
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
@@ -158,11 +156,13 @@ describe('EditInventoryItemController', function() {
         });
 
         it('should redirect to status update page if inventory item has no ID', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withoutId().build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder()
+                .withoutId()
+                .build();
 
             vm.add();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.item.statusUpdate', {
                 inventoryItem: vm.inventoryItem
             });
         });
@@ -185,7 +185,7 @@ describe('EditInventoryItemController', function() {
             saveDeferred.resolve(inventoryItem);
             $rootScope.$apply();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.item.details', {
                 inventoryItem: vm.inventoryItem,
                 inventoryItemId: vm.inventoryItem.id
             }, {
@@ -233,18 +233,19 @@ describe('EditInventoryItemController', function() {
             vm.$onInit();
         });
 
-        it('should take user to the inventory item list page if form is not dirty and inventory item has no ID', function() {
-            inventoryItem.id = undefined;
+        it('should take user to the inventory item list page if form is not dirty and inventory item has no ID',
+            function() {
+                inventoryItem.id = undefined;
 
-            vm.cancel();
+                vm.cancel();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
-        });
+                expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory');
+            });
 
         it('should take user to the details page if form is not dirty and inventory item has ID', function() {
             vm.cancel();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.details', {
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.item.details', {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });

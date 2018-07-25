@@ -12,11 +12,10 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
-describe('openlmis.cce.inventory.details state', function() {
+describe('openlmis.cce.inventory.item.details state', function() {
 
-    var state, $timeout, $rootScope, $state, $stateParams, $q, paginationService,
-        inventoryItemFactory, programService, openlmisModalService, program, inventoryItem,
-        FacilityProgramInventoryItemDataBuilder, ProgramDataBuilder;
+    var state, $state, $q, paginationService, inventoryItemFactory, programService, openlmisModalService, program,
+        inventoryItem, FacilityProgramInventoryItemDataBuilder;
 
     beforeEach(function() {
         loadModules();
@@ -25,82 +24,8 @@ describe('openlmis.cce.inventory.details state', function() {
         prepareSpies();
     });
 
-    it('should include inventoryItemId in the URL', function() {
-        expect(state.url.indexOf(':inventoryItemId') > -1).toBe(true);
-    });
-
-    describe('inventoryItem resolve', function() {
-
-        var resolve;
-
-        beforeEach(function() {
-            resolve = state.resolve;
-        });
-
-        it('should download inventory item if it is not given via state params', function() {
-            var result;
-            resolve.inventoryItem($stateParams, inventoryItemFactory).then(function(inventoryItem) {
-                result = inventoryItem;
-            });
-            $rootScope.$apply();
-
-            expect(result).toEqual(inventoryItem);
-            expect(inventoryItemFactory.get).toHaveBeenCalled();
-        });
-
-        it('should use inventory item if it is given via state params', function() {
-            $stateParams.inventoryItem = inventoryItem;
-
-            var result;
-            resolve.inventoryItem($stateParams, inventoryItemFactory, programService).then(function(inventoryItem) {
-                result = inventoryItem;
-            });
-            $rootScope.$apply();
-
-            inventoryItem.program = program;
-            expect(result).toEqual(inventoryItem);
-            expect(programService.get).toHaveBeenCalled();
-            expect(inventoryItemFactory.get).not.toHaveBeenCalled();
-        });
-    });
-
-    describe('canEdit resolve', function() {
-
-        var resolve;
-
-        beforeEach(function() {
-            resolve = state.resolve;
-        });
-
-        it('should call permissionService to check if user has CCE_INVENTORY_EDIT right', function() {
-            var result;
-            resolve.canEdit(inventoryItem, authorizationService, permissionService, CCE_RIGHTS).then(function(canEdit) {
-                result = canEdit;
-            });
-
-            deferred.resolve();
-            $rootScope.$apply();
-
-            expect(result).toEqual(true);
-            expect(permissionService.hasPermission).toHaveBeenCalled();
-            expect(authorizationService.getUser).toHaveBeenCalled();
-            expect(inventoryItemFactory.get).not.toHaveBeenCalled();
-        });
-
-        it('should return false if user has no CCE_INVENTORY_EDIT right', function() {
-            var result;
-
-            state.resolve.canEdit(inventoryItem, authorizationService, permissionService, CCE_RIGHTS).then(function(canEdit) {
-                result = canEdit;
-            });
-
-            deferred.reject();
-            $rootScope.$apply();
-
-            expect(result).toEqual(false);
-            expect(permissionService.hasPermission).toHaveBeenCalled();
-            expect(authorizationService.getUser).toHaveBeenCalled();
-        });
+    it('should include details in the URL', function() {
+        expect(state.url.indexOf('details') > -1).toBe(true);
     });
 
     describe('on enter', function() {
@@ -177,38 +102,23 @@ describe('openlmis.cce.inventory.details state', function() {
         inject(function($injector) {
             $q = $injector.get('$q');
             $state = $injector.get('$state');
-            $timeout = $injector.get('$timeout');
-            $rootScope = $injector.get('$rootScope');
             paginationService = $injector.get('paginationService');
-            $stateParams = $injector.get('$stateParams');
             inventoryItemFactory = $injector.get('inventoryItemFactory');
             programService = $injector.get('programService');
-            authorizationService = $injector.get('authorizationService');
-            permissionService = $injector.get('permissionService');
             openlmisModalService = $injector.get('openlmisModalService');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
-            ProgramDataBuilder = $injector.get('ProgramDataBuilder');
-            CCE_RIGHTS = $injector.get('CCE_RIGHTS');
         });
     }
 
     function prepareTestData() {
-        state = $state.get('openlmis.cce.inventory.details');
+        state = $state.get('openlmis.cce.inventory.item.details');
 
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
         program = inventoryItem.program;
-
-        $stateParams = {
-            inventoryItemId: inventoryItem.id,
-            inventoryItem: undefined
-        };
-
-        deferred = $q.defer();
     }
 
     function prepareSpies() {
         spyOn(paginationService, 'registerUrl').andReturn();
-        spyOn(authorizationService, 'getUser').andReturn({ user_id: 'user-id' });
         spyOn(inventoryItemFactory, 'get').andCallFake(function(id) {
             if (id === inventoryItem.id) {
                 return $q.when(inventoryItem);
@@ -222,7 +132,6 @@ describe('openlmis.cce.inventory.details state', function() {
             return $q.when();
         });
 
-        spyOn(permissionService, 'hasPermission').andReturn(deferred.promise);
         spyOn(openlmisModalService, 'createDialog');
     }
 

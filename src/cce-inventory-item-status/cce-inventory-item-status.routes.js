@@ -26,8 +26,8 @@
     function routes($stateProvider) {
         var dialog;
 
-        $stateProvider.state('openlmis.cce.inventory.statusUpdate', {
-            url: '/:inventoryItemId/statusUpdate',
+        $stateProvider.state('openlmis.cce.inventory.item.statusUpdate', {
+            url: '/statusUpdate',
             params: {
                 inventoryItemId: undefined,
                 inventoryItem: undefined
@@ -35,28 +35,6 @@
             onEnter: onEnter,
             onExit: onExit,
             resolve: {
-                inventoryItem: function($stateParams, inventoryItemService, $state) {
-                    if ($stateParams.inventoryItem) {
-                        return $stateParams.inventoryItem;
-                    } else if ($stateParams.inventoryItemId) {
-                        return inventoryItemService.get($stateParams.inventoryItemId);
-                    }
-                    $state.go('openlmis.cce.inventory.add');
-                },
-                canEdit: function(inventoryItem, authorizationService, permissionService, CCE_RIGHTS) {
-                    var user = authorizationService.getUser();
-                    return permissionService.hasPermission(user.user_id, {
-                        right: CCE_RIGHTS.CCE_INVENTORY_EDIT,
-                        facilityId: inventoryItem.facility.id,
-                        programId: inventoryItem.program.id
-                    })
-                        .then(function() {
-                            return true;
-                        })
-                        .catch(function() {
-                            return false;
-                        });
-                },
                 cceAlerts: function(cceAlertFactory, inventoryItem) {
                     var queryParams = {
                         deviceId: inventoryItem.id

@@ -15,8 +15,7 @@
 
 describe('inventory-item-details.html', function() {
 
-    var $rootScope, $scope, $state, templateTestingUtils, template, vm, inventoryItem, messages,
-        messageService, $timeout;
+    var $rootScope, $scope, $state, templateTestingUtils, vm, inventoryItem, messages, messageService, $timeout;
 
     beforeEach(prepareSuite);
 
@@ -169,7 +168,7 @@ describe('inventory-item-details.html', function() {
             templateTestingUtils.getButton('status-update').click();
             $timeout.flush();
 
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.statusUpdate', {
+            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.item.statusUpdate', {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });
@@ -246,7 +245,6 @@ describe('inventory-item-details.html', function() {
 
         $scope = testContext.$scope;
         vm = $scope.vm;
-        template = testContext.template;
     }
 
 });

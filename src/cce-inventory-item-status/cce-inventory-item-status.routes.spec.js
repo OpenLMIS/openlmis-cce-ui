@@ -13,20 +13,42 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('openlmis.cce.inventory.statusUpdate state', function() {
+describe('openlmis.cce.inventory.item.statusUpdate state', function() {
 
-    var $q, $state, $rootScope, openlmisModalService, inventoryItemService, state, $stateParams,
-        dialogSpy, FacilityProgramInventoryItemDataBuilder;
+    var $q, $state, openlmisModalService, inventoryItemService, state, $stateParams, dialogSpy,
+        FacilityProgramInventoryItemDataBuilder, authorizationService, permissionService, inventoryItem, deferred;
 
     beforeEach(function() {
-        loadModules();
-        injectServices();
-        prepareTestData();
-        prepareSpies();
+        module('cce-inventory-item-status');
+
+        inject(function($injector) {
+            $q = $injector.get('$q');
+            $state = $injector.get('$state');
+            openlmisModalService = $injector.get('openlmisModalService');
+            inventoryItemService = $injector.get('inventoryItemService');
+            authorizationService = $injector.get('authorizationService');
+            permissionService = $injector.get('permissionService');
+            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
+        });
+
+        state = $state.get('openlmis.cce.inventory.item.statusUpdate');
+        $stateParams = {};
+        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
+        dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
+        deferred = $q.defer();
+
+        spyOn(authorizationService, 'getUser').andReturn({
+            //eslint-disable-next-line camelcase
+            user_id: 'user-id'
+        });
+        spyOn($state, 'go');
+        spyOn(openlmisModalService, 'createDialog').andReturn(dialogSpy);
+        spyOn(inventoryItemService, 'get').andReturn($q.when(inventoryItem));
+        spyOn(permissionService, 'hasPermission').andReturn(deferred.promise);
     });
 
     it('should accept inventoryItemId', function() {
-        expect(state.url.indexOf(':inventoryItemId') > -1).toBe(true);
+        expect(state.url.indexOf('statusUpdate') > -1).toBe(true);
         expect(state.params.hasOwnProperty('inventoryItemId')).toBe(true);
     });
 
@@ -48,56 +70,6 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
             $stateParams.inventoryItem = inventoryItem;
 
             expect(modal.resolve.inventoryItem()).toEqual(inventoryItem);
-        });
-
-        it('should download inventoryItem if ID was given', function() {
-            $stateParams.inventoryItemId = 'some-inventory-item-id';
-
-            var result;
-
-            state.resolve.inventoryItem($stateParams, inventoryItemService).then(function(inventoryItem) {
-                result = inventoryItem;
-            });
-            $rootScope.$apply();
-
-            expect(result).toEqual(inventoryItem);
-        });
-
-        it('should redirect user to the add page if no ID or item is given', function() {
-            state.resolve.inventoryItem($stateParams, inventoryItemService, $state);
-            $rootScope.$apply();
-
-            expect($state.go).toHaveBeenCalledWith('openlmis.cce.inventory.add');
-        });
-
-        it('should call permissionService to check if user has CCE_INVENTORY_EDIT right', function() {
-            var result;
-
-            state.resolve.canEdit(inventoryItem, authorizationService, permissionService, CCE_RIGHTS).then(function(canEdit) {
-                result = canEdit;
-            });
-
-            deferred.resolve();
-            $rootScope.$apply();
-
-            expect(result).toEqual(true);
-            expect(permissionService.hasPermission).toHaveBeenCalled();
-            expect(authorizationService.getUser).toHaveBeenCalled();
-        });
-
-        it('should return false if user has no CCE_INVENTORY_EDIT right', function() {
-            var result;
-
-            state.resolve.canEdit(inventoryItem, authorizationService, permissionService, CCE_RIGHTS).then(function(canEdit) {
-                result = canEdit;
-            });
-
-            deferred.reject();
-            $rootScope.$apply();
-
-            expect(result).toEqual(false);
-            expect(permissionService.hasPermission).toHaveBeenCalled();
-            expect(authorizationService.getUser).toHaveBeenCalled();
         });
 
     });
@@ -131,42 +103,5 @@ describe('openlmis.cce.inventory.statusUpdate state', function() {
         });
 
     });
-
-    function loadModules() {
-        module('openlmis-main-state');
-        module('cce');
-        module('cce-inventory-list');
-        module('cce-inventory-item-status');
-    }
-
-    function injectServices() {
-        inject(function($injector) {
-            $q = $injector.get('$q');
-            $state = $injector.get('$state');
-            openlmisModalService = $injector.get('openlmisModalService');
-            inventoryItemService = $injector.get('inventoryItemService');
-            $rootScope = $injector.get('$rootScope');
-            CCE_RIGHTS = $injector.get('CCE_RIGHTS');
-            authorizationService = $injector.get('authorizationService');
-            permissionService = $injector.get('permissionService');
-            FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
-        });
-    }
-
-    function prepareTestData() {
-        state = $state.get('openlmis.cce.inventory.statusUpdate');
-        $stateParams = {};
-        inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
-        dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
-        deferred = $q.defer();
-    }
-
-    function prepareSpies() {
-        spyOn(authorizationService, 'getUser').andReturn({ user_id: 'user-id' });
-        spyOn($state, 'go');
-        spyOn(openlmisModalService, 'createDialog').andReturn(dialogSpy);
-        spyOn(inventoryItemService, 'get').andReturn($q.when(inventoryItem));
-        spyOn(permissionService, 'hasPermission').andReturn(deferred.promise);
-    }
 
 });

@@ -24,6 +24,7 @@
      * Responsible for providing cce inventory items list screen.
      */
     angular.module('cce-inventory-list', [
+        'cce',
         'openlmis-pagination',
         'cce-alert',
         'cce-inventory-item',
