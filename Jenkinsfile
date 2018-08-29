@@ -135,7 +135,6 @@ pipeline {
                 }
             }
             steps {
-                sh "docker pull openlmis/cce-ui:latest"
                 sh "docker tag openlmis/cce-ui:latest openlmis/cce-ui:${VERSION}"
                 sh "docker push openlmis/cce-ui:${VERSION}"
             }
