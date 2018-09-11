@@ -16,29 +16,28 @@
 describe('openlmis.cce.inventory.edit state', function() {
 
     var $state, $q, openlmisModalService, inventoryItemService, facilityService, CCE_RIGHTS, state, dialogSpy,
-        inventoryItem, $stateParams, facility, InventoryItemSpy, FacilityProgramInventoryItemDataBuilder, FacilityDataBuilder;
+        inventoryItem, $stateParams, facility, InventoryItemSpy, FacilityProgramInventoryItemDataBuilder,
+        FacilityDataBuilder, $rootScope;
 
     beforeEach(function() {
         module('openlmis-main-state');
         module('cce');
         module('cce-inventory-list');
-
-        module('cce-edit-inventory-item', function($provide) {
-            InventoryItemSpy = jasmine.createSpy('InventoryItem').andReturn(inventoryItem);
-        });
+        module('cce-edit-inventory-item');
 
         inject(function($injector) {
             $q = $injector.get('$q');
             $state = $injector.get('$state');
             openlmisModalService = $injector.get('openlmisModalService');
             $rootScope = $injector.get('$rootScope');
-            $timeout = $injector.get('$timeout');
             CCE_RIGHTS = $injector.get('CCE_RIGHTS');
             inventoryItemService = $injector.get('inventoryItemService');
             facilityService = $injector.get('facilityService');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
+
+        InventoryItemSpy = jasmine.createSpy('InventoryItem').andReturn(inventoryItem);
 
         dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
 
@@ -105,7 +104,9 @@ describe('openlmis.cce.inventory.edit state', function() {
 
             spyOn(facilityService, 'get').andReturn($q.when(facility));
 
-            state.onEnter(openlmisModalService, $stateParams, inventoryItemService, facilityService, $state, InventoryItemSpy);
+            state.onEnter(
+                openlmisModalService, $stateParams, inventoryItemService, facilityService, $state, InventoryItemSpy
+            );
             modal = openlmisModalService.createDialog.calls[0].args[0];
 
             modal.resolve.inventoryItem().then(function(inventoryItem) {

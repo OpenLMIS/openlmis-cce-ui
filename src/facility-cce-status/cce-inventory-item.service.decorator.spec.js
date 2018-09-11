@@ -90,16 +90,16 @@ describe('inventoryItemService', function() {
 
         it('should make proper requests and concat response', function() {
             $httpBackend.expectGET(cceUrlFactory('/api/inventoryItems?page=1&facilityId=facility-id'))
-            .respond(200, {
-                content: [inventoryItems[0]],
-                last: false
-            });
+                .respond(200, {
+                    content: [inventoryItems[0]],
+                    last: false
+                });
 
             $httpBackend.expectGET(cceUrlFactory('/api/inventoryItems?page=2&facilityId=facility-id'))
-            .respond(200, {
-                content: [inventoryItems[1]],
-                last: true
-            });
+                .respond(200, {
+                    content: [inventoryItems[1]],
+                    last: true
+                });
 
             var result;
             inventoryItemService.getAllForFacility('facility-id', 1).then(function(data) {
@@ -131,8 +131,10 @@ describe('inventoryItemService', function() {
 
     function prepareTestData() {
         inventoryItems = [
-            new InventoryItemDataBuilder().withId('1').build(),
-            new InventoryItemDataBuilder().withId('2').build()
+            new InventoryItemDataBuilder().withId('1')
+                .build(),
+            new InventoryItemDataBuilder().withId('2')
+                .build()
         ];
     }
 });

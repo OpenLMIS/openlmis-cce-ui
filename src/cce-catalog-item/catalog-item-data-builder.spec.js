@@ -17,7 +17,6 @@
 
     'use strict';
 
-
     angular
         .module('cce-catalog-item')
         .factory('CatalogItemDataBuilder', CatalogItemDataBuilder);

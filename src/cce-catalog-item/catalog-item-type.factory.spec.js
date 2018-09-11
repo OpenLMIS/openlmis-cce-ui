@@ -15,7 +15,7 @@
 
 describe('catalogItemTypeFactory', function() {
 
-    var catalogItemTypeFactory, catalogItems,CatalogItemDataBuilder;
+    var catalogItemTypeFactory, catalogItems, CatalogItemDataBuilder;
 
     beforeEach(function() {
         module('cce-catalog-item');
@@ -26,13 +26,20 @@ describe('catalogItemTypeFactory', function() {
         });
 
         catalogItems = [
-            new CatalogItemDataBuilder().withType('Type One').build(),
-            new CatalogItemDataBuilder().withType('Type Two').build(),
-            new CatalogItemDataBuilder().withType('Type Three').build(),
-            new CatalogItemDataBuilder().withType('Type Four').build(),
-            new CatalogItemDataBuilder().withType('Type Two').build(),
-            new CatalogItemDataBuilder().withType('Type Two').build(),
-            new CatalogItemDataBuilder().withType('Type One').build()
+            new CatalogItemDataBuilder().withType('Type One')
+                .build(),
+            new CatalogItemDataBuilder().withType('Type Two')
+                .build(),
+            new CatalogItemDataBuilder().withType('Type Three')
+                .build(),
+            new CatalogItemDataBuilder().withType('Type Four')
+                .build(),
+            new CatalogItemDataBuilder().withType('Type Two')
+                .build(),
+            new CatalogItemDataBuilder().withType('Type Two')
+                .build(),
+            new CatalogItemDataBuilder().withType('Type One')
+                .build()
         ];
     });
 

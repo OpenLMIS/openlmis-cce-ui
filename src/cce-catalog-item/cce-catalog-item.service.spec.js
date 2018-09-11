@@ -37,15 +37,18 @@ describe('catalogItemService', function() {
         });
 
         catalogItems = [
-            new CatalogItemDataBuilder().withId('1').build(),
-            new CatalogItemDataBuilder().withId('2').build()
+            new CatalogItemDataBuilder().withId('1')
+                .build(),
+            new CatalogItemDataBuilder().withId('2')
+                .build()
         ];
     });
 
     describe('get', function() {
 
         beforeEach(function() {
-            $httpBackend.when('GET', cceUrlFactory('/api/catalogItems/' + catalogItems[0].id)).respond(200, catalogItems[0]);
+            $httpBackend.when('GET', cceUrlFactory('/api/catalogItems/' + catalogItems[0].id))
+                .respond(200, catalogItems[0]);
         });
 
         it('should return promise', function() {
@@ -148,7 +151,8 @@ describe('catalogItemService', function() {
         it('should return promise resolving to a list of catalog items', function() {
             var result;
 
-            $httpBackend.when('GET', cceUrlFactory('/api/catalogItems?archived=true&visibleInCatalog=true')).respond(200, response);
+            $httpBackend.when('GET', cceUrlFactory('/api/catalogItems?archived=true&visibleInCatalog=true'))
+                .respond(200, response);
 
             catalogItemService.search(true, true).then(function(response) {
                 result = response;
@@ -167,7 +171,7 @@ describe('catalogItemService', function() {
             expect(angular.isFunction(catalogItemService.getDownloadUrl)).toBe(true);
         });
 
-        it('should call cceUrlFactory', function(){
+        it('should call cceUrlFactory', function() {
             var result = catalogItemService.getDownloadUrl();
 
             expect(result).toEqual('/api/catalogItems?format=csv');

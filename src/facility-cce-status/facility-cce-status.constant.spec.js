@@ -75,7 +75,7 @@ describe('FACILITY_CCE_STATUS', function() {
 
     describe('getClass', function() {
 
-        it('should return css class for valid status', function () {
+        it('should return css class for valid status', function() {
             expect(
                 FACILITY_CCE_STATUS.getClass('ALL_FUNCTIONING')
             ).toEqual('is-functioning');
@@ -101,20 +101,20 @@ describe('FACILITY_CCE_STATUS', function() {
             ).toEqual('no-cce');
         });
 
-        it('should throw exception for invalid status', function () {
-            expect(function () {
+        it('should throw exception for invalid status', function() {
+            expect(function() {
                 FACILITY_CCE_STATUS.getClass('NON_EXISTENT_SOURCE');
             }).toThrow('Invalid status');
 
-            expect(function () {
+            expect(function() {
                 FACILITY_CCE_STATUS.getClass(undefined);
             }).toThrow('Invalid status');
 
-            expect(function () {
+            expect(function() {
                 FACILITY_CCE_STATUS.getClass(null);
             }).toThrow('Invalid status');
 
-            expect(function () {
+            expect(function() {
                 FACILITY_CCE_STATUS.getClass('');
             }).toThrow('Invalid status');
         });

@@ -115,8 +115,10 @@ describe('CCEAlertRepositoryImpl', function() {
 
     function prepareTestData() {
         cceAlerts = [
-            new CCEAlertDataBuilder().withAlertId('1').build(),
-            new CCEAlertDataBuilder().withAlertId('2').build()
+            new CCEAlertDataBuilder().withAlertId('1')
+                .build(),
+            new CCEAlertDataBuilder().withAlertId('2')
+                .build()
         ];
     }
 });

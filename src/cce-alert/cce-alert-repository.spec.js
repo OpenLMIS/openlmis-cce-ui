@@ -15,8 +15,8 @@
 
 describe('CCEAlertRepository', function() {
 
-    var CCEAlertRepository, CCEAlertDataBuilder, CCEAlertRepository, json,
-        CCEAlert, $q, $rootScope, implMock, PageDataBuilder, cceAlertRepository;
+    var CCEAlertRepository, CCEAlertDataBuilder, json, CCEAlert, $q, $rootScope, implMock, PageDataBuilder,
+        cceAlertRepository, cceAlert;
 
     beforeEach(function() {
         module('cce-alert');
@@ -42,15 +42,16 @@ describe('CCEAlertRepository', function() {
             var params = {
                 page: 0,
                 size: 10
-            }
+            };
 
-            implMock.query.andReturn($q.resolve(new PageDataBuilder().withContent([json]).build()));
+            implMock.query.andReturn($q.resolve(new PageDataBuilder().withContent([json])
+                .build()));
 
             var result;
             cceAlertRepository.query(params)
-            .then(function(page) {
-                result = page;
-            });
+                .then(function(page) {
+                    result = page;
+                });
             $rootScope.$apply();
 
             expect(result.content[0] instanceof CCEAlert).toBe(true);
@@ -63,9 +64,9 @@ describe('CCEAlertRepository', function() {
 
             var rejected;
             cceAlertRepository.query()
-            .catch(function() {
-                rejected = true;
-            });
+                .catch(function() {
+                    rejected = true;
+                });
             $rootScope.$apply();
 
             expect(rejected).toBe(true);
@@ -77,15 +78,15 @@ describe('CCEAlertRepository', function() {
         it('should resolve to saved CCE alert', function() {
             cceAlert = new CCEAlert(json, cceAlertRepository);
 
-            implMock.save.andCallFake(function(cceAlert) {
+            implMock.save.andCallFake(function() {
                 return $q.resolve(json);
             });
 
             var result;
             cceAlertRepository.save(cceAlert)
-            .then(function(cceAlert) {
-                result = cceAlert;
-            });
+                .then(function(cceAlert) {
+                    result = cceAlert;
+                });
             $rootScope.$apply();
 
             expect(result instanceof CCEAlert).toBe(true);
@@ -99,9 +100,9 @@ describe('CCEAlertRepository', function() {
 
             var rejected;
             cceAlertRepository.save(cceAlert)
-            .catch(function() {
-                rejected = true;
-            });
+                .catch(function() {
+                    rejected = true;
+                });
             $rootScope.$apply();
 
             expect(rejected).toBe(true);

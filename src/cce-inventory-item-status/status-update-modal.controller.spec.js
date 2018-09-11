@@ -15,12 +15,10 @@
 
 describe('StatusUpdateModalController', function() {
 
-    var vm, messageService, $q, $state, $rootScope, inventoryItem, $controller,
-        loadingModalService, notificationService, messages, FUNCTIONAL_STATUS,
-        REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred, $scope, date,
-        stateTrackerService, FacilityProgramInventoryItemDataBuilder, cceAlerts,
-        cceAlertFactory, cceAlert, CCEAlertDataBuilder, alertSaveDeferred,
-        accessTokenFactory, cceUrlFactory, $window;
+    var vm, messageService, $q, $state, $rootScope, inventoryItem, $controller, loadingModalService,
+        notificationService, messages, FUNCTIONAL_STATUS, REASON_FOR_NOT_WORKING, inventoryItemService, saveDeferred,
+        $scope, date, stateTrackerService, FacilityProgramInventoryItemDataBuilder, cceAlerts, cceAlertFactory,
+        cceAlert, CCEAlertDataBuilder, alertSaveDeferred, accessTokenFactory, $window;
 
     beforeEach(prepareSuite);
 
@@ -163,8 +161,7 @@ describe('StatusUpdateModalController', function() {
             expect(vm.isUnserviceable(FUNCTIONAL_STATUS.UNSERVICEABLE)).toBe(true);
         });
 
-        it('should return false for statuses other than UNSERVICEABLE', function()
-         {
+        it('should return false for statuses other than UNSERVICEABLE', function() {
             expect(vm.isUnserviceable(FUNCTIONAL_STATUS.FUNCTIONING)).toBe(false);
             expect(vm.isUnserviceable(FUNCTIONAL_STATUS.AWAITING_REPAIR)).toBe(false);
         });
@@ -186,7 +183,8 @@ describe('StatusUpdateModalController', function() {
 
             expect(inventoryItem.functionalStatus).toEqual(FUNCTIONAL_STATUS.FUNCTIONING);
             expect(inventoryItem.reasonNotWorkingOrNotInUse).toEqual(
-                REASON_FOR_NOT_WORKING.NOT_IN_USE);
+                REASON_FOR_NOT_WORKING.NOT_IN_USE
+            );
             expect(inventoryItem.decommissionDate).toEqual('2017-01-01');
         });
 
@@ -433,7 +431,6 @@ describe('StatusUpdateModalController', function() {
             cceAlertFactory = $injector.get('cceAlertFactory');
             CCEAlertDataBuilder = $injector.get('CCEAlertDataBuilder');
             accessTokenFactory = $injector.get('accessTokenFactory');
-            cceUrlFactory = $injector.get('cceUrlFactory');
             $window = $injector.get('$window');
         });
 
@@ -441,7 +438,8 @@ describe('StatusUpdateModalController', function() {
 
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
-        cceAlert = new CCEAlertDataBuilder().withDeviceId('device-1').build();
+        cceAlert = new CCEAlertDataBuilder().withDeviceId('device-1')
+            .build();
         cceAlerts = {
             'device-1': {
                 activeAlerts: [cceAlert],

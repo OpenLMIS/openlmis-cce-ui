@@ -15,9 +15,9 @@
 
 describe('inventoryItemService', function() {
 
-    var $q, $rootScope, inventoryItemFactory, programService, facilityService, inventoryItemService,
-        inventoryItem, program, facility, inventoryItemResolve, programDeferred, facilityDeferred,
-        facilitiesResolve, ProgramDataBuilder, FacilityDataBuilder, InventoryItemDataBuilder;
+    var $q, $rootScope, inventoryItemFactory, programService, facilityService, inventoryItemService, inventoryItem,
+        program, facility, inventoryItemResolve, programDeferred, facilityDeferred, ProgramDataBuilder,
+        FacilityDataBuilder, InventoryItemDataBuilder;
 
     beforeEach(function() {
         module('cce-inventory-item', function($provide) {
@@ -50,10 +50,11 @@ describe('inventoryItemService', function() {
 
         program = new ProgramDataBuilder().build();
         facility = new FacilityDataBuilder().build();
-        inventoryItem = new InventoryItemDataBuilder().withFacilityId(facility.id).withProgramId(program.id).build();
+        inventoryItem = new InventoryItemDataBuilder().withFacilityId(facility.id)
+            .withProgramId(program.id)
+            .build();
 
         inventoryItemResolve = true;
-        facilitiesResolve = true;
 
         programDeferred = $q.defer();
         programService.get.andReturn(programDeferred.promise);

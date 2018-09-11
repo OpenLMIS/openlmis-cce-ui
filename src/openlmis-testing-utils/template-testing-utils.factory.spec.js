@@ -109,32 +109,32 @@
             });
         }
 
-        function toBeRequired(expected) {
+        function toBeRequired() {
             var pass = this.actual.prop('required');
 
-            if (!pass) {
+            if (pass) {
                 this.message = function() {
-                    return 'Element must be required';
+                    return 'Element is required';
                 };
             } else {
                 this.message = function() {
-                    return 'Element is required';
+                    return 'Element must be required';
                 };
             }
 
             return pass;
         }
 
-        function toBeHidden(expected) {
+        function toBeHidden() {
             var pass = this.actual.hasClass('ng-hide');
 
-            if (!pass) {
+            if (pass) {
                 this.message = function() {
-                    return 'Element must be hidden';
+                    return 'Element is visible';
                 };
             } else {
                 this.message = function() {
-                    return 'Element is visible';
+                    return 'Element must be hidden';
                 };
             }
 

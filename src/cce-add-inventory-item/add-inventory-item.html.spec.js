@@ -51,9 +51,13 @@ describe('add-inventory-item.html template', function() {
         ];
 
         catalogItems = [
-            new CatalogItemDataBuilder().withModel('LOL-1337').build(),
-            new CatalogItemDataBuilder().withModel('LPL-101').withType(types[1]).build(),
-            new CatalogItemDataBuilder().withType(types[1]).build()
+            new CatalogItemDataBuilder().withModel('LOL-1337')
+                .build(),
+            new CatalogItemDataBuilder().withModel('LPL-101')
+                .withType(types[1])
+                .build(),
+            new CatalogItemDataBuilder().withType(types[1])
+                .build()
         ];
 
         program = new ProgramDataBuilder().build();
@@ -73,7 +77,7 @@ describe('add-inventory-item.html template', function() {
         var select;
 
         beforeEach(function() {
-            select = template.find('#type')
+            select = template.find('#type');
         });
 
         it('should be required', function() {

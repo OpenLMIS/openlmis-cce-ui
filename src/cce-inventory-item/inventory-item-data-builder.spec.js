@@ -17,7 +17,6 @@
 
     'use strict';
 
-
     angular
         .module('cce-inventory-item')
         .factory('InventoryItemDataBuilder', InventoryItemDataBuilder);
@@ -26,7 +25,7 @@
         'CatalogItemDataBuilder', 'UserObjectReferenceDataBuilder'];
 
     function InventoryItemDataBuilder(InventoryItem, ObjectReferenceDataBuilder,
-        CatalogItemDataBuilder, UserObjectReferenceDataBuilder) {
+                                      CatalogItemDataBuilder, UserObjectReferenceDataBuilder) {
 
         InventoryItemDataBuilder.prototype.build = build;
         InventoryItemDataBuilder.prototype.withFacilityId = withFacilityId;
@@ -38,7 +37,7 @@
 
         function InventoryItemDataBuilder() {
             this.source = {
-                id : '35b8eeca-bfad-47f3-b966-c9cb726b872f',
+                id: '35b8eeca-bfad-47f3-b966-c9cb726b872f',
                 facility: new ObjectReferenceDataBuilder()
                     .withId('97546f93-ac93-435f-a437-cd629deb7d6d')
                     .withResource('facilities')

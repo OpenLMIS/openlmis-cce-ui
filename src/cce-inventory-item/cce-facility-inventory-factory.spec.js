@@ -15,9 +15,8 @@
 
 describe('facilityInventoryItemFactory', function() {
 
-    var $q, $rootScope, facilityInventoryItemFactory, referencedataUserService, facilityService,
-        inventoryItemService, inventoryItem, facility, facilityDeferred, inventoryItemDeferred,
-        query, FacilityDataBuilder, InventoryItemDataBuilder, UserObjectReferenceDataBuilder;
+    var $q, $rootScope, facilityInventoryItemFactory, facilityService, inventoryItemService, inventoryItem, facility,
+        facilityDeferred, inventoryItemDeferred, query, FacilityDataBuilder, InventoryItemDataBuilder;
 
     beforeEach(function() {
         module('cce-inventory-item', function($provide) {
@@ -39,12 +38,11 @@ describe('facilityInventoryItemFactory', function() {
             facilityInventoryItemFactory = $injector.get('facilityInventoryItemFactory');
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
             InventoryItemDataBuilder = $injector.get('InventoryItemDataBuilder');
-            UserObjectReferenceDataBuilder = $injector.get('UserObjectReferenceDataBuilder');
         });
 
         facility = new FacilityDataBuilder().build();
-        inventoryItem = new InventoryItemDataBuilder().withFacilityId(facility.id).build();
-        user = new UserObjectReferenceDataBuilder().build();
+        inventoryItem = new InventoryItemDataBuilder().withFacilityId(facility.id)
+            .build();
 
         query = {
             page: 1,
@@ -79,20 +77,22 @@ describe('facilityInventoryItemFactory', function() {
         });
 
         it('should reject promise if facilities promise is rejected', function() {
-            var status = undefined,
-                result = [];
+            var status = undefined;
 
-            facilityInventoryItemFactory.query(query).then(function(response) {
+            facilityInventoryItemFactory.query(query).then(function() {
                 status = 'resolved';
-                result = response;
             }, function() {
                 status = 'rejected';
             });
-            inventoryItemDeferred.resolve({content: [inventoryItem]});
+            inventoryItemDeferred.resolve({
+                content: [inventoryItem]
+            });
             facilityDeferred.reject();
             $rootScope.$apply();
 
-            expect(facilityService.query).toHaveBeenCalledWith({id: [facility.id]});
+            expect(facilityService.query).toHaveBeenCalledWith({
+                id: [facility.id]
+            });
             expect(inventoryItemService.query).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('rejected');
@@ -108,17 +108,21 @@ describe('facilityInventoryItemFactory', function() {
             }, function() {
                 status = 'rejected';
             });
-            inventoryItemDeferred.resolve({content: [inventoryItem]});
+            inventoryItemDeferred.resolve({
+                content: [inventoryItem]
+            });
             facilityDeferred.resolve([facility]);
             $rootScope.$apply();
 
-            expect(facilityService.query).toHaveBeenCalledWith({id: [facility.id]});
+            expect(facilityService.query).toHaveBeenCalledWith({
+                id: [facility.id]
+            });
             expect(inventoryItemService.query).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('resolved');
 
             expect(result.content.length).toBe(1);
-            result.content.forEach(function (one) {
+            result.content.forEach(function(one) {
                 expect(one.id).toEqual(inventoryItem.id);
                 expect(one.name).toEqual(inventoryItem.name);
                 expect(one.facility.id).toBe(inventoryItem.facility.id);

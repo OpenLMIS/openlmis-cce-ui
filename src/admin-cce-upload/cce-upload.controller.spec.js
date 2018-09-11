@@ -13,10 +13,10 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-describe('CceUploadController', function () {
+describe('CceUploadController', function() {
 
-    var $state , $q, $controller, $rootScope, catalogItemService, messageService, notificationService, loadingModalService,
-        vm, file, loadingModalPromise;
+    var $state, $q, $controller, $rootScope, catalogItemService, messageService, notificationService,
+        loadingModalService, vm, file;
 
     beforeEach(function() {
         module('admin-cce-upload');
@@ -60,7 +60,9 @@ describe('CceUploadController', function () {
             deferred;
 
         beforeEach(function() {
-            response = {amount: 2};
+            response = {
+                amount: 2
+            };
             deferred = $q.defer();
 
             spyOn(catalogItemService, 'upload').andReturn(deferred.promise);
@@ -79,7 +81,10 @@ describe('CceUploadController', function () {
             $rootScope.$apply();
 
             expect(messageService.get).toHaveBeenCalledWith(
-                'adminCceUpload.uploadSuccess', {amount: response.amount});
+                'adminCceUpload.uploadSuccess', {
+                    amount: response.amount
+                }
+            );
             expect(catalogItemService.upload).toHaveBeenCalledWith(file);
             expect(notificationService.success).toHaveBeenCalledWith(message);
             expect($state.reload).toHaveBeenCalled();
@@ -107,7 +112,7 @@ describe('CceUploadController', function () {
     describe('getExportUrl', function() {
 
         it('should call catalogItemService and return download url', function() {
-            var downloadUrl = "some-domain/download";
+            var downloadUrl = 'some-domain/download';
             spyOn(catalogItemService, 'getDownloadUrl').andReturn(downloadUrl);
 
             var result = vm.getExportUrl();

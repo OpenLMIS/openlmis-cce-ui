@@ -38,33 +38,42 @@
         return CCEAlertDataBuilder;
 
         function CCEAlertDataBuilder() {
+            //eslint-disable-next-line camelcase
             this.alert_id = 'alert-1';
+            //eslint-disable-next-line camelcase
             this.alert_type = 'warning_hot';
+            //eslint-disable-next-line camelcase
             this.device_id = 'device-1';
+            //eslint-disable-next-line camelcase
             this.start_ts = '2018-01-01T00:00:00Z';
             this.status = {
                 'en-US': 'Status message'
             };
+            //eslint-disable-next-line camelcase
             this.end_ts = null;
             this.dismissed = false;
         }
 
         function withAlertId(newAlertId) {
+            //eslint-disable-next-line camelcase
             this.alert_id = newAlertId;
             return this;
         }
 
         function withAlertType(newAlertType) {
+            //eslint-disable-next-line camelcase
             this.alert_type = newAlertType;
             return this;
         }
 
         function withDeviceId(newDeviceId) {
+            //eslint-disable-next-line camelcase
             this.device_id = newDeviceId;
             return this;
         }
 
         function withStartTs(newStartTs) {
+            //eslint-disable-next-line camelcase
             this.start_ts = newStartTs;
             return this;
         }
@@ -75,6 +84,7 @@
         }
 
         function withEndTs(newEndTs) {
+            //eslint-disable-next-line camelcase
             this.end_ts = newEndTs;
             return this;
         }
@@ -90,11 +100,16 @@
 
         function buildJson() {
             return {
+                //eslint-disable-next-line camelcase
                 alert_id: this.alert_id,
+                //eslint-disable-next-line camelcase
                 alert_type: this.alert_type,
+                //eslint-disable-next-line camelcase
                 device_id: this.device_id,
+                //eslint-disable-next-line camelcase
                 start_ts: this.start_ts,
                 status: this.status,
+                //eslint-disable-next-line camelcase
                 end_ts: this.end_ts,
                 dismissed: this.dismissed
             };

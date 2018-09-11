@@ -17,7 +17,6 @@
 
     'use strict';
 
-
     angular
         .module('cce-inventory-item')
         .factory('FacilityProgramInventoryItemDataBuilder', FacilityProgramInventoryItemDataBuilder);
@@ -44,12 +43,9 @@
         function FacilityProgramInventoryItemDataBuilder() {
             this.facility = new FacilityDataBuilder().build();
             this.program = new ProgramDataBuilder().build();
-            this.source = new InventoryItemDataBuilder().withFacilityId(this.facility.id).withProgramId(this.program.id).build();
-        }
-
-        function withAdditionalNotes(newNotes) {
-            this.source.additionalNotes = newNotes;
-            return this;
+            this.source = new InventoryItemDataBuilder().withFacilityId(this.facility.id)
+                .withProgramId(this.program.id)
+                .build();
         }
 
         function withCatalogItem(newCatalogItem) {

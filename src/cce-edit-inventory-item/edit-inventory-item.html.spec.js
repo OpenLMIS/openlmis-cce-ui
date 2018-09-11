@@ -15,8 +15,8 @@
 
 describe('edit-inventory-item.html template', function() {
 
-    var vm, $controller, $compile, $rootScope, $templateRequest, $timeout, $state, template,
-        messages, messageService, inventoryItem, $q, FacilityProgramInventoryItemDataBuilder;
+    var vm, $compile, $rootScope, $templateRequest, $timeout, template, messages, messageService, inventoryItem,
+        FacilityProgramInventoryItemDataBuilder, $scope;
 
     beforeEach(prepareSuite);
 
@@ -27,16 +27,19 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             expect(
-                template.find('.modal-title').html().indexOf('Edit equipment details') > -1
+                template.find('.modal-title').html()
+                    .indexOf('Edit equipment details') > -1
             ).toEqual(true);
         });
 
         it('should be "Add New Cold Chain Equipment" if inventory item has no ID', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withoutId().build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withoutId()
+                .build();
             $rootScope.$apply();
 
             expect(
-                template.find('.modal-title').html().indexOf('Add New Cold Chain Equipment') > -1
+                template.find('.modal-title').html()
+                    .indexOf('Add New Cold Chain Equipment') > -1
             ).toEqual(true);
         });
 
@@ -75,7 +78,8 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should allow only year to be entered', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withYearOfInstallation(42443).build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withYearOfInstallation(42443)
+                .build();
 
             $rootScope.$apply();
 
@@ -92,14 +96,9 @@ describe('edit-inventory-item.html template', function() {
 
     describe('Year of Warranty Expiry', function() {
 
-        var input;
-
-        beforeEach(function() {
-            input = template.find('#year-of-warranty-expiry');
-        });
-
         it('should allow only year to be entered', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withYearOfWarrantyExpiry(42443).build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withYearOfWarrantyExpiry(42443)
+                .build();
 
             $rootScope.$apply();
 
@@ -334,7 +333,9 @@ describe('edit-inventory-item.html template', function() {
         });
 
         it('should call vm.add', function() {
-            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder().withId('9c704186-6191-4434-b39f-71be7ca87304').build();
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder()
+                .withId('9c704186-6191-4434-b39f-71be7ca87304')
+                .build();
 
             $rootScope.$apply();
             form.triggerHandler('submit');
@@ -380,13 +381,11 @@ describe('edit-inventory-item.html template', function() {
         module('cce-edit-inventory-item');
 
         inject(function($injector) {
-            $controller = $injector.get('$controller');
             $compile = $injector.get('$compile');
             $rootScope = $injector.get('$rootScope');
             $templateRequest = $injector.get('$templateRequest');
             $timeout = $injector.get('$timeout');
             messageService = $injector.get('messageService');
-            $q = $injector.get('$q');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
         });
 

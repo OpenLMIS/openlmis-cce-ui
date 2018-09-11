@@ -39,8 +39,10 @@ describe('CceStatusController', function() {
         });
 
         userId = '123';
-        functioningInventoryItem = new InventoryItemDataBuilder().withId('device-1').build();
-        notFunctioningInventoryItem = new InventoryItemDataBuilder().withNonFunctioningStatus().build();
+        functioningInventoryItem = new InventoryItemDataBuilder().withId('device-1')
+            .build();
+        notFunctioningInventoryItem = new InventoryItemDataBuilder().withNonFunctioningStatus()
+            .build();
 
         cceAlerts = {
             'device-1': {
@@ -48,7 +50,10 @@ describe('CceStatusController', function() {
             }
         };
 
-        spyOn(authorizationService, 'getUser').andReturn({user_id: userId});
+        spyOn(authorizationService, 'getUser').andReturn({
+            //eslint-disable-next-line camelcase
+            user_id: userId
+        });
         spyOn(permissionService, 'hasPermissionWithAnyProgram').andReturn($q.resolve());
         spyOn(inventoryItemService, 'getAllForFacility');
         spyOn(cceAlertFactory, 'getAlertsGroupedByDevice').andReturn($q.resolve(cceAlerts));
@@ -72,8 +77,10 @@ describe('CceStatusController', function() {
                 expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('ALL_FUNCTIONING'));
             });
 
-            it('as NOT FULLY FUNCTIONING when at least one CCE inventory item is functioning and at least one CCE inventory item is not functioning', function() {
-                inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem, notFunctioningInventoryItem]));
+            it('as NOT FULLY FUNCTIONING when at least one CCE inventory item is functioning and at least one CCE' +
+                'inventory item is not functioning', function() {
+                inventoryItemService.getAllForFacility
+                    .andReturn($q.resolve([functioningInventoryItem, notFunctioningInventoryItem]));
 
                 vm.$onInit();
                 $rootScope.$apply();
@@ -110,31 +117,33 @@ describe('CceStatusController', function() {
                 expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('LOADING'));
             });
 
-            it('as UNKNOWN the current user doesn\'t have permission to view CCE status for the specific facility', function() {
-                permissionService.hasPermissionWithAnyProgram.andReturn($q.reject());
+            it('as UNKNOWN the current user doesn\'t have permission to view CCE status for the specific facility',
+                function() {
+                    permissionService.hasPermissionWithAnyProgram.andReturn($q.reject());
 
-                vm.$onInit();
-                $rootScope.$apply();
+                    vm.$onInit();
+                    $rootScope.$apply();
 
-                var permission = {
-                    facilityId: vm.facility.id,
-                    right: CCE_RIGHTS.CCE_INVENTORY_VIEW
-                };
-                expect(permissionService.hasPermissionWithAnyProgram).toHaveBeenCalledWith(userId, permission);
-                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('UNKNOWN'));
-                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('UNKNOWN'));
-            });
+                    var permission = {
+                        facilityId: vm.facility.id,
+                        right: CCE_RIGHTS.CCE_INVENTORY_VIEW
+                    };
+                    expect(permissionService.hasPermissionWithAnyProgram).toHaveBeenCalledWith(userId, permission);
+                    expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('UNKNOWN'));
+                    expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('UNKNOWN'));
+                });
 
-            it('as UNKNOWN when the Facility CCE Status component failed to load information from the CCE services', function() {
-                inventoryItemService.getAllForFacility.andReturn($q.reject());
+            it('as UNKNOWN when the Facility CCE Status component failed to load information from the CCE services',
+                function() {
+                    inventoryItemService.getAllForFacility.andReturn($q.reject());
 
-                vm.$onInit();
-                $rootScope.$apply();
+                    vm.$onInit();
+                    $rootScope.$apply();
 
-                expect(inventoryItemService.getAllForFacility).toHaveBeenCalledWith(vm.facility.id);
-                expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('UNKNOWN'));
-                expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('UNKNOWN'));
-            });
+                    expect(inventoryItemService.getAllForFacility).toHaveBeenCalledWith(vm.facility.id);
+                    expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('UNKNOWN'));
+                    expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('UNKNOWN'));
+                });
 
         });
 
@@ -154,11 +163,13 @@ describe('CceStatusController', function() {
             vm.$onInit();
             $rootScope.$apply();
 
-            expect(cceAlertFactory.getAlertsGroupedByDevice).toHaveBeenCalledWith({deviceId: [functioningInventoryItem.id]});
+            expect(cceAlertFactory.getAlertsGroupedByDevice).toHaveBeenCalledWith({
+                deviceId: [functioningInventoryItem.id]
+            });
             expect(vm.cceAlerts).toEqual(cceAlerts);
         });
 
-        it('should set cceAvailable flag as true when there are inventory items', function () {
+        it('should set cceAvailable flag as true when there are inventory items', function() {
             inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
 
             vm.$onInit();
@@ -167,7 +178,7 @@ describe('CceStatusController', function() {
             expect(vm.cceAvailable).toBe(true);
         });
 
-        it('should set cceAvailable flag as false when there are no inventory items', function () {
+        it('should set cceAvailable flag as false when there are no inventory items', function() {
             inventoryItemService.getAllForFacility.andReturn($q.resolve([]));
 
             vm.$onInit();
@@ -192,31 +203,33 @@ describe('CceStatusController', function() {
                 expect(vm.alertStatusClass).toEqual('rtm-alert-status-unavailable');
             });
 
-            it('as RTM alert status inactive when CCE alerts has device id entries, but no active alerts for them', function() {
-                vm.$onInit();
-                $rootScope.$apply();
+            it('as RTM alert status inactive when CCE alerts has device id entries, but no active alerts for them',
+                function() {
+                    vm.$onInit();
+                    $rootScope.$apply();
 
-                expect(vm.alertStatusClass).toEqual('rtm-alert-status-inactive');
-            });
+                    expect(vm.alertStatusClass).toEqual('rtm-alert-status-inactive');
+                });
 
-            it('as RTM alert status active when CCE alerts has device id entries and any active alerts for them', function() {
-                var cceAlert = new CCEAlertDataBuilder()
-                    .withDeviceId('device-1')
-                    .withEndTs(null)
-                    .withDismissed(false)
-                    .build();
-                cceAlerts = {
-                    'device-1': {
-                        activeAlerts: [cceAlert]
-                    }
-                };
-                cceAlertFactory.getAlertsGroupedByDevice.andReturn($q.resolve(cceAlerts));
+            it('as RTM alert status active when CCE alerts has device id entries and any active alerts for them',
+                function() {
+                    var cceAlert = new CCEAlertDataBuilder()
+                        .withDeviceId('device-1')
+                        .withEndTs(null)
+                        .withDismissed(false)
+                        .build();
+                    cceAlerts = {
+                        'device-1': {
+                            activeAlerts: [cceAlert]
+                        }
+                    };
+                    cceAlertFactory.getAlertsGroupedByDevice.andReturn($q.resolve(cceAlerts));
 
-                vm.$onInit();
-                $rootScope.$apply();
+                    vm.$onInit();
+                    $rootScope.$apply();
 
-                expect(vm.alertStatusClass).toEqual('rtm-alert-status-active');
-            });
+                    expect(vm.alertStatusClass).toEqual('rtm-alert-status-active');
+                });
         });
 
         it('should not set RTM alert status when no Inventory items', function() {
@@ -227,7 +240,6 @@ describe('CceStatusController', function() {
 
             expect(vm.alertStatusClass).toBe(undefined);
         });
-
 
     });
 

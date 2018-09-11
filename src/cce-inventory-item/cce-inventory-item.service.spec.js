@@ -131,7 +131,8 @@ describe('inventoryItemService', function() {
         });
 
         it('should create inventory item if ID is not given', function() {
-            inventoryItem = new FacilityProgramInventoryItemDataBuilder().withoutId().build();
+            inventoryItem = new FacilityProgramInventoryItemDataBuilder().withoutId()
+                .build();
 
             var returned = angular.copy(inventoryItem);
 
@@ -152,7 +153,8 @@ describe('inventoryItemService', function() {
         });
 
         it('should update inventory item if it has ID', function() {
-            inventoryItem = new FacilityProgramInventoryItemDataBuilder().withId(ITEM_ID).build();
+            inventoryItem = new FacilityProgramInventoryItemDataBuilder().withId(ITEM_ID)
+                .build();
 
             $httpBackend.expect(
                 'PUT', cceUrlFactory('/api/inventoryItems/' + ITEM_ID), inventoryItem
@@ -179,8 +181,10 @@ describe('inventoryItemService', function() {
         ITEM_ID = 'some-inventory-item-id';
 
         inventoryItems = [
-            new FacilityProgramInventoryItemDataBuilder().withId('1').build(),
-            new FacilityProgramInventoryItemDataBuilder().withId('2').build()
+            new FacilityProgramInventoryItemDataBuilder().withId('1')
+                .build(),
+            new FacilityProgramInventoryItemDataBuilder().withId('2')
+                .build()
         ];
     }
 });

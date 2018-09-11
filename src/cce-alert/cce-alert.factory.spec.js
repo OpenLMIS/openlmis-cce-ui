@@ -15,55 +15,50 @@
 
 describe('cceAlertFactory', function() {
 
-    var $q, $rootScope, cceAlertFactory, CCEAlertRepository, cceAlertDeferred, cceAlerts, query,
-        CCEAlertDataBuilder;
+    var $q, $rootScope, cceAlertFactory, cceAlertDeferred, cceAlerts, query, CCEAlertDataBuilder, CCEAlertRepository;
 
     beforeEach(function() {
-        module('cce-alert', function($provide) {
-            $provide.factory('CCEAlertRepository', function() {
-                return function() {
-                    repositoryMock = jasmine.createSpyObj('CCEAlertRepository', ['query', 'save']);
-                    return repositoryMock;
-                };
-            });
-        });
+        module('cce-alert');
 
         inject(function($injector) {
             $q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             cceAlertFactory = $injector.get('cceAlertFactory');
             CCEAlertDataBuilder = $injector.get('CCEAlertDataBuilder');
+            CCEAlertRepository = $injector.get('CCEAlertRepository');
         });
 
         cceAlerts = [
             new CCEAlertDataBuilder()
-                .withAlertId("active-alert-1")
-                .withDeviceId("device-1")
+                .withAlertId('active-alert-1')
+                .withDeviceId('device-1')
                 .withEndTs(null)
                 .withDismissed(false)
                 .build(),
             new CCEAlertDataBuilder()
-                .withAlertId("resolved-alert")
-                .withDeviceId("device-1")
-                .withEndTs("2018-01-02T00:00:00Z")
-                .withStatus({ nohyphen: "No hyphen message"})
+                .withAlertId('resolved-alert')
+                .withDeviceId('device-1')
+                .withEndTs('2018-01-02T00:00:00Z')
+                .withStatus({
+                    nohyphen: 'No hyphen message'
+                })
                 .withDismissed(false)
                 .build(),
             new CCEAlertDataBuilder()
-                .withAlertId("active-alert-2")
-                .withDeviceId("device-2")
+                .withAlertId('active-alert-2')
+                .withDeviceId('device-2')
                 .withEndTs(null)
                 .withDismissed(false)
                 .build(),
             new CCEAlertDataBuilder()
-                .withAlertId("dismissed-alert")
-                .withDeviceId("device-2")
+                .withAlertId('dismissed-alert')
+                .withDeviceId('device-2')
                 .withEndTs(null)
                 .withDismissed(true)
                 .build(),
             new CCEAlertDataBuilder()
-                .withAlertId("resolved-dismissed-alert")
-                .withDeviceId("device-3")
+                .withAlertId('resolved-dismissed-alert')
+                .withDeviceId('device-3')
                 .withEndTs(1)
                 .withDismissed(true)
                 .build()
@@ -75,8 +70,8 @@ describe('cceAlertFactory', function() {
         };
 
         cceAlertDeferred = $q.defer();
-        repositoryMock.query.andReturn(cceAlertDeferred.promise);
-        repositoryMock.save.andReturn(cceAlertDeferred.promise);
+        spyOn(CCEAlertRepository.prototype, 'query').andReturn(cceAlertDeferred.promise);
+        spyOn(CCEAlertRepository.prototype, 'save').andReturn(cceAlertDeferred.promise);
     });
 
     describe('getAlertsGroupedByDevice', function() {
@@ -86,46 +81,53 @@ describe('cceAlertFactory', function() {
 
             cceAlertFactory.getAlertsGroupedByDevice(query).then(function() {
                 status = 'resolved';
-            }).catch(function() {
-                status = 'rejected';
-            });
+            })
+                .catch(function() {
+                    status = 'rejected';
+                });
 
             cceAlertDeferred.reject();
             $rootScope.$apply();
 
-            expect(repositoryMock.query).toHaveBeenCalledWith(query);
+            expect(CCEAlertRepository.prototype.query).toHaveBeenCalledWith(query);
             expect(status).toEqual('rejected');
         });
 
         it('should resolve promise if alerts promise is resolved', function() {
             var status = undefined;
 
-            cceAlertFactory.getAlertsGroupedByDevice(query).then(function(response) {
+            cceAlertFactory.getAlertsGroupedByDevice(query).then(function() {
                 status = 'resolved';
-            }).catch(function() {
-                status = 'rejected';
-            });
+            })
+                .catch(function() {
+                    status = 'rejected';
+                });
 
-            cceAlertDeferred.resolve({content: cceAlerts});
+            cceAlertDeferred.resolve({
+                content: cceAlerts
+            });
             $rootScope.$apply();
 
-            expect(repositoryMock.query).toHaveBeenCalledWith(query);
+            expect(CCEAlertRepository.prototype.query).toHaveBeenCalledWith(query);
             expect(status).toEqual('resolved');
         });
 
         it('should resolve promise even if params is undefined', function() {
             var status = undefined;
 
-            cceAlertFactory.getAlertsGroupedByDevice(undefined).then(function(response) {
+            cceAlertFactory.getAlertsGroupedByDevice(undefined).then(function() {
                 status = 'resolved';
-            }).catch(function() {
-                status = 'rejected';
-            });
+            })
+                .catch(function() {
+                    status = 'rejected';
+                });
 
-            cceAlertDeferred.resolve({content: cceAlerts});
+            cceAlertDeferred.resolve({
+                content: cceAlerts
+            });
             $rootScope.$apply();
 
-            expect(repositoryMock.query).toHaveBeenCalledWith(undefined);
+            expect(CCEAlertRepository.prototype.query).toHaveBeenCalledWith(undefined);
             expect(status).toEqual('resolved');
         });
 
@@ -136,21 +138,26 @@ describe('cceAlertFactory', function() {
                 resultMap = response;
             });
 
-            cceAlertDeferred.resolve({content: cceAlerts});
+            cceAlertDeferred.resolve({
+                content: cceAlerts
+            });
             $rootScope.$apply();
 
             expect(resultMap['device-1']).toBeDefined();
             expect(resultMap['device-2']).toBeDefined();
         });
 
-        it('should consolidate alerts from the same device, and separate into active and inactive, if promise is resolved', function() {
+        it('should consolidate alerts from the same device, and separate into active and inactive, if promise is' +
+            ' resolved', function() {
             var resultMap = {};
 
             cceAlertFactory.getAlertsGroupedByDevice(query).then(function(response) {
                 resultMap = response;
             });
 
-            cceAlertDeferred.resolve({content: cceAlerts});
+            cceAlertDeferred.resolve({
+                content: cceAlerts
+            });
             $rootScope.$apply();
 
             expect(resultMap['device-1']).toBeDefined();
@@ -179,14 +186,15 @@ describe('cceAlertFactory', function() {
 
             cceAlertFactory.saveAlert(cceAlerts[0]).then(function() {
                 status = 'resolved';
-            }).catch(function() {
-                status = 'rejected';
-            });
+            })
+                .catch(function() {
+                    status = 'rejected';
+                });
 
             cceAlertDeferred.reject();
             $rootScope.$apply();
 
-            expect(repositoryMock.save).toHaveBeenCalledWith(cceAlerts[0]);
+            expect(CCEAlertRepository.prototype.save).toHaveBeenCalledWith(cceAlerts[0]);
             expect(status).toEqual('rejected');
         });
 
@@ -195,14 +203,15 @@ describe('cceAlertFactory', function() {
 
             cceAlertFactory.saveAlert(cceAlerts[0]).then(function() {
                 status = 'resolved';
-            }).catch(function() {
-                status = 'rejected';
-            });
+            })
+                .catch(function() {
+                    status = 'rejected';
+                });
 
             cceAlertDeferred.resolve();
             $rootScope.$apply();
 
-            expect(repositoryMock.save).toHaveBeenCalledWith(cceAlerts[0]);
+            expect(CCEAlertRepository.prototype.save).toHaveBeenCalledWith(cceAlerts[0]);
             expect(status).toEqual('resolved');
         });
     });

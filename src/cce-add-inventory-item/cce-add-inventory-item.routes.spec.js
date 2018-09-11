@@ -16,7 +16,7 @@
 describe('openlmis.inventoryItems.add state', function() {
 
     var $state, $q, openlmisModalService, catalogItemService, catalogItemTypeFactory, CCE_RIGHTS,
-        state, dialogSpy, types, catalogItems, CatalogItemDataBuilder;
+        state, dialogSpy, types, catalogItems, CatalogItemDataBuilder, $rootScope;
 
     beforeEach(function() {
         module('openlmis-main-state');
@@ -25,11 +25,10 @@ describe('openlmis.inventoryItems.add state', function() {
         module('cce-add-inventory-item');
 
         inject(function($injector) {
+            $rootScope = $injector.get('$rootScope');
             $state = $injector.get('$state');
             $q = $injector.get('$q');
             openlmisModalService = $injector.get('openlmisModalService');
-            $rootScope = $injector.get('$rootScope');
-            $timeout = $injector.get('$timeout');
             CCE_RIGHTS = $injector.get('CCE_RIGHTS');
             catalogItemService = $injector.get('catalogItemService');
             catalogItemTypeFactory = $injector.get('catalogItemTypeFactory');
@@ -42,9 +41,13 @@ describe('openlmis.inventoryItems.add state', function() {
         ];
 
         catalogItems = [
-            new CatalogItemDataBuilder().withModel('LOL-1337').build(),
-            new CatalogItemDataBuilder().withModel('LPL-101').withType(types[1]).build(),
-            new CatalogItemDataBuilder().withType(types[1]).build()
+            new CatalogItemDataBuilder().withModel('LOL-1337')
+                .build(),
+            new CatalogItemDataBuilder().withModel('LPL-101')
+                .withType(types[1])
+                .build(),
+            new CatalogItemDataBuilder().withType(types[1])
+                .build()
         ];
 
         spyOn(catalogItemService, 'search').andReturn($q.when({
@@ -91,7 +94,7 @@ describe('openlmis.inventoryItems.add state', function() {
 
     describe('modal', function() {
 
-        var modal, catalogItemTypeFactory, catalogItemService, $q;
+        var modal;
 
         beforeEach(function() {
             state.onEnter(

@@ -99,7 +99,8 @@ describe('openlmis.inventoryItem state', function() {
         $stateParams.facility = 'facility-id';
 
         var result = state.resolve.inventoryItems(
-            facilityInventoryItemFactory, paginationService, $stateParams);
+            facilityInventoryItemFactory, paginationService, $stateParams
+        );
         $rootScope.$apply();
 
         expect(result).toEqual(inventoryItems);
