@@ -28,8 +28,8 @@ describe('edit-inventory-item.html template', function() {
 
             expect(
                 template.find('.modal-title').html()
-                    .indexOf('Edit equipment details') > -1
-            ).toEqual(true);
+                    .indexOf('Edit equipment details')
+            ).toBeGreaterThan(-1);
         });
 
         it('should be "Add New Cold Chain Equipment" if inventory item has no ID', function() {
@@ -39,8 +39,8 @@ describe('edit-inventory-item.html template', function() {
 
             expect(
                 template.find('.modal-title').html()
-                    .indexOf('Add New Cold Chain Equipment') > -1
-            ).toEqual(true);
+                    .indexOf('Add New Cold Chain Equipment')
+            ).toBeGreaterThan(-1);
         });
 
     });
@@ -131,6 +131,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = getButtons();
+
             expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[0]).prop('required')).toBe(true);
@@ -143,6 +144,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = getButtons();
+
             expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[0]).prop('required')).toBe(true);
@@ -155,6 +157,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = getButtons();
+
             expect(angular.element(buttons[0]).prop('disabled')).toBe(true);
             expect(angular.element(buttons[1]).prop('disabled')).toBe(true);
             expect(angular.element(buttons[0]).prop('required')).toBe(false);
@@ -184,6 +187,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = getButtons();
+
             expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[0]).prop('required')).toBe(true);
@@ -196,6 +200,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = getButtons();
+
             expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[0]).prop('required')).toBe(true);
@@ -208,6 +213,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = getButtons();
+
             expect(angular.element(buttons[0]).prop('disabled')).toBe(true);
             expect(angular.element(buttons[1]).prop('disabled')).toBe(true);
             expect(angular.element(buttons[0]).prop('required')).toBe(false);
@@ -237,6 +243,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = getButtons();
+
             expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[0]).prop('required')).toBe(true);
@@ -249,6 +256,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = getButtons();
+
             expect(angular.element(buttons[0]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[1]).prop('disabled')).toBe(false);
             expect(angular.element(buttons[0]).prop('required')).toBe(true);
@@ -261,6 +269,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = getButtons();
+
             expect(angular.element(buttons[0]).prop('disabled')).toBe(true);
             expect(angular.element(buttons[1]).prop('disabled')).toBe(true);
             expect(angular.element(buttons[0]).prop('required')).toBe(false);
@@ -284,6 +293,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = template.find('#manual-temperature-gauge').find('input');
+
             expect(angular.element(buttons[0]).prop('required')).toBe(true);
             expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
@@ -301,6 +311,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = template.find('#utilization').find('input');
+
             expect(angular.element(buttons[0]).prop('required')).toBe(true);
             expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });
@@ -318,6 +329,7 @@ describe('edit-inventory-item.html template', function() {
             $rootScope.$apply();
 
             var buttons = template.find('#remote-temperature-monitor').find('input');
+
             expect(angular.element(buttons[0]).prop('required')).toBe(true);
             expect(angular.element(buttons[1]).prop('required')).toBe(true);
         });

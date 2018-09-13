@@ -85,6 +85,7 @@ describe('CceUploadController', function() {
                     amount: response.amount
                 }
             );
+
             expect(catalogItemService.upload).toHaveBeenCalledWith(file);
             expect(notificationService.success).toHaveBeenCalledWith(message);
             expect($state.reload).toHaveBeenCalled();

@@ -48,7 +48,7 @@ describe('openlmis.cce.inventory.item.statusUpdate state', function() {
     });
 
     it('should accept inventoryItemId', function() {
-        expect(state.url.indexOf('statusUpdate') > -1).toBe(true);
+        expect(state.url.indexOf('statusUpdate')).toBeGreaterThan(-1);
         expect(state.params.hasOwnProperty('inventoryItemId')).toBe(true);
     });
 
@@ -78,11 +78,13 @@ describe('openlmis.cce.inventory.item.statusUpdate state', function() {
 
         it('should open modal', function() {
             state.onEnter(openlmisModalService, inventoryItemService, $stateParams);
+
             expect(openlmisModalService.createDialog).toHaveBeenCalled();
         });
 
         it('should reopen the modal if state was reentered', function() {
             state.onEnter(openlmisModalService, inventoryItemService, $stateParams);
+
             expect(openlmisModalService.createDialog.calls.length).toBe(1);
 
             state.onExit();

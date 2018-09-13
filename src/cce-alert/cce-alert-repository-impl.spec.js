@@ -66,13 +66,14 @@ describe('CCEAlertRepositoryImpl', function() {
             $rootScope.$apply();
 
             var expected = angular.copy(cceAlerts);
+
             expect(angular.toJson(result)).toEqual(angular.toJson({
                 content: expected
             }));
         });
 
         it('should make a proper request', function() {
-            $httpBackend.expect('GET', cceUrlFactory('/api/cceAlerts?page=' + parameters.page +
+            $httpBackend.expectGET(cceUrlFactory('/api/cceAlerts?page=' + parameters.page +
                 '&size=' + parameters.size));
 
             cceAlertRepositoryImpl.query(parameters);

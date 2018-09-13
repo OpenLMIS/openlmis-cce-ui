@@ -79,11 +79,13 @@ describe('CceInventoryListController', function() {
 
         it('should expose alerts', function() {
             vm.$onInit();
+
             expect(vm.cceAlerts).toEqual(cceAlerts);
         });
 
         it('should expose the list of functional statuses', function() {
             vm.$onInit();
+
             expect(vm.functionalStatuses).toEqual(FUNCTIONAL_STATUS.getStatuses());
         });
 
@@ -160,11 +162,13 @@ describe('CceInventoryListController', function() {
 
         it('should return empty string if reason is undefined', function() {
             label = vm.getReasonLabel(undefined);
+
             expect(label).toBe('');
         });
 
         it('should return empty string if reason is null', function() {
             label = vm.getReasonLabel(null);
+
             expect(label).toBe('');
         });
 
@@ -176,6 +180,7 @@ describe('CceInventoryListController', function() {
 
         it('should return localized label', function() {
             label = vm.getReasonLabel(REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS);
+
             expect(label).toEqual('cceInventoryItemStatus.needsSpareParts');
         });
 

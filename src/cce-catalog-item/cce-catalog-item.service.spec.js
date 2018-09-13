@@ -71,7 +71,7 @@ describe('catalogItemService', function() {
         });
 
         it('should make a proper request', function() {
-            $httpBackend.expect('GET', cceUrlFactory('/api/catalogItems/' + catalogItems[0].id));
+            $httpBackend.expectGET(cceUrlFactory('/api/catalogItems/' + catalogItems[0].id));
 
             catalogItemService.get(catalogItems[0].id);
             $httpBackend.flush();
@@ -109,7 +109,7 @@ describe('catalogItemService', function() {
         });
 
         it('should make a proper request', function() {
-            $httpBackend.expect('POST', cceUrlFactory('/api/catalogItems?format=csv'));
+            $httpBackend.expectPOST(cceUrlFactory('/api/catalogItems?format=csv'));
 
             catalogItemService.upload(file);
             $httpBackend.flush();
@@ -135,14 +135,14 @@ describe('catalogItemService', function() {
         });
 
         it('should include archived in the body', function() {
-            $httpBackend.expect('GET', cceUrlFactory('/api/catalogItems?archived=true')).respond(200, response);
+            $httpBackend.expectGET(cceUrlFactory('/api/catalogItems?archived=true')).respond(200, response);
 
             catalogItemService.search(true);
             $httpBackend.flush();
         });
 
         it('should include visibleInCatalog in the body', function() {
-            $httpBackend.expect('GET', cceUrlFactory('/api/catalogItems?visibleInCatalog=true')).respond(200, response);
+            $httpBackend.expectGET(cceUrlFactory('/api/catalogItems?visibleInCatalog=true')).respond(200, response);
 
             catalogItemService.search(undefined, true);
             $httpBackend.flush();

@@ -185,6 +185,7 @@ describe('StatusUpdateModalController', function() {
             expect(inventoryItem.reasonNotWorkingOrNotInUse).toEqual(
                 REASON_FOR_NOT_WORKING.NOT_IN_USE
             );
+
             expect(inventoryItem.decommissionDate).toEqual('2017-01-01');
         });
 
@@ -230,20 +231,6 @@ describe('StatusUpdateModalController', function() {
             }));
         });
 
-        it('should ignore date for AWAITING_REPAIR status', function() {
-            vm.newStatus = FUNCTIONAL_STATUS.AWAITING_REPAIR;
-            vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
-            vm.decommissionDate = date;
-
-            vm.save();
-
-            expect(inventoryItemService.save).toHaveBeenCalledWith(angular.merge(inventoryItem, {
-                functionalStatus: FUNCTIONAL_STATUS.AWAITING_REPAIR,
-                reasonNotWorkingOrNotInUse: REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS,
-                decommissionDate: undefined
-            }));
-        });
-
         it('should pass date and reason for UNSERVICEABLE status', function() {
             vm.newStatus = FUNCTIONAL_STATUS.UNSERVICEABLE;
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
@@ -267,6 +254,7 @@ describe('StatusUpdateModalController', function() {
             spyOn(notificationService, 'success');
 
             vm.save();
+
             expect($state.go).not.toHaveBeenCalled();
             saveDeferred.resolve(inventoryItem);
             $rootScope.$apply();
@@ -277,6 +265,7 @@ describe('StatusUpdateModalController', function() {
                     inventoryItemId: inventoryItem.id
                 }
             );
+
             expect(notificationService.success)
                 .toHaveBeenCalledWith('cceInventoryItemStatus.inventoryItemSaved');
         });
@@ -293,7 +282,7 @@ describe('StatusUpdateModalController', function() {
             expect(vm.reason).toBeUndefined();
         });
 
-        it('should clear reason', function() {
+        it('should clear date', function() {
             vm.decommissionDate = date;
 
             vm.clearReasonAndDecommissionDate();

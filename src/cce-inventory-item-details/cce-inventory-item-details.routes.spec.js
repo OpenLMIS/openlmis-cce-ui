@@ -25,7 +25,7 @@ describe('openlmis.cce.inventory.item.details state', function() {
     });
 
     it('should include details in the URL', function() {
-        expect(state.url.indexOf('details') > -1).toBe(true);
+        expect(state.url.indexOf('details')).toBeGreaterThan(-1);
     });
 
     describe('on enter', function() {

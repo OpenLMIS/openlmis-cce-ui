@@ -71,7 +71,7 @@ describe('openlmis.cce.inventory.item state', function() {
     });
 
     it('should include inventoryItemId in the URL', function() {
-        expect(state.url.indexOf(':inventoryItemId') > -1).toBe(true);
+        expect(state.url.indexOf(':inventoryItemId')).toBeGreaterThan(-1);
     });
 
     describe('inventoryItem resolve', function() {
@@ -103,6 +103,7 @@ describe('openlmis.cce.inventory.item state', function() {
             $rootScope.$apply();
 
             inventoryItem.program = program;
+
             expect(result).toEqual(inventoryItem);
             expect(programService.get).toHaveBeenCalled();
             expect(inventoryItemFactory.get).not.toHaveBeenCalled();

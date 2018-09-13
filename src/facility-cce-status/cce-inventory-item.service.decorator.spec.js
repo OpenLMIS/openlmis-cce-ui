@@ -40,6 +40,7 @@ describe('inventoryItemService', function() {
             }).toThrow('Facility id must be defined');
         });
 
+        //eslint-disable-next-line jasmine/missing-expect
         it('should resolve to inventory items', function() {
             $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
                 .respond(200, {

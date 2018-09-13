@@ -93,6 +93,7 @@ describe('facilityInventoryItemFactory', function() {
             expect(facilityService.query).toHaveBeenCalledWith({
                 id: [facility.id]
             });
+
             expect(inventoryItemService.query).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('rejected');
@@ -117,6 +118,7 @@ describe('facilityInventoryItemFactory', function() {
             expect(facilityService.query).toHaveBeenCalledWith({
                 id: [facility.id]
             });
+
             expect(inventoryItemService.query).toHaveBeenCalledWith(query);
 
             expect(status).toEqual('resolved');

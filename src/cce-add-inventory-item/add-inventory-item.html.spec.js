@@ -128,7 +128,7 @@ describe('add-inventory-item.html template', function() {
             $rootScope.$apply();
 
             expect(select.find('option').length).toBe(3);
-            expect(select.html().indexOf('LOL-1337') === -1).toBe(true);
+            expect(select.html().indexOf('LOL-1337')).toBe(-1);
         });
 
     });

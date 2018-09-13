@@ -128,6 +128,7 @@ describe('CceStatusController', function() {
                         facilityId: vm.facility.id,
                         right: CCE_RIGHTS.CCE_INVENTORY_VIEW
                     };
+
                     expect(permissionService.hasPermissionWithAnyProgram).toHaveBeenCalledWith(userId, permission);
                     expect(vm.statusLabel).toEqual(FACILITY_CCE_STATUS.getLabel('UNKNOWN'));
                     expect(vm.statusClass).toEqual(FACILITY_CCE_STATUS.getClass('UNKNOWN'));
@@ -166,6 +167,7 @@ describe('CceStatusController', function() {
             expect(cceAlertFactory.getAlertsGroupedByDevice).toHaveBeenCalledWith({
                 deviceId: [functioningInventoryItem.id]
             });
+
             expect(vm.cceAlerts).toEqual(cceAlerts);
         });
 

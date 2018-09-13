@@ -51,10 +51,10 @@ describe('catalogItemTypeFactory', function() {
             result = catalogItemTypeFactory.getTypes(catalogItems);
 
             expect(result.length).toBe(4);
-            expect(result.indexOf('Type One') > -1).toBe(true);
-            expect(result.indexOf('Type Two') > -1).toBe(true);
-            expect(result.indexOf('Type Three') > -1).toBe(true);
-            expect(result.indexOf('Type Four') > -1).toBe(true);
+            expect(result.indexOf('Type One')).toBeGreaterThan(-1);
+            expect(result.indexOf('Type Two')).toBeGreaterThan(-1);
+            expect(result.indexOf('Type Three')).toBeGreaterThan(-1);
+            expect(result.indexOf('Type Four')).toBeGreaterThan(-1);
         });
 
         it('should throw exception if type list undefined', function() {
