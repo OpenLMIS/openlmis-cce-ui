@@ -3,6 +3,7 @@
 
 Improvements:
 * [OLMIS-5409](https://openlmis.atlassian.net/browse/OLMIS-5409): Updated ui-components to version 7.0.0.
+* [OLMIS-3696](https://openlmis.atlassian.net/browse/OLMIS-3696): Added dependency and development dependency locking.
 
 1.0.1 / 2018-08-16
 ==================
