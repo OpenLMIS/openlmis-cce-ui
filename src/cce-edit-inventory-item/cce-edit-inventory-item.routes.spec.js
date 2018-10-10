@@ -41,7 +41,7 @@ describe('openlmis.cce.inventory.edit state', function() {
 
         dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
 
-        facility = new FacilityDataBuilder().build();
+        facility = new FacilityDataBuilder().buildJson();
 
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
