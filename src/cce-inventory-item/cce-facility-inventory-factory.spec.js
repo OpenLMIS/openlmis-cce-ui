@@ -112,7 +112,9 @@ describe('facilityInventoryItemFactory', function() {
             inventoryItemDeferred.resolve({
                 content: [inventoryItem]
             });
-            facilityDeferred.resolve([facility]);
+            facilityDeferred.resolve({
+                content: [facility]
+            });
             $rootScope.$apply();
 
             expect(facilityService.query).toHaveBeenCalledWith({

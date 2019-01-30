@@ -69,7 +69,7 @@
                 })
                 .then(function(response) {
                     for (var i = 0; i < content.length; i++) {
-                        var facilities = response;
+                        var facilities = response.content;
                         var facilitiesFiltered = facilities.filter(function(facility) {
                             return content[i].facility.id === facility.id;
                         });
