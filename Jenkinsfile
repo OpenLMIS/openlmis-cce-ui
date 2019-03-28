@@ -52,7 +52,6 @@ pipeline {
                         docker-compose run --entrypoint /dev-ui/build.sh cce-ui
                         docker-compose build image
                         docker-compose down --volumes
-                        sudo rm -rf node_modules/
                     '''
                 }
             }
@@ -107,6 +106,7 @@ pipeline {
 
                             docker-compose run --entrypoint ./sonar.sh cce-ui
                             docker-compose down --volumes
+                            sudo rm -rf node_modules/
                         '''
                         // workaround because sonar plugin retrieve the path directly from the output
                         sh 'echo "Working dir: ${WORKSPACE}/.sonar"'
