@@ -125,6 +125,7 @@ pipeline {
                                 '''
                                 // workaround because sonar plugin retrieve the path directly from the output
                                 sh 'echo "Working dir: ${WORKSPACE}/.sonar"'
+                            }
                             catch (exc) {
                                 currentBuild.result = 'UNSTABLE'
                             }
