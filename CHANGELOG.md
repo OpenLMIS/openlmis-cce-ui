@@ -5,6 +5,9 @@ Improvements:
 * [OLMIS-3773](https://openlmis.atlassian.net/browse/OLMIS-3773): Updated UI after changing /facilities endpoint to return page.
 * [OLMIS-3176](https://openlmis.atlassian.net/browse/OLMIS-3176): Removed openlmis-testing-utils module.
 
+Bug fixes:
+* [OLMIS-6330](https://openlmis.atlassian.net/browse/OLMIS-6330): fixed trigerring reference-ui build.
+
 1.0.2 / 2018-12-12
 ==================
 
