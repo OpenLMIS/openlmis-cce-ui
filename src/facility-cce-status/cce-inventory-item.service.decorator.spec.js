@@ -42,8 +42,7 @@ describe('inventoryItemService', function() {
 
         //eslint-disable-next-line jasmine/missing-expect
         it('should resolve to inventory items', function() {
-            //$httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
-            $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?facilityId=facility-id&page=0&size=10'))
+            $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
                 .respond(200, {
                     content: inventoryItems,
                     last: true
@@ -60,8 +59,7 @@ describe('inventoryItemService', function() {
         });
 
         it('should resolve with empty list if content is empty', function() {
-            //$httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
-            $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?facilityId=facility-id&page=0&size=10'))
+            $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
                 .respond(200, {
                     content: [],
                     last: true
@@ -78,8 +76,7 @@ describe('inventoryItemService', function() {
         });
 
         it('should reject promise if server return an error', function() {
-            //$httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
-            $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?facilityId=facility-id&page=0&size=10'))
+            $httpBackend.whenGET(cceUrlFactory('/api/inventoryItems?page=0&facilityId=facility-id'))
                 .respond(400);
 
             var result = false;
@@ -93,15 +90,13 @@ describe('inventoryItemService', function() {
         });
 
         it('should make proper requests and concat response', function() {
-            //$httpBackend.expectGET(cceUrlFactory('/api/inventoryItems?page=1&facilityId=facility-id'))
-            $httpBackend.expectGET(cceUrlFactory('/api/inventoryItems?facilityId=facility-id&page=1&size=10'))
+            $httpBackend.expectGET(cceUrlFactory('/api/inventoryItems?page=1&facilityId=facility-id'))
                 .respond(200, {
                     content: [inventoryItems[0]],
                     last: false
                 });
 
-            //$httpBackend.expectGET(cceUrlFactory('/api/inventoryItems?page=2&facilityId=facility-id'))
-            $httpBackend.expectGET(cceUrlFactory('/api/inventoryItems?facilityId=facility-id&page=2&size=10'))
+            $httpBackend.expectGET(cceUrlFactory('/api/inventoryItems?page=2&facilityId=facility-id'))
                 .respond(200, {
                     content: [inventoryItems[1]],
                     last: true

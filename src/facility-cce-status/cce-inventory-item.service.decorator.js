@@ -48,15 +48,11 @@
          *
          * @param   {String}    facilityId    facility id
          * @param   {Number}    pageNumber    first page number, default 0
-         * @param   {Number}    pageSize      number of inventory items displayed on a page, default 10
          * @return  {Promise}                 promise with list of inventory items
          */
-        function getAllForFacility(facilityId, pageNumber, pageSize) {
+        function getAllForFacility(facilityId, pageNumber) {
             if (pageNumber === undefined) {
                 pageNumber = 0;
-            }
-            if (pageSize === undefined) {
-                pageSize = 10;
             }
             if (facilityId === undefined) {
                 throw 'Facility id must be defined';
@@ -64,13 +60,12 @@
 
             var queryParams = {
                 page: pageNumber,
-                size: pageSize,
                 facilityId: facilityId
             };
             return $delegate.query.call($delegate, queryParams)
                 .then(function(page) {
                     if (!page.last) {
-                        return getAllForFacility(facilityId, ++pageNumber, pageSize)
+                        return getAllForFacility(facilityId, ++pageNumber)
                             .then(function(nextPageContent) {
                                 return page.content.concat(nextPageContent);
                             });
