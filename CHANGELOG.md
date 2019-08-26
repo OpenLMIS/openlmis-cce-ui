@@ -6,6 +6,7 @@ Improvements:
 * [OLMIS-3176](https://openlmis.atlassian.net/browse/OLMIS-3176): Removed openlmis-testing-utils module.
 
 Bug fixes:
+* [OLMIS-6484](https://openlmis.atlassian.net/browse/OLMIS-6484): Fixed "page size is not specified" at /inventoryItems endpoints.
 * [OLMIS-6330](https://openlmis.atlassian.net/browse/OLMIS-6330): fixed trigerring reference-ui build.
 
 1.0.2 / 2018-12-12
