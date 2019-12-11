@@ -20,5 +20,7 @@
     "cceInventoryItemDetails.utilization": "Utilization",
     "cceInventoryItemDetails.edit": "Edit",
     "cceInventoryItemDetails.updateStatus": "Update Status",
-    "cceInventoryItemDetails.program": "Program"
+    "cceInventoryItemDetails.program": "Program",
+    "cceInventoryItemDetails.netVolume": "Net Volume",
+    "cceInventoryItemDetails.liters": "liters"
 }
