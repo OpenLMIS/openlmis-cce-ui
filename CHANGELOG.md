@@ -1,5 +1,5 @@
-1.0.6-SNAPSHOT / WIP
-====================
+1.0.6 / 2020-04-14
+==================
 
 New functionality that are backwards-compatible:
 * [OLMIS-6706](https://openlmis.atlassian.net/browse/OLMIS-6706): Added 'Net Volume' field to the View Coldchain modal
