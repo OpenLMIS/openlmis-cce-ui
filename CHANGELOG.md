@@ -1,3 +1,12 @@
+1.0.8 / 2020-11-17
+==================
+
+Improvements:
+* Updated ui-components version to 7.2.4.
+* Updated auth-ui version to 6.2.5.
+* Updated ui-layout version to 5.1.8.
+* Updated referencedata-ui version to 5.6.4.
+
 1.0.7 / 2020-05-12
 ==================
 
