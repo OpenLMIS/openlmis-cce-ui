@@ -1,3 +1,9 @@
+1.0.8 / 2020-11-24
+==================
+
+Bug fix
+* [OLMIS-6507](https://openlmis.atlassian.net/browse/OLMIS-6507): changed date format to use server settings
+
 1.0.8 / 2020-11-17
 ==================
 
