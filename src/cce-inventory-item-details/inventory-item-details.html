@@ -11,7 +11,7 @@
                     <p>{{vm.getFunctionalStatusLabel() | message}}</p>
                     <p>
                         <em>{{vm.inventoryItem.lastModifier.firstName}} {{vm.inventoryItem.lastModifier.lastName}}</em>
-                        {{vm.inventoryItem.modifiedDate | date:'yy/MM/dd HH:mm:ss'}}
+                        {{vm.inventoryItem.modifiedDate | openlmisDatetime}}
                     </p>
                     <button ng-show="vm.userHasRightToEdit" id="status-update" ng-click="vm.goToStatusUpdate(vm.inventoryItem)">
                         {{'cceInventoryItemDetails.updateStatus' | message}}
