@@ -1,8 +1,15 @@
-1.0.9 / TBD
+1.0.9 / 2021-05-27
 ==================
 
 Bug fix
 * [OLMIS-6507](https://openlmis.atlassian.net/browse/OLMIS-6507): changed date format to use server settings
+
+Improvements:
+* Updated dev-ui version to 9.0.2.
+* Updated ui-components version to 7.2.5.
+* Updated auth-ui version to 6.2.6.
+* Updated ui-layout version to 5.1.9.
+* Updated referencedata-ui version to 5.6.5.
 
 1.0.8 / 2020-11-17
 ==================
