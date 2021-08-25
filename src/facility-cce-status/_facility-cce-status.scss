@@ -20,7 +20,7 @@
 		color: $brand_primary;
         font-size: 1.5em;
     }
-    
+
    	&.no-cce::before {
 		@extend .cce-inventory-item-status.is-awaiting-repair::before;
 	}

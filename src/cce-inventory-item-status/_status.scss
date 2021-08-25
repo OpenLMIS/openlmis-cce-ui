@@ -12,7 +12,7 @@
     &.is-functioning::before {
         color: $green;
     }
-    
+
     &.is-awaiting-repair::before {
         color: $red;
     }
