@@ -37,7 +37,7 @@ describe('openlmis.cce.inventory.edit state', function() {
             FacilityDataBuilder = $injector.get('FacilityDataBuilder');
         });
 
-        InventoryItemSpy = jasmine.createSpy('InventoryItem').andReturn(inventoryItem);
+        InventoryItemSpy = jasmine.createSpy('InventoryItem').and.returnValue(inventoryItem);
 
         dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
 
@@ -48,8 +48,8 @@ describe('openlmis.cce.inventory.edit state', function() {
         $stateParams = {};
 
         spyOn($state, 'go');
-        spyOn(openlmisModalService, 'createDialog').andReturn(dialogSpy);
-        spyOn(inventoryItemService, 'get').andReturn($q.when(inventoryItem));
+        spyOn(openlmisModalService, 'createDialog').and.returnValue(dialogSpy);
+        spyOn(inventoryItemService, 'get').and.returnValue($q.when(inventoryItem));
 
         state = $state.get('openlmis.cce.inventory.edit');
     });
@@ -66,13 +66,13 @@ describe('openlmis.cce.inventory.edit state', function() {
             //enter the state
             state.onEnter(openlmisModalService);
 
-            expect(openlmisModalService.createDialog.calls.length).toBe(1);
+            expect(openlmisModalService.createDialog.calls.count()).toBe(1);
 
             //reenter the state
             state.onExit();
             state.onEnter(openlmisModalService);
 
-            expect(openlmisModalService.createDialog.calls.length).toBe(2);
+            expect(openlmisModalService.createDialog.calls.count()).toBe(2);
         });
 
     });
@@ -87,7 +87,7 @@ describe('openlmis.cce.inventory.edit state', function() {
             $stateParams.inventoryItemId = 'some-inventory-item-id';
 
             state.onEnter(openlmisModalService, $stateParams, inventoryItemService);
-            modal = openlmisModalService.createDialog.calls[0].args[0];
+            modal = openlmisModalService.createDialog.calls.first().args[0];
             modal.resolve.inventoryItem().then(function(inventoryItem) {
                 result = inventoryItem;
             });
@@ -102,12 +102,12 @@ describe('openlmis.cce.inventory.edit state', function() {
 
             $stateParams.inventoryItem = inventoryItem;
 
-            spyOn(facilityService, 'get').andReturn($q.when(facility));
+            spyOn(facilityService, 'get').and.returnValue($q.when(facility));
 
             state.onEnter(
                 openlmisModalService, $stateParams, inventoryItemService, facilityService, $state, InventoryItemSpy
             );
-            modal = openlmisModalService.createDialog.calls[0].args[0];
+            modal = openlmisModalService.createDialog.calls.first().args[0];
 
             modal.resolve.inventoryItem().then(function(inventoryItem) {
                 result = inventoryItem;
@@ -115,12 +115,12 @@ describe('openlmis.cce.inventory.edit state', function() {
             $rootScope.$apply();
 
             expect(inventoryItemService.get).not.toHaveBeenCalled();
-            expect(result).toEqual(inventoryItem);
+            expect(angular.toJson(result)).toEqual(angular.toJson(inventoryItem));
         });
 
         it('should redirect user to the add page if no ID or item is given', function() {
             state.onEnter(openlmisModalService, $stateParams, inventoryItemService, facilityService, $state);
-            modal = openlmisModalService.createDialog.calls[0].args[0];
+            modal = openlmisModalService.createDialog.calls.first().args[0];
 
             modal.resolve.inventoryItem();
             $rootScope.$apply();

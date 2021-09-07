@@ -408,7 +408,7 @@ describe('edit-inventory-item.html template', function() {
             'cceEditInventoryItem.editEquipmentDetails': 'Edit equipment details'
         };
 
-        spyOn(messageService, 'get').andCallFake(function(key) {
+        spyOn(messageService, 'get').and.callFake(function(key) {
             return messages[key];
         });
 

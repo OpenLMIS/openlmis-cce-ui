@@ -50,13 +50,13 @@ describe('CceStatusController', function() {
             }
         };
 
-        spyOn(authorizationService, 'getUser').andReturn({
+        spyOn(authorizationService, 'getUser').and.returnValue({
             //eslint-disable-next-line camelcase
             user_id: userId
         });
-        spyOn(permissionService, 'hasPermissionWithAnyProgram').andReturn($q.resolve());
+        spyOn(permissionService, 'hasPermissionWithAnyProgram').and.returnValue($q.resolve());
         spyOn(inventoryItemService, 'getAllForFacility');
-        spyOn(cceAlertFactory, 'getAlertsGroupedByDevice').andReturn($q.resolve(cceAlerts));
+        spyOn(cceAlertFactory, 'getAlertsGroupedByDevice').and.returnValue($q.resolve(cceAlerts));
 
         vm = $controller('CceStatusController');
         vm.facility = new FacilityDataBuilder().build();
@@ -68,7 +68,7 @@ describe('CceStatusController', function() {
         describe('should set status and label', function() {
 
             it('as ALL FUNCTIONING when all CCE inventory items are functional', function() {
-                inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
+                inventoryItemService.getAllForFacility.and.returnValue($q.resolve([functioningInventoryItem]));
 
                 vm.$onInit();
                 $rootScope.$apply();
@@ -80,7 +80,7 @@ describe('CceStatusController', function() {
             it('as NOT FULLY FUNCTIONING when at least one CCE inventory item is functioning and at least one CCE' +
                 'inventory item is not functioning', function() {
                 inventoryItemService.getAllForFacility
-                    .andReturn($q.resolve([functioningInventoryItem, notFunctioningInventoryItem]));
+                    .and.returnValue($q.resolve([functioningInventoryItem, notFunctioningInventoryItem]));
 
                 vm.$onInit();
                 $rootScope.$apply();
@@ -90,7 +90,7 @@ describe('CceStatusController', function() {
             });
 
             it('as NOT FUNCTIONING when no CCE inventory items are functional', function() {
-                inventoryItemService.getAllForFacility.andReturn($q.resolve([notFunctioningInventoryItem]));
+                inventoryItemService.getAllForFacility.and.returnValue($q.resolve([notFunctioningInventoryItem]));
 
                 vm.$onInit();
                 $rootScope.$apply();
@@ -100,7 +100,7 @@ describe('CceStatusController', function() {
             });
 
             it('as NO CCE when there is no CCE inventory items', function() {
-                inventoryItemService.getAllForFacility.andReturn($q.resolve([]));
+                inventoryItemService.getAllForFacility.and.returnValue($q.resolve([]));
 
                 vm.$onInit();
                 $rootScope.$apply();
@@ -119,7 +119,7 @@ describe('CceStatusController', function() {
 
             it('as UNKNOWN the current user doesn\'t have permission to view CCE status for the specific facility',
                 function() {
-                    permissionService.hasPermissionWithAnyProgram.andReturn($q.reject());
+                    permissionService.hasPermissionWithAnyProgram.and.returnValue($q.reject());
 
                     vm.$onInit();
                     $rootScope.$apply();
@@ -136,7 +136,7 @@ describe('CceStatusController', function() {
 
             it('as UNKNOWN when the Facility CCE Status component failed to load information from the CCE services',
                 function() {
-                    inventoryItemService.getAllForFacility.andReturn($q.reject());
+                    inventoryItemService.getAllForFacility.and.returnValue($q.reject());
 
                     vm.$onInit();
                     $rootScope.$apply();
@@ -149,7 +149,7 @@ describe('CceStatusController', function() {
         });
 
         it('should set inventory items from service', function() {
-            inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
+            inventoryItemService.getAllForFacility.and.returnValue($q.resolve([functioningInventoryItem]));
 
             vm.$onInit();
             $rootScope.$apply();
@@ -159,7 +159,7 @@ describe('CceStatusController', function() {
         });
 
         it('should set CCE alerts from factory', function() {
-            inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
+            inventoryItemService.getAllForFacility.and.returnValue($q.resolve([functioningInventoryItem]));
 
             vm.$onInit();
             $rootScope.$apply();
@@ -172,7 +172,7 @@ describe('CceStatusController', function() {
         });
 
         it('should set cceAvailable flag as true when there are inventory items', function() {
-            inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
+            inventoryItemService.getAllForFacility.and.returnValue($q.resolve([functioningInventoryItem]));
 
             vm.$onInit();
             $rootScope.$apply();
@@ -181,7 +181,7 @@ describe('CceStatusController', function() {
         });
 
         it('should set cceAvailable flag as false when there are no inventory items', function() {
-            inventoryItemService.getAllForFacility.andReturn($q.resolve([]));
+            inventoryItemService.getAllForFacility.and.returnValue($q.resolve([]));
 
             vm.$onInit();
             $rootScope.$apply();
@@ -192,12 +192,12 @@ describe('CceStatusController', function() {
         describe('should set alert status class', function() {
 
             beforeEach(function() {
-                inventoryItemService.getAllForFacility.andReturn($q.resolve([functioningInventoryItem]));
+                inventoryItemService.getAllForFacility.and.returnValue($q.resolve([functioningInventoryItem]));
             });
 
             it('as RTM alert status unavailable when CCE alerts has no device id entries', function() {
                 cceAlerts = {};
-                cceAlertFactory.getAlertsGroupedByDevice.andReturn($q.resolve(cceAlerts));
+                cceAlertFactory.getAlertsGroupedByDevice.and.returnValue($q.resolve(cceAlerts));
 
                 vm.$onInit();
                 $rootScope.$apply();
@@ -225,7 +225,7 @@ describe('CceStatusController', function() {
                             activeAlerts: [cceAlert]
                         }
                     };
-                    cceAlertFactory.getAlertsGroupedByDevice.andReturn($q.resolve(cceAlerts));
+                    cceAlertFactory.getAlertsGroupedByDevice.and.returnValue($q.resolve(cceAlerts));
 
                     vm.$onInit();
                     $rootScope.$apply();
@@ -235,7 +235,7 @@ describe('CceStatusController', function() {
         });
 
         it('should not set RTM alert status when no Inventory items', function() {
-            inventoryItemService.getAllForFacility.andReturn($q.resolve([]));
+            inventoryItemService.getAllForFacility.and.returnValue($q.resolve([]));
 
             vm.$onInit();
             $rootScope.$apply();

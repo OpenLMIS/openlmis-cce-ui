@@ -250,7 +250,7 @@ describe('StatusUpdateModalController', function() {
             vm.reason = REASON_FOR_NOT_WORKING.NEEDS_SPARE_PARTS;
             vm.decommissionDate = date;
 
-            spyOn(loadingModalService, 'open').andReturn($q.when(true));
+            spyOn(loadingModalService, 'open').and.returnValue($q.when(true));
             spyOn(notificationService, 'success');
 
             vm.save();
@@ -307,7 +307,7 @@ describe('StatusUpdateModalController', function() {
             };
 
             confirmDeferred = $q.defer();
-            spyOn(confirmService, 'confirm').andReturn(confirmDeferred.promise);
+            spyOn(confirmService, 'confirm').and.returnValue(confirmDeferred.promise);
 
             vm.$onInit();
         });
@@ -454,15 +454,15 @@ describe('StatusUpdateModalController', function() {
         };
 
         spyOn(stateTrackerService, 'goToPreviousState');
-        spyOn(messageService, 'get').andCallFake(function(key) {
+        spyOn(messageService, 'get').and.callFake(function(key) {
             return messages[key];
         });
-        spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
-        spyOn($state, 'go').andReturn();
-        spyOn(cceAlertFactory, 'saveAlert').andReturn(alertSaveDeferred.promise);
+        spyOn(inventoryItemService, 'save').and.returnValue(saveDeferred.promise);
+        spyOn($state, 'go').and.returnValue();
+        spyOn(cceAlertFactory, 'saveAlert').and.returnValue(alertSaveDeferred.promise);
 
-        spyOn($window, 'open').andCallThrough();
-        spyOn(accessTokenFactory, 'addAccessToken').andCallThrough();
+        spyOn($window, 'open').and.callThrough();
+        spyOn(accessTokenFactory, 'addAccessToken').and.callThrough();
     }
 
 });

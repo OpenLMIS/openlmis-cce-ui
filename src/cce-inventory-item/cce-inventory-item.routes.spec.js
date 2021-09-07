@@ -48,25 +48,25 @@ describe('openlmis.cce.inventory.item state', function() {
 
         deferred = $q.defer();
 
-        spyOn(paginationService, 'registerUrl').andReturn();
-        spyOn(authorizationService, 'getUser').andReturn({
+        spyOn(paginationService, 'registerUrl').and.returnValue();
+        spyOn(authorizationService, 'getUser').and.returnValue({
             //eslint-disable-next-line camelcase
             user_id: 'user-id'
         });
-        spyOn(inventoryItemFactory, 'get').andCallFake(function(id) {
+        spyOn(inventoryItemFactory, 'get').and.callFake(function(id) {
             if (id === inventoryItem.id) {
                 return $q.when(inventoryItem);
             }
             return $q.when();
         });
-        spyOn(programService, 'get').andCallFake(function(id) {
+        spyOn(programService, 'get').and.callFake(function(id) {
             if (id === program.id) {
                 return $q.when(program);
             }
             return $q.when();
         });
 
-        spyOn(permissionService, 'hasPermission').andReturn(deferred.promise);
+        spyOn(permissionService, 'hasPermission').and.returnValue(deferred.promise);
         spyOn(openlmisModalService, 'createDialog');
     });
 

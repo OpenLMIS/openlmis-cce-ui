@@ -70,8 +70,8 @@ describe('cceAlertFactory', function() {
         };
 
         cceAlertDeferred = $q.defer();
-        spyOn(CCEAlertRepository.prototype, 'query').andReturn(cceAlertDeferred.promise);
-        spyOn(CCEAlertRepository.prototype, 'save').andReturn(cceAlertDeferred.promise);
+        spyOn(CCEAlertRepository.prototype, 'query').and.returnValue(cceAlertDeferred.promise);
+        spyOn(CCEAlertRepository.prototype, 'save').and.returnValue(cceAlertDeferred.promise);
     });
 
     describe('getAlertsGroupedByDevice', function() {

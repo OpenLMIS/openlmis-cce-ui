@@ -37,14 +37,14 @@ describe('openlmis.cce.inventory.item.statusUpdate state', function() {
         dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
         deferred = $q.defer();
 
-        spyOn(authorizationService, 'getUser').andReturn({
+        spyOn(authorizationService, 'getUser').and.returnValue({
             //eslint-disable-next-line camelcase
             user_id: 'user-id'
         });
         spyOn($state, 'go');
-        spyOn(openlmisModalService, 'createDialog').andReturn(dialogSpy);
-        spyOn(inventoryItemService, 'get').andReturn($q.when(inventoryItem));
-        spyOn(permissionService, 'hasPermission').andReturn(deferred.promise);
+        spyOn(openlmisModalService, 'createDialog').and.returnValue(dialogSpy);
+        spyOn(inventoryItemService, 'get').and.returnValue($q.when(inventoryItem));
+        spyOn(permissionService, 'hasPermission').and.returnValue(deferred.promise);
     });
 
     it('should accept inventoryItemId', function() {
@@ -59,7 +59,7 @@ describe('openlmis.cce.inventory.item.statusUpdate state', function() {
 
         beforeEach(function() {
             state.onEnter(openlmisModalService, inventoryItem, canEdit);
-            modal = openlmisModalService.createDialog.calls[0].args[0];
+            modal = openlmisModalService.createDialog.calls.first().args[0];
         });
 
         it('should not close backdrop click', function() {
@@ -85,12 +85,12 @@ describe('openlmis.cce.inventory.item.statusUpdate state', function() {
         it('should reopen the modal if state was reentered', function() {
             state.onEnter(openlmisModalService, inventoryItemService, $stateParams);
 
-            expect(openlmisModalService.createDialog.calls.length).toBe(1);
+            expect(openlmisModalService.createDialog.calls.count()).toBe(1);
 
             state.onExit();
             state.onEnter(openlmisModalService, inventoryItemService, $stateParams);
 
-            expect(openlmisModalService.createDialog.calls.length).toBe(2);
+            expect(openlmisModalService.createDialog.calls.count()).toBe(2);
         });
 
     });

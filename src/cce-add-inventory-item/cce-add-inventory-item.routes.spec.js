@@ -50,7 +50,7 @@ describe('openlmis.inventoryItems.add state', function() {
                 .build()
         ];
 
-        spyOn(catalogItemService, 'search').andReturn($q.when({
+        spyOn(catalogItemService, 'search').and.returnValue($q.when({
             content: catalogItems,
             last: true,
             totalElements: 0,
@@ -64,7 +64,7 @@ describe('openlmis.inventoryItems.add state', function() {
 
         dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
 
-        spyOn(openlmisModalService, 'createDialog').andReturn(dialogSpy);
+        spyOn(openlmisModalService, 'createDialog').and.returnValue(dialogSpy);
 
         state = $state.get('openlmis.cce.inventory.add');
     });
@@ -81,13 +81,13 @@ describe('openlmis.inventoryItems.add state', function() {
             //enter the state
             state.onEnter(openlmisModalService);
 
-            expect(openlmisModalService.createDialog.calls.length).toBe(1);
+            expect(openlmisModalService.createDialog.calls.count()).toBe(1);
 
             //reenter the state
             state.onExit();
             state.onEnter(openlmisModalService);
 
-            expect(openlmisModalService.createDialog.calls.length).toBe(2);
+            expect(openlmisModalService.createDialog.calls.count()).toBe(2);
         });
 
     });
@@ -103,7 +103,7 @@ describe('openlmis.inventoryItems.add state', function() {
                 types
             );
 
-            modal = openlmisModalService.createDialog.calls[0].args[0];
+            modal = openlmisModalService.createDialog.calls.first().args[0];
         });
 
         it('should get a list of unique types based on the catalog items', function() {

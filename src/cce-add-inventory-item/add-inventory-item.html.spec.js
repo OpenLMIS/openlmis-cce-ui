@@ -42,8 +42,8 @@ describe('add-inventory-item.html template', function() {
             $q = $injector.get('$q');
         });
 
-        spyOn(facilityService, 'getAllMinimal').andReturn($q.resolve(true));
-        spyOn(programService, 'getUserPrograms').andReturn($q.resolve(true));
+        spyOn(facilityService, 'getAllMinimal').and.returnValue($q.resolve(true));
+        spyOn(programService, 'getUserPrograms').and.returnValue($q.resolve(true));
 
         types = [
             'Freezer',
@@ -69,7 +69,7 @@ describe('add-inventory-item.html template', function() {
 
         prepareView();
 
-        spyOn($state, 'go').andReturn();
+        spyOn($state, 'go').and.returnValue();
     });
 
     describe('Equipment Type select', function() {

@@ -66,7 +66,7 @@ describe('CceInventoryListController', function() {
         stateParams.facilityId = vm.facility.id;
         stateParams.programId = vm.program.id;
 
-        spyOn($state, 'go').andReturn();
+        spyOn($state, 'go').and.returnValue();
     });
 
     describe('init', function() {
@@ -147,6 +147,7 @@ describe('CceInventoryListController', function() {
                 size: stateParams.size,
                 facility: vm.facility.id,
                 program: vm.program.id,
+                functionalStatus: undefined,
                 supervised: vm.isSupervised
             }, {
                 reload: true

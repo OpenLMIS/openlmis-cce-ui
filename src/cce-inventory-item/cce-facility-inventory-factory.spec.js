@@ -50,10 +50,10 @@ describe('facilityInventoryItemFactory', function() {
         };
 
         inventoryItemDeferred = $q.defer();
-        inventoryItemService.query.andReturn(inventoryItemDeferred.promise);
+        inventoryItemService.query.and.returnValue(inventoryItemDeferred.promise);
 
         facilityDeferred = $q.defer();
-        facilityService.query.andReturn(facilityDeferred.promise);
+        facilityService.query.and.returnValue(facilityDeferred.promise);
     });
 
     describe('query', function() {
