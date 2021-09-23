@@ -20,7 +20,7 @@ describe('catalogItemService', function() {
 
     beforeEach(function() {
         module('cce-catalog-item', function($provide) {
-            cceUrlFactory = jasmine.createSpy().and.callFake(function(value) {
+            cceUrlFactory = jasmine.createSpy().andCallFake(function(value) {
                 return value;
             });
             $provide.factory('cceUrlFactory', function() {

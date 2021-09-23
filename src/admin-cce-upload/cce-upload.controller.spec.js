@@ -39,8 +39,8 @@ describe('CceUploadController', function() {
 
         vm = $controller('CceUploadController', {});
 
-        spyOn($state, 'reload').and.returnValue(true);
-        spyOn(loadingModalService, 'open').and.returnValue($q.when());
+        spyOn($state, 'reload').andReturn(true);
+        spyOn(loadingModalService, 'open').andReturn($q.when());
     });
 
     describe('init', function() {
@@ -65,14 +65,14 @@ describe('CceUploadController', function() {
             };
             deferred = $q.defer();
 
-            spyOn(catalogItemService, 'upload').and.returnValue(deferred.promise);
+            spyOn(catalogItemService, 'upload').andReturn(deferred.promise);
             spyOn(notificationService, 'success');
             spyOn(notificationService, 'error');
         });
 
         it('should call catalogItemService and show success notification', function() {
             var message = 'message';
-            spyOn(messageService, 'get').and.returnValue(message);
+            spyOn(messageService, 'get').andReturn(message);
 
             vm.file = file;
             deferred.resolve(response);
@@ -114,7 +114,7 @@ describe('CceUploadController', function() {
 
         it('should call catalogItemService and return download url', function() {
             var downloadUrl = 'some-domain/download';
-            spyOn(catalogItemService, 'getDownloadUrl').and.returnValue(downloadUrl);
+            spyOn(catalogItemService, 'getDownloadUrl').andReturn(downloadUrl);
 
             var result = vm.getExportUrl();
 

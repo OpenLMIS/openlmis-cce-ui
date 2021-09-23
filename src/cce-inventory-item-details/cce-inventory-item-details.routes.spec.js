@@ -45,7 +45,7 @@ describe('openlmis.cce.inventory.item.details state', function() {
 
         beforeEach(function() {
             state.onEnter(openlmisModalService, inventoryItem, canEdit);
-            modal = openlmisModalService.createDialog.calls.first().args[0];
+            modal = openlmisModalService.createDialog.calls[0].args[0];
         });
 
         it('should expose inventoryItem', function() {
@@ -84,7 +84,7 @@ describe('openlmis.cce.inventory.item.details state', function() {
         it('should close modal', function() {
             var dialogSpy = jasmine.createSpyObj('dialog', ['hide']);
 
-            openlmisModalService.createDialog.and.returnValue(dialogSpy);
+            openlmisModalService.createDialog.andReturn(dialogSpy);
 
             state.onEnter(openlmisModalService);
             state.onExit();
@@ -118,14 +118,14 @@ describe('openlmis.cce.inventory.item.details state', function() {
     }
 
     function prepareSpies() {
-        spyOn(paginationService, 'registerUrl').and.returnValue();
-        spyOn(inventoryItemFactory, 'get').and.callFake(function(id) {
+        spyOn(paginationService, 'registerUrl').andReturn();
+        spyOn(inventoryItemFactory, 'get').andCallFake(function(id) {
             if (id === inventoryItem.id) {
                 return $q.when(inventoryItem);
             }
             return $q.when();
         });
-        spyOn(programService, 'get').and.callFake(function(id) {
+        spyOn(programService, 'get').andCallFake(function(id) {
             if (id === program.id) {
                 return $q.when(program);
             }

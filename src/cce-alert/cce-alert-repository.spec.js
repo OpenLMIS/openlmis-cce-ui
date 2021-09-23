@@ -44,7 +44,7 @@ describe('CCEAlertRepository', function() {
                 size: 10
             };
 
-            implMock.query.and.returnValue($q.resolve(new PageDataBuilder().withContent([json])
+            implMock.query.andReturn($q.resolve(new PageDataBuilder().withContent([json])
                 .build()));
 
             var result;
@@ -60,7 +60,7 @@ describe('CCEAlertRepository', function() {
         });
 
         it('should reject if implementation rejects', function() {
-            implMock.query.and.returnValue($q.reject());
+            implMock.query.andReturn($q.reject());
 
             var rejected;
             cceAlertRepository.query()
@@ -78,7 +78,7 @@ describe('CCEAlertRepository', function() {
         it('should resolve to saved CCE alert', function() {
             cceAlert = new CCEAlert(json, cceAlertRepository);
 
-            implMock.save.and.callFake(function() {
+            implMock.save.andCallFake(function() {
                 return $q.resolve(json);
             });
 
@@ -96,7 +96,7 @@ describe('CCEAlertRepository', function() {
 
         it('should reject if implementation rejects', function() {
             var cceAlert = new CCEAlertDataBuilder().build();
-            implMock.save.and.returnValue($q.reject());
+            implMock.save.andReturn($q.reject());
 
             var rejected;
             cceAlertRepository.save(cceAlert)

@@ -48,11 +48,11 @@ describe('openlmis.inventoryItem state', function() {
             new CCEAlertDataBuilder().build()
         ];
 
-        spyOn(cceAlertFactory, 'getAlertsGroupedByDevice').and.returnValue(alerts);
-        spyOn(facilityInventoryItemFactory, 'query').and.returnValue(inventoryItems);
+        spyOn(cceAlertFactory, 'getAlertsGroupedByDevice').andReturn(alerts);
+        spyOn(facilityInventoryItemFactory, 'query').andReturn(inventoryItems);
         spyOn(permissionService, 'hasPermissionWithAnyProgramAndAnyFacility');
 
-        spyOn(paginationService, 'registerUrl').and.callFake(function(stateParams, method) {
+        spyOn(paginationService, 'registerUrl').andCallFake(function(stateParams, method) {
             return method(stateParams);
         });
 

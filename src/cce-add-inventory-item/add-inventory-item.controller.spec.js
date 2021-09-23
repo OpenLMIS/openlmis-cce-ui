@@ -41,7 +41,7 @@ describe('AddInventoryItemController', function() {
 
         $scope = $rootScope.$new();
 
-        spyOn($state, 'go').and.returnValue();
+        spyOn($state, 'go').andReturn();
 
         vm = $controller('AddInventoryItemController', {
             $scope: $scope,
@@ -100,7 +100,7 @@ describe('AddInventoryItemController', function() {
             };
 
             confirmDeferred = $q.defer();
-            spyOn(confirmService, 'confirm').and.returnValue(confirmDeferred.promise);
+            spyOn(confirmService, 'confirm').andReturn(confirmDeferred.promise);
         });
 
         it('should take use back if form is not dirty', function() {

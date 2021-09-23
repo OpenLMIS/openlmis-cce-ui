@@ -41,7 +41,7 @@ describe('InventoryItem', function() {
             expect(function() {
                 new FacilityProgramInventoryItemDataBuilder().withFacility('bad-facility')
                     .build();
-            }).toThrow('Parameter facility has different ID than facility from provided inventory item!');
+            }).toThrow(new Error('Parameter facility has different ID than facility from provided inventory item!'));
         });
 
     it('should set voltageStabilizer as NOT_APPLICABLE if ENERGY_SOURCE is SOLAR', function() {

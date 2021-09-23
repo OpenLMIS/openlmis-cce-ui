@@ -57,12 +57,12 @@ describe('inventoryItemService', function() {
         inventoryItemResolve = true;
 
         programDeferred = $q.defer();
-        programService.get.and.returnValue(programDeferred.promise);
+        programService.get.andReturn(programDeferred.promise);
 
         facilityDeferred = $q.defer();
-        facilityService.get.and.returnValue(facilityDeferred.promise);
+        facilityService.get.andReturn(facilityDeferred.promise);
 
-        inventoryItemService.get.and.callFake(function() {
+        inventoryItemService.get.andCallFake(function() {
             var inventoryItemDeferred = $q.defer();
 
             if (inventoryItemResolve) {

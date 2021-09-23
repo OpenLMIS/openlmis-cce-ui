@@ -42,8 +42,8 @@ describe('EditInventoryItemController', function() {
         $scope = $rootScope.$new();
         saveDeferred = $q.defer();
 
-        spyOn($state, 'go').and.returnValue();
-        spyOn(inventoryItemService, 'save').and.returnValue(saveDeferred.promise);
+        spyOn($state, 'go').andReturn();
+        spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);
         spyOn(loadingModalService, 'open');
         spyOn(loadingModalService, 'close');
 
@@ -228,7 +228,7 @@ describe('EditInventoryItemController', function() {
             };
 
             confirmDeferred = $q.defer();
-            spyOn(confirmService, 'confirm').and.returnValue(confirmDeferred.promise);
+            spyOn(confirmService, 'confirm').andReturn(confirmDeferred.promise);
 
             vm.$onInit();
         });
