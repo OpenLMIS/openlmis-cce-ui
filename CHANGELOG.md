@@ -1,3 +1,9 @@
+1.1.1 / 2021-10-28
+==================
+
+Bug fixes:
+* [OLMIS-6600](https://openlmis.atlassian.net/browse/OLMIS-6600): Fix facility cce status being black instead of red for non functioning invetnory items
+
 1.1.0 / 2021-10-28
 ==================
 
