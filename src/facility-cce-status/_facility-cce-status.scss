@@ -25,4 +25,8 @@
 		@extend .cce-inventory-item-status.is-awaiting-repair::before;
 	}
 
+	&.is-non-functioning::before {
+		@extend .cce-inventory-item-status.is-awaiting-repair::before;
+	}
+
 }
