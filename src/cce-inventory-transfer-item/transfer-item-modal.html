@@ -1,0 +1,55 @@
+<div class="modal" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">
+                  {{'cceInventoryItemTransfer.transferItem' | message}}
+              </h1>
+            </div>
+            <div class="modal-body">
+                <form id="transfer-item-form"
+                    name="transferItemForm"
+                    ng-submit="vm.save()">
+
+                    <h2>{{vm.inventoryItem.referenceName}}</h2>
+
+                    <fieldset id="update-fieldset" ng-show="vm.userHasRightToTransfer">
+
+                        <openlmis-facility-program-select
+                            is-supervised="vm.isSupervised"
+                            facility="vm.newFacility"
+                            program="vm.newProgram"
+                            module="'cce-inventory-transfer-item'">
+                        </openlmis-facility-program-select>
+
+                        <label for="year-of-installation">
+                            {{'cceEditInventoryItem.yearOfInstallation' | message}}
+                        </label>
+
+                        <input class="date"
+                            id="year-of-installation"
+                            name="yearOfInstallation"
+                            type="number"
+                            ng-model="vm.newYearOfInstallation"
+                            max="2100"
+                            min="1900"
+                            required/>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="cancel"
+                    ng-click="vm.cancel()">{{'cceInventoryItemStatus.cancel' | message}}
+                </button>
+
+                <button id="transfer"
+                    class="primary"
+                    type="submit"
+                    form="transfer-item-form"
+                    ng-show="vm.userHasRightToTransfer">
+                    {{'cceInventoryItemStatus.update' | message}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

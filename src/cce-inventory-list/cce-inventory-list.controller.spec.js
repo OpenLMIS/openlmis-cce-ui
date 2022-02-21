@@ -56,7 +56,8 @@ describe('CceInventoryListController', function() {
             inventoryItems: inventoryItems,
             cceAlerts: cceAlerts,
             $stateParams: stateParams,
-            canEdit: false
+            canEdit: false,
+            canTransfer: false
         });
 
         vm.facility = new FacilityDataBuilder().build();

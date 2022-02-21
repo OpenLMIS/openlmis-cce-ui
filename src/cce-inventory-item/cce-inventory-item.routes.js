@@ -54,6 +54,20 @@
                         .catch(function() {
                             return false;
                         });
+                },
+                canTransfer: function(inventoryItem, authorizationService, permissionService, CCE_RIGHTS) {
+                    var user = authorizationService.getUser();
+                    return permissionService.hasPermission(user.user_id, {
+                        right: CCE_RIGHTS.CCE_INVENTORY_TRANSFER,
+                        facilityId: inventoryItem.facility.id,
+                        programId: inventoryItem.program.id
+                    })
+                        .then(function() {
+                            return true;
+                        })
+                        .catch(function() {
+                            return false;
+                        });
                 }
             },
             url: '/:inventoryItemId'

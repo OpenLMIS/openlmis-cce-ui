@@ -18,7 +18,7 @@
     'use strict';
 
     angular
-        .module('cce-inventory-item-details')
+        .module('cce-inventory-transfer-item')
         .config(routes);
 
     routes.$inject = ['$stateProvider'];
@@ -26,41 +26,52 @@
     function routes($stateProvider) {
         var dialog;
 
-        $stateProvider.state('openlmis.cce.inventory.item.details', {
-            onEnter: onEnter,
-            onExit: onExit,
+        $stateProvider.state('openlmis.cce.inventory.item.transfer', {
+            url: '/transfer',
             params: {
+                inventoryItemId: undefined,
                 inventoryItem: undefined
             },
-            isOffline: true,
-            url: '/details'
+            onEnter: onEnter,
+            onExit: onExit,
+            resolve: {
+                cceAlerts: function(cceAlertFactory, inventoryItem) {
+                    var queryParams = {
+                        deviceId: inventoryItem.id
+                    };
+                    return cceAlertFactory.getAlertsGroupedByDevice(queryParams);
+                }
+            }
         });
 
-        onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canEdit', 'canTransfer'];
-        function onEnter(openlmisModalService, inventoryItem, canEdit, canTransfer) {
+        onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canTransfer', 'cceAlerts'];
+
+        function onEnter(openlmisModalService, inventoryItem, canTransfer, cceAlerts) {
             dialog = openlmisModalService.createDialog({
-                controller: 'InventoryItemDetailsController',
+                backdrop: 'static',
+                controller: 'TransferItemModalController',
                 controllerAs: 'vm',
+                templateUrl: 'cce-inventory-transfer-item/transfer-item-modal.html',
                 resolve: {
                     inventoryItem: function() {
                         return inventoryItem;
                     },
-                    canEdit: function() {
-                        return canEdit;
-                    },
                     canTransfer: function() {
                         return canTransfer;
+                    },
+                    cceAlerts: function() {
+                        return cceAlerts;
                     }
-                },
-                templateUrl: 'cce-inventory-item-details/inventory-item-details.html'
+                }
             });
         }
 
         function onExit() {
-            dialog.hide();
-            dialog = undefined;
+            if (dialog) {
+                dialog.hide();
+                dialog = undefined;
+            }
         }
-
     }
 
 })();

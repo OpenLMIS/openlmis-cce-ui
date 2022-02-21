@@ -44,9 +44,9 @@
             }
         });
 
-        onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canEdit', 'cceAlerts'];
+        onEnter.$inject = ['openlmisModalService', 'inventoryItem', 'canEdit', 'canTransfer', 'cceAlerts'];
 
-        function onEnter(openlmisModalService, inventoryItem, canEdit, cceAlerts) {
+        function onEnter(openlmisModalService, inventoryItem, canEdit, canTransfer, cceAlerts) {
             dialog = openlmisModalService.createDialog({
                 backdrop: 'static',
                 controller: 'StatusUpdateModalController',
@@ -58,6 +58,9 @@
                     },
                     canEdit: function() {
                         return canEdit;
+                    },
+                    canTransfer: function() {
+                        return canTransfer;
                     },
                     cceAlerts: function() {
                         return cceAlerts;

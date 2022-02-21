@@ -107,10 +107,11 @@ describe('openlmis.inventoryItem state', function() {
         expect(facilityInventoryItemFactory.query).toHaveBeenCalled();
     });
 
-    it('should require CCE_INVENTORY_EDIT and CCE_INVENTORY_EDIT rights to enter', function() {
+    it('should require CCE_INVENTORY_VIEW, CCE_INVENTORY_EDIT and CCE_INVENTORY_TRANSFER rights to enter', function() {
         expect(state.accessRights).toEqual([
             CCE_RIGHTS.CCE_INVENTORY_VIEW,
-            CCE_RIGHTS.CCE_INVENTORY_EDIT
+            CCE_RIGHTS.CCE_INVENTORY_EDIT,
+            CCE_RIGHTS.CCE_INVENTORY_TRANSFER
         ]);
     });
 

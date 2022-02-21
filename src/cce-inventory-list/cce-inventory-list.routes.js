@@ -35,7 +35,8 @@
             controller: 'CceInventoryListController',
             templateUrl: 'cce-inventory-list/cce-inventory-list.html',
             controllerAs: 'vm',
-            accessRights: [CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT],
+            accessRights: [CCE_RIGHTS.CCE_INVENTORY_VIEW, CCE_RIGHTS.CCE_INVENTORY_EDIT,
+                CCE_RIGHTS.CCE_INVENTORY_TRANSFER],
             resolve: {
                 user: function(authorizationService) {
                     return authorizationService.getUser();
@@ -58,6 +59,18 @@
                     return permissionService
                         .hasPermissionWithAnyProgramAndAnyFacility(user.user_id, {
                             right: CCE_RIGHTS.CCE_INVENTORY_EDIT
+                        })
+                        .then(function() {
+                            return true;
+                        })
+                        .catch(function() {
+                            return false;
+                        });
+                },
+                canTransfer: function(permissionService, user, CCE_RIGHTS) {
+                    return permissionService
+                        .hasPermissionWithAnyProgramAndAnyFacility(user.user_id, {
+                            right: CCE_RIGHTS.CCE_INVENTORY_TRANSFER
                         })
                         .then(function() {
                             return true;

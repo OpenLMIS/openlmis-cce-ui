@@ -4,6 +4,9 @@
 Bug fixes:
 * [OLMIS-6600](https://openlmis.atlassian.net/browse/OLMIS-6600): Fix facility cce status being black instead of red for non functioning invetnory items
 
+Improvements:
+* [OLMIS-7503](https://openlmis.atlassian.net/browse/OLMIS-7314): Created modal for CCE Transfer
+
 1.1.0 / 2021-10-28
 ==================
 

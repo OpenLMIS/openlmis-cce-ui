@@ -41,10 +41,11 @@ describe('openlmis.cce.inventory.item.details state', function() {
     describe('modal', function() {
 
         var modal,
-            canEdit = true;
+            canEdit = true,
+            canTransfer = true;
 
         beforeEach(function() {
-            state.onEnter(openlmisModalService, inventoryItem, canEdit);
+            state.onEnter(openlmisModalService, inventoryItem, canEdit, canTransfer);
             modal = openlmisModalService.createDialog.calls[0].args[0];
         });
 
@@ -60,6 +61,14 @@ describe('openlmis.cce.inventory.item.details state', function() {
             var result;
 
             result = modal.resolve.canEdit(true);
+
+            expect(result).toEqual(true);
+        });
+
+        it('should expose canTransfer', function() {
+            var result;
+
+            result = modal.resolve.canTransfer(true);
 
             expect(result).toEqual(true);
         });

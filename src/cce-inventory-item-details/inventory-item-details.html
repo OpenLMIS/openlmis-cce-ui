@@ -16,6 +16,9 @@
                     <button ng-show="vm.userHasRightToEdit" id="status-update" ng-click="vm.goToStatusUpdate(vm.inventoryItem)">
                         {{'cceInventoryItemDetails.updateStatus' | message}}
                     </button>
+                    <button ng-show="vm.userHasRightToTransfer" id="transfer-item" ng-click="vm.goToTransferItem(vm.inventoryItem)">
+                        {{'cceInventoryItemDetails.transferItem' | message}}
+                    </button>
                 </aside>
                 <dl class="horizontal-list">
                     <dt>{{'cceInventoryItemDetails.district' | message}}</dt>

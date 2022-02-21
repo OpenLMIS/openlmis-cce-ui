@@ -36,7 +36,8 @@ describe('InventoryItemDetailsController', function() {
 
         vm = $controller('InventoryItemDetailsController', {
             inventoryItem: inventoryItem,
-            canEdit: true
+            canEdit: true,
+            canTransfer: true
         });
     });
 
@@ -83,12 +84,25 @@ describe('InventoryItemDetailsController', function() {
         it('should hide edit button if user does not have CCE_INVENTORY_EDIT right', function() {
             vm = $controller('InventoryItemDetailsController', {
                 inventoryItem: inventoryItem,
-                canEdit: false
+                canEdit: false,
+                canTransfer: true
             });
 
             vm.$onInit();
 
             expect(vm.userHasRightToEdit).toBe(false);
+        });
+
+        it('should hide transfer button if user does not have CCE_INVENTORY_TRANSFER right', function() {
+            vm = $controller('InventoryItemDetailsController', {
+                inventoryItem: inventoryItem,
+                canEdit: true,
+                canTransfer: false
+            });
+
+            vm.$onInit();
+
+            expect(vm.userHasRightToTransfer).toBe(false);
         });
 
     });

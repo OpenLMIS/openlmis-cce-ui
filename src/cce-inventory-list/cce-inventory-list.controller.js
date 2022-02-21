@@ -30,11 +30,12 @@
 
     CceInventoryListController.$inject = [
         'inventoryItems', '$state', '$stateParams', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'messageService',
-        'REASON_FOR_NOT_WORKING', 'cceAlerts', 'canEdit'
+        'REASON_FOR_NOT_WORKING', 'cceAlerts', 'canEdit', 'canTransfer'
     ];
 
     function CceInventoryListController(inventoryItems, $state, $stateParams, FUNCTIONAL_STATUS,
-                                        CCE_RIGHTS, messageService, REASON_FOR_NOT_WORKING, cceAlerts, canEdit) {
+                                        CCE_RIGHTS, messageService, REASON_FOR_NOT_WORKING, cceAlerts, canEdit,
+                                        canTransfer) {
 
         var vm = this;
 
@@ -158,6 +159,7 @@
             vm.functionalStatuses = FUNCTIONAL_STATUS.getStatuses();
             vm.functionalStatus = $stateParams.functionalStatus;
             vm.userHasRightToEdit = canEdit;
+            vm.userHasRightToTransfer = canTransfer;
             vm.isSupervised = $stateParams.supervised;
             vm.cceAlertDefaultLocale = 'en-US';
         }

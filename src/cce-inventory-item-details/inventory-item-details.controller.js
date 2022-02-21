@@ -29,17 +29,18 @@
         .controller('InventoryItemDetailsController', InventoryItemDetailsController);
 
     InventoryItemDetailsController.$inject = [
-        'inventoryItem', 'canEdit', 'CCE_STATUS', 'UTILIZATION_STATUS', 'MANUAL_TEMPERATURE_GAUGE_TYPE',
+        'inventoryItem', 'canEdit', 'canTransfer', 'CCE_STATUS', 'UTILIZATION_STATUS', 'MANUAL_TEMPERATURE_GAUGE_TYPE',
         'REMOTE_TEMPERATURE_MONITOR_TYPE', 'FUNCTIONAL_STATUS', '$state'
     ];
 
-    function InventoryItemDetailsController(inventoryItem, canEdit, CCE_STATUS, UTILIZATION_STATUS,
+    function InventoryItemDetailsController(inventoryItem, canEdit, canTransfer, CCE_STATUS, UTILIZATION_STATUS,
                                             MANUAL_TEMPERATURE_GAUGE_TYPE, REMOTE_TEMPERATURE_MONITOR_TYPE,
                                             FUNCTIONAL_STATUS, $state) {
         var vm = this;
 
         vm.$onInit = onInit;
         vm.goToStatusUpdate = goToStatusUpdate;
+        vm.goToTransferItem = goToTransferItem;
         vm.goToEditPage = goToEditPage;
         vm.getFunctionalStatusLabel = getFunctionalStatusLabel;
         vm.getFunctionalStatusClass = getFunctionalStatusClass;
@@ -70,6 +71,7 @@
             vm.getManualTemperatureGaugeTypeLabel = MANUAL_TEMPERATURE_GAUGE_TYPE.getLabel;
             vm.getRemoteTemperatureMonitorTypeLabel = REMOTE_TEMPERATURE_MONITOR_TYPE.getLabel;
             vm.userHasRightToEdit = canEdit;
+            vm.userHasRightToTransfer = canTransfer;
         }
 
         /**
@@ -84,6 +86,23 @@
          */
         function goToStatusUpdate(inventoryItem) {
             $state.go('openlmis.cce.inventory.item.statusUpdate', {
+                inventoryItem: inventoryItem,
+                inventoryItemId: inventoryItem.id
+            });
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item-details.controller:InventoryItemDetailsController
+         * @name goToTransferItem
+         *
+         * @description
+         * Takes the user to the transfer page for the given inventory item.
+         *
+         * @param   {Object}    inventoryItem   the inventory item to edit status for
+         */
+        function goToTransferItem(inventoryItem) {
+            $state.go('openlmis.cce.inventory.item.transfer', {
                 inventoryItem: inventoryItem,
                 inventoryItemId: inventoryItem.id
             });
