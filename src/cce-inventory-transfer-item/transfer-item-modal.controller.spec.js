@@ -15,29 +15,21 @@
 
 describe('TransferItemModalController', function() {
 
-    var vm, /*messageService, $q,*/ $rootScope, $controller, /*inventoryItemService,*/ inventoryItem,
-        /*loadingModalService, notificationService, /*messages, saveDeferred,*/
+    var vm, $rootScope, $controller, inventoryItem,
         $scope, stateTrackerService, FacilityProgramInventoryItemDataBuilder;
-        /*accessTokenFactory, $window;*/
 
     beforeEach(function() {
         module('cce-inventory-transfer-item');
 
         inject(function($injector) {
-            //$q = $injector.get('$q');
             $rootScope = $injector.get('$rootScope');
             $controller = $injector.get('$controller');
-            // inventoryItemService = $injector.get('inventoryItemService');
-            //loadingModalService = $injector.get('loadingModalService');
-            //notificationService = $injector.get('notificationService');
             stateTrackerService = $injector.get('stateTrackerService');
             FacilityProgramInventoryItemDataBuilder = $injector.get('FacilityProgramInventoryItemDataBuilder');
-            //accessTokenFactory = $injector.get('accessTokenFactory');
         });
 
         inventoryItem = new FacilityProgramInventoryItemDataBuilder().build();
 
-        //saveDeferred = $q.defer();
         $scope = {};
 
         vm = $controller('TransferItemModalController', {
@@ -47,13 +39,6 @@ describe('TransferItemModalController', function() {
         });
 
         spyOn(stateTrackerService, 'goToPreviousState');
-        /*spyOn(messageService, 'get').andCallFake(function(key) {
-            return messages[key];
-        });
-        spyOn(inventoryItemService, 'save').andReturn(saveDeferred.promise);*/
-
-        /*spyOn($window, 'open').andCallThrough();
-        spyOn(accessTokenFactory, 'addAccessToken').andCallThrough();*/
     });
 
     describe('$onInit', function() {
