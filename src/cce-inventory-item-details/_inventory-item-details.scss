@@ -19,9 +19,24 @@
 
         & > button {
             width: fit-content;
-            display: inline-block;
             right: 0;
             margin-right: 1.5em;
+        }
+    }
+
+    .heading {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .heading-buttons{
+        display: flex;
+        flex-direction: row;
+        margin-right: 0;
+        margin-left: auto;
+
+        & > button {
+            margin: .2em;
         }
     }
 

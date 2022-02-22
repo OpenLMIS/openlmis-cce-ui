@@ -30,7 +30,8 @@
             label: 'cceInventoryList.cceInventory',
             url: '/inventory?page&size&facility&program&supervised&functionalStatus',
             params: {
-                expand: 'lastModifier'
+                expand: 'lastModifier',
+                reload: undefined
             },
             controller: 'CceInventoryListController',
             templateUrl: 'cce-inventory-list/cce-inventory-list.html',

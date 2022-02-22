@@ -30,12 +30,12 @@
 
     TransferItemModalController.$inject = [
         '$scope', 'inventoryItem', 'canTransfer', 'inventoryItemService', 'loadingModalService',
-        'confirmService', 'notificationService', 'stateTrackerService'
+        'confirmService', 'notificationService', 'stateTrackerService', '$state'
     ];
 
     function TransferItemModalController($scope, inventoryItem, canTransfer, inventoryItemService,
                                          loadingModalService, confirmService, notificationService,
-                                         stateTrackerService) {
+                                         stateTrackerService, $state) {
         var vm = this;
 
         vm.save = save;
@@ -91,7 +91,7 @@
                 .then(function(inventoryItem) {
                     notificationService.success('Transfered CCE');
                     loadingModalService.close();
-                    stateTrackerService.goToPreviousState();
+                    goToInventoryList();
                     return inventoryItem;
                 })
                 .catch(function() {
@@ -119,6 +119,17 @@
             } else {
                 doCancel();
             }
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-transfer-item.controller:TransferItemModalController
+         * @name goToInventoryList
+         */
+        function goToInventoryList() {
+            $state.go('openlmis.cce.inventory', {
+                reload: true
+            });
         }
 
         function doCancel() {

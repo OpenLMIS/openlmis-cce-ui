@@ -7,19 +7,23 @@
               </h1>
             </div>
             <div class="modal-body" ng-if="vm.inventoryItem">
-                <aside class="cce-inventory-item-status {{vm.getFunctionalStatusClass()}}">
-                    <p>{{vm.getFunctionalStatusLabel() | message}}</p>
-                    <p>
-                        <em>{{vm.inventoryItem.lastModifier.firstName}} {{vm.inventoryItem.lastModifier.lastName}}</em>
-                        {{vm.inventoryItem.modifiedDate | openlmisDatetime}}
-                    </p>
-                    <button ng-show="vm.userHasRightToEdit" id="status-update" ng-click="vm.goToStatusUpdate(vm.inventoryItem)">
-                        {{'cceInventoryItemDetails.updateStatus' | message}}
-                    </button>
-                    <button ng-show="vm.userHasRightToTransfer" id="transfer-item" ng-click="vm.goToTransferItem(vm.inventoryItem)">
-                        {{'cceInventoryItemDetails.transferItem' | message}}
-                    </button>
-                </aside>
+                <div class="heading">
+                    <aside class="cce-inventory-item-status {{vm.getFunctionalStatusClass()}}">
+                        <p>{{vm.getFunctionalStatusLabel() | message}}</p>
+                        <p>
+                            <em>{{vm.inventoryItem.lastModifier.firstName}} {{vm.inventoryItem.lastModifier.lastName}}</em>
+                            {{vm.inventoryItem.modifiedDate | openlmisDatetime}}
+                        </p>
+                    </aside>
+                    <div class="heading-buttons">
+                        <button ng-show="vm.userHasRightToEdit" id="status-update" ng-click="vm.goToStatusUpdate(vm.inventoryItem)">
+                            {{'cceInventoryItemDetails.updateStatus' | message}}
+                        </button>
+                        <button ng-show="vm.userHasRightToTransfer" id="transfer-item" ng-click="vm.goToTransferItem(vm.inventoryItem)">
+                            {{'cceInventoryItemDetails.transferItem' | message}}
+                        </button>
+                    </div>
+                </div>
                 <dl class="horizontal-list">
                     <dt>{{'cceInventoryItemDetails.district' | message}}</dt>
                     <dd>{{vm.inventoryItem.facility.geographicZone.name}}</dd>
