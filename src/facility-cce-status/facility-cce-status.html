@@ -1,4 +1,4 @@
-<p ng-if="vm.cceAvailable" class="facility-cce-status {{vm.statusClass}}" popover 
+<p ng-if="vm.cceAvailable" class="facility-cce-status {{vm.statusClass}}" openlmis-popover 
     popover-title="{{vm.inventoryItems.length}} {{ 'facilityCceStatus.inventoryItems.title' | message }}"
     popover-template="facility-cce-status/inventory-items-popover.html">{{vm.statusLabel | message}}
     <span class="facility-cce-alert-status {{vm.alertStatusClass}}"></span>
