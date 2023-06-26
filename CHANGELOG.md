@@ -1,3 +1,8 @@
+1.1.3 / 2023-06-26
+==================
+Bug fixes:
+* [OLMIS-7772](https://openlmis.atlassian.net/browse/OLMIS-7772): Fix issues with new Chrome popover functionality
+
 1.1.2 / 2023-04-05
 ==================
 
