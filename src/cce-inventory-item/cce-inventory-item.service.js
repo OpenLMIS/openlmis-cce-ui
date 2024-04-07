@@ -1,6 +1,6 @@
 /*
  * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2017 VillageReach
+ * Copyright © 2017-2024 VillageReach, Techie Planet Ltd
  *
  * This program is free software: you can redistribute it and/or modify it under the terms
  * of the GNU Affero General Public License as published by the Free Software Foundation, either
@@ -54,7 +54,8 @@
             get: get,
             query: query,
             save: save,
-            transfer: transfer
+            transfer: transfer,
+            getDownloadURL: getDownloadURL
         };
 
         /**
@@ -128,6 +129,20 @@
                 }, inventoryItem).$promise;
             }
             return resource.save({}, inventoryItem).$promise;
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item.inventoryItemService
+         * @name getDownloadURL
+         *
+         * @description
+         * Returns the download url for  the provided parameters
+         *
+         * @return {String}     the download url
+         */
+        function getDownloadURL(params) {
+            return cceUrlFactory('/api/inventoryItems/download?format=csv&programId=' + params.programId + '&facilityId=' + params.facilityId);
         }
 
         function transformGetResponse(data, headers, status) {

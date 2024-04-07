@@ -9,6 +9,7 @@
     <input type="submit" value="{{'cceInventoryList.search' | message}}"/>
 </form>
 <section class="openlmis-table-container">
+    <input openlmis-download="{{vm.getDownloadURL()}}" type="button" value="{{'cceInventoryList.exportCSV' | message}}"/>
     <button id="add-inventory-item" class="add" ui-sref="openlmis.cce.inventory.add"
         ng-show="vm.userHasRightToEdit">
         {{'cceInventoryList.addEquipment' | message}}

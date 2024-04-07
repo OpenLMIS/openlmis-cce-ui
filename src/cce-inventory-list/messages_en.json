@@ -14,5 +14,6 @@
     "cceInventoryList.actions": "Actions",
     "cceInventoryList.view": "View",
     "cceInventoryList.noInventoryItems": "No inventory items found.",
-    "cceInventoryList.search": "Search"
+    "cceInventoryList.search": "Search",
+    "cceInventoryList.exportCSV": "Export CSV"
 }
