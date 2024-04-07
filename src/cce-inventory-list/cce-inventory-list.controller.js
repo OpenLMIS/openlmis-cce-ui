@@ -253,9 +253,7 @@
             return inventoryItemService.getDownloadURL({
                 facilityId: vm.facility.id,
                 programId: vm.program.id
-            })
+            });
         }
-        
     }
-
 })();

@@ -142,7 +142,8 @@
          * @return {String}     the download url
          */
         function getDownloadURL(params) {
-            return cceUrlFactory('/api/inventoryItems/download?format=csv&programId=' + params.programId + '&facilityId=' + params.facilityId);
+            return cceUrlFactory('/api/inventoryItems/download?format=csv&programId=' 
+                + params.programId + '&facilityId=' + params.facilityId);
         }
 
         function transformGetResponse(data, headers, status) {
