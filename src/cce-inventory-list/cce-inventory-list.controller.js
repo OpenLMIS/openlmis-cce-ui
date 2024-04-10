@@ -30,12 +30,12 @@
 
     CceInventoryListController.$inject = [
         'inventoryItems', '$state', '$stateParams', 'FUNCTIONAL_STATUS', 'CCE_RIGHTS', 'messageService',
-        'REASON_FOR_NOT_WORKING', 'cceAlerts', 'canEdit', 'canTransfer'
+        'REASON_FOR_NOT_WORKING', 'cceAlerts', 'canEdit', 'canTransfer', 'inventoryItemService'
     ];
 
     function CceInventoryListController(inventoryItems, $state, $stateParams, FUNCTIONAL_STATUS,
                                         CCE_RIGHTS, messageService, REASON_FOR_NOT_WORKING, cceAlerts, canEdit,
-                                        canTransfer) {
+                                        canTransfer, inventoryItemService) {
 
         var vm = this;
 
@@ -45,6 +45,7 @@
         vm.getReasonLabel = getReasonLabel;
         vm.search = search;
         vm.getFunctionalStatusClass = FUNCTIONAL_STATUS.getClass;
+        vm.getDownloadURL = getDownloadURL;
 
         /**
          * @ngdoc property
@@ -237,6 +238,22 @@
                 reload: true
             });
         }
-    }
 
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-list.controller:CceInventoryListController
+         * @name getDownloadURL
+         *
+         * @description
+         * Downloads the facility Inventory data as a csv.
+         *
+         * @return {String} url
+         */
+        function getDownloadURL() {
+            return inventoryItemService.getDownloadURL({
+                facilityId: vm.facility.id,
+                programId: vm.program.id
+            });
+        }
+    }
 })();
