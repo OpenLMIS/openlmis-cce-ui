@@ -1,6 +1,6 @@
 1.1.5 / 2024-04-19
 ==================
-Improvements:
+New functionality:
 * [OLMIS-7909](https://openlmis.atlassian.net/browse/OLMIS-7909): Add functionality to print inventory equipment for specific facility and program 
 
 1.1.3 / 2023-06-26
