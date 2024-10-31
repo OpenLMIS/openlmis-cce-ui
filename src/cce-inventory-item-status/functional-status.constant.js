@@ -33,6 +33,7 @@
                 FUNCTIONING: 'FUNCTIONING',
                 AWAITING_REPAIR: 'AWAITING_REPAIR',
                 UNSERVICEABLE: 'UNSERVICEABLE',
+                UNKNOWN: 'UNKNOWN',
                 getLabel: getLabel,
                 getStatuses: getStatuses,
                 getClass: getClass
@@ -40,7 +41,8 @@
             labels = {
                 FUNCTIONING: 'cceInventoryItemStatus.functioning',
                 AWAITING_REPAIR: 'cceInventoryItemStatus.awaitingRepair',
-                UNSERVICEABLE: 'cceInventoryItemStatus.unserviceable'
+                UNSERVICEABLE: 'cceInventoryItemStatus.unserviceable',
+                UNKNOWN: 'cceInventoryItemStatus.unknown'
             };
 
         return FUNCTIONAL_STATUS;

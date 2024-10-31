@@ -195,6 +195,14 @@ describe('InventoryItemDetailsController', function() {
             expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.unserviceable');
         });
 
+        it('should return the value of cceInventoryItemStatus.unknown for UNKNOWN', function() {
+            vm.inventoryItem = new FacilityProgramInventoryItemDataBuilder()
+                .withFunctionalStatus('UNKNOWN')
+                .build();
+
+            expect(vm.getFunctionalStatusLabel()).toEqual('cceInventoryItemStatus.unknown');
+        });
+
     });
 
 });
