@@ -6,6 +6,7 @@
     "cceInventoryItemStatus.equipmentFunctionalStatus": "Equipment Functional Status",
     "cceInventoryItemStatus.functionalityStatus": "Functionality Status",
     "cceInventoryItemStatus.awaitingRepair": "Awaiting Repair",
+    "cceInventoryItemStatus.unknown": "Unknown",
     "cceInventoryItemStatus.unserviceable": "Unserviceable",
     "cceInventoryItemStatus.notInUse": "Not in use",
     "cceInventoryItemStatus.decommissioned": "Decommissioned",
