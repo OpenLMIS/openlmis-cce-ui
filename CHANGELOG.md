@@ -1,4 +1,4 @@
-1.1.8-SNAPSHOT / WIP
+Upcoming Version (WIP)
 ==================
 
 1.1.7 / 2025-03-31
