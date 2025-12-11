@@ -7,6 +7,7 @@
     "cceInventoryItemStatus.functionalityStatus": "Functionality Status",
     "cceInventoryItemStatus.awaitingRepair": "Awaiting Repair",
     "cceInventoryItemStatus.unserviceable": "Unserviceable",
+    "cceInventoryItemStatus.needsAttention": "Needs attention",
     "cceInventoryItemStatus.notInUse": "Not in use",
     "cceInventoryItemStatus.decommissioned": "Decommissioned",
     "cceInventoryItemStatus.rtmAlerts.title": "RTM Alerts",

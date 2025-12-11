@@ -16,8 +16,13 @@
     &.is-awaiting-repair::before {
         color: $red;
     }
+
     &.is-unserviceable::before {
         color: $gray;
+    }
+
+    &.is-needs-attention::before {
+        color: yellow;
     }
 }
 
