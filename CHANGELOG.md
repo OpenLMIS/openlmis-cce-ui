@@ -1,5 +1,6 @@
 Upcoming Version (WIP)
 ==================
+* [OLMIS-8201](https://openlmis.atlassian.net/browse/OLMIS-8201): Add CCE status NEEDS_ATTENTION
 
 1.1.8 / 2025-11-27
 ==================

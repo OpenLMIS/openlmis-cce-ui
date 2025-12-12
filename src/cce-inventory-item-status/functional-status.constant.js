@@ -33,6 +33,7 @@
                 FUNCTIONING: 'FUNCTIONING',
                 AWAITING_REPAIR: 'AWAITING_REPAIR',
                 UNSERVICEABLE: 'UNSERVICEABLE',
+                NEEDS_ATTENTION: 'NEEDS_ATTENTION',
                 getLabel: getLabel,
                 getStatuses: getStatuses,
                 getClass: getClass
@@ -40,7 +41,8 @@
             labels = {
                 FUNCTIONING: 'cceInventoryItemStatus.functioning',
                 AWAITING_REPAIR: 'cceInventoryItemStatus.awaitingRepair',
-                UNSERVICEABLE: 'cceInventoryItemStatus.unserviceable'
+                UNSERVICEABLE: 'cceInventoryItemStatus.unserviceable',
+                NEEDS_ATTENTION: 'cceInventoryItemStatus.needsAttention'
             };
 
         return FUNCTIONAL_STATUS;
@@ -80,7 +82,8 @@
             return [
                 FUNCTIONAL_STATUS.FUNCTIONING,
                 FUNCTIONAL_STATUS.AWAITING_REPAIR,
-                FUNCTIONAL_STATUS.UNSERVICEABLE
+                FUNCTIONAL_STATUS.UNSERVICEABLE,
+                FUNCTIONAL_STATUS.NEEDS_ATTENTION
             ];
         }
 
@@ -107,6 +110,9 @@
                 break;
             case FUNCTIONAL_STATUS.UNSERVICEABLE:
                 statusClass = 'is-unserviceable';
+                break;
+            case FUNCTIONAL_STATUS.NEEDS_ATTENTION:
+                statusClass = 'is-needs-attention';
                 break;
             default:
                 throw 'Invalid status';

@@ -147,6 +147,7 @@ describe('StatusUpdateModalController', function() {
         it('should return false for status that is other than FUNCTIONING', function() {
             expect(vm.isFunctioning(FUNCTIONAL_STATUS.UNSERVICEABLE)).toBe(false);
             expect(vm.isFunctioning(FUNCTIONAL_STATUS.AWAITING_REPAIR)).toBe(false);
+            expect(vm.isFunctioning(FUNCTIONAL_STATUS.NEEDS_ATTENTION)).toBe(false);
         });
 
     });
@@ -164,6 +165,7 @@ describe('StatusUpdateModalController', function() {
         it('should return false for statuses other than UNSERVICEABLE', function() {
             expect(vm.isUnserviceable(FUNCTIONAL_STATUS.FUNCTIONING)).toBe(false);
             expect(vm.isUnserviceable(FUNCTIONAL_STATUS.AWAITING_REPAIR)).toBe(false);
+            expect(vm.isUnserviceable(FUNCTIONAL_STATUS.NEEDS_ATTENTION)).toBe(false);
         });
 
     });
