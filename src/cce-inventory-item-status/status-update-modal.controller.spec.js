@@ -152,6 +152,24 @@ describe('StatusUpdateModalController', function() {
 
     });
 
+    describe('isNeedsAttention', function() {
+
+        beforeEach(function() {
+            vm.$onInit();
+        });
+
+        it('should return true for NEEDS_ATTENTION status', function() {
+            expect(vm.isNeedsAttention(FUNCTIONAL_STATUS.NEEDS_ATTENTION)).toBe(true);
+        });
+
+        it('should return false for status that is other than NEEDS_ATTENTION', function() {
+            expect(vm.isNeedsAttention(FUNCTIONAL_STATUS.FUNCTIONING)).toBe(false);
+            expect(vm.isNeedsAttention(FUNCTIONAL_STATUS.UNSERVICEABLE)).toBe(false);
+            expect(vm.isNeedsAttention(FUNCTIONAL_STATUS.AWAITING_REPAIR)).toBe(false);
+        });
+
+    });
+
     describe('isUnserviceable', function() {
 
         beforeEach(function() {

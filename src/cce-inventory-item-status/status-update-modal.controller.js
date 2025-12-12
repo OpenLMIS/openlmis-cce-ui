@@ -46,6 +46,7 @@
         vm.$onInit = onInit;
         vm.isUnserviceable = isUnserviceable;
         vm.isFunctioning = isFunctioning;
+        vm.isNeedsAttention = isNeedsAttention;
         vm.getStatusLabel = getStatusLabel;
         vm.getReasonLabel = getReasonLabel;
         vm.cancel = cancel;
@@ -169,6 +170,21 @@
         /**
          * @ngdoc method
          * @methodOf cce-inventory-item-status.controller:StatusUpdateModalController
+         * @name isNeedsAttention
+         *
+         * @description
+         * Checks whether the given status is needs attention.
+         *
+         * @param   {String}    status  the status to be checked
+         * @return  {Boolean}   true if the status is needs attention; false otherwise
+         */
+        function isNeedsAttention(status) {
+            return (status === FUNCTIONAL_STATUS.NEEDS_ATTENTION);
+        }
+
+        /**
+         * @ngdoc method
+         * @methodOf cce-inventory-item-status.controller:StatusUpdateModalController
          * @name save
          *
          * @description
@@ -180,7 +196,8 @@
             var item = angular.copy(vm.inventoryItem);
 
             item.functionalStatus = vm.newStatus;
-            item.reasonNotWorkingOrNotInUse = isFunctioning(vm.newStatus) ? undefined : vm.reason;
+            item.reasonNotWorkingOrNotInUse = isFunctioning(vm.newStatus) || isNeedsAttention(vm.status)
+                ? undefined : vm.reason;
             item.decommissionDate =
                         isUnserviceable(vm.newStatus) ? vm.decommissionDate : undefined;
 

@@ -58,7 +58,7 @@
                             required>
                         </select>
 
-                        <fieldset ng-if="vm.newStatus && !vm.isFunctioning(vm.newStatus)">
+                        <fieldset ng-if="vm.newStatus && !vm.isFunctioning(vm.newStatus) && !vm.isNeedsAttention(vm.newStatus)">
                             <label for="reason">
                                 {{'cceInventoryItemStatus.reasonNotWorkingOrNotInUse' | message}}
                             </label>
