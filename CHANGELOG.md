@@ -1,6 +1,10 @@
 1.1.12-SNAPSHOT (WIP)
 ==================
 
+Improvements:
+* SonarCloud now receives JS unit-test coverage (lcov) so the quality gate reflects real coverage on new code.
+* Feed sonar.projectVersion from project.properties so SonarCloud's New Code baseline tracks releases.
+
 1.1.11 / 2026-06-09
 ==================
 
