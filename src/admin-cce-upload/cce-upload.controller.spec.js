@@ -41,6 +41,7 @@ describe('CceUploadController', function() {
 
         spyOn($state, 'reload').andReturn(true);
         spyOn(loadingModalService, 'open').andReturn($q.when());
+        spyOn(loadingModalService, 'close');
     });
 
     describe('init', function() {
@@ -93,13 +94,65 @@ describe('CceUploadController', function() {
 
         it('should show error notification if upload failed', function() {
             vm.file = file;
-            deferred.reject();
+            deferred.reject({
+                status: 400,
+                data: {
+                    message: 'Another CCE Catalog Item already uses this manufacturer and model.'
+                }
+            });
 
             vm.upload();
             $rootScope.$apply();
 
             expect(catalogItemService.upload).toHaveBeenCalledWith(file);
             expect(notificationService.error).toHaveBeenCalledWith('adminCceUpload.uploadFailed');
+            expect(vm.invalidMessage)
+                .toEqual('Another CCE Catalog Item already uses this manufacturer and model.');
+        });
+
+        it('should keep the chosen file after a failed upload', function() {
+            vm.file = file;
+            deferred.reject({
+                status: 400,
+                data: {
+                    message: 'rejected'
+                }
+            });
+
+            vm.upload();
+            $rootScope.$apply();
+
+            expect(vm.file).toBe(file);
+        });
+
+        it('should let the user retry after a failed upload', function() {
+            vm.file = file;
+            deferred.reject({
+                status: 400,
+                data: {
+                    message: 'rejected'
+                }
+            });
+
+            vm.upload();
+            $rootScope.$apply();
+            vm.upload();
+
+            expect(catalogItemService.upload.callCount).toBe(2);
+        });
+
+        it('should not throw when the rejection carries no data', function() {
+            vm.file = file;
+            deferred.reject({
+                status: -1,
+                data: null
+            });
+
+            vm.upload();
+            $rootScope.$apply();
+
+            expect(vm.invalidMessage).toBeUndefined();
+            expect(loadingModalService.close).toHaveBeenCalled();
         });
 
         it('should show error notification if file is not selected', function() {
