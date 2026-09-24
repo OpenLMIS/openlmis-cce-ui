@@ -88,8 +88,7 @@
                     $state.reload();
                 }, function(error) {
                     notificationService.error('adminCceUpload.uploadFailed');
-                    vm.invalidMessage = error ? error.data.message : undefined;
-                    vm.file = undefined;
+                    vm.invalidMessage = error && error.data ? error.data.message : undefined;
                     loadingModalService.close();
                 });
             } else {

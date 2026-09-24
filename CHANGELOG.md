@@ -6,6 +6,7 @@ Improvements:
 * Feed sonar.projectVersion from project.properties so SonarCloud's New Code baseline tracks releases.
 
 Bug fixes:
+* [OLMIS-8360](https://openlmis.atlassian.net/browse/OLMIS-8360): A failed catalog upload no longer clears the chosen file, so the field stops claiming it is required and the user can correct the file and retry without picking it again.
 * [OLMIS-8294](https://openlmis.atlassian.net/browse/OLMIS-8294): Pass sonar.projectVersion to the SonarCloud scanner through its args instead of appending it to sonar-project.properties during the build, so a missing trailing newline can no longer glue it onto the lcov report-path line and drop coverage to 0%.
 
 1.1.11 / 2026-06-09
